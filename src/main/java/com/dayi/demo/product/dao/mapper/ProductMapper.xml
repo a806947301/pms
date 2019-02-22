@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayi.demo.product.dao.ProductDao">
+
+    <resultMap id="productResultMap" type="Product">
+        <id property="id" column="id"></id>
+        <result property="addTime" column="addtime"></result>
+        <result property="updateTime" column="updatetime"></result>
+        <result property="productName" column="product_name"></result>
+        <result property="productPresentation" column="product_presentation"></result>
+    </resultMap>
+
+    <sql id="selectAllColumnProduct">
+        SELECT id,addtime,updatetime,product_name,product_presentation FROM
+    </sql>
+
+    <insert id="addProduct">
+        INSERT INTO product (id,addtime,updatetime,product_name,product_presentation)
+        VALUES (#{id},#{addTime},#{updateTime},#{productName},#{productPresentation})
+    </insert>
+
+</mapper>
