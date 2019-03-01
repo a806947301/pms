@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayi.demo.bug.dao.BugDao">
+
+    <resultMap id="bugResultMap" type="Bug">
+        <id property="id" column="id"></id>
+        <result property="addTime" column="addtime"></result>
+        <result property="updateTime" column="updatetime"></result>
+        <result property="projectId" column="project_id"></result>
+        <result property="noProcessing" column="is_noprocessing"></result>
+        <result property="bugTitle" column="bug_title"></result>
+        <result property="bugContent" column="bug_content"></result>
+        <result property="bugStatus" column="bug_status"></result>
+        <association property="bugProposer" column="bug_proposer" select="com.dayi.demo.user.dao.UserDao.getUser"/>
+        <association property="bugProcesser" column="bug_processer" select="com.dayi.demo.user.dao.UserDao.getUser"/>
+    </resultMap>
+
+    <sql id="selectAllColumnBug">
+        SELECT bug.id,bug.addtime,bug.updatetime,project_id,is_noprocessing,bug_title,bug_content,bug_status,bug_proposer,bug_processer  FROM
+    </sql>
+
+    <!--查询项目下的bug-->
+    <select id="findBugByProject" resultMap="bugResultMap">
+        SELECT id,bug_title,bug_status,bug_proposer,addtime,bug_processer FROM bug WHERE project_id = #{0}
+    </select>
+
+    <select id="getBug" resultMap="bugResultMap">
+        <include refid="selectAllColumnBug" />
+        bug WHERE id = #{0}
+    </select>
+
+    <!--添加bug-->
+    <insert id="addBug">
+        INSERT INTO bug (id,addtime,updatetime,project_id,is_noprocessing,bug_status,bug_title,bug_content,bug_proposer,bug_processer)
+        VALUES (#{id},#{addTime},#{updateTime},#{projectId},#{noProcessing},#{bugStatus},#{bugTitle},#{bugContent},#{bugProposer.id},#{bugProcesser.id})
+    </insert>
+
+    <update id="updateBugStatue">
+        UPDATE bug
+        <set>
+            <if test="bugStatus != -1">bug_status = #{bugStatus},</if>
+            <if test="bugProcesser != null">bug_processer = #{bugProcesser},</if>
+            <if test="updateTime != null">updatetime = #{updateTime},</if>
+            is_noprocessing = #{noProcessing}
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>

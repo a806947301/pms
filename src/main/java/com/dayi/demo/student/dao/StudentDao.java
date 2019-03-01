@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * @author chenzhaoju
  */
-@Repository
 public interface StudentDao {
 
     int add(Student student);

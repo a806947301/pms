@@ -17,18 +17,11 @@
 
     <servlet-mapping>
         <servlet-name>default</servlet-name>
-        <!--<url-pattern>*.js</url-pattern>
-        <url-pattern>*.css</url-pattern>
-        <url-pattern>*.png</url-pattern>
-        <url-pattern>*.jpg</url-pattern>
-        <url-pattern>*.jpeg</url-pattern>
-        <url-pattern>*.gif</url-pattern>
-        <url-pattern>*.woff2</url-pattern>
-        <url-pattern>*.woff</url-pattern>-->
         <url-pattern>/css/*</url-pattern>
         <url-pattern>/imgs/*</url-pattern>
         <url-pattern>/js/*</url-pattern>
         <url-pattern>/vendor/*</url-pattern>
+        <url-pattern>/simditor/*</url-pattern>
     </servlet-mapping>
     <!-- spring MVC -->
     <servlet>

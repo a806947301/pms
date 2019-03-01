@@ -35,8 +35,8 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="buttons.html" class="nav-link">
-                            <i class="icon icon-energy"></i> Buttons
+                        <a href="/user/userManager" class="nav-link">
+                            <i class="icon icon-energy"></i> 用户管理
                         </a>
                     </li>
 
@@ -79,14 +79,14 @@
 
                 <ul class="nav-dropdown-items">
                     <li class="nav-item">
-                        <a href="/product/addProductPage" class="nav-link">
-                            <i class="icon icon-target"></i> 创建产品
+                        <a href="/product/findProductPage" class="nav-link">
+                            <i class="icon icon-target"></i> 产品列表
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="layouts-fixed-sidebar.html" class="nav-link">
-                            <i class="icon icon-target"></i> Fixed Sidebar
+                        <a href="/product/addProductPage" class="nav-link">
+                            <i class="icon icon-target"></i> 创建产品
                         </a>
                     </li>
 
@@ -108,13 +108,20 @@
 
             <li class="nav-item nav-dropdown">
                 <a href="#" class="nav-link nav-dropdown-toggle">
-                    <i class="icon icon-graph"></i> Charts <i class="fa fa-caret-left"></i>
+                    <i class="icon icon-graph"></i> 项目 <i class="fa fa-caret-left"></i>
                 </a>
 
                 <ul class="nav-dropdown-items">
                     <li class="nav-item">
-                        <a href="chartjs.html" class="nav-link">
-                            <i class="icon icon-graph"></i> Chart.js
+                        <a href="/project/findProjectPage" class="nav-link">
+                            <i class="icon icon-graph"></i> 项目列表
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a href="/project/addProjectPage" class="nav-link">
+                            <i class="icon icon-graph"></i> 添加项目
                         </a>
                     </li>
                 </ul>

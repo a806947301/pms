@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayi.demo.user.dao.UserDao">
+    <resultMap id="userResultMap" type="User">
+        <id property="id" column="id"></id>
+        <result property="addTime" column="addtime"></result>
+        <result property="updateTime" column="updatetime"></result>
+        <result property="name" column="name"></result>
+        <!--<result property="departmentId" column="department_id"></result>-->
+        <result property="jobNumber" column="job_number"></result>
+        <result property="email" column="email"></result>
+        <result property="password" column="password"></result>
+        <association property="department" column="department_id" select="com.dayi.demo.user.dao.DepartmentDao.getDepartment" />
+    </resultMap>
+
+    <sql id="selectAllColumnUser">
+        SELECT user.id,user.addtime,user.updatetime,user.name,user.department_id,user.job_number,user.email,user.password FROM
+    </sql>
+
+    <!-- 查询所有 -->
+    <select id="findAll" resultMap="userResultMap">
+        <include refid="selectAllColumnUser"/>
+        user ORDER BY addtime
+    </select>
+
+    <!-- 根据产品名查用户 -->
+    <select id="findUserByProductId" resultMap="userResultMap">
+        <include refid="selectAllColumnUser"/>
+        user JOIN product_member pm on user.id =  pm.user_id WHERE product_id = #{0}
+    </select>
+
+    <select id="getUser" resultMap="userResultMap">
+        <include refid="selectAllColumnUser"/>
+        user WHERE id = #{0}
+    </select>
+
+    <insert id="addUser">
+        INSERT  INTO user (id,addtime,updatetime,name,department_id,job_number,email,password)
+        VALUES (#{id},#{addTime},#{updateTime},#{name},#{department.id},#{jobNumber},#{email},#{password})
+    </insert>
+
+    <update id="updateUser">
+        UPDATE user
+        <set>
+            updatetime = #{updateTime},
+            name = #{name},
+            department_id = #{department.id},
+            job_number = #{jobNumber},
+            email = #{email}
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

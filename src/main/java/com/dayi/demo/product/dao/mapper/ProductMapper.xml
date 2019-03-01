@@ -14,9 +14,43 @@
         SELECT id,addtime,updatetime,product_name,product_presentation FROM
     </sql>
 
+    <!-- 查找所有 -->
+    <select id="findAllProduct" resultMap="productResultMap">
+        SELECT id,product_name FROM
+        product ORDER BY addtime
+    </select>
+
+    <!-- 根据id查产品 -->
+    <select id="getProduct" resultMap="productResultMap">
+        <include refid="selectAllColumnProduct"/>
+        product WHERE id=#{0}
+    </select>
+
+    <!-- 添加产品 -->
     <insert id="addProduct">
         INSERT INTO product (id,addtime,updatetime,product_name,product_presentation)
         VALUES (#{id},#{addTime},#{updateTime},#{productName},#{productPresentation})
     </insert>
 
+    <!-- 添加产品成员 -->
+    <insert id="addProductParticipator">
+        INSERT INTO product_member (id,addtime,updatetime,product_id,user_id)
+        VALUES (#{id},#{addTime},#{updateTime},#{productId},#{userId})
+    </insert>
+
+    <!-- 删除产品成员 -->
+    <delete id="deleteParticipator">
+        DELETE FROM product_member
+        WHERE product_id=#{productId} AND user_id=#{userId}
+    </delete>
+
+    <update id="updateProduct">
+        UPDATE product
+        <set>
+            product_name = #{productName},
+            product_presentation = #{productPresentation},
+            updatetime = #{updateTime}
+        </set>
+        WHERE id = #{id}
+    </update>
 </mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayi.demo.project.dao.ProjectDao">
+
+    <resultMap id="projectResultMap" type="Project">
+        <id property="id" column="id"></id>
+        <result property="addTime" column="addtime"></result>
+        <result property="updateTime" column="updatetime"></result>
+        <result property="beginDate" column="begindate"></result>
+        <result property="endDate" column="enddate"></result>
+        <result property="projectName" column="project_name"></result>
+        <result property="finished" column="is_finished"></result>
+        <association property="product" column="product_id" select="com.dayi.demo.product.dao.ProductDao.getProduct"></association>
+    </resultMap>
+
+    <sql id="selectAllColumnProject">
+        SELECT project.id,project.addtime,project.updatetime,project.begindate,project.enddate,project.project_name,project.is_finished,project.product_id  FROM
+    </sql>
+
+    <!--查询所有项目-->
+    <select id="findAllProduct" resultMap="projectResultMap">
+        <include refid="selectAllColumnProject"/>
+        project ORDER BY id
+    </select>
+
+    <!--根据id获取项目-->
+    <select id="getProject" resultMap="projectResultMap">
+        <include refid="selectAllColumnProject"/>
+        project where id = #{0}
+    </select>
+
+    <!--添加项目-->
+    <insert id="addProject">
+        INSERT INTO project (id,addtime,updatetime,begindate,enddate,project_name,is_finished,product_id)
+        VALUES (#{id},#{addTime},#{updateTime},#{beginDate},#{endDate},#{projectName},#{finished},#{product.id})
+    </insert>
+
+    <!--修改项目-->
+    <update id="updateProject">
+        UPDATE project
+        <set>
+            updatetime = #{updateTime},
+            begindate = #{beginDate},
+            enddate = #{endDate},
+            project_name = #{projectName},
+            product_id = #{product.id},
+            is_finished = #{finished}
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+</mapper>

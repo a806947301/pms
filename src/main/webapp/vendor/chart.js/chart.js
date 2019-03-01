@@ -12437,7 +12437,7 @@ module.exports = function(Chart) {
 		getLabelForIndex: function(index, datasetIndex) {
 			return +this.getRightValue(this.chart.data.datasets[datasetIndex].data[index]);
 		},
-		// Utils
+		//Utils
 		getPixelForValue: function(value) {
 			// This must be called after fit has been run so that
 			// this.left, this.top, this.right, and this.bottom have been defined

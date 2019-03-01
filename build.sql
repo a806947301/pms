@@ -23,13 +23,13 @@ CREATE TABLE role(
     role_field varchar(20) NOT NULL COMMENT '角色字段'
 )COMMENT '角色表';
 
-DROP TABLE IF EXISTS menu;
-CREATE TABLE menu(
+DROP TABLE IF EXISTS premission;
+CREATE TABLE premission(
     id CHAR (12) PRIMARY KEY COMMENT 'id',
     addtime DATETIME NOT NULL COMMENT '创建时间',
     updatetime DATETIME NOT NULL COMMENT '更新时间',
-    menu_name VARCHAR(20) NOT NULL COMMENT '权限名',
-    menu_field VARCHAR(20) NOT NULL COMMENT '权限字段'
+    premission_name VARCHAR(20) NOT NULL COMMENT '权限名',
+   premission_field VARCHAR(20) NOT NULL COMMENT '权限字段'
 )COMMENT '权限表';
 
 DROP TABLE IF EXISTS user_role;
@@ -41,13 +41,13 @@ CREATE TABLE user_role(
     role_id CHAR(12) NOT NULL COMMENT '角色id'
 )COMMENT '用户-角色表';
 
-DROP TABLE IF EXISTS Role_Menu;
-CREATE TABLE Role_Menu(
+DROP TABLE IF EXISTS Role_Premission;
+CREATE TABLE Role_Premission(
     id CHAR (12) PRIMARY KEY COMMENT 'id',
     addtime DATETIME NOT NULL COMMENT '创建时间',
     updatetime DATETIME NOT NULL COMMENT '更新时间',
     role_id CHAR(12) NOT NULL COMMENT '角色id',
-    menu_id CHAR(12) NOT NULL COMMENT '权限id'
+    premission_id CHAR(12) NOT NULL COMMENT '权限id'
 )COMMENT '角色-权限表';
 
 DROP TABLE IF EXISTS department;
@@ -90,7 +90,7 @@ CREATE TABLE project(
     addtime DATETIME NOT NULL COMMENT '创建时间',
     updatetime DATETIME NOT NULL COMMENT '更新时间',
     begindate DATE NOT NULL COMMENT '项目开始时间',
-    enddate DATE NOT NULL COMMENT '项目结束时间',
+    enddate DATE COMMENT '项目结束时间',
     product_id CHAR(12) NOT NULL COMMENT '所属产品id',
     project_name VARCHAR(20) NOT NULL COMMENT '项目名',
     is_finished TINYINT UNSIGNED NOT NULL COMMENT '是否已经完成'
@@ -103,9 +103,11 @@ CREATE TABLE bug(
     updatetime DATETIME NOT NULL COMMENT '更新时间',
     project_id CHAR (12) NOT NULL COMMENT '项目id',
     is_noprocessing TINYINT UNSIGNED NOT NULL COMMENT '是否不予处理',
-    bug_status TINYINT UNGIGNED NOT NULL COMMENT 'bug状态',
-    bug_content VARCHAR(1000) NOT NULL COMMENT 'bug内容',
-    user_id CHAR(12) NOT NULL COMMENT '处理bug用户的id'
+    bug_status TINYINT UNSIGNED NOT NULL COMMENT 'bug状态 0.指派中	1.处理中	2.验收中	3.已完成',
+    bug_title VARCHAR(100) NOT NULL COMMENT 'bug详情',
+    bug_content VARCHAR(1000) NOT NULL COMMENT 'bug描述',
+    bug_proposer CHAR(12) NOT NULL COMMENT '提出bug用户的id',
+    bug_processer CHAR(12) NOT NULL COMMENT '处理bug用户的id'
 )COMMENT 'bug表';
 
 DROP TABLE IF EXISTS bug_description;
@@ -135,7 +137,9 @@ CREATE TABLE need(
     updatetime DATETIME NOT NULL COMMENT '更新时间',
     file_path VARCHAR(300) NOT NULL COMMENT '需求文件地址',
     user_id CHAR(12) NOT NULL COMMENT '提出需求的用户id',
-    need_description VARCHAR(1000) NOT NULL COMMENT '需求的文字描述'
+    need_name VARCHAR(50) NOT NULL COMMIT '需求名',
+    need_description VARCHAR(1000) NOT NULL COMMENT '需求的文字描述',
+    project_id CHAR(12) NOT NULL COMMENT '项目Id'
 )COMMENT '需求表';
 /*
 DROP TABLE IF EXISTS student;
