@@ -47,4 +47,11 @@ public interface UserService {
      * @return
      */
     List<User> findUserByProductId(String productId);
+
+    /**
+     * 查找指定用户
+     * @param id 用户id
+     * @return
+     */
+    User getUser(String id);
 }

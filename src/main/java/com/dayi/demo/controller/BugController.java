@@ -1,6 +1,8 @@
 package com.dayi.demo.controller;
 
 import com.dayi.demo.bug.model.Bug;
+import com.dayi.demo.bug.model.BugDescription;
+import com.dayi.demo.bug.model.BugOperatingRecord;
 import com.dayi.demo.bug.service.BugService;
 import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
@@ -32,9 +34,6 @@ public class BugController {
     @RequestMapping("/addBug")
     @ResponseBody
     public String addBug(Bug bug) {
-        User user = new User();
-        user.setId("0RJAh2vRLbN6");
-        bug.setBugProposer(user);
         return bugService.addBug(bug);
     }
 
@@ -71,7 +70,7 @@ public class BugController {
     @RequestMapping("/findBugByProject")
     @ResponseBody
     public PageInfo<Bug> findBugByProject(int currentPage, String projectId) {
-        return bugService.findBugByProjectPage(currentPage,5,projectId);
+        return bugService.findBugByProject(currentPage,5,projectId);
     }
 
     /**
@@ -139,4 +138,40 @@ public class BugController {
     public int closeBug(String bugId) {
         return bugService.doCloseBug(bugId);
     }
+
+    /**
+     * 添加Bug说明
+     * @param bugDescription
+     * @return
+     */
+    @RequestMapping("/addBugDescription")
+    @ResponseBody
+    public int addBugDescription(BugDescription bugDescription) {
+        return bugService.addBugDescription(bugDescription);
+    }
+
+    /**
+     * 分页查找Bug说明
+     * @param bugId
+     * @param currentPage
+     * @return
+     */
+    @RequestMapping("/findDescription")
+    @ResponseBody
+    public PageInfo<BugDescription> findDescription(String bugId,int currentPage) {
+        return bugService.findDescriptionByBugId(bugId,currentPage,5);
+    }
+
+    /**
+     * 分页查找Bug操作记录
+     * @param bugId
+     * @param currentPage
+     * @return
+     */
+    @RequestMapping("/findBugOperatingRecord")
+    @ResponseBody
+    public PageInfo<BugOperatingRecord> findBugOperatingRecord(String bugId,int currentPage) {
+        return bugService.findBugOperationRecordByBugId(bugId,currentPage,5);
+    }
+
 }

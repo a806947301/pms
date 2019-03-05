@@ -6,11 +6,11 @@
         <id property="id" column="id"></id>
         <result property="addTime" column="addtime"></result>
         <result property="updateTime" column="updatetime"></result>
-        <result property="projectId" column="project_id"></result>
         <result property="noProcessing" column="is_noprocessing"></result>
         <result property="bugTitle" column="bug_title"></result>
         <result property="bugContent" column="bug_content"></result>
         <result property="bugStatus" column="bug_status"></result>
+        <association property="project" column="project_id" select="com.dayi.demo.project.dao.ProjectDao.getProject" />
         <association property="bugProposer" column="bug_proposer" select="com.dayi.demo.user.dao.UserDao.getUser"/>
         <association property="bugProcesser" column="bug_processer" select="com.dayi.demo.user.dao.UserDao.getUser"/>
     </resultMap>
@@ -32,7 +32,7 @@
     <!--添加bug-->
     <insert id="addBug">
         INSERT INTO bug (id,addtime,updatetime,project_id,is_noprocessing,bug_status,bug_title,bug_content,bug_proposer,bug_processer)
-        VALUES (#{id},#{addTime},#{updateTime},#{projectId},#{noProcessing},#{bugStatus},#{bugTitle},#{bugContent},#{bugProposer.id},#{bugProcesser.id})
+        VALUES (#{id},#{addTime},#{updateTime},#{project.id},#{noProcessing},#{bugStatus},#{bugTitle},#{bugContent},#{bugProposer.id},#{bugProcesser.id})
     </insert>
 
     <update id="updateBugStatue">

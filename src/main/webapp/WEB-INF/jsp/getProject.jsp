@@ -99,42 +99,43 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6" id="needTable">
                         <div class="card">
                             <div class="card-header bg-light">
                                 <dir class="row">
                                     <div class="col-md-2">
                                         需求
                                     </div>
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-outline-primary" type="button"
+                                                v-on:click="addNeed()">
+                                            添加需求
+                                        </button>
+                                    </div>
                                 </dir>
                             </div>
-                            <div class="card-body  border-top">
-                                这是一堆需求<br>
-                            </div>
-                             <div class="card-body  border-top">
-                                这是一堆需求<br>
-                            </div>
-                             <div class="card-body  border-top">
-                                这是一堆需求<br>
-                            </div>
-                             <div class="card-body  border-top">
-                                这是一堆需求<br>
-                            </div>
-                             <div class="card-body  border-top">
-                                这是一堆需求<br>
-                            </div>
-                             <div class="card-body  border-top">
-                                这是一堆需求<br>
+                            <div class="card-body  border-top" v-for="need in needs.list">
+                                <a v-bind:href="['/need/getNeedPage/'+need.id]">{{need.needName}}</a> - <small class="text-mutedz">{{need.user.name}}</small><br>
                             </div>
                             <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
-                                <ul class="pagination pagination-lg" v-if="departments.pageNum <= departments.pages && departments.pageNum >= 3">
-                                    <li><a href="javascript:void(0);">&laquo;</a></li>
-                                    <li><a href="javascript:void(0);" class="active">1</a></li>
-                                    <li><a href="javascript:void(0);" >2</a></li>
-                                    <li><a href="javascript:void(0);" >3</a></li>
-                                    <li><a href="javascript:void(0);" >4</a></li>
-                                    <li><a href="javascript:void(0);" >5</a></li>
-                                    <li><a href="javascript:void(0);">&raquo;</a></li>
+                                <ul class="pagination pagination-lg" v-if="needs.pageNum <= needs.pages && needs.pageNum >= 3">
+                                    <li><a v-on:Click="getPage(needs.pageNum-1)" href="javascript:void(0);">&laquo;</a></li>
+                                    <li><a v-on:Click="getPage(needs.pageNum-2)" href="javascript:void(0);" v-show="needs.pages>=needs.pageNum-2"  v-bind:class="{'active':(needs.pageNum==2)}">{{needs.pageNum-2}}</a></li>
+                                    <li><a v-on:Click="getPage(needs.pageNum-1)" href="javascript:void(0);" v-show="needs.pages>=needs.pageNum-1"  v-bind:class="{'active':(needs.pageNum==2)}">{{needs.pageNum-1}}</a></li>
+                                    <li><a v-on:Click="getPage(needs.pageNum)" href="javascript:void(0);"   v-bind:class="{'active':true}">{{needs.pageNum}}</a></li>
+                                    <li><a v-on:Click="getPage(needs.pageNum+1)" href="javascript:void(0);" v-show="needs.pages>=needs.pageNum+1" >{{needs.pageNum+1}}</a></li>
+                                    <li><a v-on:Click="getPage(needs.pageNum+2)" href="javascript:void(0);" v-show="needs.pages>=needs.pageNum+2" >{{needs.pageNum+2}}</a></li>
+                                    <li><a v-on:Click="getPage(needs.pageNum+1)" href="javascript:void(0);">&raquo;</a></li>
+                                </ul>
+                                <ul class="pagination pagination-lg" v-else>
+                                    <li><a v-on:Click="getPage(needs.pageNum-1)" href="javascript:void(0);">&laquo;</a></li>
+                                    <li><a v-on:Click="getPage(1)" href="javascript:void(0);" v-bind:class="{'active':(needs.pageNum==1)}">1</a></li>
+                                    <li><a v-on:Click="getPage(2)" href="javascript:void(0);" v-show="needs.pages>=2"  v-bind:class="{'active':(needs.pageNum==2)}">2</a></li>
+                                    <li><a v-on:Click="getPage(3)" href="javascript:void(0);" v-show="needs.pages>=3"  v-bind:class="{'active':(needs.pageNum==3)}">3</a></li>
+                                    <li><a v-on:Click="getPage(4)" href="javascript:void(0);" v-show="needs.pages>=4"  v-bind:class="{'active':(needs.pageNum==4)}">4</a></li>
+                                    <li><a v-on:Click="getPage(5)" href="javascript:void(0);" v-show="needs.pages>=5"  v-bind:class="{'active':(needs.pageNum==5)}">5</a></li>
+                                    <li><a v-on:Click="getPage(needs.pageNum+1)" href="javascript:void(0);">&raquo;</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -367,6 +368,49 @@
                    .then(function (response) {
                        vm.project = response.data;
                    });
+            }
+        }
+    })
+    var needVm = new Vue({
+        el:'#needTable',
+        data:{
+            projectId:null,
+            needs:{
+                list:null
+            }
+        },
+        created:function () {
+            this.projectId = window.location.href.split('/')[window.location.href.split('/').length-1];
+            params = new URLSearchParams();
+            params.append("projectId",this.projectId);
+            params.append("currentPage",1);
+            axios
+                .post("/need/findNeedByProjectId",params)
+                .then(function (response) {
+                    needVm.needs = response.data;
+                });
+        },
+        methods:{
+            addNeed:function() {
+                window.location.href="/need/addNeedPage/"+this.projectId;
+            },
+            getPage:function (currentPage) {
+                if(currentPage<=0)
+                {
+                    return;
+                }
+                if(currentPage>this.needs.pages)
+                {
+                    return;
+                }
+                params = new URLSearchParams();
+                params.append("projectId",this.projectId);
+                params.append("currentPage",currentPage);
+                axios
+                    .post("/need/findNeedByProjectId",params)
+                    .then(function (response) {
+                        needVm.needs = response.data;
+                    });
             }
         }
     })

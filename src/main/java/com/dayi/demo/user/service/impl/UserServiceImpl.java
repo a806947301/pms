@@ -55,4 +55,9 @@ public class UserServiceImpl implements UserService {
     public List<User> findUserByProductId(String productId) {
         return userDao.findUserByProductId(productId);
     }
+
+    @Override
+    public User getUser(String id) {
+        return userDao.getUser(id);
+    }
 }

@@ -133,7 +133,7 @@
                 params = new URLSearchParams();
                 params.append("bugTitle",vm.title);
                 params.append("bugContent",vm.content);
-                params.append("projectId",vm.projectId);
+                params.append("project.id",vm.projectId);
                 params.append("bugProcesser.id",vm.processer);
                 axios
                     .post("/bug/addBug",params)

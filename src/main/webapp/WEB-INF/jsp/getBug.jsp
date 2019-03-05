@@ -133,7 +133,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-8" id="bugTable">
+                    <div class="col-md-8" id="bugDescriptionList">
                         <div class="card">
                             <div class="card-header bg-light">
                                 <dir class="row">
@@ -142,39 +142,33 @@
                                     </div>
                                 </dir>
                             </div>
-                            <div class="card-body  border-top">
-                                这是一堆说明<br>
-                            </div>
-                            <div class="card-body  border-top">
-                                这是一堆说明<br>
-                            </div>
-                            <div class="card-body  border-top">
-                                这是一堆说明求<br>
-                            </div>
-                            <div class="card-body  border-top">
-                                这是一堆说明<br>
-                            </div>
-                            <div class="card-body  border-top">
-                                这是一说明<br>
-                            </div>
-                            <div class="card-body  border-top">
-                                这是一堆说明<br>
+                            <div class="card-body  border-top" v-for="description in descriptions.list">
+                                {{description.content}}
                             </div>
                             <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
-                                <ul class="pagination pagination-lg" v-if="departments.pageNum <= departments.pages && departments.pageNum >= 3">
-                                    <li><a href="javascript:void(0);">&laquo;</a></li>
-                                    <li><a href="javascript:void(0);" class="active">1</a></li>
-                                    <li><a href="javascript:void(0);" >2</a></li>
-                                    <li><a href="javascript:void(0);" >3</a></li>
-                                    <li><a href="javascript:void(0);" >4</a></li>
-                                    <li><a href="javascript:void(0);" >5</a></li>
-                                    <li><a href="javascript:void(0);">&raquo;</a></li>
+                                <ul class="pagination pagination-lg" v-if="descriptions.pageNum <= descriptions.pages && descriptions.pageNum >= 3">
+                                    <li><a v-on:Click="getPage(descriptions.pageNum-1)" href="javascript:void(0);">&laquo;</a></li>
+                                    <li><a v-on:Click="getPage(descriptions.pageNum-2)" href="javascript:void(0);" v-show="descriptions.pages>=descriptions.pageNum-2"  v-bind:class="{'active':(descriptions.pageNum==2)}">{{descriptions.pageNum-2}}</a></li>
+                                    <li><a v-on:Click="getPage(descriptions.pageNum-1)" href="javascript:void(0);" v-show="descriptions.pages>=descriptions.pageNum-1"  v-bind:class="{'active':(descriptions.pageNum==2)}">{{descriptions.pageNum-1}}</a></li>
+                                    <li><a v-on:Click="getPage(descriptions.pageNum)" href="javascript:void(0);"   v-bind:class="{'active':true}">{{descriptions.pageNum}}</a></li>
+                                    <li><a v-on:Click="getPage(descriptions.pageNum+1)" href="javascript:void(0);" v-show="descriptions.pages>=descriptions.pageNum+1" >{{descriptions.pageNum+1}}</a></li>
+                                    <li><a v-on:Click="getPage(descriptions.pageNum+2)" href="javascript:void(0);" v-show="descriptions.pages>=descriptions.pageNum+2" >{{descriptions.pageNum+2}}</a></li>
+                                    <li><a v-on:Click="getPage(descriptions.pageNum+1)" href="javascript:void(0);">&raquo;</a></li>
+                                </ul>
+                                <ul class="pagination pagination-lg" v-else>
+                                    <li><a v-on:Click="getPage(descriptions.pageNum-1)" href="javascript:void(0);">&laquo;</a></li>
+                                    <li><a v-on:Click="getPage(1)" href="javascript:void(0);" v-bind:class="{'active':(descriptions.pageNum==1)}">1</a></li>
+                                    <li><a v-on:Click="getPage(2)" href="javascript:void(0);" v-show="descriptions.pages>=2"  v-bind:class="{'active':(descriptions.pageNum==2)}">2</a></li>
+                                    <li><a v-on:Click="getPage(3)" href="javascript:void(0);" v-show="descriptions.pages>=3"  v-bind:class="{'active':(descriptions.pageNum==3)}">3</a></li>
+                                    <li><a v-on:Click="getPage(4)" href="javascript:void(0);" v-show="descriptions.pages>=4"  v-bind:class="{'active':(descriptions.pageNum==4)}">4</a></li>
+                                    <li><a v-on:Click="getPage(5)" href="javascript:void(0);" v-show="descriptions.pages>=5"  v-bind:class="{'active':(descriptions.pageNum==5)}">5</a></li>
+                                    <li><a v-on:Click="getPage(descriptions.pageNum+1)" href="javascript:void(0);">&raquo;</a></li>
                                 </ul>
                             </div>
                         </div>
 
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4" id="bugOperatingRecord">
                         <div class="card">
                             <div class="card-header bg-light">
                                 <dir class="row">
@@ -183,40 +177,41 @@
                                     </div>
                                 </dir>
                             </div>
-                            <div class="card-body  border-top">
-                                这是一堆需求<br>
-                            </div>
-                            <div class="card-body  border-top">
-                                这是一堆需求<br>
-                            </div>
-                            <div class="card-body  border-top">
-                                这是一堆需求<br>
-                            </div>
-                            <div class="card-body  border-top">
-                                这是一堆需求<br>
-                            </div>
-                            <div class="card-body  border-top">
-                                这是一堆需求<br>
-                            </div>
-                            <div class="card-body  border-top">
-                                这是一堆需求<br>
+                            <div class="card-body  border-top" v-for="record in records.list">
+                                {{record.user.name}}
+                                <font v-if="record.operationNumber==0">指派</font>
+                                <font v-else-if="record.operationNumber==1">设置自己处理</font>
+                                <font v-else-if="record.operationNumber==2">设置不予处理</font>
+                                <font v-else-if="record.operationNumber==3">添加说明</font>
+                                <font v-else>关闭Bug</font>
+                                <font v-if="record.operationUser != null">{{record.operationUser.name}}</font>
+                                <br>
                             </div>
                             <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
-                                <ul class="pagination pagination-lg" v-if="departments.pageNum <= departments.pages && departments.pageNum >= 3">
-                                    <li><a href="javascript:void(0);">&laquo;</a></li>
-                                    <li><a href="javascript:void(0);" class="active">1</a></li>
-                                    <li><a href="javascript:void(0);" >2</a></li>
-                                    <li><a href="javascript:void(0);" >3</a></li>
-                                    <li><a href="javascript:void(0);" >4</a></li>
-                                    <li><a href="javascript:void(0);" >5</a></li>
-                                    <li><a href="javascript:void(0);">&raquo;</a></li>
+                                <ul class="pagination pagination-lg" v-if="records.pageNum <= records.pages && records.pageNum >= 3">
+                                    <li><a v-on:Click="getPage(records.pageNum-1)" href="javascript:void(0);">&laquo;</a></li>
+                                    <li><a v-on:Click="getPage(records.pageNum-2)" href="javascript:void(0);" v-show="records.pages>=records.pageNum-2"  v-bind:class="{'active':(records.pageNum==2)}">{{records.pageNum-2}}</a></li>
+                                    <li><a v-on:Click="getPage(records.pageNum-1)" href="javascript:void(0);" v-show="records.pages>=records.pageNum-1"  v-bind:class="{'active':(records.pageNum==2)}">{{records.pageNum-1}}</a></li>
+                                    <li><a v-on:Click="getPage(records.pageNum)" href="javascript:void(0);"   v-bind:class="{'active':true}">{{records.pageNum}}</a></li>
+                                    <li><a v-on:Click="getPage(records.pageNum+1)" href="javascript:void(0);" v-show="records.pages>=records.pageNum+1" >{{records.pageNum+1}}</a></li>
+                                    <li><a v-on:Click="getPage(records.pageNum+2)" href="javascript:void(0);" v-show="records.pages>=records.pageNum+2" >{{records.pageNum+2}}</a></li>
+                                    <li><a v-on:Click="getPage(records.pageNum+1)" href="javascript:void(0);">&raquo;</a></li>
+                                </ul>
+                                <ul class="pagination pagination-lg" v-else>
+                                    <li><a v-on:Click="getPage(records.pageNum-1)" href="javascript:void(0);">&laquo;</a></li>
+                                    <li><a v-on:Click="getPage(1)" href="javascript:void(0);" v-bind:class="{'active':(records.pageNum==1)}">1</a></li>
+                                    <li><a v-on:Click="getPage(2)" href="javascript:void(0);" v-show="records.pages>=2"  v-bind:class="{'active':(records.pageNum==2)}">2</a></li>
+                                    <li><a v-on:Click="getPage(3)" href="javascript:void(0);" v-show="records.pages>=3"  v-bind:class="{'active':(records.pageNum==3)}">3</a></li>
+                                    <li><a v-on:Click="getPage(4)" href="javascript:void(0);" v-show="records.pages>=4"  v-bind:class="{'active':(records.pageNum==4)}">4</a></li>
+                                    <li><a v-on:Click="getPage(5)" href="javascript:void(0);" v-show="records.pages>=5"  v-bind:class="{'active':(records.pageNum==5)}">5</a></li>
+                                    <li><a v-on:Click="getPage(records.pageNum+1)" href="javascript:void(0);">&raquo;</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
 
                 </div>
-                <div class="row" id="addBugDescription">
+               <%-- <div class="row" id="addBugDescription">
                     <div class="card col-md-12">
                         <div class="card-header bg-light">
                             添加说明
@@ -227,7 +222,7 @@
                         </div>
 
                     </div>
-                </div>
+                </div>--%>
             </div>
         </div>
     </div>
@@ -261,11 +256,11 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
-                <textarea class="form-control"  rows="3"></textarea><br>
+                <textarea class="form-control"  rows="3" v-model="content"></textarea><br>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="redesignate()">提交更改</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="addBugDescription()">提交更改</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
@@ -289,7 +284,82 @@
 <script src="/js/vue.min.js"></script>
 
 <script>
-
+    var bugOperatingRecordVm = new Vue({
+        el:'#bugOperatingRecord',
+        data:{
+            bugId:null,
+            records:{
+                list:null
+            }
+        },
+        created:function() {
+            this.bugId = window.location.href.split('/')[window.location.href.split('/').length-1];
+            params = new URLSearchParams();
+            params.append("bugId",this.bugId);
+            params.append("currentPage",1);
+            axios
+                .post("/bug/findBugOperatingRecord",params)
+                .then(function (response) {
+                    bugOperatingRecordVm.records = response.data;
+                });
+        },
+        methods:{
+            getPage:function(currentPage) {
+                if(currentPage<=0) {
+                    return ;
+                }
+                if(currentPage > this.records.pages) {
+                    return ;
+                }
+                params = new URLSearchParams();
+                params.append("bugId",this.bugId);
+                params.append("currentPage",currentPage);
+                axios
+                    .post("/bug/findBugOperatingRecord",params)
+                    .then(function (response) {
+                        bugOperatingRecordVm.records = response.data;
+                    });
+            }
+        }
+    })
+    var bugDescriptionVm = new Vue({
+        el:'#bugDescriptionList',
+        data:{
+            bugId:null,
+            descriptions:{
+                list:null
+            }
+        },
+        created:function () {
+            this.bugId = window.location.href.split('/')[window.location.href.split('/').length-1];
+            params = new URLSearchParams();
+            params.append("bugId",this.bugId);
+            params.append("currentPage",1);
+            axios
+                .post("/bug/findDescription",params)
+                .then(function (response) {
+                    bugDescriptionVm.descriptions = response.data;
+                });
+        },
+        methods:{
+            getPage:function (currentPage) {
+                if(currentPage<=0) {
+                    return ;
+                }
+                if(currentPage > this.descriptions.pages) {
+                    return ;
+                }
+                params = new URLSearchParams();
+                params.append("bugId",this.bugId);
+                params.append("currentPage",currentPage);
+                axios
+                    .post("/bug/findDescription",params)
+                    .then(function (response) {
+                        bugDescriptionVm.descriptions = response.data;
+                    });
+            }
+        }
+    })
 
     var vm = new Vue({
         el:"#getBug",
@@ -330,7 +400,8 @@
                     .post("/bug/getBug",params)
                     .then(function (response) {
                         vm.bug = response.data;
-
+                        bugOperatingRecordVm.getPage(bugOperatingRecordVm.records.pageNum);
+                        bugDescriptionVm.getPage(bugDescriptionVm.descriptions.pageNum);
                     });
             },
             processSelf:function() {
@@ -360,6 +431,27 @@
                     .then(function (response) {
                         vm.reloadBug();
                     });
+            }
+        }
+    });
+    var addDescriptionVm = new Vue({
+        el:"#addDescription",
+        data:{
+            content:null
+        },
+        created:function () {
+            this.bugId = window.location.href.split('/')[window.location.href.split('/').length-1];
+        },
+        methods:{
+            addBugDescription:function () {
+                params = new URLSearchParams();
+                params.append("bugId",this.bugId);
+                params.append("content",this.content);
+                axios
+                    .post("/bug/addBugDescription",params)
+                    .then(function (response) {
+                        vm.reloadBug();
+                    })
             }
         }
     })

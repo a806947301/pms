@@ -124,10 +124,10 @@ CREATE TABLE bug_operating_record(
     id CHAR (12) PRIMARY KEY COMMENT 'id',
     addtime DATETIME NOT NULL COMMENT '创建时间',
     updatetime DATETIME NOT NULL COMMENT '更新时间',
-    user_id CHAR(12) NOT NULL COMMENT '',
-    operation_number TINYINT UNSIGNED NOT NULL COMMENT '',
-    bug_id CHAR(12) NOT NULL COMMENT '',
-    operation_user_id CHAR(12) NOT NULL COMMENT ''
+    user_id CHAR(12) NOT NULL COMMENT '操作者id',
+    operation_number TINYINT UNSIGNED NOT NULL COMMENT '0.指派 	1.设置自己处理	2.设置不予处理	3.添加说明	4.关闭Bug',
+    bug_id CHAR(12) NOT NULL COMMENT 'bug id',
+    operation_user_id CHAR(12) NOT NULL COMMENT '操作对象id'
 )COMMENT 'bug操作记录表';
 
 DROP TABLE IF EXISTS need;
@@ -135,10 +135,13 @@ CREATE TABLE need(
     id CHAR (12) PRIMARY KEY COMMENT 'id',
     addtime DATETIME NOT NULL COMMENT '创建时间',
     updatetime DATETIME NOT NULL COMMENT '更新时间',
-    file_path VARCHAR(300) NOT NULL COMMENT '需求文件地址',
-    user_id CHAR(12) NOT NULL COMMENT '提出需求的用户id',
-    need_name VARCHAR(50) NOT NULL COMMIT '需求名',
+    need_name VARCHAR(50) NOT NULL COMMENT '需求名',
     need_description VARCHAR(1000) NOT NULL COMMENT '需求的文字描述',
+    need_description_filepath VARCHAR (300) NOT NULL COMMENT '需求描述文件地址',
+    need_description_filename VARCHAR (100) NOT NULL COMMENT '需求描述文件文件名',
+    need_filepath VARCHAR(300) NOT NULL COMMENT '需求文件地址',
+    need_filename VARCHAR (100) NOT NULL COMMENT '需求文件文件名',
+    user_id CHAR(12) NOT NULL COMMENT '提出需求的用户id',
     project_id CHAR(12) NOT NULL COMMENT '项目Id'
 )COMMENT '需求表';
 /*

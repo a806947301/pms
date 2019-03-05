@@ -22,6 +22,7 @@
         <url-pattern>/js/*</url-pattern>
         <url-pattern>/vendor/*</url-pattern>
         <url-pattern>/simditor/*</url-pattern>
+        <url-pattern>/needFile/*</url-pattern>
     </servlet-mapping>
     <!-- spring MVC -->
     <servlet>

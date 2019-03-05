@@ -76,7 +76,6 @@ public class UserController {
     @RequestMapping("/findUserByProductId")
     @ResponseBody
     public List<User> findUserByProductId(String id) {
-        System.out.println(id);
         return userService.findUserByProductId(id);
     }
 

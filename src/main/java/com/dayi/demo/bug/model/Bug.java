@@ -1,5 +1,6 @@
 package com.dayi.demo.bug.model;
 
+import com.dayi.demo.project.model.Project;
 import com.dayi.demo.user.model.User;
 
 import java.util.Date;
@@ -34,7 +35,7 @@ public class Bug {
     /** bug处理者 */
     private User bugProcesser;
     /** bug所属项目 */
-    private String projectId;
+    private Project project;
 
     public String getId() {
         return id;
@@ -108,11 +109,11 @@ public class Bug {
         this.bugProcesser = bugProcesser;
     }
 
-    public String getProjectId() {
-        return projectId;
+    public Project getProject() {
+        return project;
     }
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
+    public void setProject(Project project) {
+        this.project = project;
     }
 }
