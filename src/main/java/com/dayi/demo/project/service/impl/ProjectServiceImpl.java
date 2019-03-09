@@ -1,6 +1,6 @@
-package com.dayi.demo.project.Service.impl;
+package com.dayi.demo.project.service.impl;
 
-import com.dayi.demo.project.Service.ProjectService;
+import com.dayi.demo.project.service.ProjectService;
 import com.dayi.demo.project.dao.ProjectDao;
 import com.dayi.demo.project.model.Project;
 import com.dayi.demo.util.IdUtils;

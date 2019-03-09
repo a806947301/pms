@@ -84,7 +84,7 @@
                                         <th>部门名称</th>
                                         <th>工号</th>
                                         <th>邮箱</th>
-                                        <th>密码</th>
+                                        <th>状态</th>
                                         <th>
                                             <button class="btn btn-outline-success" data-toggle="modal" data-target="#addUserModal" onclick="beforeAdd()">
                                                 <i class="fa fa-align-center"></i> &nbsp; 添加用户
@@ -101,14 +101,18 @@
                                         <td>{{user.department.departmentName}}</td>
                                         <td>{{user.jobNumber}}</td>
                                         <td>{{user.email}}</td>
-                                        <td>{{user.password}}</td>
+                                        <td>{{user.stopped?"停用":"启用"}}</td>
                                         <td>
                                             <button class="btn btn-outline-warning" data-toggle="modal" data-target="#updateUserModal"
                                                     v-on:click="beforeUpdate(user.id,user.name,user.jobNumber,user.department.id,user.email)" >
                                                 <i class="fa fa-clipboard"></i> &nbsp; 修改
                                             </button>
-                                            <button class="btn btn-outline-danger" >
-                                                <i class="fa fa-trash"></i>&nbsp; 删除
+                                            <button class="btn btn-outline-danger" v-on:click="updateStopped(user.id,!user.stopped)">
+                                                <i class="fa fa-trash"></i>&nbsp; {{!user.stopped?"停用":"启用"}}
+                                            </button>
+                                            <button class="btn btn-outline-primary" data-toggle="modal" data-target="#ascribedRoleModal"
+                                                    v-on:click="ascribedRoleModalVm.getHasRoles(user.id)">
+                                                <i class="fa fa-magnet"></i> &nbsp; 角色
                                             </button>
                                         </td>
                                     </tr>
@@ -117,24 +121,6 @@
 
 
                                 <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
-                                    <%--<ul class="pagination pagination-lg" v-if="departments.pageNum <= departments.pages && departments.pageNum >= 3">
-                                        <li><a v-on:Click="getPage(departments.pageNum-1)" href="javascript:void(0);">&laquo;</a></li>
-                                        <li><a v-on:Click="getPage(departments.pageNum-2)" href="javascript:void(0);" v-show="departments.pages>=departments.pageNum-2"  v-bind:class="{'active':(departments.pageNum==2)}">{{departments.pageNum-2}}</a></li>
-                                        <li><a v-on:Click="getPage(departments.pageNum-1)" href="javascript:void(0);" v-show="departments.pages>=departments.pageNum-1"  v-bind:class="{'active':(departments.pageNum==2)}">{{departments.pageNum-1}}</a></li>
-                                        <li><a v-on:Click="getPage(departments.pageNum)" href="javascript:void(0);"   v-bind:class="{'active':true}">{{departments.pageNum}}</a></li>
-                                        <li><a v-on:Click="getPage(departments.pageNum+1)" href="javascript:void(0);" v-show="departments.pages>=departments.pageNum+1" >{{departments.pageNum+1}}</a></li>
-                                        <li><a v-on:Click="getPage(departments.pageNum+2)" href="javascript:void(0);" v-show="departments.pages>=departments.pageNum+2" >{{departments.pageNum+2}}</a></li>
-                                        <li><a v-on:Click="getPage(departments.pageNum+1)" href="javascript:void(0);">&raquo;</a></li>
-                                    </ul>
-                                    <ul class="pagination pagination-lg" v-else>
-                                        <li><a v-on:Click="getPage(departments.pageNum-1)" href="javascript:void(0);">&laquo;</a></li>
-                                        <li><a v-on:Click="getPage(1)" href="javascript:void(0);" v-bind:class="{'active':(departments.pageNum==1)}">1</a></li>
-                                        <li><a v-on:Click="getPage(2)" href="javascript:void(0);" v-show="departments.pages>=2"  v-bind:class="{'active':(departments.pageNum==2)}">2</a></li>
-                                        <li><a v-on:Click="getPage(3)" href="javascript:void(0);" v-show="departments.pages>=3"  v-bind:class="{'active':(departments.pageNum==3)}">3</a></li>
-                                        <li><a v-on:Click="getPage(4)" href="javascript:void(0);" v-show="departments.pages>=4"  v-bind:class="{'active':(departments.pageNum==4)}">4</a></li>
-                                        <li><a v-on:Click="getPage(5)" href="javascript:void(0);" v-show="departments.pages>=5"  v-bind:class="{'active':(departments.pageNum==5)}">5</a></li>
-                                        <li><a v-on:Click="getPage(departments.pageNum+1)" href="javascript:void(0);">&raquo;</a></li>
-                                    </ul>--%>
                                         <ul class="pagination pagination-lg" v-if="users.pageNum <= users.pages && users.pageNum >= 3">
                                             <li><a v-on:Click="getPage(users.pageNum-1)" href="javascript:void(0);">&laquo;</a></li>
                                             <li><a v-on:Click="getPage(users.pageNum-2)" href="javascript:void(0);" v-show="users.pages>=users.pageNum-2"  v-bind:class="{'active':(users.pageNum==2)}">{{users.pageNum-2}}</a></li>
@@ -157,52 +143,7 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
-
                 </div>
-
-
-                <%--<div class="row ">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                Total Users
-                            </div>
-
-                            <div class="card-body p-0">
-                                <div class="p-4">
-                                    <canvas id="line-chart" width="100%" height="20"></canvas>
-                                </div>
-
-                                <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
-                                    <div class="text-center">
-                                        <div class="text-muted small">Total Traffic</div>
-                                        <div>12,457 Users (40%)</div>
-                                    </div>
-
-                                    <div class="text-center">
-                                        <div class="text-muted small">Banned Users</div>
-                                        <div>95,333 Users (5%)</div>
-                                    </div>
-
-                                    <div class="text-center">
-                                        <div class="text-muted small">Page Views</div>
-                                        <div>957,565 Pages (50%)</div>
-                                    </div>
-
-                                    <div class="text-center">
-                                        <div class="text-muted small">Total Downloads</div>
-                                        <div>957,565 Files (100 TB)</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
-                </div>--%>
             </div>
         </div>
     </div>
@@ -312,6 +253,72 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<%-- 赋予角色模拟框 --%>
+<div class="modal fade" id="ascribedRoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h3>赋予角色</h3>
+                <a class="close" data-dismiss="modal">×</a>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                     <div class="card col-md-6">
+                        <div class="card-header">
+                            已有角色
+                        </div>
+                        <div class="card-body">
+                            <div class="row pre-scrollable">
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr v-for="role in hasRoles">
+                                        <td>{{role.roleName}}</td>
+                                        <td>
+                                            <button class="btn btn-outline-danger btn-sm" type="button"
+                                                    v-on:click="cancelRole(role.id)">
+                                                移除角色
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="card col-md-6">
+                        <div class="card-header">
+                            未获得角色
+                        </div>
+                        <div class="card-body">
+                            <div class="row pre-scrollable">
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr v-for="role in havnRoles">
+                                        <td>{{role.roleName}}</td>
+                                        <td>
+                                            <button class="btn btn-outline-success btn-sm" type="button"
+                                                    v-on:click="ascribedRole(role.id)">
+                                                增加角色
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/popper.js/popper.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -335,7 +342,7 @@
         },
         created:function(){
         axios
-                .post("/department/departmentList")
+                .post("/department/finfAllDepartment")
                 .then(function (response) {
                     updateUser.departmentList = eval('(' + response.data + ')').list;
                 })
@@ -369,13 +376,10 @@
         },
         created:function(){
             axios
-                .post("/department/departmentList")
+                .post("/department/finfAllDepartment")
                 .then(function (response) {
                     addUser.departmentList = eval('(' + response.data + ')').list;
                 })
-        },
-        updated:function(){
-            document.getElementById("addUserDepartmentId").options[0].selected=true;
         },
         methods:{
             addUser:function ( ) {
@@ -390,6 +394,7 @@
                 axios
                     .post("/user/addUser",params)
                     .then(function (response) {
+                        alert(response.data.msg);
                         vm.getPage(vm.users.pageNum);
                     })
             }
@@ -440,16 +445,18 @@
                 updateUser.jobNumber = jobNumber;
                 updateUser.email = email;
                 updateUser.departmentId=departmentId;
-            }/*,
-            deleteDepartment:function(id) {
+            },
+            updateStopped:function(id,stopped) {
                 params = new URLSearchParams();
                 params.append("id",id);
+                params.append("stopped",stopped)
                 axios
-                    .post("/department/deleteDepartment",params)
+                    .post("/user/updateStopped",params)
                     .then(function (response) {
-                        vm.getPage(vm.departments.pageNum);
+                        alert(response.data.msg)
+                        vm.getPage(vm.users.pageNum);
                     })
-            }*/
+            }
         }
 
     })
@@ -494,6 +501,95 @@
         console.log(id);
     }
 
+    var ascribedRoleModalVm = new Vue({
+        el:'#ascribedRoleModal',
+        data:{
+            userId:null,
+            roles:{},
+            hasRoles:{},
+            havnRoles:{}
+        },
+        created:function(){
+            axios
+                .post("/role/findAllRole")
+                .then(function (response) {
+                    ascribedRoleModalVm.roles = response.data;
+                })
+        },
+        methods:{
+            getHasRoles:function(id){
+                this.userId = id;
+                params = new URLSearchParams();
+                params.append("userId",this.userId);
+                axios
+                    .post("/role/findRoleByUserId",params)
+                    .then(function (response) {
+                        ascribedRoleModalVm.hasRoles = response.data;
+                        ascribedRoleModalVm.havnRoles = array_difference(ascribedRoleModalVm.roles,ascribedRoleModalVm.hasRoles);
+                    })
+            },
+            ascribedRole:function(roleId) {
+                params = new URLSearchParams();
+                params.append("userId",this.userId);
+                params.append("roleId",roleId);
+                axios
+                    .post("/role/ascribedRole",params)
+                    .then(function (response) {
+                        if(response.data.success == true) {
+                            ascribedRoleModalVm.getHasRoles(ascribedRoleModalVm.userId);
+                        } else {
+                            alert(response.data.msg);
+                        }
+                    })
+            },
+            cancelRole:function(roleId) {
+                params = new URLSearchParams();
+                params.append("userId",this.userId);
+                params.append("roleId",roleId);
+                axios
+                    .post("/role/cancelRole",params)
+                    .then(function (response) {
+                        if(response.data.success == true) {
+                            ascribedRoleModalVm.getHasRoles(ascribedRoleModalVm.userId);
+                        } else {
+                            alert(response.data.msg);
+                        }
+                    })
+            }
+        }
+    })
+    function array_remove_repeat(a) { // 去重
+        var r = [];
+        for(var i = 0; i < a.length; i ++) {
+            var flag = true;
+            var temp = a[i];
+            for(var j = 0; j < r.length; j ++) {
+                if(temp === r[j]) {
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag) {
+                r.push(temp);
+            }
+        }
+        return r;
+    }
+    function array_difference(a, b) { // 差集 a - b
+                                      //clone = a
+        var clone = a.slice(0);
+
+        for(var i = 0; i < b.length; i ++) {
+            var temp = b[i];
+            for(var j = 0; j < clone.length; j ++) {
+                if(temp.id === clone[j].id) {
+                    //remove clone[j]
+                    clone.splice(j,1);
+                }
+            }
+        }
+        return array_remove_repeat(clone);
+    }
 </script>
 
 </body>

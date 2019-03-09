@@ -9,8 +9,10 @@ import java.util.List;
  */
 public interface UserDao {
     List<User> findAll();
+    List<User> findAllIncludeStopped();
     int addUser(User user);
     int updateUser(User user);
     List<User> findUserByProductId(String productId);
     User getUser(String id);
+    User getUserByEmail(String email);
 }

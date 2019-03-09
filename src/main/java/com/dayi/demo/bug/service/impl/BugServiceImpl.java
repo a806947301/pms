@@ -57,7 +57,7 @@ public class BugServiceImpl implements BugService {
 
     @Override
     public Map<String, String> bugImgUpload(MultipartFile file, String projectId, String realPath) {
-        Map<String,String> result = new HashMap<String,String>();
+        Map<String,String> result = new HashMap<String,String>(16);
         /** 获取文件上传目录，如不存在，创建新目录 */
         File imgFilePath = new File(realPath+"\\imgs\\"+projectId);
         if(!imgFilePath.exists()) {
@@ -180,7 +180,7 @@ public class BugServiceImpl implements BugService {
      */
     private User getCurrentUser() {
         User user = new User();
-        user.setId("0RJA8qMVJNCF");
+        user.setId("0RJtVRByNyjL");
         return user;
     }
 

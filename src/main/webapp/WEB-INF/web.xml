@@ -6,10 +6,19 @@
     <welcome-file-list>
         <welcome-file>./WEB-INF/jsp/index.jsp</welcome-file>
     </welcome-file-list>
+    <!--shiro-->
+    <filter>
+        <filter-name>shiroFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
     <!-- 由spring注册系统模块 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring-resources-conf.xml;classpath:spring-dao-conf.xml</param-value>
+        <param-value>classpath:spring-resources-conf.xml;classpath:spring-dao-conf.xml;classpath:spring-shiro-conf.xml</param-value>
     </context-param>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -23,7 +32,13 @@
         <url-pattern>/vendor/*</url-pattern>
         <url-pattern>/simditor/*</url-pattern>
         <url-pattern>/needFile/*</url-pattern>
+        <url-pattern>/fonts/*</url-pattern>
     </servlet-mapping>
+    <!--shiro-->
+    <filter-mapping>
+        <filter-name>shiroFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <!-- spring MVC -->
     <servlet>
         <servlet-name>SpringMVC</servlet-name>

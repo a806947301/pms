@@ -320,7 +320,7 @@
             params = new URLSearchParams();
             params.append("currentPage",1);
             axios
-                .post("/department/departmentPage",params)
+                .post("/department/findDepartment",params)
                 .then(function (response) {
                    vm.departments = eval('(' + response.data + ')').pageInfo;
 
@@ -340,7 +340,7 @@
                 params = new URLSearchParams();
                 params.append("currentPage",currentPage);
                 axios
-                    .post("/department/departmentPage",params)
+                    .post("/department/findDepartment",params)
                     .then(function (response) {
                         vm.departments = eval('(' + response.data + ')').pageInfo;
                     })

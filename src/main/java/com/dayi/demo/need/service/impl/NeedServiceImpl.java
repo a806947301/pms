@@ -86,7 +86,7 @@ public class NeedServiceImpl implements NeedService {
      */
     private User getCurrentUser() {
         User user = new User();
-        user.setId("0RJA8qMVJNCF");
+        user.setId("0RJpq3vXMd0m");
         return user;
     }
 

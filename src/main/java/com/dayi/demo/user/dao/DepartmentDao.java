@@ -8,9 +8,7 @@ import java.util.List;
  * @Author wut
  */
 public interface DepartmentDao {
-
     int addDepartment(Department department);
-   /* List<Department> findByPage();*/
     int updateDepartment(Department department);
     int deleteDepartment(String id);
     Department getDepartment(String id);

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayi.demo.user.dao.RoleDao">
+    <resultMap id="roleResultMap" type="Role">
+        <id property="id" column="id"></id>
+        <result property="addTime" column="addtime"></result>
+        <result property="updateTime" column="updatetime"></result>
+        <result property="roleName" column="role_name"></result>
+    </resultMap>
+
+    <!--查询表中所有列-->
+    <sql id="selectAllColumnRole">
+        SELECT role.id , role.addtime , role.updatetime , role_name FROM
+    </sql>
+
+    <!--查询所有角色-->
+    <select id="findRole" resultMap="roleResultMap">
+        <include refid="selectAllColumnRole"/>
+        role ORDER BY addtime
+    </select>
+
+    <!--查询用户拥有的角色-->
+    <select id="findRoleByUserId" resultMap="roleResultMap">
+        <include refid="selectAllColumnRole"/>
+        role JOIN user_role ON role.id = user_role.role_id WHERE user_id = #{0}
+    </select>
+
+    <insert id="addRole">
+        INSERT INTO role (id,addtime,updatetime,role_name)
+        VALUES (#{id},#{addTime},#{updateTime},#{roleName})
+    </insert>
+
+    <insert id="addUserRole">
+        INSERT INTO user_role (id,addtime,updatetime,user_id,role_id)
+        VALUES (#{id},#{addTime},#{updateTime},#{userId},#{roleId})
+    </insert>
+
+    <update id="updateRole">
+        UPDATE role
+        <set>
+            updatetime = #{updateTime},
+            role_name = #{roleName}
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteUserRole">
+        DELETE FROM user_role WHERE TRUE
+        <if test="userId != null">and user_id = #{userId}</if>
+        <if test="roleId != null">and role_id = #{roleId}</if>
+    </delete>
+
+    <delete id="deleteRole">
+        DELETE FROM role WHERE id = #{0}
+    </delete>
+
+
+</mapper>

@@ -14,6 +14,7 @@ public interface NeedService {
      * 添加需求
      * @param needDescriptionFile   需求描述文件
      * @param needFile  需求文件
+     * @param realPath  服务器真实路径
      * @param need
      * @return
      */

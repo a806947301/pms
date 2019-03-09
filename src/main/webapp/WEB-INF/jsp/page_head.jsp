@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.dayi.demo.user.model.User" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2019/2/22
@@ -25,7 +25,7 @@
     </a>
 
     <ul class="navbar-nav ml-auto">
-        <li class="nav-item d-md-down-none">
+        <%--<li class="nav-item d-md-down-none">
             <a href="#">
                 <i class="fa fa-bell"></i>
                 <span class="badge badge-pill badge-danger">5</span>
@@ -37,16 +37,16 @@
                 <i class="fa fa-envelope-open"></i>
                 <span class="badge badge-pill badge-danger">5</span>
             </a>
-        </li>
+        </li>--%>
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <img src="/imgs/avatar-1.png" class="avatar avatar-sm" alt="logo">
-                <span class="small ml-1 d-md-down-none">John Smith</span>
+                <span class="small ml-1 d-md-down-none"><%=((User)(session.getAttribute("user"))).getName()%></span>
             </a>
 
             <div class="dropdown-menu dropdown-menu-right">
-                <div class="dropdown-header">Account</div>
+               <%-- <div class="dropdown-header">Account</div>
 
                 <a href="#" class="dropdown-item">
                     <i class="fa fa-user"></i> Profile
@@ -54,24 +54,36 @@
 
                 <a href="#" class="dropdown-item">
                     <i class="fa fa-envelope"></i> Messages
-                </a>
+                </a>--%>
 
                 <div class="dropdown-header">Settings</div>
 
-                <a href="#" class="dropdown-item">
+                <%--<a href="#" class="dropdown-item">
                     <i class="fa fa-bell"></i> Notifications
                 </a>
 
                 <a href="#" class="dropdown-item">
                     <i class="fa fa-wrench"></i> Settings
-                </a>
+                </a>--%>
 
-                <a href="#" class="dropdown-item">
-                    <i class="fa fa-lock"></i> Logout
+                <a href="javascript:void(0);" class="dropdown-item" onclick="logout()">
+                    <i class="fa fa-lock"></i> 退出登陆
                 </a>
             </div>
         </li>
     </ul>
 </nav>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    function logout() {
+        axios
+            .post("/user/logout")
+            .then(function (response) {
+                alert(response.data.msg);
+                location.reload();
+            })
+    }
+</script>
 </body>
+
 </html>

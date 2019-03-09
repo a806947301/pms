@@ -24,14 +24,8 @@ public class User {
     private transient String password;
     /**  部门 */
     private Department department;
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
+    /** 已停用 */
+    private boolean stopped;
 
     public String getId() {
         return id;
@@ -65,6 +59,14 @@ public class User {
         this.name = name;
     }
 
+    public boolean isStopped() {
+        return stopped;
+    }
+
+    public void setStopped(boolean stopped) {
+        this.stopped = stopped;
+    }
+
     public int getJobNumber() {
         return jobNumber;
     }
@@ -89,5 +91,18 @@ public class User {
         this.password = password;
     }
 
+    public Department getDepartment() {
+        return department;
+    }
 
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public User(String id) {
+        this.id = id;
+    }
+
+    public User() {
+    }
 }

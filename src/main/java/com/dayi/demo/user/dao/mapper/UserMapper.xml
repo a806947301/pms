@@ -10,28 +10,42 @@
         <result property="jobNumber" column="job_number"></result>
         <result property="email" column="email"></result>
         <result property="password" column="password"></result>
+        <result property="stopped" column="is_stopped"></result>
         <association property="department" column="department_id" select="com.dayi.demo.user.dao.DepartmentDao.getDepartment" />
     </resultMap>
 
     <sql id="selectAllColumnUser">
-        SELECT user.id,user.addtime,user.updatetime,user.name,user.department_id,user.job_number,user.email,user.password FROM
+        SELECT user.id,user.addtime,user.updatetime,user.name,user.department_id,user.job_number,user.email,user.password,user.is_stopped FROM
     </sql>
 
-    <!-- 查询所有 -->
-    <select id="findAll" resultMap="userResultMap">
+    <!--查询所有（包含停用）-->
+    <select id="findAllIncludeStopped" resultMap="userResultMap">
         <include refid="selectAllColumnUser"/>
         user ORDER BY addtime
+    </select>
+
+    <!-- 查询所有(但不包含已停用的) -->
+    <select id="findAll" resultMap="userResultMap">
+        <include refid="selectAllColumnUser"/>
+        user WHERE is_stopped = 0  ORDER BY addtime
     </select>
 
     <!-- 根据产品名查用户 -->
     <select id="findUserByProductId" resultMap="userResultMap">
         <include refid="selectAllColumnUser"/>
-        user JOIN product_member pm on user.id =  pm.user_id WHERE product_id = #{0}
+        user JOIN product_member pm on user.id =  pm.user_id WHERE product_id = #{0} AND is_stopped = 0 ORDER BY addtime
     </select>
 
+    <!--根据用户id获取用户-->
     <select id="getUser" resultMap="userResultMap">
         <include refid="selectAllColumnUser"/>
         user WHERE id = #{0}
+    </select>
+
+    <!--根据邮箱获取用户-->
+    <select id="getUserByEmail" resultMap="userResultMap">
+        <include refid="selectAllColumnUser"/>
+        user WHERE email = #{0} AND is_stopped = 0
     </select>
 
     <insert id="addUser">
@@ -42,11 +56,12 @@
     <update id="updateUser">
         UPDATE user
         <set>
-            updatetime = #{updateTime},
-            name = #{name},
-            department_id = #{department.id},
-            job_number = #{jobNumber},
-            email = #{email}
+            updatetime = #{updateTime}
+            ,name = #{name}
+            ,department_id = #{department.id}
+            ,job_number = #{jobNumber}
+            ,email = #{email}
+            ,is_stopped = #{stopped}
         </set>
         WHERE id = #{id}
     </update>

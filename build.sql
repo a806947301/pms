@@ -11,7 +11,8 @@ CREATE TABLE user(
     department_id CHAR(12) NOT NULL COMMENT '部门id',
     job_number SMALLINT UNSIGNED UNIQUE COMMENT '工号',
     email VARCHAR(30) UNIQUE COMMENT '邮箱',
-    password CHAR(32) NOT NULL COMMENT '密码'
+    password CHAR(32) NOT NULL COMMENT '密码',
+    is_stopped TINYINT UNSIGNED DEFAULT 0 COMMENT '是否已停用'
 )COMMENT '用户表';
 
 DROP TABLE IF EXISTS role;
@@ -19,8 +20,7 @@ CREATE TABLE role(
     id CHAR (12) PRIMARY KEY COMMENT 'id',
     addtime DATETIME NOT NULL COMMENT '创建时间',
     updatetime DATETIME NOT NULL COMMENT '更新时间',
-    role_name varchar(20) NOT NULL COMMENT '角色名',
-    role_field varchar(20) NOT NULL COMMENT '角色字段'
+    role_name varchar(20) NOT NULL COMMENT '角色名'
 )COMMENT '角色表';
 
 DROP TABLE IF EXISTS premission;
@@ -29,7 +29,9 @@ CREATE TABLE premission(
     addtime DATETIME NOT NULL COMMENT '创建时间',
     updatetime DATETIME NOT NULL COMMENT '更新时间',
     premission_name VARCHAR(20) NOT NULL COMMENT '权限名',
-   premission_field VARCHAR(20) NOT NULL COMMENT '权限字段'
+    premission_field VARCHAR(40) NOT NULL COMMENT '权限字段',
+    is_menu TINYINT UNSIGNED NOT NULL COMMENT '是否菜单',
+    parent_id CHAR(12) NOT NULL COMMENT '父级菜单id'
 )COMMENT '权限表';
 
 DROP TABLE IF EXISTS user_role;
@@ -63,7 +65,8 @@ CREATE TABLE login_log(
     id CHAR (12) PRIMARY KEY COMMENT 'id',
     addtime DATETIME NOT NULL COMMENT '创建时间',
     updatetime DATETIME NOT NULL COMMENT '更新时间',
-    user_id CHAR(12) NOT NULL COMMENT '登录用户id'
+    user_id CHAR(12) NOT NULL COMMENT '登录用户id',
+    ip VARCHAR(40) NOT NULL COMMENT '登陆的ip地址'
 )COMMENT '登录日志表';
 
 DROP TABLE IF EXISTS product;

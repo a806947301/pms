@@ -9,44 +9,129 @@
 <html>
 <head>
     <title>Title</title>
-    <link rel="stylesheet" href="/simditor/styles/simditor.css">
-    <script src="/vendor/jquery/jquery.min.js"></script><%--
-<script src="/vendor/popper.js/popper.min.js"></script>
-<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="/vendor/chart.js/chart.min.js"></script>
-<script src="/js/carbon.js"></script>
-<script src="/js/demo.js"></script>
-<script src="/js/bootstrap-select.min.js"></script>
-<script src="/js/i18n/defaults-zh_CN.min.js"></script>--%>
-    <%-- Simditor --%>
-    <script src="/simditor/scripts/module.js"></script>
-    <script src="/simditor/scripts/hotkeys.js"></script>
-    <script src="/simditor/scripts/uploader.js"></script>
-    <script src="/simditor/scripts/simditor.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap-treeview.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <%--<link rel="stylesheet" href="/css/styles.css">--%>
+
 </head>
 <body>
-<textarea id="editor" placeholder="Balabala" autofocus ></textarea>
-<script>
-    $(function(){
-        Simditor.locale = 'zh-CN';//设置中文
-        var editor = new Simditor({
-            textarea: $("#editor"),  //textarea的id
-            placeholder: '',
-            toolbar:  ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment'], //工具条都包含哪些内容
-            pasteImage: true,//允许粘贴图片
-            defaultImage: '/simditor/images/image.png',//编辑器插入的默认图片，此处可以删除
-            upload : {
-                url : '/bug/bugImgUpload', //文件上传的接口地址
-                params: null,//{projectId:111/*vm.projectId*/}, //键值对,指定文件上传接口的额外参数,上传的时候随文件一起提交
-                fileKey:'file', //服务器端获取文件数据的参数名
-                connectionCount: 3,
-                leaveConfirm: '正在上传文件'
-            },
-            success:function(data) {
-                alert(data);
-            }
-        });
-    });
-</script>
+<div id="treeview1"></div>
+
 </body>
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/js/bootstrap-treeview.min.js"></script>
+<script src="/js/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+
+
+    /**/
+    var nodeCheckedSilent = false;
+    function nodeChecked (event, node){
+        if(nodeCheckedSilent){
+            return;
+        }
+        nodeCheckedSilent = true;
+        checkAllParent(node);
+        checkAllSon(node);
+        nodeCheckedSilent = false;
+        result = $('#treeview1').treeview('getChecked');
+    }
+
+    var nodeUncheckedSilent = false;
+    function nodeUnchecked  (event, node){
+        if(nodeUncheckedSilent)
+            return;
+        nodeUncheckedSilent = true;
+        uncheckAllParent(node);
+        uncheckAllSon(node);
+        nodeUncheckedSilent = false;
+        result = $('#treeview1').treeview('getChecked')
+    }
+
+    //选中全部父节点
+    function checkAllParent(node){
+        $('#treeview1').treeview('checkNode',node.nodeId,{silent:true});
+        var parentNode = $('#treeview1').treeview('getParent',node.nodeId);
+        if(!("nodeId" in parentNode)){
+            return;
+        }else{
+            checkAllParent(parentNode);
+        }
+    }
+    //取消全部父节点
+    function uncheckAllParent(node){
+        $('#treeview1').treeview('uncheckNode',node.nodeId,{silent:true});
+        var siblings = $('#treeview1').treeview('getSiblings', node.nodeId);
+        var parentNode = $('#treeview1').treeview('getParent',node.nodeId);
+        if(!("nodeId" in parentNode)) {
+            return;
+        }
+        var isAllUnchecked = true;  //是否全部没选中
+        for(var i in siblings){
+            if(siblings[i].state.checked){
+                isAllUnchecked=false;
+                break;
+            }
+        }
+        if(isAllUnchecked){
+            uncheckAllParent(parentNode);
+        }
+
+    }
+
+    //级联选中所有子节点
+    function checkAllSon(node){
+        $('#treeview1').treeview('checkNode',node.nodeId,{silent:true});
+        if(node.nodes!=null&&node.nodes.length>0){
+            for(var i in node.nodes){
+                checkAllSon(node.nodes[i]);
+            }
+        }
+    }
+    //级联取消所有子节点
+    function uncheckAllSon(node){
+        $('#treeview1').treeview('uncheckNode',node.nodeId,{silent:true});
+        if(node.nodes!=null&&node.nodes.length>0){
+            for(var i in node.nodes){
+                uncheckAllSon(node.nodes[i]);
+            }
+        }
+    }
+
+    /**/
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg); //获取url中"?"符后的字符串并正则匹配
+        var context = "";
+        if (r != null)
+            context = r[2];
+        reg = null;
+        r = null;
+        return context == null || context == "" || context == "undefined" ? "" : context;
+    }
+
+    var result = 1;
+    var data ;
+    params = new URLSearchParams();
+    params.append("roleId",getQueryString("roleId"));
+    axios
+        .post("/premission/premissionTree",params)
+        .then(function (response) {
+            data = response.data;
+            $('#treeview1').treeview({
+                data: data,
+                showIcon: false,
+                showCheckbox: true,
+                levels:1,
+                onNodeChecked:nodeChecked ,
+                onNodeUnchecked:nodeUnchecked
+            })
+            result = $('#treeview1').treeview('getChecked');
+        })
+
+
+
+</script>
 </html>

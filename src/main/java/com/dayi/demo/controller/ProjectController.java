@@ -1,6 +1,6 @@
 package com.dayi.demo.controller;
 
-import com.dayi.demo.project.Service.ProjectService;
+import com.dayi.demo.project.service.ProjectService;
 import com.dayi.demo.project.model.Project;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;

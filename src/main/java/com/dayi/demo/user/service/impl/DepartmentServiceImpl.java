@@ -74,7 +74,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public JSONObject findByPage(int currentPage, int pageSize) {
         PageHelper.startPage(currentPage,pageSize);
-        List<Department> list = departmentDao.findAll();//departmentDao.findByPage();
+        List<Department> list = departmentDao.findAll();
         PageInfo<Department> pageInfo = new PageInfo<>(list);
 
         return pageToJson(pageInfo);

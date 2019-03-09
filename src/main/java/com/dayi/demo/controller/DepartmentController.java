@@ -59,7 +59,7 @@ public class DepartmentController {
      * 跳转部门管理页面
      * @return
      */
-    @RequestMapping("/departmentManeger")
+    @RequestMapping("/departmentManegerPage")
     public String departmentManagerPage(HttpServletRequest request) {
         return "departmentManager";
     }
@@ -68,7 +68,7 @@ public class DepartmentController {
      * 分页显示
      * @return
      */
-    @RequestMapping("/departmentPage")
+    @RequestMapping("/findDepartment")
     @ResponseBody
     public String findByPage(int currentPage) {
 
@@ -80,7 +80,7 @@ public class DepartmentController {
      * 显示所有部门
      * @return
      */
-    @RequestMapping("/departmentList")
+    @RequestMapping("/finfAllDepartment")
     @ResponseBody
     public String findAll() {
         JSONObject jsonObject = departmentService.findAll();

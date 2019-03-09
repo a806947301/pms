@@ -1,4 +1,4 @@
-package com.dayi.demo.project.Service;
+package com.dayi.demo.project.service;
 
 import com.dayi.demo.project.model.Project;
 import com.github.pagehelper.PageInfo;

@@ -4,7 +4,6 @@ import com.dayi.demo.bug.model.Bug;
 import com.dayi.demo.bug.model.BugDescription;
 import com.dayi.demo.bug.model.BugOperatingRecord;
 import com.dayi.demo.bug.service.BugService;
-import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,7 +50,7 @@ public class BugController {
     public Map<String,String> bugImgUpload(MultipartFile file, String projectId, HttpServletRequest request) {
         /** 校验 */
         if(file == null) {
-            Map<String,String> map = new HashMap<String,String>();
+            Map<String,String> map = new HashMap<String,String>(16);
             map.put("success","false");
             map.put("msg","图片上传失败");
             System.out.println("file is null");
@@ -172,6 +171,12 @@ public class BugController {
     @ResponseBody
     public PageInfo<BugOperatingRecord> findBugOperatingRecord(String bugId,int currentPage) {
         return bugService.findBugOperationRecordByBugId(bugId,currentPage,5);
+    }
+
+    @RequestMapping("/test")
+    @ResponseBody
+    public String  test() {
+        return "";
     }
 
 }

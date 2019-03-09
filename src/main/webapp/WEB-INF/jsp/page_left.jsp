@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro"%>
 <html>
 <head>
     <title>Title</title>
@@ -17,11 +18,12 @@
             <li class="nav-title">Navigation</li>
 
             <li class="nav-item">
-                <a href="index.html" class="nav-link active">
-                    <i class="icon icon-speedometer"></i> Dashboard
+                <a href="/user/index" class="nav-link active">
+                    <i class="icon icon-speedometer"></i> 首页
                 </a>
             </li>
             <%--用户系统--%>
+            <shiro:hasPermission name="user">
             <li class="nav-item nav-dropdown">
                 <a href="#" class="nav-link nav-dropdown-toggle">
                     <i class="icon icon-energy"></i> 用户系统 <i class="fa fa-caret-left"></i>
@@ -29,7 +31,7 @@
 
                 <ul class="nav-dropdown-items">
                     <li class="nav-item">
-                        <a href="/department/departmentManeger" class="nav-link">
+                        <a href="/department/departmentManegerPage" class="nav-link">
                             <i class="icon icon-energy"></i> 部门管理
                         </a>
                     </li>
@@ -41,20 +43,20 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="cards.html" class="nav-link">
-                            <i class="icon icon-energy"></i> Cards
+                        <a href="/role/roleManager" class="nav-link">
+                            <i class="icon icon-energy"></i> 角色管理
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="modals.html" class="nav-link">
-                            <i class="icon icon-energy"></i> Modals
+                        <a href="/premission/premissionManger" class="nav-link">
+                            <i class="icon icon-energy"></i> 权限管理
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="tabs.html" class="nav-link">
-                            <i class="icon icon-energy"></i> Tabs
+                        <a href="/user/loginLogPage" class="nav-link">
+                            <i class="icon icon-energy"></i> 登陆日志
                         </a>
                     </li>
 
@@ -71,6 +73,7 @@
                     </li>
                 </ul>
             </li>
+            </shiro:hasPermission>
             <!-- 产品 -->
             <li class="nav-item nav-dropdown">
                 <a href="#" class="nav-link nav-dropdown-toggle">
@@ -103,8 +106,9 @@
                     </li>
                 </ul>
             </li>
-
-
+    <shiro:hasPermission name="user:*">
+            <li class="nav-item nav-dropdown">哈哈哈哈哈</li>
+    </shiro:hasPermission>
 
             <li class="nav-item nav-dropdown">
                 <a href="#" class="nav-link nav-dropdown-toggle">

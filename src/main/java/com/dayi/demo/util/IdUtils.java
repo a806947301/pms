@@ -11,7 +11,7 @@ import java.util.Random;
 public class IdUtils {
     private static String KEYS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final int PRIMARY_KEY_SIZE = 12;
-
+    private static final int KEY_LENGTH_TIME = 8;
     /**
      * 生成主键
      * @return
@@ -30,7 +30,7 @@ public class IdUtils {
             currentTime /= size;
         }
         /**  如果sb不够8位，则往前补0 */
-        while(sb.length()!=8)
+        while(sb.length()!=KEY_LENGTH_TIME)
         {
             sb.insert(0,"0");
         }
@@ -39,7 +39,7 @@ public class IdUtils {
         long threadId = Thread.currentThread().getId();
         sb.append(KEYS.charAt((int)threadId%size));
         /**  随机生成剩下位数，直到12位 */
-        while(sb.length() != 12)
+        while(sb.length() != PRIMARY_KEY_SIZE)
         {
             char c = KEYS.charAt(random.nextInt(size));
             sb.append(c);

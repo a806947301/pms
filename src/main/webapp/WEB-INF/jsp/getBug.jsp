@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.dayi.demo.user.model.User" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2019/2/22
@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
     <meta charset="UTF-8">
@@ -59,6 +61,9 @@
 
 </head>
 <body class="sidebar-fixed header-fixed">
+<%
+    User user = (User)session.getAttribute("user");
+%>
 <div class="page-wrapper">
     <div class="page-header">
         <jsp:include page="page_head.jsp"></jsp:include>
@@ -114,19 +119,19 @@
                                 </div>
                             </div>
                             <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
-                                <button class="btn btn-outline-danger" type="button" v-if="bug.bugStatus==0 || bug.bugStatus==2"
+                                <button class="btn btn-outline-danger" type="button" v-if="(bug.bugStatus==0&&bug.bugProcesser.id=='<%=user.getId()%>') || (bug.bugStatus==2&&bug.bugProposer.id=='<%=user.getId()%>')"
                                         data-toggle="modal" data-target="#redesignate">
                                     重新指派
                                 </button>
-                                <button class="btn btn-outline-warning" type="button" v-if="bug.bugStatus==1"
+                                <button class="btn btn-outline-warning" type="button" v-if="bug.bugStatus==1 && bug.bugProcesser.id=='<%=user.getId()%>'"
                                     v-on:click="noProcessing()">设置不予处理</button>
-                                <button class="btn btn-outline-primary" type="button" v-if="bug.bugStatus==1"
+                                <button class="btn btn-outline-primary" type="button" v-if="bug.bugStatus==1 && bug.bugProcesser.id=='<%=user.getId()%>'"
                                         data-toggle="modal" data-target="#addDescription">添加说明</button>
-                                <button class="btn btn-outline-info" type="button"  v-if="bug.bugStatus==0"
+                                <button class="btn btn-outline-info" type="button"  v-if="bug.bugStatus==0 && bug.bugProcesser.id=='<%=user.getId()%>'"
                                         v-on:click="processSelf()">
                                     自己处理
                                 </button>
-                                <button class="btn btn-outline-success" type="button" v-if="bug.bugStatus==2"
+                                <button class="btn btn-outline-success" type="button" v-if="bug.bugStatus==2 && bug.bugProposer.id=='<%=user.getId()%>'"
                                     v-on:click="closeBug()">关闭Bug</button>
                             </div>
                         </div>

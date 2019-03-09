@@ -54,4 +54,32 @@ public interface UserService {
      * @return
      */
     User getUser(String id);
+
+    /**
+     * 登录
+     * @param email
+     * @param password
+     * @return
+     */
+    boolean doLogin(String email,String password,String ip) ;
+
+    /**
+     * 根据邮箱获取用户
+     * @param email
+     * @return
+     */
+    User getUserByEmail(String email);
+
+    /**
+     * 修改用户停用状态
+     * @param stopped
+     * @return
+     */
+    int updateUserStopped(String id,boolean stopped);
+
+    /**
+     * 退出登陆
+     * @return
+     */
+    boolean doLogout();
 }
