@@ -10,8 +10,11 @@ import com.dayi.demo.bug.service.BugService;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.UserService;
 import com.dayi.demo.util.IdUtils;
+import com.dayi.demo.util.MailUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +27,8 @@ import java.util.*;
  */
 @Service
 public class BugServiceImpl implements BugService {
+
+    private final static Logger logger =LoggerFactory.getLogger(BugServiceImpl.class);
 
     @Resource
     private BugDao bugDao;
@@ -47,6 +52,9 @@ public class BugServiceImpl implements BugService {
         bug.setBugProposer(currentUser);
         int countAdd = bugDao.addBug(bug);
         if(countAdd != 0) {
+            /** 发送邮件 */
+            User processer = userService.getUser(bug.getBugProcesser().getId());
+            sendMail(processer.getEmail(),"您被指派一个Bug","您被指派一个Bug，被指派的Bug Id为："+bug.getId());
             /** 添加Bug记录 */
             BugOperatingRecord record = doPackageOperatingRecord(bug.getId(),bug.getBugProcesser().getId(),0,currentUser);
             bugOperatingRecordDao.addBugOperatingRecord(record);
@@ -95,6 +103,12 @@ public class BugServiceImpl implements BugService {
         Date updateTime = new Date();
         int countAdd = bugDao.updateBugStatue(bugId,bugStatus,userId,false,updateTime);
         if(countAdd != 0) {
+            /** 发送邮件 */
+            User processer = userService.getUser(userId);
+            StringBuilder emailContent = new StringBuilder();
+            emailContent.append(currentUser.getDepartment().getDepartmentName() + "-" + currentUser.getName());
+            emailContent.append(" 指派您处理Bug，Bug Id：" + bugId);
+            sendMail(processer.getEmail(),"您被指派一个Bug",emailContent.toString());
             /** 添加Bug记录 */
             BugOperatingRecord record = doPackageOperatingRecord(bugId,userId,0,currentUser);
             bugOperatingRecordDao.addBugOperatingRecord(record);
@@ -121,6 +135,10 @@ public class BugServiceImpl implements BugService {
         Date updateTime = new Date();
         int countAdd = bugDao.updateBugStatue(bugId,bugStatus,null,true,updateTime);
         if(countAdd != 0) {
+            /** 发送邮件 */
+            Bug bug = getBug(bugId);
+            String mailContent = "您好，您的Bug Id：" + bugId + "，被设置不予处理，请您查收。";
+            sendMail(bug.getBugProposer().getEmail(),"您的Bug已处理完毕",mailContent);
             /** 添加Bug记录 */
             BugOperatingRecord record = doPackageOperatingRecord(bugId,"",2,currentUser);
             bugOperatingRecordDao.addBugOperatingRecord(record);
@@ -135,6 +153,8 @@ public class BugServiceImpl implements BugService {
         Date updateTime = new Date();
         int countAdd = bugDao.updateBugStatue(bugId,bugStatus,null,bug.isNoProcessing(),updateTime);
         if(countAdd != 0) {
+            /** 发送邮件 */
+            sendMail(bug.getBugProcesser().getEmail(),"您的bug已完成","您的Bug已完成，bug id：" + bug.getId());
             /** 添加Bug记录 */
             BugOperatingRecord record = doPackageOperatingRecord(bugId,"",4,currentUser);
             bugOperatingRecordDao.addBugOperatingRecord(record);
@@ -149,6 +169,9 @@ public class BugServiceImpl implements BugService {
         bugDescription.setUpdateTime(new Date());
         int countAdd = bugDescriptionDao.addBugDescription(bugDescription);
         if(countAdd != 0) {
+            /** 发送邮件 */
+            Bug bug = getBug(bugDescription.getBugId());
+            sendMail(bug.getBugProcesser().getEmail(),"您的Bug已处理完毕","您的Bug已经被处理，请查收。");
             /** 更新bug状态 */
             bugDao.updateBugStatue(bugDescription.getBugId(),2,null,false,new Date());
             /** 添加Bug记录 */
@@ -198,5 +221,22 @@ public class BugServiceImpl implements BugService {
         record.setAddTime(new Date());
         record.setId(IdUtils.getPrimaryKey());
         return record;
+    }
+
+    /**
+     * 发送邮件
+     * @param email 邮箱号
+     * @param title 邮件标题
+     * @param content   邮件内容
+     * @return
+     */
+    private boolean sendMail(String email,String title,String content) {
+        try {
+            MailUtils.sendMail(email,title,content);
+            return true;
+        }catch (Exception e) {
+            logger.error(MailUtils.class.toString() + "_" + e.getMessage(),e);
+            return false;
+        }
     }
 }

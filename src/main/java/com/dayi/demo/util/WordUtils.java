@@ -30,21 +30,21 @@ public class WordUtils {
 
     /**
      * doc转换成html
-     * @param filepath  文件存放的路径
-     * @param imagePath  转换后图片相对于基地址的路径
-     * @param sourceFileName    word文件文件名
+     * @param filepath  源文件路径
+     * @param imagePath 图片相对源文件路径
+     * @param sourceFileName    源文件文件名
      * @return
      * @throws Exception
      */
-    private static String docToHtml(String filepath,final String imagePath,String sourceFileName) throws Exception {
+    private static String docToHtml(String filepath, final String imagePath, String sourceFileName) throws Exception {
         /** 把路径进行拼接，确定转换后的各个路径 */
         File path = new File(filepath);
-        final String imagePathStr = path.getAbsolutePath() + "\\"+imagePath+"\\";
-        String targetFileName = path.getAbsolutePath() + "\\"+sourceFileName+".html";
-        sourceFileName = path.getAbsolutePath() + "\\"+sourceFileName;
+        final String imagePathStr = path.getAbsolutePath() + "\\" + imagePath + "\\";
+        String targetFileName = path.getAbsolutePath() + "\\" + sourceFileName + ".html";
+        sourceFileName = path.getAbsolutePath() + "\\" + sourceFileName;
         /** 创建图片文件夹 */
         File file = new File(imagePathStr);
-        if(!file.exists()) {
+        if (!file.exists()) {
             file.mkdirs();
         }
         /** word对象转换成html对象  */
@@ -54,16 +54,16 @@ public class WordUtils {
         /** 保存图片，并返回图片的相对路径 */
         wordToHtmlConverter.setPicturesManager(new PicturesManager() {
             @Override
-            public String savePicture(byte[] bytes, PictureType pictureType, String s, float v, float v1){
+            public String savePicture(byte[] bytes, PictureType pictureType, String s, float v, float v1) {
                 try {
                     FileOutputStream out = new FileOutputStream(imagePathStr + "\\" + s);
                     out.write(bytes);
                     out.close();
-                }catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     return "";
                 }
-                return imagePath+"\\"+s;
+                return imagePath + "\\" + s;
             }
         });
         wordToHtmlConverter.processDocument(wordDocument);
@@ -79,7 +79,15 @@ public class WordUtils {
         return targetFileName;
     }
 
-    private static String docxToHtml(String filepath,String imagePath,String sourceFileName) throws Exception {
+    /**
+     * docx转换成html
+     * @param filepath  源文件路径
+     * @param imagePath 图片相对源文件路径
+     * @param sourceFileName    源文件文件名
+     * @return
+     * @throws Exception
+     */
+    private static String docxToHtml(String filepath, String imagePath, String sourceFileName) throws Exception {
         File path = new File(filepath);
         String imagePathStr = path.getAbsolutePath() + "\\" + imagePath + "\\";
         sourceFileName = path.getAbsolutePath() + "\\" + sourceFileName;
@@ -105,22 +113,21 @@ public class WordUtils {
         }
         return targetFileName;
     }
-    public static String wordToHtml(String filepath,String imagePath,String sourceFileName) throws Exception{
-        if(sourceFileName.endsWith(".doc")) {
-            return docToHtml(filepath,imagePath,sourceFileName);
+
+    /**
+     * word转换成html
+     * @param filepath  源文件路径
+     * @param imagePath 图片相对源文件路径
+     * @param sourceFileName    源文件文件名
+     * @return
+     * @throws Exception
+     */
+    public static String wordToHtml(String filepath, String imagePath, String sourceFileName) throws Exception {
+        if (sourceFileName.endsWith(".doc")) {
+            return docToHtml(filepath, imagePath, sourceFileName);
         } else if (sourceFileName.endsWith(".docx")) {
-            return docxToHtml(filepath,imagePath,sourceFileName);
+            return docxToHtml(filepath, imagePath, sourceFileName);
         }
         return null;
-    }
-    public static void main(String[] args) throws Exception{
-        //docToHtml();
-        wordToHtml("C:\\Users\\Administrator\\Desktop","image","实习单位接收证明1.doc");
-       // docxToHtml("C:\\Users\\Administrator\\Desktop","image","新手考核第二部分-项目.docx");
-//        wordToHtml("C:\\Users\\Administrator\\Desktop","image","新手考核第二部分-项目.docx");
-     /*   String str = "实习单位接收证明1.doc";
-        System.out.println(str.substring(0,str.length()-3)+"html")     ;*/
-
-
     }
 }

@@ -20,7 +20,42 @@
     <%--<link rel="stylesheet" href="/simditor/styles/app.css">
     <link rel="stylesheet" href="/simditor/styles/mobile.css">--%>
     <link rel="stylesheet" href="/simditor/styles/simditor.css">
+    <style>
+        ul.pagination {
+            display: inline-block;
+            padding: 0;
+            margin: 0;
+        }
 
+        ul.pagination li {display: inline;}
+
+        ul.pagination li a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+            border: 1px solid #ddd;
+        }
+
+        .pagination li:first-child a {
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+
+        .pagination li:last-child a {
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+
+        ul.pagination li a.active {
+            background-color: #4CAF50;
+            color: white;
+            border: 1px solid #4CAF50;
+        }
+
+        ul.pagination li a:hover:not(.active) {background-color: #ddd;}
+    </style>
 </head>
 <body class="sidebar-fixed header-fixed">
 <div class="page-wrapper">
@@ -56,6 +91,50 @@
 
                                             <div class="card-body">
                                                 {{product.productPresentation}}
+                                            </div>
+
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h4>项目列表</h4>
+                                            </div>
+
+                                            <div class="card-body p-0"  id="projectTable">
+                                                <%--<div class="p-4">
+                                                    <canvas id="line-chart" width="100%" height="20"></canvas>
+                                                </div>--%>
+                                                <ul class="list-group" >
+                                                    <a v-for="(project,index) in projects.list" class="list-group-item" v-bind:href="['/project/getProjectPage/'+project.id]">
+                                                        <div><h4>{{project.projectName}}</h4></div>
+                                                        <div>
+                                                            <small v-if="project.product">{{project.product.productName}} -
+                                                                <span class="badge badge-success" v-if="project.finished==true">已完成</span>
+                                                                <span class="badge badge-warning"  v-else>未完成</span>
+                                                            </small>
+                                                        </div>
+                                                    </a>
+
+                                                </ul>
+                                                <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
+                                                    <ul class="pagination pagination-lg" v-if="projects.pageNum <= projects.pages && projects.pageNum >= 3">
+                                                        <li><a v-on:Click="getPage(projects.pageNum-1)" href="javascript:void(0);">&laquo;</a></li>
+                                                        <li><a v-on:Click="getPage(projects.pageNum-2)" href="javascript:void(0);" v-show="projects.pages>=projects.pageNum-2"  v-bind:class="{'active':(projects.pageNum==2)}">{{projects.pageNum-2}}</a></li>
+                                                        <li><a v-on:Click="getPage(projects.pageNum-1)" href="javascript:void(0);" v-show="projects.pages>=projects.pageNum-1"  v-bind:class="{'active':(projects.pageNum==2)}">{{projects.pageNum-1}}</a></li>
+                                                        <li><a v-on:Click="getPage(projects.pageNum)" href="javascript:void(0);"   v-bind:class="{'active':true}">{{projects.pageNum}}</a></li>
+                                                        <li><a v-on:Click="getPage(projects.pageNum+1)" href="javascript:void(0);" v-show="projects.pages>=projects.pageNum+1" >{{projects.pageNum+1}}</a></li>
+                                                        <li><a v-on:Click="getPage(projects.pageNum+2)" href="javascript:void(0);" v-show="projects.pages>=projects.pageNum+2" >{{projects.pageNum+2}}</a></li>
+                                                        <li><a v-on:Click="getPage(projects.pageNum+1)" href="javascript:void(0);">&raquo;</a></li>
+                                                    </ul>
+                                                    <ul class="pagination pagination-lg" v-else>
+                                                        <li><a v-on:Click="getPage(projects.pageNum-1)" href="javascript:void(0);">&laquo;</a></li>
+                                                        <li><a v-on:Click="getPage(1)" href="javascript:void(0);" v-bind:class="{'active':(projects.pageNum==1)}">1</a></li>
+                                                        <li><a v-on:Click="getPage(2)" href="javascript:void(0);" v-show="projects.pages>=2"  v-bind:class="{'active':(projects.pageNum==2)}">2</a></li>
+                                                        <li><a v-on:Click="getPage(3)" href="javascript:void(0);" v-show="projects.pages>=3"  v-bind:class="{'active':(projects.pageNum==3)}">3</a></li>
+                                                        <li><a v-on:Click="getPage(4)" href="javascript:void(0);" v-show="projects.pages>=4"  v-bind:class="{'active':(projects.pageNum==4)}">4</a></li>
+                                                        <li><a v-on:Click="getPage(5)" href="javascript:void(0);" v-show="projects.pages>=5"  v-bind:class="{'active':(projects.pageNum==5)}">5</a></li>
+                                                        <li><a v-on:Click="getPage(projects.pageNum+1)" href="javascript:void(0);">&raquo;</a></li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -190,7 +269,8 @@
             product:{productName:null},
             productId:null,
             participators:null,
-            newParticipators:null
+            newParticipators:null,
+            projects:{}
         },
         created:function(){
             this.productId = window.location.href.split('/')[window.location.href.split('/').length-1];
@@ -221,6 +301,7 @@
                         setParticipator(vm.users[i].id,vm.users[i].department.departmentName + "-"+vm.users[i].name)
                     }
                 })
+
         },
         methods:{
             updateProduct:function(){
