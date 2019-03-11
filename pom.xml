@@ -125,6 +125,8 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>8.1.15.v20140411</version>
                 <configuration>
+                    <stopKey></stopKey>
+                    <stopPort></stopPort>
                     <connectors>
                         <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
                             <port>${webapp.port}</port>
