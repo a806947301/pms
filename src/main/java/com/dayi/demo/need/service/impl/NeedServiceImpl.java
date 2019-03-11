@@ -26,7 +26,7 @@ public class NeedServiceImpl implements NeedService {
     private NeedDao needDao;
 
     @Override
-    public String addNeed(MultipartFile needDescriptionFile, MultipartFile needFile, Need need,String realPath) {
+    public String addNeed(MultipartFile needDescriptionFile, MultipartFile needFile, Need need,String realPath,User currentUser) {
         need.setId(IdUtils.getPrimaryKey());
         /** 处理需求说明文件 */
         String descriptionFilepath = "";
@@ -50,7 +50,7 @@ public class NeedServiceImpl implements NeedService {
 
         need.setAddTime(new Date());
         need.setUpdateTime(new Date());
-        need.setUser(getCurrentUser());
+        need.setUser(currentUser);
         int countAdd = needDao.addNeed(need);
         if(countAdd != 0) {
             return need.getId();
@@ -80,15 +80,7 @@ public class NeedServiceImpl implements NeedService {
         }
     }
 
-    /**
-     * 获取当前用户
-     * @return
-     */
-    private User getCurrentUser() {
-        User user = new User();
-        user.setId("0RJpq3vXMd0m");
-        return user;
-    }
+
 
     @Override
     public PageInfo<Need> findNeedByProjectId(String projectId, int currentPage, int pageSize) {

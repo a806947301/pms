@@ -2,7 +2,10 @@ package com.dayi.demo.controller;
 
 import com.dayi.demo.need.model.Need;
 import com.dayi.demo.need.service.NeedService;
+import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,7 +47,7 @@ public class NeedController {
     @ResponseBody
     public String addNeed(MultipartFile needDescriptionFile,MultipartFile needFile, Need need, HttpServletRequest request) {
         String realPath = request.getSession().getServletContext().getRealPath("/");
-        return needService.addNeed(needDescriptionFile,needFile,need,realPath);
+        return needService.addNeed(needDescriptionFile,needFile,need,realPath,getCurrentUser());
     }
 
     /**
@@ -78,5 +81,15 @@ public class NeedController {
     @ResponseBody
     public Need getNeed(String id) {
         return needService.getNeed(id);
+    }
+
+    /**
+     * 获取当前用户
+     * @return
+     */
+    private User getCurrentUser() {
+        Session session = SecurityUtils.getSubject().getSession();
+        User user = (User)session.getAttribute("user");
+        return user;
     }
 }

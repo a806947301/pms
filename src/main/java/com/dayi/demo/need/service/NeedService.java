@@ -1,6 +1,7 @@
 package com.dayi.demo.need.service;
 
 import com.dayi.demo.need.model.Need;
+import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,7 +19,7 @@ public interface NeedService {
      * @param need
      * @return
      */
-    String addNeed(MultipartFile needDescriptionFile, MultipartFile needFile, Need need,String realPath);
+    String addNeed(MultipartFile needDescriptionFile, MultipartFile needFile, Need need, String realPath, User currentUser);
 
     /**
      * 分页查找项目下的需求
