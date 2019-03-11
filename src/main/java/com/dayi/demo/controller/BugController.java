@@ -4,7 +4,10 @@ import com.dayi.demo.bug.model.Bug;
 import com.dayi.demo.bug.model.BugDescription;
 import com.dayi.demo.bug.model.BugOperatingRecord;
 import com.dayi.demo.bug.service.BugService;
+import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,7 +36,7 @@ public class BugController {
     @RequestMapping("/addBug")
     @ResponseBody
     public String addBug(Bug bug) {
-        return bugService.addBug(bug);
+        return bugService.addBug(bug,getCurrentUser());
     }
 
     /**
@@ -102,7 +105,7 @@ public class BugController {
     @RequestMapping("/redesignate")
     @ResponseBody
     public int redesignate(String bugId,String userId) {
-        return bugService.doRedesignate(bugId,userId);
+        return bugService.doRedesignate(bugId,userId,getCurrentUser());
     }
 
     /**
@@ -113,7 +116,7 @@ public class BugController {
     @RequestMapping("/processSelf")
     @ResponseBody
     public int processSelf(String bugId) {
-        return bugService.doProcessSelf(bugId);
+        return bugService.doProcessSelf(bugId,getCurrentUser());
     }
 
     /**
@@ -124,7 +127,7 @@ public class BugController {
     @RequestMapping("/noProcessing")
     @ResponseBody
     public int noProcessing(String bugId) {
-        return bugService.doNoProcessing(bugId);
+        return bugService.doNoProcessing(bugId,getCurrentUser());
     }
 
     /**
@@ -135,7 +138,7 @@ public class BugController {
     @RequestMapping("/closeBug")
     @ResponseBody
     public int closeBug(String bugId) {
-        return bugService.doCloseBug(bugId);
+        return bugService.doCloseBug(bugId,getCurrentUser());
     }
 
     /**
@@ -146,7 +149,7 @@ public class BugController {
     @RequestMapping("/addBugDescription")
     @ResponseBody
     public int addBugDescription(BugDescription bugDescription) {
-        return bugService.addBugDescription(bugDescription);
+        return bugService.addBugDescription(bugDescription,getCurrentUser());
     }
 
     /**
@@ -171,6 +174,12 @@ public class BugController {
     @ResponseBody
     public PageInfo<BugOperatingRecord> findBugOperatingRecord(String bugId,int currentPage) {
         return bugService.findBugOperationRecordByBugId(bugId,currentPage,5);
+    }
+
+    private User getCurrentUser() {
+        Session session = SecurityUtils.getSubject().getSession();
+        User user = (User) session.getAttribute("user");
+        return user;
     }
 
     @RequestMapping("/test")

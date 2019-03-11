@@ -3,6 +3,7 @@ package com.dayi.demo.bug.service;
 import com.dayi.demo.bug.model.Bug;
 import com.dayi.demo.bug.model.BugDescription;
 import com.dayi.demo.bug.model.BugOperatingRecord;
+import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,9 +17,10 @@ public interface BugService {
     /**
      * 添加bug
      * @param bug
+     * @param currentUser 当前用户
      * @return
      */
-    String addBug(Bug bug);
+    String addBug(Bug bug, User currentUser);
 
     /**
      * 上传bug图片
@@ -51,35 +53,35 @@ public interface BugService {
      * @param userId
      * @return
      */
-    int doRedesignate(String bugId,String userId);
+    int doRedesignate(String bugId,String userId,User currentUser);
 
     /**
      * 设置自己处理Bug
      * @param bugId
      * @return
      */
-    int doProcessSelf(String bugId);
+    int doProcessSelf(String bugId,User currentUser);
 
     /**
      * 设置不予处理ug
      * @param bugId
      * @return
      */
-    int doNoProcessing(String bugId);
+    int doNoProcessing(String bugId,User currentUser);
 
     /**
      * 设置关闭Bug
      * @param bugId
      * @return
      */
-    int doCloseBug(String bugId);
+    int doCloseBug(String bugId,User currentUser);
 
     /**
      * 添加Bug说明
      * @param bugDescription
      * @return
      */
-    int addBugDescription(BugDescription bugDescription);
+    int addBugDescription(BugDescription bugDescription,User currentUser);
 
     /**
      * 分页查找Bug说明

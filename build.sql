@@ -108,7 +108,7 @@ CREATE TABLE bug(
     is_noprocessing TINYINT UNSIGNED NOT NULL COMMENT '是否不予处理',
     bug_status TINYINT UNSIGNED NOT NULL COMMENT 'bug状态 0.指派中	1.处理中	2.验收中	3.已完成',
     bug_title VARCHAR(100) NOT NULL COMMENT 'bug详情',
-    bug_content VARCHAR(1000) NOT NULL COMMENT 'bug描述',
+    bug_content VARCHAR(4500) NOT NULL COMMENT 'bug描述',
     bug_proposer CHAR(12) NOT NULL COMMENT '提出bug用户的id',
     bug_processer CHAR(12) NOT NULL COMMENT '处理bug用户的id'
 )COMMENT 'bug表';

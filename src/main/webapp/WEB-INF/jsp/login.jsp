@@ -6,12 +6,13 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <title>登录</title>
-    <link rel="stylesheet" href="../../vendor/simple-line-icons/css/simple-line-icons.css">
-    <link rel="stylesheet" href="../../vendor/font-awesome/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 <div class="page-wrapper flex-row align-items-center">
@@ -56,15 +57,15 @@
         </div>
     </div>
 </div>
-<script src="../../vendor/jquery/jquery.min.js"></script>
-<script src="../../vendor/popper.js/popper.min.js"></script>
-<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="../../vendor/chart.js/chart.min.js"></script>
-<script src="../../js/carbon.js"></script>
-<script src="../../js/demo.js"></script>
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/popper.js/popper.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/vendor/chart.js/chart.min.js"></script>
+<script src="/js/carbon.js"></script>
+<script src="/js/demo.js"></script>
 <%--vue--%>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="../../js/vue.min.js"></script>
+<script src="/js/vue.min.js"></script>
 <script>
     var vm = new Vue({
         el:'#loginForm',

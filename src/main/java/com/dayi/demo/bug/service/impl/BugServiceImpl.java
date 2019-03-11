@@ -38,17 +38,17 @@ public class BugServiceImpl implements BugService {
     private UserService userService;
 
     @Override
-    public String addBug(Bug bug) {
+    public String addBug(Bug bug,User currentUser) {
         bug.setId(IdUtils.getPrimaryKey());
         bug.setAddTime(new Date());
         bug.setUpdateTime(new Date());
         bug.setBugStatus(0);
         bug.setNoProcessing(false);
-        bug.setBugProposer(getCurrentUser());
+        bug.setBugProposer(currentUser);
         int countAdd = bugDao.addBug(bug);
         if(countAdd != 0) {
             /** 添加Bug记录 */
-            BugOperatingRecord record = doPackageOperatingRecord(bug.getId(),bug.getBugProcesser().getId(),0);
+            BugOperatingRecord record = doPackageOperatingRecord(bug.getId(),bug.getBugProcesser().getId(),0,currentUser);
             bugOperatingRecordDao.addBugOperatingRecord(record);
             return bug.getId();
         }
@@ -90,60 +90,60 @@ public class BugServiceImpl implements BugService {
     }
 
     @Override
-    public int doRedesignate(String bugId, String userId) {
+    public int doRedesignate(String bugId, String userId,User currentUser) {
         int bugStatus = 0;
         Date updateTime = new Date();
         int countAdd = bugDao.updateBugStatue(bugId,bugStatus,userId,false,updateTime);
         if(countAdd != 0) {
             /** 添加Bug记录 */
-            BugOperatingRecord record = doPackageOperatingRecord(bugId,userId,0);
+            BugOperatingRecord record = doPackageOperatingRecord(bugId,userId,0,currentUser);
             bugOperatingRecordDao.addBugOperatingRecord(record);
         }
         return countAdd;
     }
 
     @Override
-    public int doProcessSelf(String bugId) {
+    public int doProcessSelf(String bugId,User currentUser) {
         int bugStatus = 1;
         Date updateTime = new Date();
         int countAdd = bugDao.updateBugStatue(bugId, bugStatus, null, false, updateTime);
         if(countAdd != 0) {
             /** 添加Bug记录 */
-            BugOperatingRecord record = doPackageOperatingRecord(bugId,"",1);
+            BugOperatingRecord record = doPackageOperatingRecord(bugId,"",1,currentUser);
             bugOperatingRecordDao.addBugOperatingRecord(record);
         }
         return countAdd;
     }
 
     @Override
-    public int doNoProcessing(String bugId) {
+    public int doNoProcessing(String bugId,User currentUser) {
         int bugStatus = 2;
         Date updateTime = new Date();
         int countAdd = bugDao.updateBugStatue(bugId,bugStatus,null,true,updateTime);
         if(countAdd != 0) {
             /** 添加Bug记录 */
-            BugOperatingRecord record = doPackageOperatingRecord(bugId,"",2);
+            BugOperatingRecord record = doPackageOperatingRecord(bugId,"",2,currentUser);
             bugOperatingRecordDao.addBugOperatingRecord(record);
         }
         return countAdd;
     }
 
     @Override
-    public int doCloseBug(String bugId) {
+    public int doCloseBug(String bugId,User currentUser) {
         Bug bug = getBug(bugId);
         int bugStatus = 3;
         Date updateTime = new Date();
         int countAdd = bugDao.updateBugStatue(bugId,bugStatus,null,bug.isNoProcessing(),updateTime);
         if(countAdd != 0) {
             /** 添加Bug记录 */
-            BugOperatingRecord record = doPackageOperatingRecord(bugId,"",4);
+            BugOperatingRecord record = doPackageOperatingRecord(bugId,"",4,currentUser);
             bugOperatingRecordDao.addBugOperatingRecord(record);
         }
         return countAdd;
     }
 
     @Override
-    public int addBugDescription(BugDescription bugDescription) {
+    public int addBugDescription(BugDescription bugDescription,User currentUser) {
         bugDescription.setId(IdUtils.getPrimaryKey());
         bugDescription.setAddTime(new Date());
         bugDescription.setUpdateTime(new Date());
@@ -152,7 +152,7 @@ public class BugServiceImpl implements BugService {
             /** 更新bug状态 */
             bugDao.updateBugStatue(bugDescription.getBugId(),2,null,false,new Date());
             /** 添加Bug记录 */
-            BugOperatingRecord record = doPackageOperatingRecord(bugDescription.getBugId(),"",3);
+            BugOperatingRecord record = doPackageOperatingRecord(bugDescription.getBugId(),"",3,currentUser);
             bugOperatingRecordDao.addBugOperatingRecord(record);
         }
         return countAdd;
@@ -175,23 +175,13 @@ public class BugServiceImpl implements BugService {
     }
 
     /**
-     * 获取当前用户
-     * @return
-     */
-    private User getCurrentUser() {
-        User user = new User();
-        user.setId("0RJtVRByNyjL");
-        return user;
-    }
-
-    /**
      * 打包Bug操作记录
      * @param bugId bug id
      * @param operationUserId   被操作用户的id
      * @param operationNumber   操作数
      * @return
      */
-    private BugOperatingRecord doPackageOperatingRecord(String bugId,String operationUserId,int operationNumber) {
+    private BugOperatingRecord doPackageOperatingRecord(String bugId,String operationUserId,int operationNumber,User currentUser) {
         BugOperatingRecord record = new BugOperatingRecord();
         User operationUser;
         if("".equals(operationUserId)) {
@@ -202,7 +192,7 @@ public class BugServiceImpl implements BugService {
         }
         record.setOperationUser(operationUser);
         record.setOperationNumber(operationNumber);
-        record.setUser(getCurrentUser());
+        record.setUser(currentUser);
         record.setBugId(bugId);
         record.setUpdateTime(new Date());
         record.setAddTime(new Date());
