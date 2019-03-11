@@ -51,6 +51,7 @@ public interface BugService {
      * 重新指派Bug
      * @param bugId
      * @param userId
+     * @param currentUser
      * @return
      */
     int doRedesignate(String bugId,String userId,User currentUser);
@@ -58,13 +59,15 @@ public interface BugService {
     /**
      * 设置自己处理Bug
      * @param bugId
+     * @param currentUser
      * @return
      */
     int doProcessSelf(String bugId,User currentUser);
 
     /**
-     * 设置不予处理ug
+     * 设置不予处理Bug
      * @param bugId
+     * @param currentUser
      * @return
      */
     int doNoProcessing(String bugId,User currentUser);
@@ -72,6 +75,7 @@ public interface BugService {
     /**
      * 设置关闭Bug
      * @param bugId
+     * @param currentUser
      * @return
      */
     int doCloseBug(String bugId,User currentUser);
@@ -79,6 +83,7 @@ public interface BugService {
     /**
      * 添加Bug说明
      * @param bugDescription
+     * @param currentUser
      * @return
      */
     int addBugDescription(BugDescription bugDescription,User currentUser);
