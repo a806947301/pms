@@ -82,5 +82,19 @@
     <orderEntry type="library" name="Maven: org.apache.shiro:shiro-ehcache:1.4.0" level="project" />
     <orderEntry type="library" name="Maven: net.sf.ehcache:ehcache-core:2.6.11" level="project" />
     <orderEntry type="library" name="Maven: org.apache.shiro:shiro-spring:1.4.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.poi:poi:3.13" level="project" />
+    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.9" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.poi:poi-scratchpad:3.13" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml:3.13" level="project" />
+    <orderEntry type="library" name="Maven: fr.opensagres.xdocreport:fr.opensagres.xdocreport.document:1.0.6" level="project" />
+    <orderEntry type="library" name="Maven: fr.opensagres.xdocreport:fr.opensagres.xdocreport.core:1.0.6" level="project" />
+    <orderEntry type="library" name="Maven: fr.opensagres.xdocreport:fr.opensagres.xdocreport.converter:1.0.6" level="project" />
+    <orderEntry type="library" name="Maven: fr.opensagres.xdocreport:fr.opensagres.xdocreport.template:1.0.6" level="project" />
+    <orderEntry type="library" name="Maven: fr.opensagres.xdocreport:org.apache.poi.xwpf.converter.xhtml:1.0.5" level="project" />
+    <orderEntry type="library" name="Maven: fr.opensagres.xdocreport:org.apache.poi.xwpf.converter.core:1.0.5" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml-schemas:3.13" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.xmlbeans:xmlbeans:2.6.0" level="project" />
+    <orderEntry type="library" name="Maven: stax:stax-api:1.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.poi:ooxml-schemas:1.4" level="project" />
   </component>
 </module>

@@ -105,7 +105,7 @@
                                 <div class="row">
                                     <div class="col-md-2"></div>
                                     <div class="col-md-4">
-                                        <button class="btn btn-outline-success" type="button">在线预览</button>
+                                        <button class="btn btn-outline-success" type="button" v-on:click="download(need.descriptionFilepath+'.html')">在线预览</button>
                                     </div>
                                     <div class="col-md-4">
                                         <button class="btn btn-outline-primary" type="button" v-on:click="download(need.descriptionFilepath)">立即下载</button>

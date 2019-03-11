@@ -5,6 +5,7 @@ import com.dayi.demo.need.model.Need;
 import com.dayi.demo.need.service.NeedService;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.util.IdUtils;
+import com.dayi.demo.util.WordUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class NeedServiceImpl implements NeedService {
 
     @Resource
     private NeedDao needDao;
+
+    /** 保存转换后html文件所需的图片 */
+    private static final String IMAGE_FILE_PATH = "image";
 
     @Override
     public String addNeed(MultipartFile needDescriptionFile, MultipartFile needFile, Need need,String realPath,User currentUser) {
@@ -59,7 +63,7 @@ public class NeedServiceImpl implements NeedService {
     }
 
     /**
-     * 保存文件
+     * 保存上传的文件
      * @param file
      * @param needId
      * @param realPath
@@ -74,6 +78,7 @@ public class NeedServiceImpl implements NeedService {
         String filename = file.getOriginalFilename();
         try {
             file.transferTo(new File(newFilePath,filename));
+            WordUtils.wordToHtml(newFilePath.getAbsolutePath(),IMAGE_FILE_PATH,filename);
             return "\\needFile\\"+ needId + "\\" + filename;
         }catch (Exception e) {
             return "";
