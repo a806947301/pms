@@ -7,6 +7,7 @@ import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -38,7 +39,7 @@ public interface BugService {
      * @param projectId
      * @return
      */
-    PageInfo<Bug> findBugByProject(int currentPage,int pageSize,String projectId);
+    PageInfo<Bug> findBugByProject(int currentPage, int pageSize, String projectId, Date begin, Date end, int status, String processerId, String proposerId);
 
     /**
      * 根据id获取Bug

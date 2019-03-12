@@ -147,7 +147,13 @@
                                     <div class="col-md-2">
                                         bug
                                     </div>
-                                    <div class="col-md-6"></div>
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#filtrateModal"
+                                            onclick="filtrateVm.reflash()">
+                                            筛选
+                                        </button>
+                                    </div>
                                     <div class="col-md-4">
                                         <button class="btn btn-outline-primary" type="button"
                                             v-on:click="addBug()">
@@ -216,7 +222,7 @@
         </div>
     </div>
 </div>
-<%--更新产品模拟框--%>
+<%--更新项目模拟框--%>
 <div class="modal fade" id="updateProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -278,7 +284,57 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<%--筛选模拟框--%>
+<div class="modal fade" id="filtrateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
 
+                <h3>筛选项目</h3>
+                <a class="close" data-dismiss="modal">×</a>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    开始日期
+                    <input type="date" v-model="begin"/>
+                    结束日期
+                    <input type="date" v-model="end"/>
+                </div>
+                <div class="form-group">
+                    <label>状态</label>
+                    <select class="form-control" v-model="status">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>提出者</label>
+                    <select class="form-control" v-model="proposerId">
+                        <option v-for="proposer in proposers" v-bind:value="proposer.id">{{proposer.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>处理者</label>
+                    <select class="form-control" v-model="processerId">
+                        <option v-for="processer in processers" v-bind:value="processer.id">{{processer.name}}</option>
+
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" v-on:click="filtrate()"  data-dismiss="modal">
+                    更新项目
+                </button>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/popper.js/popper.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -421,18 +477,48 @@
             productId:null,
             bugs:{
                 list:null
-            }
+            },
+            params:null,
+            proposerId:null,
+            processerId:null,
+            begin:null,
+            end:null,
+            status:-1
         },
         created:function () {
             this.projectId = window.location.href.split('/')[window.location.href.split('/').length-1];
             this.productId = vm.productId;
-            params = new URLSearchParams();
-            params.append("projectId",this.projectId);
-            params.append("currentPage",1);
+            this.params = new URLSearchParams();
+            this.params.append("projectId",this.projectId);
+            this.params.append("currentPage",1);
+            this.params.append("pageSize",5);
+            this.params.append("status",-1);
             axios
-                .post("/bug/findBugByProject",params)
+                .post("/bug/findBugByProject",this.params)
                 .then(function (response) {
                     bugVm.bugs = response.data;
+                    filtrateVm.processers=[];
+                    filtrateVm.proposers=[];
+                    for(bug in bugVm.bugs.list) {
+                        flag = false;
+                        for(processer in filtrateVm.processers) {
+                            if(filtrateVm.processers[processer].id == bugVm.bugs.list[bug].bugProcesser.id) {
+                                flag = true;
+                            }
+                        }
+                        if(flag == false) {
+                            filtrateVm.processers.push(bugVm.bugs.list[bug].bugProcesser)
+                        }
+                        flag = false;
+                        for(index in filtrateVm.proposers) {
+                            if(filtrateVm.proposers[index].id == bugVm.bugs.list[bug].bugProposer.id) {
+                                flag = true;
+                            }
+                        }
+                        if(flag == false) {
+                            filtrateVm.proposers.push(bugVm.bugs.list[bug].bugProposer)
+                        }
+                    }
                 });
         },
         methods:{
@@ -440,26 +526,97 @@
                 window.location.href="/bug/addBugPage/"+vm.productId + "/" + this.projectId;
             },
             getPage:function(currentPage) {
-                if(currentPage<=0)
-                {
+                if(currentPage<=0) {
                     return;
                 }
-                if(currentPage>this.bugs.pages)
-                {
+                if(currentPage>this.bugs.pages && currentPage != 1) {
                     return;
                 }
-                params = new URLSearchParams();
-                params.append("projectId",this.projectId);
-                params.append("currentPage",currentPage);
+                filtrateVm.processers=[];
+                filtrateVm.proposers=[];
+                this.params.delete("currentPage");
+                this.params.append("currentPage",currentPage);
+                this.params.delete("status");
+                this.params.append("status",this.status);
+                this.params.delete("begin");
+                if(null != this.begin) {
+                    this.params.append("begin",new Date(this.begin));
+                }
+                this.params.delete("end")
+                if(null != this.end) {
+                    this.params.append("end",new Date(this.end));
+                }
+                this.params.delete("processerId")
+                if(null != this.processerId) {
+                    this.params.append("processerId",this.processerId);
+                }
+                this.params.delete("proposerId")
+                if(null != this.proposerId) {
+                    this.params.append("proposerId",this.proposerId);
+                }
+
+
                 axios
-                    .post("/bug/findBugByProject",params)
+                    .post("/bug/findBugByProject",this.params)
                     .then(function (response) {
                         bugVm.bugs = response.data;
+                        filtrateVm.processers=[];
+                        filtrateVm.proposers=[];
+                        for(bug in bugVm.bugs.list) {
+                            flag = false;
+                            for(processer in filtrateVm.processers) {
+                                if(filtrateVm.processers[processer].id == bugVm.bugs.list[bug].bugProcesser.id) {
+                                    flag = true;
+                                }
+                            }
+                            if(flag == false) {
+                                filtrateVm.processers.push(bugVm.bugs.list[bug].bugProcesser)
+                            }
+                            flag = false;
+                            for(index in filtrateVm.proposers) {
+                                if(filtrateVm.proposers[index].id == bugVm.bugs.list[bug].bugProposer.id) {
+                                    flag = true;
+                                }
+                            }
+                            if(flag == false) {
+                                filtrateVm.proposers.push(bugVm.bugs.list[bug].bugProposer)
+                            }
+                        }
                     });
             }
         }
     })
+    var filtrateVm = new Vue({
+        el:"#filtrateModal",
+        data:{
+            processers:[],
+            proposers:[],
+            begin:null,
+            end:null,
+            status:-1,
+            proposerId:null,
+            processerId:null
+        },
+        methods:{
+            reflash:function() {
+                this.begin = null;
+                this.end = null;
+                this.status = -1;
+                this.proposerId = null;
+                this.processerId = null;
+            },
+            filtrate:function() {
+                bugVm.begin = this.begin;
+                bugVm.end = this.end;
+                bugVm.status = this.status;
+                bugVm.proposerId = this.proposerId;
+                bugVm.processerId = this.processerId;
+                console.log(this.proposerId)
+                bugVm.getPage(bugVm.bugs.pageNum);
+            }
 
+        }
+    })
     function reflash(id) {
         $('.selectpicker').selectpicker('val',id);
         $("#schoolno").selectpicker('refresh');

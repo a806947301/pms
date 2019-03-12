@@ -74,7 +74,7 @@
 
                             <div class="card-header bg-light">
                                 <div class="row">
-                                    <div class="col-md-9">{{product.productName}}</div>
+                                    <div class="col-md-9"><h4>{{product.productName}}</h4></div>
                                     <div class="col-md-2">
                                         <button class="btn btn-block btn-outline-warning" type="button" data-toggle="modal" data-target="#updateProductModal"
                                                 v-on:click="updateProductModal(product.id,product.productName,product.productPresentation)">更新产品信息</button>
@@ -96,7 +96,7 @@
                                         </div>
                                         <div class="card">
                                             <div class="card-header">
-                                                <h4>项目列表</h4>
+                                                <h7>项目列表</h7>
                                             </div>
 
                                             <div class="card-body p-0"  id="projectTable">
@@ -105,7 +105,7 @@
                                                 </div>--%>
                                                 <ul class="list-group" >
                                                     <a v-for="(project,index) in projects.list" class="list-group-item" v-bind:href="['/project/getProjectPage/'+project.id]">
-                                                        <div><h4>{{project.projectName}}</h4></div>
+                                                        <div><h8>{{project.projectName}}</h8></div>
                                                         <div>
                                                             <small v-if="project.product">{{project.product.productName}} -
                                                                 <span class="badge badge-success" v-if="project.finished==true">已完成</span>
@@ -301,9 +301,36 @@
                         setParticipator(vm.users[i].id,vm.users[i].department.departmentName + "-"+vm.users[i].name)
                     }
                 })
-
+            projectParams = new URLSearchParams();
+            projectParams.append("productId",this.productId);
+            projectParams.append("currentPage",1);
+            projectParams.append("pageSize",7);
+            axios
+                .post("/project/findByProductId",projectParams)
+                .then(function (response) {
+                    vm.projects = response.data;
+                })
         },
         methods:{
+            getPage:function(currentPage){
+                if(currentPage<=0)
+                {
+                    return;
+                }
+                if(currentPage>vm.projects.pages)
+                {
+                    return;
+                }
+                projectParams = new URLSearchParams();
+                projectParams.append("productId",this.productId);
+                projectParams.append("currentPage",currentPage);
+                projectParams.append("pageSize",7);
+                axios
+                    .post("/project/findByProductId",projectParams)
+                    .then(function (response) {
+                        vm.projects = response.data;
+                    })
+            },
             updateProduct:function(){
                 params = new URLSearchParams();
                 params.append("id",this.productId)

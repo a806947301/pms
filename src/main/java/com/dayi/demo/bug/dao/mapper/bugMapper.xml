@@ -16,12 +16,19 @@
     </resultMap>
 
     <sql id="selectAllColumnBug">
-        SELECT bug.id,bug.addtime,bug.updatetime,project_id,is_noprocessing,bug_title,bug_content,bug_status,bug_proposer,bug_processer  FROM
+        SELECT bug.id,bug.addtime,bug.updatetime,project_id,is_noprocessing,bug_title,bug_content
+        ,bug_status,bug_proposer,bug_processer  FROM
     </sql>
 
     <!--查询项目下的bug-->
     <select id="findBugByProject" resultMap="bugResultMap">
-        SELECT id,bug_title,bug_status,bug_proposer,addtime,bug_processer FROM bug WHERE project_id = #{0}
+        SELECT id,bug_title,bug_status,bug_proposer,addtime,bug_processer FROM bug
+        WHERE project_id = #{projectId}
+        <if test="null != begin">AND addtime >= #{begin} </if>
+        <if test="null != end">AND addtime &lt;= #{end} </if>
+        <if test="-1 != status">AND bug_status = #{status} </if>
+        <if test="null != processerId">AND bug_processer = #{processerId} </if>
+        <if test="null != proposerId">AND bug_proposer = #{proposerId} </if>
     </select>
 
     <select id="getBug" resultMap="bugResultMap">
@@ -31,16 +38,18 @@
 
     <!--添加bug-->
     <insert id="addBug">
-        INSERT INTO bug (id,addtime,updatetime,project_id,is_noprocessing,bug_status,bug_title,bug_content,bug_proposer,bug_processer)
-        VALUES (#{id},#{addTime},#{updateTime},#{project.id},#{noProcessing},#{bugStatus},#{bugTitle},#{bugContent},#{bugProposer.id},#{bugProcesser.id})
+        INSERT INTO bug (id, addtime, updatetime, project_id, is_noprocessing,
+                         bug_status, bug_title, bug_content, bug_proposer, bug_processer)
+        VALUES (#{id}, #{addTime}, #{updateTime}, #{project.id}, #{noProcessing}, #{bugStatus},
+                #{bugTitle}, #{bugContent}, #{bugProposer.id}, #{bugProcesser.id})
     </insert>
 
     <update id="updateBugStatue">
         UPDATE bug
         <set>
-            <if test="bugStatus != -1">bug_status = #{bugStatus},</if>
-            <if test="bugProcesser != null">bug_processer = #{bugProcesser},</if>
-            <if test="updateTime != null">updatetime = #{updateTime},</if>
+            <if test="bugStatus != -1">bug_status = #{bugStatus}, </if>
+            <if test="bugProcesser != null">bug_processer = #{bugProcesser}, </if>
+            <if test="updateTime != null">updatetime = #{updateTime}, </if>
             is_noprocessing = #{noProcessing}
         </set>
         WHERE id = #{id}

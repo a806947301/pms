@@ -50,6 +50,19 @@ public class ProjectController {
     }
 
     /**
+     * 分页查找产品下的项目
+     * @param productId
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping("/findByProductId")
+    @ResponseBody
+    public PageInfo<Project> findByProductId(String productId,int currentPage,int pageSize) {
+        return projectService.findByProductIdPage(productId,currentPage,pageSize);
+    }
+
+    /**
      * 跳转项目列表页面
      * @return
      */

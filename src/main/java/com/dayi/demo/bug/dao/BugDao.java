@@ -11,7 +11,8 @@ import java.util.List;
  */
 public interface BugDao {
     int addBug(Bug bug);
-    List<Bug> findBugByProject(String projectId);
+    List<Bug> findBugByProject(@Param("projectId") String projectId,@Param("begin") Date begin,@Param("end")Date end,
+                               @Param("status")int status,@Param("processerId")String processerId,@Param("proposerId")String proposerId);
     Bug getBug(String id);
     int updateBugStatue(@Param("id") String id, @Param("bugStatus")int bugStatus, @Param("bugProcesser") String bugProcesser,
                         @Param("noProcessing") boolean noProcessing,@Param("updateTime") Date updateTime);

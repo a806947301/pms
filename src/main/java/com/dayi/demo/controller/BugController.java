@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,8 +72,9 @@ public class BugController {
      */
     @RequestMapping("/findBugByProject")
     @ResponseBody
-    public PageInfo<Bug> findBugByProject(int currentPage, String projectId) {
-        return bugService.findBugByProject(currentPage,5,projectId);
+    public PageInfo<Bug> findBugByProject(int currentPage, int pageSize, String projectId, Date begin,
+                                          Date end, int status, String processerId, String proposerId) {
+        return bugService.findBugByProject(currentPage, pageSize, projectId, begin, end,status, processerId, proposerId);
     }
 
     /**
@@ -138,7 +140,7 @@ public class BugController {
     @RequestMapping("/closeBug")
     @ResponseBody
     public int closeBug(String bugId) {
-        return bugService.doCloseBug(bugId,getCurrentUser());
+        return bugService.doCloseBug(bugId, getCurrentUser());
     }
 
     /**
@@ -160,8 +162,8 @@ public class BugController {
      */
     @RequestMapping("/findDescription")
     @ResponseBody
-    public PageInfo<BugDescription> findDescription(String bugId,int currentPage) {
-        return bugService.findDescriptionByBugId(bugId,currentPage,5);
+    public PageInfo<BugDescription> findDescription(String bugId,int currentPage,int pageSize) {
+        return bugService.findDescriptionByBugId(bugId,currentPage,pageSize);
     }
 
     /**

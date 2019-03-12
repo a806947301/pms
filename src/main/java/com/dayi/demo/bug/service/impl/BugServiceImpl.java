@@ -54,9 +54,9 @@ public class BugServiceImpl implements BugService {
         if(countAdd != 0) {
             /** 发送邮件 */
             User processer = userService.getUser(bug.getBugProcesser().getId());
-            sendMail(processer.getEmail(),"您被指派一个Bug","您被指派一个Bug，被指派的Bug Id为："+bug.getId());
+            sendMail(processer.getEmail(), "您被指派一个Bug", "您被指派一个Bug，被指派的Bug Id为：" + bug.getId());
             /** 添加Bug记录 */
-            BugOperatingRecord record = doPackageOperatingRecord(bug.getId(),bug.getBugProcesser().getId(),0,currentUser);
+            BugOperatingRecord record = doPackageOperatingRecord(bug.getId(), bug.getBugProcesser().getId(), 0, currentUser);
             bugOperatingRecordDao.addBugOperatingRecord(record);
             return bug.getId();
         }
@@ -67,7 +67,7 @@ public class BugServiceImpl implements BugService {
     public Map<String, String> bugImgUpload(MultipartFile file, String projectId, String realPath) {
         Map<String,String> result = new HashMap<String,String>(16);
         /** 获取文件上传目录，如不存在，创建新目录 */
-        File imgFilePath = new File(realPath+"\\imgs\\"+projectId);
+        File imgFilePath = new File(realPath + "\\imgs\\" + projectId);
         if(!imgFilePath.exists()) {
             imgFilePath.mkdirs();
         }
@@ -85,9 +85,10 @@ public class BugServiceImpl implements BugService {
     }
 
     @Override
-    public PageInfo<Bug> findBugByProject(int currentPage, int pageSize, String projectId) {
+    public PageInfo<Bug> findBugByProject(int currentPage, int pageSize, String projectId, Date begin, Date end,
+                                          int status, String processerId, String proposerId) {
         PageHelper.startPage(currentPage,pageSize);
-        List<Bug> list = bugDao.findBugByProject(projectId);
+        List<Bug> list = bugDao.findBugByProject(projectId,begin,end,status,processerId,proposerId);
         PageInfo<Bug> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
@@ -98,10 +99,10 @@ public class BugServiceImpl implements BugService {
     }
 
     @Override
-    public int doRedesignate(String bugId, String userId,User currentUser) {
+    public int doRedesignate(String bugId, String userId, User currentUser) {
         int bugStatus = 0;
         Date updateTime = new Date();
-        int countAdd = bugDao.updateBugStatue(bugId,bugStatus,userId,false,updateTime);
+        int countAdd = bugDao.updateBugStatue(bugId, bugStatus, userId, false, updateTime);
         if(countAdd != 0) {
             /** 发送邮件 */
             User processer = userService.getUser(userId);
