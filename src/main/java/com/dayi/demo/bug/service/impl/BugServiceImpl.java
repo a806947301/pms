@@ -1,5 +1,6 @@
 package com.dayi.demo.bug.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.bug.dao.BugDao;
 import com.dayi.demo.bug.dao.BugDescriptionDao;
 import com.dayi.demo.bug.dao.BugOperatingRecordDao;
@@ -219,6 +220,7 @@ public class BugServiceImpl implements BugService {
     private BugOperatingRecord doPackageOperatingRecord(String bugId, String operationUserId,
                                                         int operationNumber, User currentUser) {
         BugOperatingRecord record = new BugOperatingRecord();
+        //判断是否有操作对象，如果有，则从数据库获取操作对象
         User operationUser;
         if ("".equals(operationUserId)) {
             operationUser = new User();
@@ -256,11 +258,47 @@ public class BugServiceImpl implements BugService {
 
     @Override
     public Map<String, Integer> countBugByProject() {
-        HashMap<String, Integer> result = new HashMap<String, Integer>(32);
-        // 多个Map封装成一个map
+        HashMap<String, Integer> result = new LinkedHashMap<String, Integer>(32);
+        // 多个产品Map封装成一个map
         List<Map<String, Object>> maps = bugDao.countBugByProject();
         for (Map<String, Object> map : maps) {
             result.put((String) map.get("projectId"), ((Long) map.get("bugNumber")).intValue());
+        }
+        return result;
+    }
+
+    @Override
+    public Map<String, JSONObject> countBugByProcesser() {
+        HashMap<String, JSONObject> result = new LinkedHashMap<String, JSONObject>(32);
+        // 多个开发人员bugMap封装成一个map
+        List<Map<String, Object>> maps = bugDao.countBugByProcesser();
+        for (Map<String, Object> map : maps) {
+            // 把开发人员Bug数据存入Json
+            JSONObject json = new JSONObject();
+            json.put("bugNumber",((Long)map.get("bugNumber")).intValue());
+            json.put("designate",((Long)map.get("designate")).intValue());
+            json.put("processing",((Long)map.get("processing")).intValue());
+            json.put("checking",((Long)map.get("checking")).intValue());
+            json.put("finished",((Long)map.get("finished")).intValue());
+            result.put((String)map.get("processer"),json);
+        }
+        return result;
+    }
+
+    @Override
+    public Map<String, JSONObject> countBugByProposer() {
+        HashMap<String, JSONObject> result = new LinkedHashMap<String, JSONObject>(32);
+        // 多个测试人员bugMap封装成一个map
+        List<Map<String, Object>> maps = bugDao.countBugByProposer();
+        for (Map<String, Object> map : maps) {
+            // 把测试人员Bug数据存进Json
+            JSONObject json = new JSONObject();
+            json.put("bugNumber",((Long)map.get("bugNumber")).intValue());
+            json.put("designate",((Long)map.get("designate")).intValue());
+            json.put("processing",((Long)map.get("processing")).intValue());
+            json.put("checking",((Long)map.get("checking")).intValue());
+            json.put("finished",((Long)map.get("finished")).intValue());
+            result.put((String)map.get("proposer"),json);
         }
         return result;
     }

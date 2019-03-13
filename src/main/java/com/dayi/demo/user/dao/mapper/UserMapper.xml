@@ -30,6 +30,16 @@
         user WHERE is_stopped = 0  ORDER BY addtime
     </select>
 
+    <!--根据用户角色表查询用户-->
+    <select id="findUserByUserRole" resultMap="userResultMap">
+        <include refid="selectAllColumnUser"/>
+        user JOIN user_role ON user.id = user_role.user_id
+        WHERE TRUE
+        <if test="null != userId">AND user.id = #{userId}</if>
+        <if test="null != roleId">AND role_id = #{roleId}</if>
+        ORDER BY user.addtime
+    </select>
+
     <!-- 根据产品名查用户 -->
     <select id="findUserByProductId" resultMap="userResultMap">
         <include refid="selectAllColumnUser"/>

@@ -41,6 +41,28 @@
       SELECT project_id AS 'projectId', COUNT(*) AS 'bugNumber' FROM bug GROUP BY project_id
     </select>
 
+    <!--统计每个处理者的bug-->
+    <select id="countBugByProcesser" resultType="java.util.HashMap">
+      SELECT bug_processer AS 'processer',
+             COUNT(*) AS 'bugNumber',
+             COUNT(bug_status = 0 OR NULL ) AS 'designate' ,
+             COUNT(bug_status = 1 OR NULL ) AS 'processing' ,
+             COUNT(bug_status = 2 OR NULL ) AS 'checking' ,
+             COUNT(bug_status = 3 OR NULL ) AS 'finished'
+       FROM bug GROUP BY bug_processer
+    </select>
+
+    <!--统计每个提出者的bug-->
+    <select id="countBugByProposer" resultType="java.util.HashMap">
+      SELECT bug_proposer AS 'proposer',
+             COUNT(*) AS 'bugNumber',
+             COUNT(bug_status = 0 OR NULL ) AS 'designate' ,
+             COUNT(bug_status = 1 OR NULL ) AS 'processing' ,
+             COUNT(bug_status = 2 OR NULL ) AS 'checking' ,
+             COUNT(bug_status = 3 OR NULL ) AS 'finished'
+       FROM bug GROUP BY bug_proposer
+    </select>
+
     <!--添加bug-->
     <insert id="addBug">
         INSERT INTO bug (id, addtime, updatetime, project_id, is_noprocessing

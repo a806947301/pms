@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>产品统计</title>
+    <title>测试人员统计</title>
     <link rel="stylesheet" href="/vendor/simple-line-icons/css/simple-line-icons.css">
     <link rel="stylesheet" href="/vendor/font-awesome/css/fontawesome-all.min.css">
     <link rel="stylesheet" href="/css/styles.css">
@@ -39,38 +39,38 @@
 
                             <div class="card-header bg-light">
                                 <div class="row">
-                                    <div class="col-md-9"><h4>产品统计</h4></div>
+                                    <div class="col-md-9"><h4>测试人员统计</h4></div>
                                     <div class="col-md-2">
-                                        <button class="btn btn-block btn-outline-warning" type="button" data-toggle="modal" data-target="#updateProductModal"
+                                        <button class="btn btn-block btn-outline-warning" type="button" data-toggle="modal"
                                                 v-on:click="exportExcel()">导出EXCEL</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-body">
                                 <table class="table table-hover">
-                                    <template v-for="product in products">
-                                        <thead>
-                                        <tr>
-                                            <th colspan="4"><h4><b style="color: red;">{{product.productName}}</b></h4></th>
-                                        </tr>
-                                        <tr>
-                                            <th scope="col">序号</th>
-                                            <th scope="col">项目名</th>
-                                            <th scope="col">完成状态</th>
-                                            <th scope="col">Bug量</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">序号</th>
+                                        <th scope="col">姓名</th>
+                                        <th scope="col">指派中Bug</th>
+                                        <th scope="col">处理中Bug</th>
+                                        <th scope="col">验收中Bug</th>
+                                        <th scope="col">已完成Bug</th>
+                                        <th scope="col">Bug总数</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="(tester,index) in testers">
+                                        <td>{{index+1}}</td>
+                                        <td>{{tester.username}}</td>
+                                        <td>{{tester.designate}}</td>
+                                        <td>{{tester.processing}}</td>
+                                        <td>{{tester.checking}}</td>
+                                        <td>{{tester.finished}}</td>
+                                        <td>{{tester.bugNumber}}</td>
+                                    </tr>
+                                    </tbody>
 
-                                        <tr v-if="product.projects.length == 0"><td colspan="4" class="text-center">无项目</td></tr>
-                                        <tr v-else v-for="(project,index) in product.projects">
-                                            <td>{{index+1}}</td>
-                                            <td>{{project.projectName}}</td>
-                                            <td>{{project.finished?"已完成":"未完成"}}</td>
-                                            <td>{{project.countBug}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </template>
 
                                 </table>
                             </div>
@@ -103,20 +103,20 @@
     var vm = new Vue({
         el:"#productStatistics",
         data:{
-            products:{}
+            testers:{}
         },
         created:function(){
             axios
-                .post("/product/productStatistics")
+                .post("/statistic/testerStatistic")
                 .then(function (response) {
-                    vm.products = response.data;
+                    vm.testers = response.data;
                 });
 
 
         },
         methods: {
             exportExcel:function () {
-                window.location.href="/excel/product.xlsx";
+                window.location.href="/statistic/exportExcelTester";
             }
         }
     })

@@ -29,6 +29,7 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements UserService {
+
     @Resource
     private UserDao userDao;
 
@@ -69,6 +70,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findUserByProductId(String productId) {
         return userDao.findUserByProductId(productId);
+    }
+
+    @Override
+    public List<User> findUserByUserRole(String userId, String roleId) {
+        return userDao.findUserByUserRole(userId,roleId);
     }
 
     @Override

@@ -19,10 +19,19 @@
         role ORDER BY addtime
     </select>
 
-    <!--查询用户拥有的角色-->
-    <select id="findRoleByUserId" resultMap="roleResultMap">
+    <!--查询用户角色表信息-->
+    <select id="findRoleByUserRole" resultMap="roleResultMap">
         <include refid="selectAllColumnRole"/>
-        role JOIN user_role ON role.id = user_role.role_id WHERE user_id = #{0}
+        role JOIN user_role ON role.id = user_role.role_id WHERE
+        TRUE
+        <if test="null != userId">AND user_id = #{userId}</if>
+        <if test="null != roleId">AND role.id = #{roleId}</if>
+    </select>
+
+    <!---->
+    <select id="getRoleByRoleName" resultMap="roleResultMap">
+        <include refid="selectAllColumnRole"/>
+        role  WHERE role_name = #{0}
     </select>
 
     <insert id="addRole">

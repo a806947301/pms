@@ -54,6 +54,14 @@ public interface UserService {
     List<User> findUserByProductId(String productId);
 
     /**
+     * 根据用户角色表查询用户
+     * @param userId
+     * @param roleId
+     * @return
+     */
+    List<User> findUserByUserRole(String userId,String roleId);
+
+    /**
      * 查找指定用户
      *
      * @param id 用户id

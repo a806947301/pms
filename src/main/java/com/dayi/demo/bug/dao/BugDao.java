@@ -64,4 +64,16 @@ public interface BugDao {
      * @return
      */
     List<Map<String, Object>> countBugByProject();
+
+    /**
+     * 统计每个Bug处理者对应的Bug情况
+     * @return
+     */
+    List<Map<String,Object>> countBugByProcesser();
+
+    /**
+     * 统计每个Bug提出者对应的Bug情况
+     * @return
+     */
+    List<Map<String,Object>> countBugByProposer();
 }

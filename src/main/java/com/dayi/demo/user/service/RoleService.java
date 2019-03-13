@@ -77,4 +77,11 @@ public interface RoleService {
      * @return
      */
     int deleteRole(String id);
+
+    /**
+     * 获取指定角色名的角色
+     * @param roleName
+     * @return
+     */
+    Role getRoleByRoleName(String roleName);
 }

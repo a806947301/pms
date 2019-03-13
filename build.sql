@@ -402,7 +402,7 @@ CREATE TABLE `role`  (
   `id` char(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'id',
   `addtime` datetime(0) NOT NULL COMMENT '创建时间',
   `updatetime` datetime(0) NOT NULL COMMENT '更新时间',
-  `role_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名',
+  `role_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci UNIQUE NOT NULL COMMENT '角色名',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
 
@@ -412,7 +412,8 @@ CREATE TABLE `role`  (
 INSERT INTO `role` VALUES ('0RJtkZdSNc7i', '2019-03-06 09:44:43', '2019-03-06 09:44:43', '产品经理');
 INSERT INTO `role` VALUES ('0RJtmFzOOPoI', '2019-03-06 09:51:24', '2019-03-06 09:51:24', '项目经理');
 INSERT INTO `role` VALUES ('0RJtmN5KNO2Z', '2019-03-06 09:51:52', '2019-03-06 10:11:44', '系统管理员');
-INSERT INTO `role` VALUES ('0RJts9c8LcCi', '2019-03-06 10:14:50', '2019-03-08 15:57:32', '测试角色');
+INSERT INTO `role` VALUES ('0RJts9c8LcCi', '2019-03-06 10:14:50', '2019-03-12 10:28:14', '测试人员');
+INSERT INTO `role` VALUES ('0RKT0hvkZ6qr', '2019-03-12 10:28:20', '2019-03-12 10:28:20', '开发人员');
 
 -- ----------------------------
 -- Table structure for role_premission

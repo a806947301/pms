@@ -1,5 +1,6 @@
 package com.dayi.demo.bug.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.bug.model.Bug;
 import com.dayi.demo.bug.model.BugDescription;
 import com.dayi.demo.bug.model.BugOperatingRecord;
@@ -127,8 +128,23 @@ public interface BugService {
     /**
      * 统计项目下的Bug量
      *
-     * @param projectId
      * @return
      */
     Map<String, Integer> countBugByProject();
+
+    /**
+     * 统计每个开发的Bug量
+     *
+     * @return
+     */
+    Map<String, JSONObject> countBugByProcesser();
+
+    /**
+     * 统计每个测试的Bug量
+     *
+     * @return
+     */
+    Map<String, JSONObject> countBugByProposer();
+
+
 }

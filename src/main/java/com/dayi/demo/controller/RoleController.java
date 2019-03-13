@@ -98,6 +98,18 @@ public class RoleController {
     }
 
     /**
+     * 获取指定角色名的角色
+     *
+     * @param rolename
+     * @return
+     */
+    @RequestMapping("/getRoleByRoleName")
+    @ResponseBody
+    public Role getRoleByRoleName(String rolename) {
+        return roleService.getRoleByRoleName(rolename);
+    }
+
+    /**
      * 把角色赋予用户
      *
      * @param userId
@@ -139,6 +151,7 @@ public class RoleController {
     public JSONObject deleteRole(String id) {
         int countDelete = roleService.deleteRole(id);
         boolean deleteSuccess = (0 != countDelete);
-        return JsonUtils.packageJson(deleteSuccess, "删除角色成功", "删除角色失败");
+        return JsonUtils.packageJson(deleteSuccess, "删除角色成功",
+                "该角色还有权限或者还有用户拥有该角色，删除失败");
     }
 }

@@ -112,20 +112,20 @@
 
                 <ul class="nav-dropdown-items">
                     <li class="nav-item">
-                        <a href="/product/productStatisticsPage" class="nav-link">
+                        <a href="/statistic/productStatisticPage" class="nav-link">
                             <i class="icon icon-umbrella"></i> 产品统计
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="login.html" class="nav-link">
-                            <i class="icon icon-umbrella"></i> Login
+                        <a href="/statistic/developerStatisticPage" class="nav-link">
+                            <i class="icon icon-umbrella"></i> 开发人员统计
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="register.html" class="nav-link">
-                            <i class="icon icon-umbrella"></i> Register
+                        <a href="/statistic/testerStatisticPage" class="nav-link">
+                            <i class="icon icon-umbrella"></i> 测试人员统计
                         </a>
                     </li>
 

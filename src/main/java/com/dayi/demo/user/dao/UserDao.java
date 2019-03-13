@@ -1,6 +1,7 @@
 package com.dayi.demo.user.dao;
 
 import com.dayi.demo.user.model.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -42,6 +43,14 @@ public interface UserDao {
      * @return
      */
     List<User> findUserByProductId(String productId);
+
+    /**
+     * 根据用户角色表查询用户
+     * @param userId
+     * @param roleId
+     * @return
+     */
+    List<User> findUserByUserRole(@Param("userId") String userId, @Param("roleId") String roleId);
 
     /**
      * 获取指定用户

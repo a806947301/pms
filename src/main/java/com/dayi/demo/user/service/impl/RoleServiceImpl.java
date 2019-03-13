@@ -2,6 +2,7 @@ package com.dayi.demo.user.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.user.dao.RoleDao;
+import com.dayi.demo.user.model.Premission;
 import com.dayi.demo.user.model.Role;
 import com.dayi.demo.user.service.PremissionService;
 import com.dayi.demo.user.service.RoleService;
@@ -56,7 +57,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<Role> findRoleByUserId(String userId) {
-        return roleDao.findRoleByUserId(userId);
+        return roleDao.findRoleByUserRole(userId,null);
     }
 
     @Override
@@ -71,9 +72,22 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public int deleteRole(String id) {
-        int countDelete = roleDao.deleteRole(id);
-        countDelete += premissionService.deleteRolePremission(id,null);
-        countDelete += roleDao.deleteUserRole(null,id);
+        // 判断是否改角色是否还有权限
+        List<Premission> premissions = premissionService.findByRoleId(id);
+        if(0 != premissions.size()) {
+            return 0;
+        }
+        // 判断是否有用户有此角色
+        List<Role> roles = roleDao.findRoleByUserRole(null,id);
+        if(0 != roles.size()) {
+            return 0;
+        }int countDelete = roleDao.deleteRole(id);
+
         return countDelete;
+    }
+
+    @Override
+    public Role getRoleByRoleName(String roleName) {
+        return roleDao.getRoleByRoleName(roleName);
     }
 }

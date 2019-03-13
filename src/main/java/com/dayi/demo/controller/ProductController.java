@@ -1,21 +1,14 @@
 package com.dayi.demo.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.dayi.demo.product.service.ProductService;
-import com.dayi.demo.statistics.ProductStatistics;
 import com.dayi.demo.user.model.User;
-import com.dayi.demo.util.IdUtils;
-import com.dayi.demo.product.dao.ProductDao;
 import com.dayi.demo.product.model.Product;
 import com.github.pagehelper.PageInfo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,9 +24,6 @@ public class ProductController {
     @Resource
     private ProductService productService;
 
-    @Resource
-    private ProductStatistics productStatistics;
-
     /**
      * 跳转到产品添加页面
      *
@@ -42,16 +32,6 @@ public class ProductController {
     @RequestMapping("/addProductPage")
     public String addProductPage() {
         return "addProduct";
-    }
-
-    /**
-     * 跳转产品统计页面
-     *
-     * @return
-     */
-    @RequestMapping("/productStatisticsPage")
-    public String productStatisticsPage() {
-        return "productStatistics";
     }
 
     /**
@@ -169,18 +149,6 @@ public class ProductController {
     @ResponseBody
     public List<Product> findAllProduct() {
         return productService.findAllProduct();
-    }
-
-    /**
-     * 统计产品信息
-     *
-     * @return
-     */
-    @RequestMapping("/productStatistics")
-    @ResponseBody
-    public JSONArray productStatistics(HttpServletRequest request) {
-        String realPath = request.getSession().getServletContext().getRealPath("/");
-        return productStatistics.doStatistic(realPath);
     }
 
 }

@@ -33,11 +33,12 @@ public interface RoleDao {
     int updateRole(Role role);
 
     /**
-     * 查找指定用户的角色
+     * 查找用户角色表的角色
      * @param userId
+     * @param roleId
      * @return
      */
-    List<Role> findRoleByUserId(String userId);
+    List<Role> findRoleByUserRole(@Param("userId") String userId, @Param("roleId") String roleId);
 
     /**
      * 给用户赋予角色
@@ -65,4 +66,11 @@ public interface RoleDao {
      * @return
      */
     int deleteRole(String id);
+
+    /**
+     * 获取指定角色名的角色
+     * @param roleName
+     * @return
+     */
+    Role getRoleByRoleName(String roleName);
 }
