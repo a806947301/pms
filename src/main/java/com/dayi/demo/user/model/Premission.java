@@ -3,7 +3,8 @@ package com.dayi.demo.user.model;
 import java.util.Date;
 
 /**
- * @Author wut
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-3-6
  */
 public class Premission {
     /** id */

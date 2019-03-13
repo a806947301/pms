@@ -3,8 +3,8 @@ package com.dayi.demo.util;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * @Author wut
- * @Date 2019-03-08
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-03-08
  */
 public class JsonUtils {
 

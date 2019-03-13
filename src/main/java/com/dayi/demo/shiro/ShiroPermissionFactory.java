@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Author wut
- * @Date 2019-03-06
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-03-06
  */
 public class ShiroPermissionFactory extends ShiroFilterFactoryBean {
     /**

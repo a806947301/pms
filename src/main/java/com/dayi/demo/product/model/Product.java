@@ -3,7 +3,8 @@ package com.dayi.demo.product.model;
 import java.util.Date;
 
 /**
- * @Author wut
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-2-25
  */
 public class Product {
     /** id */

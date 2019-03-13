@@ -6,7 +6,8 @@ import java.util.Random;
 /**
  * 该类用于生成数据库12位主键
  *
- * @Author wut
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-2-24
  */
 public class IdUtils {
     private static String KEYS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

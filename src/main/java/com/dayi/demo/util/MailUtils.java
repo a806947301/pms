@@ -8,8 +8,8 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 /**
- * @Author wut
- * @Date 2019-03-11
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-03-11
  */
 public class MailUtils {
 

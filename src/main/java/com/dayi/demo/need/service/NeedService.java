@@ -6,8 +6,8 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * @Author wut
- * @Date 2019-03-04
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-03-04
  */
 public interface NeedService {
 

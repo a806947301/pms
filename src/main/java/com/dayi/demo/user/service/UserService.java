@@ -9,7 +9,8 @@ import java.util.List;
 /**
  * 用户模块业务接口
  *
- * @Author wut
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-2-25
  */
 public interface UserService {
     /**

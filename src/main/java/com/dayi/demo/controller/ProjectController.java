@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 
 /**
- * @Author wut
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-2-26
  */
 @Controller
 @RequestMapping("/project")

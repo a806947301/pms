@@ -5,8 +5,8 @@ import com.dayi.demo.user.model.LoginLog;
 import java.util.List;
 
 /**
- * @Author wut
- * @Date 2019-03-08
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-03-08
  */
 public interface LoginLogDao {
 

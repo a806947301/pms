@@ -13,7 +13,8 @@ import java.util.Date;
  * 	        2.验收中
  * 	        3.已完成
  *
- * @Author wut
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-2-28
  */
 public class Bug {
     /** id */

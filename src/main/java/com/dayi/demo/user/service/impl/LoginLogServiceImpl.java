@@ -14,8 +14,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @Author wut
- * @Date 2019-03-08
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-03-08
  */
 @Service
 public class LoginLogServiceImpl implements LoginLogService {

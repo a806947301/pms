@@ -3,7 +3,8 @@ package com.dayi.demo.bug.model;
 import java.util.Date;
 
 /**
- * @Author wut
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-2-28
  */
 public class BugDescription {
     /** id */

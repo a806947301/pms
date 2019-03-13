@@ -23,7 +23,8 @@ import java.io.File;
 import java.util.*;
 
 /**
- * @Author wut
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-2-28
  */
 @Service
 public class BugServiceImpl implements BugService {

@@ -6,8 +6,8 @@ import com.dayi.demo.user.model.User;
 import java.util.Date;
 
 /**
- * @Author wut
- * @Date 2019-03-04
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-03-04
  */
 public class Need {
     /** id */

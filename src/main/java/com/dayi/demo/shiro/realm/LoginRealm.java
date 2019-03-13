@@ -18,8 +18,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 /**
- * @Author wut
- * @Date 2019-03-05
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-03-05
  */
 public class LoginRealm extends AuthorizingRealm {
 

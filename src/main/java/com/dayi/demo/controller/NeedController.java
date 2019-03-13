@@ -15,8 +15,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @Author wut
- * @Date 2019-03-04
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-03-04
  */
 @Controller
 @RequestMapping("/need")

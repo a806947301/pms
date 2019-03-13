@@ -9,7 +9,8 @@ import com.github.pagehelper.PageInfo;
 import java.util.List;
 
 /**
- * @Author wut
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-2-25
  */
 public interface ProductService {
 

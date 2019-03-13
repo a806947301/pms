@@ -6,7 +6,8 @@ import com.dayi.demo.user.model.Department;
 /**
  * 部门模块接口
  *
- * @Author wut
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-2-22
  */
 public interface DepartmentService {
     /**

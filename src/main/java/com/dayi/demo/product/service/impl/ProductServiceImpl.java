@@ -20,7 +20,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @Author wut
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-2-25
  */
 @Service
 public class ProductServiceImpl implements ProductService {

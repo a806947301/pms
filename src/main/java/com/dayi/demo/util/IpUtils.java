@@ -3,8 +3,8 @@ package com.dayi.demo.util;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @Author wut
- * @Date 2019-03-08
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-03-08
  */
 public class IpUtils {
     public static String UNKOWN = "unknown";

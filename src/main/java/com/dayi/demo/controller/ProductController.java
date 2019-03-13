@@ -21,7 +21,8 @@ import java.util.List;
 /**
  * 产品模块控制器
  *
- * @Author wut
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-2-25
  */
 @Controller
 @RequestMapping("/product")

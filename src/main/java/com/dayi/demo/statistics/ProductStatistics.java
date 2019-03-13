@@ -1,16 +1,10 @@
 package com.dayi.demo.statistics;
 
 import com.alibaba.fastjson.JSONArray;
-import com.dayi.demo.bug.service.BugService;
-import com.dayi.demo.product.service.ProductService;
-import com.dayi.demo.project.service.ProjectService;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
- * @Author wut
- * @Date 2019-03-12
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-03-12
  */
 public interface ProductStatistics {
 
@@ -20,6 +14,6 @@ public interface ProductStatistics {
      * @param realpath
      * @return
      */
-    public JSONArray doStatistic(String realpath);
+    JSONArray doStatistic(String realpath);
 
 }

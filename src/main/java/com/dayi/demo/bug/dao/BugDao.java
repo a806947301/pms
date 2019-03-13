@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Author wut
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-2-28
  */
 public interface BugDao {
     /**

@@ -3,8 +3,8 @@ package com.dayi.demo.user.model;
 import java.util.Date;
 
 /**
- * @Author wut
- * @Date 2019-03-08
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-03-08
  */
 public class LoginLog {
     /** id */

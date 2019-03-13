@@ -5,7 +5,8 @@ import com.dayi.demo.user.model.Department;
 import java.util.List;
 
 /**
- * @Author wut
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-2-22
  */
 public interface DepartmentDao {
 

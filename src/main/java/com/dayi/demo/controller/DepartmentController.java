@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 部门管理控制器
  *
- * @Author wut
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-2-20
  */
 @Controller
 @RequestMapping("/department")

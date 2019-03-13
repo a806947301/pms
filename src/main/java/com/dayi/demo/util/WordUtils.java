@@ -23,8 +23,8 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 
 /**
- * @Author wut
- * @Date 2019-03-11
+ * @author WuTong<wut@pvc123.com>
+ * @date 2019-03-11
  */
 public class WordUtils {
 

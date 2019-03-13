@@ -5,7 +5,7 @@ import com.dayi.demo.need.model.Need;
 import java.util.List;
 
 /**
- * @Author wut
+ * @author WuTong<wut@pvc123.com>
  * @Date 2019-03-04
  */
 public interface NeedDao {
