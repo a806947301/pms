@@ -9,8 +9,38 @@ import java.util.List;
  * @Author wut
  */
 public interface ProjectDao {
+
+    /**
+     * 添加项目
+     * @param project
+     * @return
+     */
     int addProject(Project project);
-    List<Project> findAllProduct();
+
+    /**
+     * 查找所有项目
+     * @return
+     */
+    List<Project> findAllProject();
+
+    /**
+     * 获取指定项目
+     * @param id
+     * @return
+     */
     Project getProject(String id);
+
+    /**
+     * 更新项目
+     * @param project
+     * @return
+     */
     int updateProject(Project project);
+
+    /**
+     * 查找指定产品下的项目
+     * @param productId
+     * @return
+     */
+    List<Project> findByProductId(String productId);
 }

@@ -14,6 +14,7 @@ public interface PremissionService {
 
     /**
      * 添加权限
+     *
      * @param premission
      * @return
      */
@@ -21,26 +22,30 @@ public interface PremissionService {
 
     /**
      * 分页查找权限
+     *
      * @param currentPage
      * @param pageSize
      * @return
      */
-    PageInfo<Premission> findByPage(int currentPage,int pageSize);
+    PageInfo<Premission> findByPage(int currentPage, int pageSize);
 
     /**
      * 查找所有权限
+     *
      * @return
      */
     List<Premission> findAll();
 
     /**
      * 查找所有是菜单的权限
+     *
      * @return
      */
     List<Premission> findPremissionMenu();
 
     /**
      * 修改权限
+     *
      * @param premission
      * @return
      */
@@ -48,12 +53,15 @@ public interface PremissionService {
 
     /**
      * 封装成权限树数据
+     *
+     * @param roleId
      * @return
      */
     JSONArray doPremissionTree(String roleId);
 
     /**
      * 查找角色拥有的权限
+     *
      * @param roleId
      * @return
      */
@@ -61,14 +69,16 @@ public interface PremissionService {
 
     /**
      * 给角色授权
+     *
      * @param roleId
      * @param premissionsId
      * @return
      */
-    int doAuthorization(String roleId,String[] premissionsId);
+    int doAuthorization(String roleId, String[] premissionsId);
 
     /**
      * 删除权限
+     *
      * @param id
      * @return
      */
@@ -76,9 +86,10 @@ public interface PremissionService {
 
     /**
      * 删除角色权限表（中间表）
+     *
      * @param roleId
      * @param premissionId
      * @return
      */
-    public int deleteRolePremission(String roleId,String premissionId);
+    public int deleteRolePremission(String roleId, String premissionId);
 }

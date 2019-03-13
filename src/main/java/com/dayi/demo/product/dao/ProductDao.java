@@ -11,11 +11,54 @@ import java.util.List;
  * @Author wut
  */
 public interface ProductDao {
+
+    /**
+     * 添加产品
+     * @param product
+     * @return
+     */
     int addProduct(Product product);
-    int addProductParticipator(@Param("id")String id, @Param("productId") String productId, @Param("userId") String userId
-            , @Param("addTime")Date addTime,@Param("updateTime") Date updateTime);
+
+    /**
+     * 添加产品成员
+     * @param id    产品成员表Id，从IdUtil获取
+     * @param productId 产品Id
+     * @param userId    用户Id
+     * @param addTime   添加时间
+     * @param updateTime    更新时间
+     * @return
+     */
+    int addProductParticipator(@Param("id") String id,
+                               @Param("productId") String productId,
+                               @Param("userId") String userId,
+                               @Param("addTime") Date addTime,
+                               @Param("updateTime") Date updateTime);
+
+    /**
+     * 查找所有产品
+     * @return
+     */
     List<Product> findAllProduct();
+
+    /**
+     * 获取指定产品
+     * @param id
+     * @return
+     */
     Product getProduct(String id);
-    int deleteParticipator(@Param("productId")String productId,@Param("userId")String userId);
+
+    /**
+     * 删除产品成员
+     * @param productId 产品Id
+     * @param userId    用户Id
+     * @return
+     */
+    int deleteParticipator(@Param("productId") String productId, @Param("userId") String userId);
+
+    /**
+     * 更新产品
+     * @param product
+     * @return
+     */
     int updateProduct(Product product);
 }

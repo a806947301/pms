@@ -58,12 +58,12 @@ public class PremissionServiceImpl implements PremissionService {
 
     @Override
     public JSONArray doPremissionTree(String roleId) {
-        /** 封装树结构权限，保存所有节点 */
+        // 封装树结构权限，保存所有节点
         LinkedHashMap<String, JSONObject> assistMap = new LinkedHashMap<String,JSONObject>();
         List<Premission> list = findAll();
         for(Premission p : list) {
             JSONObject node = new JSONObject();
-            /** 如果是菜单，需要加一个数组 */
+            // 如果是菜单，需要加一个数组
             if(p.isMenu()) {
                 node.put("nodes",new JSONArray());
             }
@@ -71,7 +71,7 @@ public class PremissionServiceImpl implements PremissionService {
             node.put("text",p.getPremissionName());
             node.put("parent",p.getParentId());
 
-            /** 如果有父节点，则加入到父节点 */
+            // 如果有父节点，则加入到父节点
             boolean hasParent = !("".equals(p.getParentId()));
             if(hasParent) {
                 JSONArray parentNodes = (JSONArray)(assistMap.get(p.getParentId()).get("nodes"));
@@ -80,7 +80,7 @@ public class PremissionServiceImpl implements PremissionService {
             assistMap.put(p.getId(),node);
         }
 
-        /** 给角色已有的权限加上checked */
+        // 给角色已有的权限加上checked
         List<Premission> rolePremission = findByRoleId(roleId);
         for(Premission p : rolePremission) {
             JSONObject checked = new JSONObject ();
@@ -88,7 +88,7 @@ public class PremissionServiceImpl implements PremissionService {
             assistMap.get(p.getId()).put("state",checked);
         }
 
-        /** 循环遍历，把没有父节点的加到tree上 */
+        // 循环遍历，把没有父节点的加到tree上
         JSONArray tree = new JSONArray();
         Iterator<String> iter = assistMap.keySet().iterator();
         while (iter.hasNext()) {

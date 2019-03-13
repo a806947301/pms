@@ -21,36 +21,41 @@ public class ProjectController {
 
     /**
      * 跳转添加项目页面
+     *
      * @return
      */
     @RequestMapping("/addProjectPage")
     public String addProjectPage() {
         return "addProject";
     }
+
     /**
      * 添加项目
+     *
      * @param project
      * @return
      */
     @RequestMapping("/addProject")
     @ResponseBody
     public String addProject(Project project) {
-        return  projectService.addProject(project);
+        return projectService.addProject(project);
     }
 
     /**
      * 分页查找项目
+     *
      * @param currentPage
      * @return
      */
     @RequestMapping("/findProject")
     @ResponseBody
     public PageInfo<Project> findProject(int currentPage) {
-        return projectService.findByPage(currentPage,5);
+        return projectService.findByPage(currentPage, 5);
     }
 
     /**
      * 分页查找产品下的项目
+     *
      * @param productId
      * @param currentPage
      * @param pageSize
@@ -58,12 +63,13 @@ public class ProjectController {
      */
     @RequestMapping("/findByProductId")
     @ResponseBody
-    public PageInfo<Project> findByProductId(String productId,int currentPage,int pageSize) {
-        return projectService.findByProductIdPage(productId,currentPage,pageSize);
+    public PageInfo<Project> findByProductId(String productId, int currentPage, int pageSize) {
+        return projectService.findByProductIdPage(productId, currentPage, pageSize);
     }
 
     /**
      * 跳转项目列表页面
+     *
      * @return
      */
     @RequestMapping("/findProjectPage")
@@ -73,6 +79,7 @@ public class ProjectController {
 
     /**
      * 跳转到产品页面
+     *
      * @param id
      * @return
      */
@@ -83,6 +90,7 @@ public class ProjectController {
 
     /**
      * 获取指定项目信息
+     *
      * @param id
      * @return
      */
@@ -94,6 +102,7 @@ public class ProjectController {
 
     /**
      * 更新项目信息
+     *
      * @param project
      * @return
      */

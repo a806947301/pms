@@ -1,5 +1,8 @@
 package com.dayi.demo.project.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.dayi.demo.bug.service.BugService;
 import com.dayi.demo.project.service.ProjectService;
 import com.dayi.demo.project.dao.ProjectDao;
 import com.dayi.demo.project.model.Project;
@@ -28,7 +31,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setUpdateTime(new Date());
         project.setFinished(false);
         int countAdd = projectDao.addProject(project);
-        if(countAdd != 0) {
+        if (countAdd != 0) {
             return project.getId();
         }
         return "";
@@ -36,8 +39,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public PageInfo<Project> findByPage(int currentPage, int pageSize) {
-        PageHelper.startPage(currentPage,pageSize);
-        List<Project> list = projectDao.findAllProduct();
+        PageHelper.startPage(currentPage, pageSize);
+        List<Project> list = projectDao.findAllProject();
         PageInfo<Project> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
@@ -51,5 +54,18 @@ public class ProjectServiceImpl implements ProjectService {
     public int updateProject(Project project) {
         project.setUpdateTime(new Date());
         return projectDao.updateProject(project);
+    }
+
+    @Override
+    public PageInfo<Project> findByProductIdPage(String productId, int currentPage, int pageSize) {
+        PageHelper.startPage(currentPage, pageSize);
+        List<Project> list = projectDao.findByProductId(productId);
+        PageInfo<Project> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+
+    @Override
+    public List<Project> findAll() {
+        return projectDao.findAllProject();
     }
 }

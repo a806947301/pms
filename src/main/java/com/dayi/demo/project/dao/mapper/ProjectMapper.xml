@@ -18,9 +18,15 @@
     </sql>
 
     <!--查询所有项目-->
-    <select id="findAllProduct" resultMap="projectResultMap">
+    <select id="findAllProject" resultMap="projectResultMap">
         <include refid="selectAllColumnProject"/>
-        project ORDER BY id
+        project ORDER BY addtime
+    </select>
+
+    <!--根据产品id 获取产品下的项目-->
+    <select id="findByProductId" resultMap="projectResultMap">
+        <include refid="selectAllColumnProject"/>
+        project WHERE product_id = #{0} ORDER BY addtime
     </select>
 
     <!--根据id获取项目-->

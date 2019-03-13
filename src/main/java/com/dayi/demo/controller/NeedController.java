@@ -27,6 +27,7 @@ public class NeedController {
 
     /**
      * 跳转添加需求页面
+     *
      * @param projectId
      * @return
      */
@@ -37,33 +38,37 @@ public class NeedController {
 
     /**
      * 添加需求
-     * @param needDescriptionFile   需求说明文件
-     * @param needFile  需求文件
+     *
+     * @param needDescriptionFile 需求说明文件
+     * @param needFile            需求文件
      * @param need
      * @param request
      * @return
      */
     @RequestMapping("/addNeed")
     @ResponseBody
-    public String addNeed(MultipartFile needDescriptionFile,MultipartFile needFile, Need need, HttpServletRequest request) {
+    public String addNeed(MultipartFile needDescriptionFile, MultipartFile needFile,
+                          Need need, HttpServletRequest request) {
         String realPath = request.getSession().getServletContext().getRealPath("/");
-        return needService.addNeed(needDescriptionFile,needFile,need,realPath,getCurrentUser());
+        return needService.addNeed(needDescriptionFile, needFile, need, realPath, getCurrentUser());
     }
 
     /**
      * 分页查找项目的需求
+     *
      * @param projectId
      * @param currentPage
      * @return
      */
     @RequestMapping("/findNeedByProjectId")
     @ResponseBody
-    public PageInfo<Need> findNeedByProjectId(String projectId,int currentPage) {
-        return needService.findNeedByProjectId(projectId,currentPage,5);
+    public PageInfo<Need> findNeedByProjectId(String projectId, int currentPage) {
+        return needService.findNeedByProjectId(projectId, currentPage, 5);
     }
 
     /**
      * 跳转到需求页面
+     *
      * @param id
      * @return
      */
@@ -74,6 +79,7 @@ public class NeedController {
 
     /**
      * 查找需求数据
+     *
      * @param id
      * @return
      */
@@ -85,11 +91,12 @@ public class NeedController {
 
     /**
      * 获取当前用户
+     *
      * @return
      */
     private User getCurrentUser() {
         Session session = SecurityUtils.getSubject().getSession();
-        User user = (User)session.getAttribute("user");
+        User user = (User) session.getAttribute("user");
         return user;
     }
 }

@@ -13,6 +13,7 @@ public interface RoleService {
 
     /**
      * 添加角色
+     *
      * @param role
      * @return
      */
@@ -20,6 +21,7 @@ public interface RoleService {
 
     /**
      * 更新角色
+     *
      * @param role
      * @return
      */
@@ -27,20 +29,23 @@ public interface RoleService {
 
     /**
      * 分页查询角色
+     *
      * @param currentPage
      * @param pageSize
      * @return
      */
-    PageInfo<Role> findByPage(int currentPage,int pageSize);
+    PageInfo<Role> findByPage(int currentPage, int pageSize);
 
     /**
      * 查询所有的角色
+     *
      * @return
      */
     List<Role> findAll();
 
     /**
      * 查询指定用户拥有的角色
+     *
      * @param userId
      * @return
      */
@@ -48,22 +53,25 @@ public interface RoleService {
 
     /**
      * 给用户赋予角色
+     *
      * @param userId
      * @param roleId
      * @return
      */
-    int doAscribedRole(String userId,String roleId);
+    int doAscribedRole(String userId, String roleId);
 
     /**
      * 取消用户角色
+     *
      * @param userId
      * @param roleId
      * @return
      */
-    int doCancelRole(String userId,String roleId);
+    int doCancelRole(String userId, String roleId);
 
     /**
      * 删除角色
+     *
      * @param id
      * @return
      */

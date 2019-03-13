@@ -8,6 +8,18 @@ import java.util.List;
  * @Author wut
  */
 public interface BugOperatingRecordDao {
+
+    /**
+     * 添加Bug操作记录
+     * @param record
+     * @return
+     */
     int addBugOperatingRecord(BugOperatingRecord record);
+
+    /**
+     * 查找指定Bug的Bug操作记录
+     * @param bugId
+     * @return
+     */
     List<BugOperatingRecord> findBugOperatingRecordByBugId(String bugId);
 }

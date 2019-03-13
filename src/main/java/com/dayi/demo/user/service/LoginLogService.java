@@ -14,18 +14,20 @@ import java.util.List;
 public interface LoginLogService {
     /**
      * 添加登陆日志
+     *
      * @param userId
      * @param ip
      * @return
      */
-    int addLoginLog(String userId,String ip);
+    int addLoginLog(String userId, String ip);
 
     /**
      * 查找指定用户的登陆日志
+     *
      * @param userId
      * @param currentPage
      * @param pageSize
      * @return
      */
-    public PageInfo<LoginLog> findLoginLogByUserId(String userId,int currentPage,int pageSize);
+    public PageInfo<LoginLog> findLoginLogByUserId(String userId, int currentPage, int pageSize);
 }

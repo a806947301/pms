@@ -7,7 +7,6 @@ import com.github.pagehelper.PageInfo;
 import java.util.List;
 
 /**
- *
  * 用户模块业务接口
  *
  * @Author wut
@@ -15,6 +14,7 @@ import java.util.List;
 public interface UserService {
     /**
      * 分页查询用户数据
+     *
      * @param currentPage
      * @param pageSize
      * @return
@@ -23,6 +23,7 @@ public interface UserService {
 
     /**
      * 添加用户
+     *
      * @param user
      * @return
      */
@@ -30,6 +31,7 @@ public interface UserService {
 
     /**
      * 更新用户数据
+     *
      * @param user
      * @return
      */
@@ -37,19 +39,22 @@ public interface UserService {
 
     /**
      * 查询所有用户数据
+     *
      * @return
      */
     List<User> findAllUser();
 
     /**
      * 根据产品id 查找所有参与产品的用户
-     * @param productId    产品id
+     *
+     * @param productId 产品id
      * @return
      */
     List<User> findUserByProductId(String productId);
 
     /**
      * 查找指定用户
+     *
      * @param id 用户id
      * @return
      */
@@ -57,14 +62,17 @@ public interface UserService {
 
     /**
      * 登录
+     *
      * @param email
      * @param password
+     * @param ip
      * @return
      */
-    boolean doLogin(String email,String password,String ip) ;
+    boolean doLogin(String email, String password, String ip);
 
     /**
      * 根据邮箱获取用户
+     *
      * @param email
      * @return
      */
@@ -72,13 +80,16 @@ public interface UserService {
 
     /**
      * 修改用户停用状态
+     *
+     * @param id
      * @param stopped
      * @return
      */
-    int updateUserStopped(String id,boolean stopped);
+    int updateUserStopped(String id, boolean stopped);
 
     /**
      * 退出登陆
+     *
      * @return
      */
     boolean doLogout();

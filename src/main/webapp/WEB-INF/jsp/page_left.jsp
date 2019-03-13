@@ -59,18 +59,6 @@
                             <i class="icon icon-energy"></i> 登陆日志
                         </a>
                     </li>
-
-                    <li class="nav-item">
-                        <a href="progress-bars.html" class="nav-link">
-                            <i class="icon icon-energy"></i> Progress Bars
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="widgets.html" class="nav-link">
-                            <i class="icon icon-energy"></i> Widgets
-                        </a>
-                    </li>
                 </ul>
             </li>
             </shiro:hasPermission>
@@ -92,24 +80,8 @@
                             <i class="icon icon-target"></i> 创建产品
                         </a>
                     </li>
-
-                    <li class="nav-item">
-                        <a href="layouts-fixed-header.html" class="nav-link">
-                            <i class="icon icon-target"></i> Fixed Header
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="layouts-hidden-sidebar.html" class="nav-link">
-                            <i class="icon icon-target"></i> Hidden Sidebar
-                        </a>
-                    </li>
                 </ul>
             </li>
-    <shiro:hasPermission name="user:*">
-            <li class="nav-item nav-dropdown">哈哈哈哈哈</li>
-    </shiro:hasPermission>
-
             <li class="nav-item nav-dropdown">
                 <a href="#" class="nav-link nav-dropdown-toggle">
                     <i class="icon icon-graph"></i> 项目 <i class="fa fa-caret-left"></i>
@@ -131,29 +103,17 @@
                 </ul>
             </li>
 
-            <li class="nav-item">
-                <a href="forms.html" class="nav-link">
-                    <i class="icon icon-puzzle"></i> Forms
-                </a>
-            </li>
 
-            <li class="nav-item">
-                <a href="tables.html" class="nav-link">
-                    <i class="icon icon-grid"></i> Tables
-                </a>
-            </li>
-
-            <li class="nav-title">More</li>
 
             <li class="nav-item nav-dropdown">
                 <a href="#" class="nav-link nav-dropdown-toggle">
-                    <i class="icon icon-umbrella"></i> Pages <i class="fa fa-caret-left"></i>
+                    <i class="icon icon-umbrella"></i> 数据统计 <i class="fa fa-caret-left"></i>
                 </a>
 
                 <ul class="nav-dropdown-items">
                     <li class="nav-item">
-                        <a href="blank.html" class="nav-link">
-                            <i class="icon icon-umbrella"></i> Blank Page
+                        <a href="/product/productStatisticsPage" class="nav-link">
+                            <i class="icon icon-umbrella"></i> 产品统计
                         </a>
                     </li>
 

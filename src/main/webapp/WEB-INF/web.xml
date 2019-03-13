@@ -33,6 +33,7 @@
         <url-pattern>/simditor/*</url-pattern>
         <url-pattern>/needFile/*</url-pattern>
         <url-pattern>/fonts/*</url-pattern>
+        <url-pattern>/excel/*</url-pattern>
     </servlet-mapping>
     <!--shiro-->
     <filter-mapping>

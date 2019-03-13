@@ -28,10 +28,6 @@
 					<array value-type="com.alibaba.fastjson.serializer.SerializerFeature">
 						<value>DisableCircularReferenceDetect</value>
 					</array>
-					<!--<list>
-						<value>WriteMapNullValue</value>
-						<value>QuoteFieldNames</value>
-					</list>-->
 				</property>
 			</bean>
 		</mvc:message-converters>

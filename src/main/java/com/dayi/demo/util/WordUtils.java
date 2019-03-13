@@ -28,30 +28,34 @@ import java.io.OutputStreamWriter;
  */
 public class WordUtils {
 
+    private static final String DOC = ".doc";
+    private static final String DOCX = ".docx";
+
     /**
      * doc转换成html
-     * @param filepath  源文件路径
-     * @param imagePath 图片相对源文件路径
-     * @param sourceFileName    源文件文件名
+     *
+     * @param filepath       源文件路径
+     * @param imagePath      图片相对源文件路径
+     * @param sourceFileName 源文件文件名
      * @return
      * @throws Exception
      */
     private static String docToHtml(String filepath, final String imagePath, String sourceFileName) throws Exception {
-        /** 把路径进行拼接，确定转换后的各个路径 */
+        // 把路径进行拼接，确定转换后的各个路径
         File path = new File(filepath);
         final String imagePathStr = path.getAbsolutePath() + "\\" + imagePath + "\\";
         String targetFileName = path.getAbsolutePath() + "\\" + sourceFileName + ".html";
         sourceFileName = path.getAbsolutePath() + "\\" + sourceFileName;
-        /** 创建图片文件夹 */
+        // 创建图片文件夹
         File file = new File(imagePathStr);
         if (!file.exists()) {
             file.mkdirs();
         }
-        /** word对象转换成html对象  */
+        // word对象转换成html对象
         HWPFDocument wordDocument = new HWPFDocument(new FileInputStream(sourceFileName));
         org.w3c.dom.Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         WordToHtmlConverter wordToHtmlConverter = new WordToHtmlConverter(document);
-        /** 保存图片，并返回图片的相对路径 */
+        // 保存图片，并返回图片的相对路径
         wordToHtmlConverter.setPicturesManager(new PicturesManager() {
             @Override
             public String savePicture(byte[] bytes, PictureType pictureType, String s, float v, float v1) {
@@ -81,9 +85,10 @@ public class WordUtils {
 
     /**
      * docx转换成html
-     * @param filepath  源文件路径
-     * @param imagePath 图片相对源文件路径
-     * @param sourceFileName    源文件文件名
+     *
+     * @param filepath       源文件路径
+     * @param imagePath      图片相对源文件路径
+     * @param sourceFileName 源文件文件名
      * @return
      * @throws Exception
      */
@@ -116,16 +121,17 @@ public class WordUtils {
 
     /**
      * word转换成html
-     * @param filepath  源文件路径
-     * @param imagePath 图片相对源文件路径
-     * @param sourceFileName    源文件文件名
+     *
+     * @param filepath       源文件路径
+     * @param imagePath      图片相对源文件路径
+     * @param sourceFileName 源文件文件名
      * @return
      * @throws Exception
      */
     public static String wordToHtml(String filepath, String imagePath, String sourceFileName) throws Exception {
-        if (sourceFileName.endsWith(".doc")) {
+        if (sourceFileName.endsWith(DOC)) {
             return docToHtml(filepath, imagePath, sourceFileName);
-        } else if (sourceFileName.endsWith(".docx")) {
+        } else if (sourceFileName.endsWith(DOCX)) {
             return docxToHtml(filepath, imagePath, sourceFileName);
         }
         return null;

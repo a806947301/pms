@@ -27,6 +27,7 @@ public class PremissionController {
 
     /**
      * 跳转权限管理页面
+     *
      * @return
      */
     @RequestMapping("/premissionManger")
@@ -34,37 +35,41 @@ public class PremissionController {
         return "premissionManager";
     }
 
+    /**
+     * 添加权限
+     *
+     * @param premission
+     * @return
+     */
     @RequestMapping("/addPremission")
     @ResponseBody
     public JSONObject addPremission(Premission premission) {
         JSONObject json = new JSONObject();
         int countAdd = premissionService.addPremission(premission);
-        if(0 != countAdd) {
-            json.put("success","true");
+        if (0 != countAdd) {
+            json.put("success", "true");
         } else {
-            json.put("success","false");
-            json.put("msg","添加失败");
+            json.put("success", "false");
+            json.put("msg", "添加失败");
         }
         return json;
     }
 
-    public List<Premission> findAllPremission() {
-        return premissionService.findAll();
-    }
-
     /**
      * 分页查找权限
+     *
      * @param currentPage
      * @return
      */
     @RequestMapping("/findPremission")
     @ResponseBody
     public PageInfo<Premission> findPremission(int currentPage) {
-        return premissionService.findByPage(currentPage,5);
+        return premissionService.findByPage(currentPage, 5);
     }
 
     /**
      * 查找权限菜单
+     *
      * @return
      */
     @RequestMapping("/findPremissionMenu")
@@ -76,6 +81,7 @@ public class PremissionController {
 
     /**
      * 更新权限
+     *
      * @param premission
      * @return
      */
@@ -84,17 +90,18 @@ public class PremissionController {
     public JSONObject updatePremission(Premission premission) {
         JSONObject json = new JSONObject();
         int countAdd = premissionService.updatePremission(premission);
-        if(0 != countAdd) {
-            json.put("success","true");
+        if (0 != countAdd) {
+            json.put("success", "true");
         } else {
-            json.put("success","false");
-            json.put("msg","更新失败");
+            json.put("success", "false");
+            json.put("msg", "更新失败");
         }
         return json;
     }
 
     /**
      * 返回所有权限（树状）
+     *
      * @param roleId
      * @return
      */
@@ -107,26 +114,24 @@ public class PremissionController {
 
     /**
      * 给角色授权
+     *
      * @param roleId
      * @param premissions
      * @return
      */
     @RequestMapping("/authorization")
     @ResponseBody
-    public JSONObject authorization(String roleId,String[] premissions) {
+    public JSONObject authorization(String roleId, String[] premissions) {
         JSONObject json = new JSONObject();
         int countAdd = premissionService.doAuthorization(roleId, premissions);
-        if(premissions.length != countAdd) {
-            json.put("success","false");
-            json.put("msg","授权失败，还有权限未被授予");
-        } else {
-            json.put("success","true");
-        }
+        boolean success = premissions.length != countAdd;
+        json = JsonUtils.packageJson(success, "", "授权失败，还有权限未被授予");
         return json;
     }
 
     /**
      * 删除权限
+     *
      * @param id
      * @return
      */
@@ -135,7 +140,7 @@ public class PremissionController {
     public JSONObject deletePremission(String id) {
         int countDelete = premissionService.deletePremission(id);
         boolean deleteSuccess = (0 != countDelete);
-        return JsonUtils.packageJson(deleteSuccess,"删除成功","删除失败");
+        return JsonUtils.packageJson(deleteSuccess, "删除成功", "删除失败");
     }
 
 }

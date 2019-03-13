@@ -15,23 +15,27 @@ public interface NeedService {
      * 添加需求
      * @param needDescriptionFile   需求描述文件
      * @param needFile  需求文件
-     * @param realPath  服务器真实路径
-     * @param need
+     * @param need  需求
+     * @param realPath  本地真实路径
+     * @param currentUser   当前用户
      * @return
      */
-    String addNeed(MultipartFile needDescriptionFile, MultipartFile needFile, Need need, String realPath, User currentUser);
+    String addNeed(MultipartFile needDescriptionFile, MultipartFile needFile, Need need,
+                   String realPath, User currentUser);
 
     /**
      * 分页查找项目下的需求
-     * @param projectId
-     * @param currentPage
-     * @param pageSize
+     *
+     * @param projectId 项目Id
+     * @param currentPage   当前页数
+     * @param pageSize  每页的size
      * @return
      */
-    PageInfo<Need> findNeedByProjectId(String projectId,int currentPage,int pageSize);
+    PageInfo<Need> findNeedByProjectId(String projectId, int currentPage, int pageSize);
 
     /**
      * 根据id，查找指定需求
+     *
      * @param id
      * @return
      */

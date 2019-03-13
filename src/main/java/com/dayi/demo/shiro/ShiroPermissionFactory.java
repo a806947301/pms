@@ -14,7 +14,9 @@ import java.util.Map;
  * @Date 2019-03-06
  */
 public class ShiroPermissionFactory extends ShiroFilterFactoryBean {
-    /**xml中的配置*/
+    /**
+     * xml中的配置
+     */
     public static String definitions;
 
 
@@ -22,9 +24,9 @@ public class ShiroPermissionFactory extends ShiroFilterFactoryBean {
     public void setFilterChainDefinitions(String definitions) {
         ShiroPermissionFactory.definitions = definitions;
 
-        Map<String, String> otherChains = new HashMap<String,String>(16);
-        otherChains.put("/user/loginPage","anon");
-        otherChains.put("/user/login","anon");
+        Map<String, String> otherChains = new HashMap<String, String>(16);
+        otherChains.put("/user/loginPage", "anon");
+        otherChains.put("/user/login", "anon");
 
 
         /** 从配置文件加载权限配置 */

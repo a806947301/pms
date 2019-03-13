@@ -36,20 +36,25 @@
         bug WHERE id = #{0}
     </select>
 
+    <!--统计项目的bug总数-->
+    <select id="countBugByProject" resultType="java.util.HashMap">
+      SELECT project_id AS 'projectId', COUNT(*) AS 'bugNumber' FROM bug GROUP BY project_id
+    </select>
+
     <!--添加bug-->
     <insert id="addBug">
-        INSERT INTO bug (id, addtime, updatetime, project_id, is_noprocessing,
-                         bug_status, bug_title, bug_content, bug_proposer, bug_processer)
-        VALUES (#{id}, #{addTime}, #{updateTime}, #{project.id}, #{noProcessing}, #{bugStatus},
-                #{bugTitle}, #{bugContent}, #{bugProposer.id}, #{bugProcesser.id})
+        INSERT INTO bug (id, addtime, updatetime, project_id, is_noprocessing
+                        ,bug_status, bug_title, bug_content, bug_proposer, bug_processer)
+        VALUES (#{id}, #{addTime}, #{updateTime}, #{project.id}, #{noProcessing}, #{bugStatus}
+               ,#{bugTitle}, #{bugContent}, #{bugProposer.id}, #{bugProcesser.id})
     </insert>
 
     <update id="updateBugStatue">
         UPDATE bug
         <set>
-            <if test="bugStatus != -1">bug_status = #{bugStatus}, </if>
-            <if test="bugProcesser != null">bug_processer = #{bugProcesser}, </if>
-            <if test="updateTime != null">updatetime = #{updateTime}, </if>
+            <if test="-1 != bugStatus">bug_status = #{bugStatus}, </if>
+            <if test="null != bugProcesser">bug_processer = #{bugProcesser}, </if>
+            <if test="null != updateTime">updatetime = #{updateTime}, </if>
             is_noprocessing = #{noProcessing}
         </set>
         WHERE id = #{id}

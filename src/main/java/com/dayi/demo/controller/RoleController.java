@@ -26,6 +26,7 @@ public class RoleController {
 
     /**
      * 跳转角色管理页面
+     *
      * @return
      */
     @RequestMapping("/roleManager")
@@ -35,6 +36,7 @@ public class RoleController {
 
     /**
      * 添加角色
+     *
      * @param role
      * @return
      */
@@ -43,11 +45,12 @@ public class RoleController {
     public JSONObject addRole(Role role) {
         int coundAdd = roleService.addRole(role);
         boolean addSuccess = (0 != coundAdd);
-        return JsonUtils.packageJson(addSuccess,"","添加角色失败");
+        return JsonUtils.packageJson(addSuccess, "", "添加角色失败");
     }
 
     /**
      * 更新角色
+     *
      * @param role
      * @return
      */
@@ -56,22 +59,24 @@ public class RoleController {
     public JSONObject updateRole(Role role) {
         int countUpdate = roleService.updateRole(role);
         boolean updateSuccess = (0 != countUpdate);
-        return JsonUtils.packageJson(updateSuccess,"","更新角色失败");
+        return JsonUtils.packageJson(updateSuccess, "", "更新角色失败");
     }
 
     /**
      * 分页查找角色
+     *
      * @param currentPage
      * @return
      */
     @RequestMapping("/findRole")
     @ResponseBody
     public PageInfo<Role> findRole(int currentPage) {
-        return roleService.findByPage(currentPage,5);
+        return roleService.findByPage(currentPage, 5);
     }
 
     /**
      * 查找所有角色
+     *
      * @return
      */
     @RequestMapping("/findAllRole")
@@ -82,6 +87,7 @@ public class RoleController {
 
     /**
      * 查找用户拥有的角色
+     *
      * @param userId
      * @return
      */
@@ -93,35 +99,38 @@ public class RoleController {
 
     /**
      * 把角色赋予用户
+     *
      * @param userId
      * @param roleId
      * @return
      */
     @RequestMapping("/ascribedRole")
     @ResponseBody
-    public JSONObject ascribedRole(String userId,String roleId) {
+    public JSONObject ascribedRole(String userId, String roleId) {
         int countAdd = roleService.doAscribedRole(userId, roleId);
         boolean addSuccess = (0 != countAdd);
-        return JsonUtils.packageJson(addSuccess,"","赋予角色失败");
+        return JsonUtils.packageJson(addSuccess, "", "赋予角色失败");
     }
 
     /**
      * 取消用户的角色
+     *
      * @param userId
      * @param roleId
      * @return
      */
     @RequestMapping("/cancelRole")
     @ResponseBody
-    public JSONObject cancelRole(String userId,String roleId) {
-        int countDelete = roleService.doCancelRole(userId,roleId);
+    public JSONObject cancelRole(String userId, String roleId) {
+        int countDelete = roleService.doCancelRole(userId, roleId);
         boolean deleteSuccess = (0 != countDelete);
-        return JsonUtils.packageJson(deleteSuccess,"","取消角色失败");
+        return JsonUtils.packageJson(deleteSuccess, "", "取消角色失败");
 
     }
 
     /**
      * 删除角色
+     *
      * @param id
      * @return
      */
@@ -130,6 +139,6 @@ public class RoleController {
     public JSONObject deleteRole(String id) {
         int countDelete = roleService.deleteRole(id);
         boolean deleteSuccess = (0 != countDelete);
-        return JsonUtils.packageJson(deleteSuccess,"删除角色成功","删除角色失败");
+        return JsonUtils.packageJson(deleteSuccess, "删除角色成功", "删除角色失败");
     }
 }

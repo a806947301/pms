@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.user.model.Department;
 
 /**
- *
  * 部门模块接口
  *
  * @Author wut
@@ -12,6 +11,7 @@ import com.dayi.demo.user.model.Department;
 public interface DepartmentService {
     /**
      * 添加部门
+     *
      * @param department
      * @return
      */
@@ -19,6 +19,7 @@ public interface DepartmentService {
 
     /**
      * 分页查询部门
+     *
      * @param currentPage
      * @param pageSize
      * @return
@@ -27,6 +28,7 @@ public interface DepartmentService {
 
     /**
      * 更新部门
+     *
      * @param department
      * @return
      */
@@ -34,6 +36,7 @@ public interface DepartmentService {
 
     /**
      * 删除部门
+     *
      * @param id
      * @return
      */
@@ -41,6 +44,7 @@ public interface DepartmentService {
 
     /**
      * 查询所有部门
+     *
      * @return
      */
     JSONObject findAll();

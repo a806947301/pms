@@ -1,9 +1,12 @@
 package com.dayi.demo.product.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.product.dao.ProductDao;
 import com.dayi.demo.product.model.Product;
 import com.dayi.demo.product.service.ProductService;
+import com.dayi.demo.project.model.Project;
+import com.dayi.demo.project.service.ProjectService;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.UserService;
 import com.dayi.demo.util.IdUtils;
@@ -20,7 +23,7 @@ import java.util.List;
  * @Author wut
  */
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
     @Resource
     ProductDao productDao;
@@ -28,23 +31,26 @@ public class ProductServiceImpl implements ProductService{
     @Autowired
     UserService userService;
 
+    @Autowired
+    ProjectService projectService;
+
     @Override
     public String addProduct(Product product, String[] participators) {
-        /** 添加产品  */
+        // 添加产品
         product.setId(IdUtils.getPrimaryKey());
         product.setAddTime(new Date());
         product.setUpdateTime(new Date());
         int countAdd = productDao.addProduct(product);
 
-        /**  添加产品成员 */
-        for(String participator : participators) {
+        //  添加产品成员
+        for (String participator : participators) {
             String id = IdUtils.getPrimaryKey();
             Date addTime = new Date();
             Date updateTime = new Date();
-            productDao.addProductParticipator(id,product.getId(),participator,addTime,updateTime);
+            productDao.addProductParticipator(id, product.getId(), participator, addTime, updateTime);
         }
-        /** 判断产品是否添加成功 */
-        if(countAdd != 0) {
+        // 判断产品是否添加成功
+        if (countAdd != 0) {
             return product.getId();
         }
         return "";
@@ -52,7 +58,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public PageInfo<Product> findByPage(int currentPage, int pageSize) {
-        PageHelper.startPage(currentPage,pageSize);
+        PageHelper.startPage(currentPage, pageSize);
         List<Product> list = productDao.findAllProduct();
         PageInfo<Product> pageInfo = new PageInfo<>(list);
         return pageInfo;
@@ -71,20 +77,20 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public int addParticipator(String id, String[] newParticipator) {
-        /** 计算被添加的行数 */
-        int countAdd=0;
-        for(String participator : newParticipator) {
+        // 计算被添加的行数
+        int countAdd = 0;
+        for (String participator : newParticipator) {
             String participatorId = IdUtils.getPrimaryKey();
             Date addTime = new Date();
             Date updateTime = new Date();
-            countAdd+=productDao.addProductParticipator(participatorId,id,participator,addTime,updateTime);
+            countAdd += productDao.addProductParticipator(participatorId, id, participator, addTime, updateTime);
         }
         return countAdd;
     }
 
     @Override
     public int deleteParticipator(String productId, String userId) {
-        return productDao.deleteParticipator(productId,userId);
+        return productDao.deleteParticipator(productId, userId);
     }
 
     @Override
@@ -97,4 +103,5 @@ public class ProductServiceImpl implements ProductService{
     public List<Product> findAllProduct() {
         return productDao.findAllProduct();
     }
+
 }

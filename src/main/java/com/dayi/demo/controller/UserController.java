@@ -19,6 +19,7 @@ import java.util.List;
 
 /**
  * 用户模块控制器
+ *
  * @Author wut
  */
 @Controller
@@ -35,6 +36,7 @@ public class UserController {
 
     /**
      * 跳转登录页面
+     *
      * @return
      */
     @RequestMapping("/loginPage")
@@ -44,6 +46,7 @@ public class UserController {
 
     /**
      * 跳转主页
+     *
      * @return
      */
     @RequestMapping("/index")
@@ -59,6 +62,7 @@ public class UserController {
 
     /**
      * 跳转用户管理页面
+     *
      * @return
      */
     @RequestMapping("/userManager")
@@ -68,16 +72,18 @@ public class UserController {
 
     /**
      * 分页查找
+     *
      * @return
      */
     @RequestMapping("/findUser")
     @ResponseBody
     public PageInfo<User> findUser(int currentPage) {
-        return userService.findByPage(currentPage,5);
+        return userService.findByPage(currentPage, 5);
     }
 
     /**
      * 查找所有用户
+     *
      * @return
      */
     @RequestMapping("/findAllUser")
@@ -88,6 +94,7 @@ public class UserController {
 
     /**
      * 添加用户
+     *
      * @param user
      * @return
      */
@@ -96,11 +103,12 @@ public class UserController {
     public JSONObject addUser(User user) {
 
         boolean addSuccess = userService.addUser(user) != 0;
-        return JsonUtils.packageJson(addSuccess,"添加成功","添加失败");
+        return JsonUtils.packageJson(addSuccess, "添加成功", "添加失败");
     }
 
     /**
      * 更新用户
+     *
      * @param user
      * @return
      */
@@ -112,6 +120,7 @@ public class UserController {
 
     /**
      * 查找产品组所有成员
+     *
      * @param id
      * @return
      */
@@ -123,6 +132,7 @@ public class UserController {
 
     /**
      * 登陆
+     *
      * @param email
      * @param password
      * @return
@@ -131,48 +141,51 @@ public class UserController {
     @ResponseBody
     public JSONObject login(String email, String password, HttpServletRequest request) {
         boolean loginSuccess = userService.doLogin(email, password, IpUtils.getIpAddress(request));
-        return JsonUtils.packageJson(loginSuccess,INDEX_PAGE,"登陆失败");
+        return JsonUtils.packageJson(loginSuccess, INDEX_PAGE, "登陆失败");
     }
 
     /**
      * 退出登陆
+     *
      * @return
      */
     @RequestMapping("/logout")
     @ResponseBody
     public JSONObject logout() {
         boolean logoutSuccess = userService.doLogout();
-        return JsonUtils.packageJson(logoutSuccess,"退出登陆","退出登陆失败！！！");
+        return JsonUtils.packageJson(logoutSuccess, "退出登陆", "退出登陆失败！！！");
     }
 
     /**
      * 启用/停用用户
+     *
      * @param id
      * @param stopped
      * @return
      */
     @RequestMapping("/updateStopped")
     @ResponseBody
-    public JSONObject updateStopped(String id,boolean stopped) {
+    public JSONObject updateStopped(String id, boolean stopped) {
         int countUpdate = userService.updateUserStopped(id, stopped);
         boolean updateSuccess = (0 != countUpdate);
-        return JsonUtils.packageJson(updateSuccess,"停用/启用成功","停用/启用失败");
+        return JsonUtils.packageJson(updateSuccess, "停用/启用成功", "停用/启用失败");
     }
 
     /**
      * 获取用户的登陆日志
+     *
      * @param id
      * @param currentPage
      * @return
      */
     @RequestMapping("/loginLogByUser")
     @ResponseBody
-    public PageInfo<LoginLog> findLoginLogByUserId(String id,int currentPage) {
-        if(null == id) {
+    public PageInfo<LoginLog> findLoginLogByUserId(String id, int currentPage) {
+        if (null == id) {
             User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
             id = user.getId();
         }
-        PageInfo<LoginLog> logs = loginLogService.findLoginLogByUserId(id,currentPage,10);
+        PageInfo<LoginLog> logs = loginLogService.findLoginLogByUserId(id, currentPage, 10);
         return logs;
     }
 

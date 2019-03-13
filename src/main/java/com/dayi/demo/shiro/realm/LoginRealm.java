@@ -34,20 +34,21 @@ public class LoginRealm extends AuthorizingRealm {
 
     /**
      * 授权
+     *
      * @param principalCollection
      * @return
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String email = (String)principalCollection.getPrimaryPrincipal();
-        SimpleAuthorizationInfo info=new SimpleAuthorizationInfo();
+        String email = (String) principalCollection.getPrimaryPrincipal();
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         User user = userService.getUserByEmail(email);
         List<Role> roles = roleService.findRoleByUserId(user.getId());
         LinkedHashSet<String> premissions = new LinkedHashSet<String>();
-        for(Role role : roles) {
+        for (Role role : roles) {
             info.addRole(role.getRoleName());
             List<Premission> rolePremissions = premissionService.findByRoleId(role.getId());
-            for(Premission premission : rolePremissions) {
+            for (Premission premission : rolePremissions) {
                 premissions.add(premission.getField());
             }
         }
@@ -58,6 +59,7 @@ public class LoginRealm extends AuthorizingRealm {
 
     /**
      * 认证
+     *
      * @param token
      * @return
      * @throws AuthenticationException
@@ -66,14 +68,15 @@ public class LoginRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String email = token.getPrincipal().toString();
         User user = userService.getUserByEmail(email);
-        if(null == user) {
+        if (null == user) {
             throw new AccountException();
         }
         String principals = user.getEmail();
         String credentials = user.getPassword();
         ByteSource credentialsSalt = ByteSource.Util.bytes(user.getId());
         String realmName = getName();
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(principals, credentials, credentialsSalt, realmName);
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(principals, credentials,
+                credentialsSalt, realmName);
         return info;
     }
 
