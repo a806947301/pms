@@ -63,6 +63,10 @@
        FROM bug GROUP BY bug_proposer
     </select>
 
+    <select id="countBugByProjectNoFinished" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM bug WHERE project_id = #{0} AND bug_status != 3
+    </select>
+
     <!--添加bug-->
     <insert id="addBug">
         INSERT INTO bug (id, addtime, updatetime, project_id, is_noprocessing

@@ -9,6 +9,7 @@ import com.dayi.demo.util.WordUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -21,6 +22,7 @@ import java.util.List;
  * @date 2019-03-04
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class NeedServiceImpl implements NeedService {
 
     @Resource

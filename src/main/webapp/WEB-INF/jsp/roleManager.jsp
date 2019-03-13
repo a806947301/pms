@@ -313,7 +313,7 @@
         methods:{
             beforeAuthc:function(id){
                 authcModalVm.roleId = id;
-                document.getElementById('authc').src="/test.jsp?roleId=" + id;
+                document.getElementById('authc').src="/authc.jsp?roleId=" + id;
             },
             getPage:function(currentPage) {
                 if(currentPage<=0)

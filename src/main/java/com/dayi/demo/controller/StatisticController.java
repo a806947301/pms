@@ -1,8 +1,8 @@
 package com.dayi.demo.controller;
 
 import com.alibaba.fastjson.JSONArray;
-import com.dayi.demo.statistic.service.UserStatistic;
-import com.dayi.demo.statistic.service.ProductStatistic;
+import com.dayi.demo.statistic.service.UserStatisticService;
+import com.dayi.demo.statistic.service.ProductStatisticService;
 import com.dayi.demo.util.ExcelUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-03-13
  */
 @Controller
@@ -41,10 +41,10 @@ public class StatisticController {
     private Logger logger = LoggerFactory.getLogger(StatisticController.class);
 
     @Resource
-    private ProductStatistic productStatistic;
+    private ProductStatisticService productStatisticService;
 
     @Resource
-    private UserStatistic userStatistic;
+    private UserStatisticService userStatisticService;
 
     /**
      * 跳转产品统计页面
@@ -66,7 +66,7 @@ public class StatisticController {
     @ResponseBody
     public JSONArray productStatistic(HttpServletRequest request) {
         String realPath = request.getSession().getServletContext().getRealPath("/");
-        return productStatistic.doStatistic();
+        return productStatisticService.doStatistic();
     }
 
     /**
@@ -76,12 +76,12 @@ public class StatisticController {
      */
     @RequestMapping("/exportExcelProduct")
     public void exportExcelProduct(HttpServletResponse response) {
-        JSONArray productJsonArray = productStatistic.doStatistic();
+        JSONArray productJsonArray = productStatisticService.doStatistic();
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
         response.setHeader("Content-Disposition", "attachment;fileName=" + PRODUCT_EXCEL_NAME);
         try {
-            productStatistic.exportExcelProduct(productJsonArray, response.getOutputStream());
+            productStatisticService.exportExcelProduct(productJsonArray, response.getOutputStream());
         } catch (IOException e) {
             logger.error(ExcelUtil.class.toString() + "_" + e.getMessage(), e);
         }
@@ -106,7 +106,7 @@ public class StatisticController {
     @RequestMapping("/developerStatistic")
     @ResponseBody
     public JSONArray developerStatistic() {
-        return userStatistic.doStatisicDeveloper();
+        return userStatisticService.doStatisicDeveloper();
     }
 
     /**
@@ -120,7 +120,7 @@ public class StatisticController {
         response.setContentType("multipart/form-data");
         response.setHeader("Content-Disposition", "attachment;fileName=" + DEVELOPER_EXCEL_NAME);
         try {
-            userStatistic.exportExcelDeveloper(response.getOutputStream());
+            userStatisticService.exportExcelDeveloper(response.getOutputStream());
         } catch (IOException e) {
             logger.error(ExcelUtil.class.toString() + "_" + e.getMessage(), e);
         }
@@ -144,11 +144,12 @@ public class StatisticController {
     @RequestMapping("/testerStatistic")
     @ResponseBody
     public JSONArray testerStatistic() {
-        return userStatistic.doStatisicTester();
+        return userStatisticService.doStatisicTester();
     }
 
     /**
      * 导出测试人员统计Excel
+     *
      * @param response
      */
     @RequestMapping("/exportExcelTester")
@@ -157,7 +158,7 @@ public class StatisticController {
         response.setContentType("multipart/form-data");
         response.setHeader("Content-Disposition", "attachment;fileName=" + TESTER_EXCEL_NAME);
         try {
-            userStatistic.exportExcelTester(response.getOutputStream());
+            userStatisticService.exportExcelTester(response.getOutputStream());
         } catch (IOException e) {
             logger.error(ExcelUtil.class.toString() + "_" + e.getMessage(), e);
         }

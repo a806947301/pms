@@ -49,11 +49,17 @@
             begindate = #{beginDate},
             enddate = #{endDate},
             project_name = #{projectName},
-            product_id = #{product.id},
-            is_finished = #{finished}
+            product_id = #{product.id}
         </set>
         WHERE id = #{id}
     </update>
 
+    <update id="updateIsFinished">
+        UPDATE project
+        <set>
+            is_finished = #{finished}
+        </set>
+        WHERE id = #{id}
+    </update>
 
 </mapper>

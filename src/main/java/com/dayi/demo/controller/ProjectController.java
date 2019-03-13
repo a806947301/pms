@@ -1,7 +1,9 @@
 package com.dayi.demo.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.project.service.ProjectService;
 import com.dayi.demo.project.model.Project;
+import com.dayi.demo.util.JsonUtils;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -111,5 +113,13 @@ public class ProjectController {
     @ResponseBody
     public int updateProject(Project project) {
         return projectService.updateProject(project);
+    }
+
+    @RequestMapping("/updateProjectFinished")
+    @ResponseBody
+    public JSONObject updateProjectFinished(String projectId, boolean finished, int countBugNotfinished) {
+        int countUpdate = projectService.updateProjectFinished(projectId,finished,countBugNotfinished);
+        boolean updateSuccess = 0 != countUpdate;
+        return JsonUtils.packageJson(updateSuccess,"更新成功","改项目还有Bug未完成");
     }
 }

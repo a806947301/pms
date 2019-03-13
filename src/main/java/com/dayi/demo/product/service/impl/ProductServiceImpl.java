@@ -14,6 +14,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -24,6 +25,7 @@ import java.util.List;
  * @date 2019-2-25
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class ProductServiceImpl implements ProductService {
 
     @Resource

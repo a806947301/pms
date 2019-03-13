@@ -45,6 +45,14 @@ public interface UserDao {
     List<User> findUserByProductId(String productId);
 
     /**
+     * 查找指定产品指定角色的用户
+     * @param productId
+     * @param roleId
+     * @return
+     */
+    List<User> findUserByproductIdRole(@Param("productId") String productId,@Param("roleId") String roleId);
+
+    /**
      * 根据用户角色表查询用户
      * @param userId
      * @param roleId

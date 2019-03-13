@@ -197,10 +197,10 @@ public class BugController {
         return user;
     }
 
-    @RequestMapping("/test")
+    @RequestMapping("/countBugByProjectNoFinished")
     @ResponseBody
-    public String test() {
-        return "";
+    public int countBugByProjectNoFinished(String id) {
+        return bugService.countBugByProjectNoFinished(id);
     }
 
 }

@@ -44,4 +44,12 @@ public interface ProjectDao {
      * @return
      */
     List<Project> findByProductId(String productId);
+
+    /**
+     * 更新项目完成状态
+     * @param id
+     * @param finished
+     * @return
+     */
+    int updateIsFinished(@Param("id") String id, @Param("finished") boolean finished);
 }

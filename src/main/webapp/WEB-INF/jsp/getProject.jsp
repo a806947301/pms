@@ -81,12 +81,14 @@
                                                 v-on:click="beforeUpdate()">更新项目信息</button>
                                     </div>
                                     <div class="col-md-1" v-if="project.finished">
-                                        <button class="btn btn-success" type="button">
+                                        <button class="btn btn-success" type="button" data-toggle="modal" data-target="#finishedModal"
+                                                v-on:click="finishedVm.beforeVm(project.id,false)">
                                             <i class="fa fa-cut"></i>&nbsp; 已完成
                                         </button>
                                     </div>
                                     <div class="col-md-1" v-else>
-                                        <button class="btn btn-warning" type="button">
+                                        <button class="btn btn-warning" type="button" data-toggle="modal" data-target="#finishedModal"
+                                                v-on:click="finishedVm.beforeVm(project.id,true)">
                                             <i class="fa fa-clipboard"></i> &nbsp; 未完成
                                         </button>
                                     </div>
@@ -262,15 +264,6 @@
                         </div>
                         <br><br><br><br><br><br>
                     </div>
-                    <div class="card"  style="border:0px">
-                        <div class="card-body m-auto" >
-                        <div class="toggle-switch" data-ts-color="info">
-                            <label class="ts-label" for="ts5">已经完成项目</label>
-                            <input id="ts5" type="checkbox" hidden="hidden" v-model="project.finished">
-                            <label class="ts-helper" for="ts5"></label>
-                        </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -303,11 +296,10 @@
                 <div class="form-group">
                     <label>状态</label>
                     <select class="form-control" v-model="status">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                        <option value="0">指派中</option>
+                        <option value="1">处理中</option>
+                        <option value="2">验收中</option>
+                        <option value="3">已完成</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -335,6 +327,29 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<%--确定完成状态--%>
+<div class="modal fade" id="finishedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h3>项目完成状态</h3>
+                <a class="close" data-dismiss="modal">×</a>
+            </div>
+            <div class="modal-body">
+                确定要更新项目完成状态为：{{finished ? "已完成" : "未完成"}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" v-on:click="update()"  data-dismiss="modal">
+                    确定更新
+                </button>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/popper.js/popper.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -353,7 +368,31 @@
 <script src="/js/vue.min.js"></script>
 
 <script>
+    var finishedVm = new Vue({
+        el:'#finishedModal',
+        data:{
+            finished:null,
+            id:null
+        },
+        methods:{
+            beforeVm:function(id,finished) {
+                this.id = id;
+                this.finished = finished;
+            },
+            update:function() {
+                params = new URLSearchParams();
+                params.append("projectId",this.id);
+                params.append("finished",this.finished);
+                params.append("countBugNotfinished",vm.countBugNofinished);
+                axios
+                    .post("/project/updateProjectFinished",params)
+                    .then(function (response) {
+                        alert(response.data.msg);
+                    })
+            }
 
+        }
+    })
     var updateVm = new Vue({
         el:'#updateProjectModal',
         data:{
@@ -370,7 +409,6 @@
                 params.append("beginDate",this.project.beginDate);
                 params.append("endDate",this.project.endDate);
                 params.append("product.id",this.productId);
-                params.append("finished",this.project.finished);
                 axios
                     .post("/project/updateProject",params)
                     .then(function (response) {
@@ -385,12 +423,19 @@
             projectId:null,
             project:{
                 product:{productName:null}
-            }
+            },
+            countBugNofinished:null
         },
         created:function(){
             this.projectId = window.location.href.split('/')[window.location.href.split('/').length-1];
             params = new URLSearchParams();
             params.append("id",this.projectId)
+            axios
+                .post("/bug/countBugByProjectNoFinished",params)
+                .then(function (response) {
+                    vm.countBugNofinished = response.data;
+                    console.log(vm.countBugNofinished)
+                });
             axios
                 .post("/project/getProject",params)
                 .then(function (response) {
@@ -611,7 +656,6 @@
                 bugVm.status = this.status;
                 bugVm.proposerId = this.proposerId;
                 bugVm.processerId = this.processerId;
-                console.log(this.proposerId)
                 bugVm.getPage(bugVm.bugs.pageNum);
             }
 

@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-03-13
  */
-public interface UserStatistic {
+public interface UserStatisticService {
 
     /**
      * 统计开发人员，并以Json形式返回

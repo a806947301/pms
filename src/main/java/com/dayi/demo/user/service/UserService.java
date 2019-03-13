@@ -102,4 +102,12 @@ public interface UserService {
      * @return
      */
     boolean doLogout();
+
+    /**
+     * 查询产品下指定角色的用户
+     * @param productId
+     * @param roleId
+     * @return
+     */
+    List<User> findUserByproductIdRole(String productId, String roleId);
 }

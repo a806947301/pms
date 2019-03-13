@@ -17,6 +17,7 @@ import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -28,6 +29,7 @@ import java.util.*;
  * @date 2019-2-28
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class BugServiceImpl implements BugService {
 
     private final static Logger logger = LoggerFactory.getLogger(BugServiceImpl.class);
@@ -301,5 +303,10 @@ public class BugServiceImpl implements BugService {
             result.put((String)map.get("proposer"),json);
         }
         return result;
+    }
+
+    @Override
+    public int countBugByProjectNoFinished(String projectId) {
+        return bugDao.countBugByProjectNoFinished(projectId);
     }
 }

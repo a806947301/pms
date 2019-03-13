@@ -76,4 +76,11 @@ public interface BugDao {
      * @return
      */
     List<Map<String,Object>> countBugByProposer();
+
+    /**
+     * 统计项目下未完成Bug的数量
+     * @param projectId
+     * @return
+     */
+    int countBugByProjectNoFinished(String projectId);
 }

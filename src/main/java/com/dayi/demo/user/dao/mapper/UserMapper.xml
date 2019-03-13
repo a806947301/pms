@@ -40,6 +40,13 @@
         ORDER BY user.addtime
     </select>
 
+    <select id="findUserByproductIdRole" resultMap="userResultMap">
+        <include refid="selectAllColumnUser"/>
+        user JOIN user_role ON user.id = user_role.user_id
+        JOIN product_member AS pm ON user.id = pm.user_id
+        WHERE pm.product_id = #{productId} AND user_role.role_id = #{roleId}
+    </select>
+
     <!-- 根据产品名查用户 -->
     <select id="findUserByProductId" resultMap="userResultMap">
         <include refid="selectAllColumnUser"/>

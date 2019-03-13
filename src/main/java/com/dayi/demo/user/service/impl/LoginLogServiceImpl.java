@@ -8,6 +8,7 @@ import com.dayi.demo.util.IdUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -18,6 +19,7 @@ import java.util.List;
  * @date 2019-03-08
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class LoginLogServiceImpl implements LoginLogService {
 
     @Resource

@@ -10,6 +10,7 @@ import com.dayi.demo.util.IdUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -20,6 +21,7 @@ import java.util.List;
  * @date 2019-2-26
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class ProjectServiceImpl implements ProjectService {
 
     @Resource
@@ -68,5 +70,13 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<Project> findAll() {
         return projectDao.findAllProject();
+    }
+
+    @Override
+    public int updateProjectFinished(String projectId, boolean finished, int countBugNotfinished) {
+        if(0 != countBugNotfinished) {
+            return 0;
+        }
+        return projectDao.updateIsFinished(projectId,finished);
     }
 }

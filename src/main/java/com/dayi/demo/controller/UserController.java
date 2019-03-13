@@ -190,5 +190,11 @@ public class UserController {
         return logs;
     }
 
+    @RequestMapping("/findUserByproductIdRole")
+    @ResponseBody
+    public List<User> findUserByproductIdRole(String productId, String roleId) {
+        return userService.findUserByproductIdRole(productId,roleId);
+    }
+
 
 }

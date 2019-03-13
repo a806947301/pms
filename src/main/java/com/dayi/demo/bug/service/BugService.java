@@ -126,7 +126,7 @@ public interface BugService {
     PageInfo<BugOperatingRecord> findBugOperationRecordByBugId(String bugId, int currentPage, int pageSize);
 
     /**
-     * 统计项目下的Bug量
+     * 统计所有项目下的Bug量
      *
      * @return
      */
@@ -146,5 +146,11 @@ public interface BugService {
      */
     Map<String, JSONObject> countBugByProposer();
 
+    /**
+     * 统计项目下未完成Bug的数量
+     * @param projectId
+     * @return
+     */
+    int countBugByProjectNoFinished(String projectId);
 
 }

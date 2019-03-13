@@ -16,7 +16,7 @@
 		<property name="securityManager" ref="securityManager"/>
 		<property name="loginUrl" value="/user/loginPage"/>
 		<property name="successUrl" value="/home"/>
-		<property name="unauthorizedUrl" value="/unauthorized.jsp"/>
+		<property name="unauthorizedUrl" value="/unauthorized.html"/>
 		<!-- The 'filters' property is not necessary since any declared javax.servlet.Filter bean  -->
 		<!-- defined will be automatically acquired and available via its beanName in chain        -->
 		<!-- definitions, but you can perform instance overrides or name aliases here if you like: -->

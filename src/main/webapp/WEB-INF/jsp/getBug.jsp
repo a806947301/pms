@@ -340,6 +340,7 @@
             params = new URLSearchParams();
             params.append("bugId",this.bugId);
             params.append("currentPage",1);
+            params.append("pageSize",5);
             axios
                 .post("/bug/findDescription",params)
                 .then(function (response) {
@@ -357,6 +358,7 @@
                 params = new URLSearchParams();
                 params.append("bugId",this.bugId);
                 params.append("currentPage",currentPage);
+                params.append("pageSize",5);
                 axios
                     .post("/bug/findDescription",params)
                     .then(function (response) {

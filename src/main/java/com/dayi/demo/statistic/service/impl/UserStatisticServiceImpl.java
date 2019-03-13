@@ -3,7 +3,7 @@ package com.dayi.demo.statistic.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.bug.service.BugService;
-import com.dayi.demo.statistic.service.UserStatistic;
+import com.dayi.demo.statistic.service.UserStatisticService;
 import com.dayi.demo.user.model.Role;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.RoleService;
@@ -24,7 +24,7 @@ import java.util.Map;
  * @date 2019-03-13
  */
 @Component
-public class UserStatisticImpl implements UserStatistic {
+public class UserStatisticServiceImpl implements UserStatisticService {
 
     @Resource
     private RoleService roleService;

@@ -18,6 +18,7 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -28,6 +29,7 @@ import java.util.List;
  * @date 2019-2-25
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
 
     @Resource
@@ -122,5 +124,10 @@ public class UserServiceImpl implements UserService {
         SecurityUtils.getSubject().getSession().removeAttribute("user");
         SecurityUtils.getSubject().logout();
         return true;
+    }
+
+    @Override
+    public List<User> findUserByproductIdRole(String productId, String roleId) {
+        return userDao.findUserByproductIdRole(productId,roleId);
     }
 }

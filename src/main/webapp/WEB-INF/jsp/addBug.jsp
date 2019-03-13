@@ -64,7 +64,7 @@
                                             <br><br>
                                         </div>
 
-                                        <button class="btn btn-block btn-secondary" type="button" v-on:click="addBug()">创建产品</button>
+                                        <button class="btn btn-block btn-secondary" type="button" v-on:click="addBug()">创建Bug</button>
 
                                     </div>
 
@@ -109,23 +109,33 @@
             bugContent:null,
             processer:null,
             title:null,
-            content:null
+            content:null,
+            roleId:null
         },
         created:function(){
             this.projectId = window.location.href.split('/')[window.location.href.split('/').length-1];
             this.productId = window.location.href.split('/')[window.location.href.split('/').length-2];
-            params = new URLSearchParams();
-            params.append("id",this.productId);
+            params1 = new URLSearchParams();
+            params1.append("rolename","开发人员");
             axios
-                .post("/user/findUserByProductId",params)
+                .post("/role/getRoleByRoleName",params1)
                 .then(function (response) {
-                    vm.users = response.data;
-                    vm.processer = vm.users[0].id;
-                    for( i in vm.users)
-                    {
-                        setParticipator(vm.users[i].id,vm.users[i].department.departmentName + "-"+vm.users[i].name)
-                    }
+                    vm.roleId = response.data.id;
+                    params1 = new URLSearchParams();
+                    params1.append("productId",vm.productId);
+                    params1.append("roleId",vm.roleId);
+                    axios
+                        .post("/user/findUserByproductIdRole",params1)
+                        .then(function (response) {
+                            vm.users = response.data;
+                            vm.processer = vm.users[0].id;
+                            for( i in vm.users)
+                            {
+                                setParticipator(vm.users[i].id,vm.users[i].department.departmentName + "-"+vm.users[i].name)
+                            }
+                        })
                 })
+
         },
         methods:{
             addBug:function() {

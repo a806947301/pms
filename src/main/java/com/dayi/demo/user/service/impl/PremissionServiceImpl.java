@@ -10,6 +10,7 @@ import com.dayi.demo.util.IdUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -19,6 +20,7 @@ import java.util.*;
  * @date 2019-03-06
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class PremissionServiceImpl implements PremissionService {
 
     @Resource

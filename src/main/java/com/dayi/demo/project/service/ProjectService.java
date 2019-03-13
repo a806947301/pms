@@ -62,5 +62,14 @@ public interface ProjectService {
      */
     int updateProject(Project project);
 
+    /**
+     * 更新项目完成状态
+     *
+     * @param projectId
+     * @param finished
+     * @param countBugNotfinished   未完成Bug的数量
+     * @return
+     */
+    int updateProjectFinished(String projectId, boolean finished, int countBugNotfinished);
 
 }

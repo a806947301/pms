@@ -7,7 +7,7 @@ import com.dayi.demo.product.model.Product;
 import com.dayi.demo.product.service.ProductService;
 import com.dayi.demo.project.model.Project;
 import com.dayi.demo.project.service.ProjectService;
-import com.dayi.demo.statistic.service.ProductStatistic;
+import com.dayi.demo.statistic.service.ProductStatisticService;
 import com.dayi.demo.util.ExcelUtil;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -26,14 +26,14 @@ import java.util.*;
  * @date 2019-03-12
  */
 @Component
-public class ProductStatisticImpl implements ProductStatistic {
+public class ProductStatisticServiceImpl implements ProductStatisticService {
 
     /**
      * 保存文件的相对路径
      */
     private static final String PATH = "\\excel\\product.xlsx";
 
-    private Logger logger = LoggerFactory.getLogger(ProductStatisticImpl.class);
+    private Logger logger = LoggerFactory.getLogger(ProductStatisticServiceImpl.class);
 
     @Resource
     private ProductService productService;
