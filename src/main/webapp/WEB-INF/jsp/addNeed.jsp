@@ -125,7 +125,13 @@ var vm = new Vue({
                     }
                 })
                 .then(function (response) {
-                    console.log(response.data);
+                    result = response.data;
+                    if(result.success) {
+                        alert("添加成功！");
+                        window.location.href = "/need/getNeedPage/" + result.msg;
+                    } else {
+                        alert(result.msg);
+                    }
                 })
         }
     }

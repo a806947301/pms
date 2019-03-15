@@ -5,22 +5,24 @@ import com.dayi.demo.user.model.LoginLog;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.LoginLogService;
 import com.dayi.demo.user.service.UserService;
-import com.dayi.demo.util.IpUtils;
-import com.dayi.demo.util.JsonUtils;
+import com.dayi.demo.util.IpUtil;
+import com.dayi.demo.util.JsonUtil;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
  * 用户模块控制器
  *
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut @ pvc123.com>
  * @date 2019-2-23
  */
 @Controller
@@ -55,6 +57,12 @@ public class UserController {
         return "index";
     }
 
+    /**
+     * 跳转登陆日志页面
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping("/loginLogPage")
     public String loginLogPage(String id) {
         return "loginLog";
@@ -72,12 +80,38 @@ public class UserController {
     }
 
     /**
+     * 跳转注册页面
+     *
+     * @return
+     */
+    @RequestMapping("/registerPage")
+    public String registerPage() {
+        return "register";
+    }
+
+    /**
+     * 获取验证码
+     *
+     * @param email
+     * @return
+     * @throws MessagingException
+     */
+    @RequestMapping("/getVarification")
+    @ResponseBody
+    public JSONObject getVarification(String email) throws MessagingException {
+        //生成验证码
+        String varificationCode = userService.doRandomVarificationCodeToEmail(email);
+        return JsonUtil.packageJson(true, varificationCode,"");
+    }
+
+    /**
      * 分页查找
      *
      * @return
      */
     @RequestMapping("/findUser")
     @ResponseBody
+    @RequiresPermissions("select:user")
     public PageInfo<User> findUser(int currentPage) {
         return userService.findByPage(currentPage, 5);
     }
@@ -101,10 +135,10 @@ public class UserController {
      */
     @RequestMapping("/addUser")
     @ResponseBody
+    @RequiresPermissions("add:user")
     public JSONObject addUser(User user) {
-
         boolean addSuccess = userService.addUser(user) != 0;
-        return JsonUtils.packageJson(addSuccess, "添加成功", "添加失败");
+        return JsonUtil.packageJson(addSuccess, "添加成功", "添加失败");
     }
 
     /**
@@ -115,8 +149,10 @@ public class UserController {
      */
     @RequestMapping("/updateUser")
     @ResponseBody
-    public int updateUser(User user) {
-        return userService.updateUser(user);
+    @RequiresPermissions("update:user")
+    public JSONObject updateUser(User user) {
+        boolean updateSuccess = (userService.updateUser(user) != 0);
+        return JsonUtil.packageJson(updateSuccess,"更新成功","更新失败");
     }
 
     /**
@@ -141,8 +177,8 @@ public class UserController {
     @RequestMapping("/login")
     @ResponseBody
     public JSONObject login(String email, String password, HttpServletRequest request) {
-        boolean loginSuccess = userService.doLogin(email, password, IpUtils.getIpAddress(request));
-        return JsonUtils.packageJson(loginSuccess, INDEX_PAGE, "登陆失败");
+        boolean loginSuccess = userService.doLogin(email, password, IpUtil.getIpAddress(request));
+        return JsonUtil.packageJson(loginSuccess, INDEX_PAGE, "登陆失败");
     }
 
     /**
@@ -154,7 +190,7 @@ public class UserController {
     @ResponseBody
     public JSONObject logout() {
         boolean logoutSuccess = userService.doLogout();
-        return JsonUtils.packageJson(logoutSuccess, "退出登陆", "退出登陆失败！！！");
+        return JsonUtil.packageJson(logoutSuccess, "退出登陆", "退出登陆失败！！！");
     }
 
     /**
@@ -166,10 +202,11 @@ public class UserController {
      */
     @RequestMapping("/updateStopped")
     @ResponseBody
+    @RequiresPermissions("delete:user")
     public JSONObject updateStopped(String id, boolean stopped) {
         int countUpdate = userService.updateUserStopped(id, stopped);
         boolean updateSuccess = (0 != countUpdate);
-        return JsonUtils.packageJson(updateSuccess, "停用/启用成功", "停用/启用失败");
+        return JsonUtil.packageJson(updateSuccess, "停用/启用成功", "停用/启用失败");
     }
 
     /**
@@ -181,6 +218,7 @@ public class UserController {
      */
     @RequestMapping("/loginLogByUser")
     @ResponseBody
+    @RequiresPermissions("loginLog")
     public PageInfo<LoginLog> findLoginLogByUserId(String id, int currentPage) {
         if (null == id) {
             User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
@@ -190,11 +228,42 @@ public class UserController {
         return logs;
     }
 
+    /**
+     * 查找指定产品下指定角色的成员
+     *
+     * @param productId
+     * @param roleId
+     * @return
+     */
     @RequestMapping("/findUserByproductIdRole")
     @ResponseBody
     public List<User> findUserByproductIdRole(String productId, String roleId) {
-        return userService.findUserByproductIdRole(productId,roleId);
+        return userService.findUserByproductIdRole(productId, roleId);
     }
 
+    /**
+     * 查询邮箱是否已被注册
+     *
+     * @param email
+     * @return
+     */
+    @RequestMapping("/existEmail")
+    @ResponseBody
+    public JSONObject existEmail(String email) {
+        boolean existEmail = userService.doExistEmail(email);
+        return JsonUtil.packageJson(true, existEmail, "");
+    }
 
+    /**
+     * 注册
+     *
+     * @param user
+     * @return
+     */
+    @RequestMapping("/register")
+    @ResponseBody
+    public JSONObject register(User user) {
+        boolean resigterSuccess = (userService.addUser(user) != 0);
+        return JsonUtil.packageJson(resigterSuccess,"注册成功","注册失败");
+    }
 }

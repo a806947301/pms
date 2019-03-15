@@ -56,8 +56,9 @@
                                         <tr>
                                             <th scope="col">序号</th>
                                             <th scope="col">项目名</th>
+                                            <th scope="col">未完成Bug量</th>
+                                            <th scope="col">Bug总量</th>
                                             <th scope="col">完成状态</th>
-                                            <th scope="col">Bug量</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -66,8 +67,9 @@
                                         <tr v-else v-for="(project,index) in product.projects">
                                             <td>{{index+1}}</td>
                                             <td>{{project.projectName}}</td>
+                                            <td>{{project.bugNumber}}</td>
+                                            <td>{{project.allBug}}</td>
                                             <td>{{project.finished?"已完成":"未完成"}}</td>
-                                            <td>{{project.countBug}}</td>
                                         </tr>
                                         </tbody>
                                     </template>

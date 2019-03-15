@@ -319,10 +319,11 @@
         created:function (){
             params = new URLSearchParams();
             params.append("currentPage",1);
+            params.append("pageSize",5);
             axios
                 .post("/department/findDepartment",params)
                 .then(function (response) {
-                   vm.departments = eval('(' + response.data + ')').pageInfo;
+                   vm.departments = response.data;
 
                 })
         },
@@ -339,10 +340,11 @@
 
                 params = new URLSearchParams();
                 params.append("currentPage",currentPage);
+                params.append("pageSize",5);
                 axios
                     .post("/department/findDepartment",params)
                     .then(function (response) {
-                        vm.departments = eval('(' + response.data + ')').pageInfo;
+                        vm.departments = response.data;
                     })
             },
             beforeUpdate:function(id,departmentName)
@@ -356,6 +358,7 @@
                 axios
                     .post("/department/deleteDepartment",params)
                     .then(function (response) {
+                        alert(response.data.msg);
                         vm.getPage(vm.departments.pageNum);
                     })
             }

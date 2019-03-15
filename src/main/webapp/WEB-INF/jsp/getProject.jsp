@@ -412,6 +412,7 @@
                 axios
                     .post("/project/updateProject",params)
                     .then(function (response) {
+                        alert(response.data.msg);
                         vm.updateProjects();
                     })
             }

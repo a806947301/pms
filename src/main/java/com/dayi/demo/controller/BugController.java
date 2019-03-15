@@ -1,12 +1,15 @@
 package com.dayi.demo.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.bug.model.Bug;
 import com.dayi.demo.bug.model.BugDescription;
 import com.dayi.demo.bug.model.BugOperatingRecord;
 import com.dayi.demo.bug.service.BugService;
 import com.dayi.demo.user.model.User;
+import com.dayi.demo.util.JsonUtil;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.session.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,8 +41,12 @@ public class BugController {
      */
     @RequestMapping("/addBug")
     @ResponseBody
-    public String addBug(Bug bug) {
-        return bugService.addBug(bug, getCurrentUser());
+    @RequiresPermissions("add:bug")
+    public JSONObject addBug(Bug bug) {
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
+        String bugId = bugService.addBug(bug, user);
+        boolean addSuccess = (null != bugId && (!"".equals(bugId))) ;
+        return JsonUtil.packageJson(addSuccess,bugId,"添加失败");
     }
 
     /**
@@ -76,6 +83,7 @@ public class BugController {
      */
     @RequestMapping("/findBugByProject")
     @ResponseBody
+    @RequiresPermissions("select:bug")
     public PageInfo<Bug> findBugByProject(int currentPage, int pageSize, String projectId, Date begin,
                                           Date end, int status, String processerId, String proposerId) {
         return bugService.findBugByProject(currentPage, pageSize, projectId, begin, end, status, processerId, proposerId);
@@ -100,6 +108,7 @@ public class BugController {
      */
     @RequestMapping("/getBug")
     @ResponseBody
+    @RequiresPermissions("select:bug")
     public Bug getBug(String id) {
         return bugService.getBug(id);
     }
@@ -114,7 +123,8 @@ public class BugController {
     @RequestMapping("/redesignate")
     @ResponseBody
     public int redesignate(String bugId, String userId) {
-        return bugService.doRedesignate(bugId, userId, getCurrentUser());
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
+        return bugService.doRedesignate(bugId, userId, user);
     }
 
     /**
@@ -126,7 +136,8 @@ public class BugController {
     @RequestMapping("/processSelf")
     @ResponseBody
     public int processSelf(String bugId) {
-        return bugService.doProcessSelf(bugId, getCurrentUser());
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
+        return bugService.doProcessSelf(bugId, user);
     }
 
     /**
@@ -138,7 +149,8 @@ public class BugController {
     @RequestMapping("/noProcessing")
     @ResponseBody
     public int noProcessing(String bugId) {
-        return bugService.doNoProcessing(bugId, getCurrentUser());
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
+        return bugService.doNoProcessing(bugId, user);
     }
 
     /**
@@ -150,7 +162,8 @@ public class BugController {
     @RequestMapping("/closeBug")
     @ResponseBody
     public int closeBug(String bugId) {
-        return bugService.doCloseBug(bugId, getCurrentUser());
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
+        return bugService.doCloseBug(bugId, user);
     }
 
     /**
@@ -162,7 +175,8 @@ public class BugController {
     @RequestMapping("/addBugDescription")
     @ResponseBody
     public int addBugDescription(BugDescription bugDescription) {
-        return bugService.addBugDescription(bugDescription, getCurrentUser());
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
+        return bugService.addBugDescription(bugDescription, user);
     }
 
     /**
@@ -191,16 +205,31 @@ public class BugController {
         return bugService.findBugOperationRecordByBugId(bugId, currentPage, 5);
     }
 
-    private User getCurrentUser() {
-        Session session = SecurityUtils.getSubject().getSession();
-        User user = (User) session.getAttribute("user");
-        return user;
-    }
-
+    /**
+     * 获取指定项目没完成Bug数
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping("/countBugByProjectNoFinished")
     @ResponseBody
     public int countBugByProjectNoFinished(String id) {
         return bugService.countBugByProjectNoFinished(id);
+    }
+
+    /**
+     * 获取当前用户被指派的Bug
+     *
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping("/findBugByCurrentUserDesignee")
+    @ResponseBody
+    @RequiresPermissions("select:bug")
+    public PageInfo<Bug> findBugByCurrentUserDesignee(int currentPage, int pageSize) {
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
+        return bugService.findBugByUserDesignee(user.getId(), currentPage, pageSize);
     }
 
 }

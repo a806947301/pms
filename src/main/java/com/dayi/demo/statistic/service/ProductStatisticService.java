@@ -21,10 +21,9 @@ public interface ProductStatisticService {
     /**
      * 产品信息导出Excel
      *
-     * @param jsonArray 产品统计Json数组
      * @param out       输出excel文件的输出流
      * @throws IOException
      */
-    void exportExcelProduct(JSONArray jsonArray, OutputStream out) throws IOException;
+    void exportExcelProduct(OutputStream out) throws IOException;
 
 }

@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-08
  */
-public class JsonUtils {
+public class JsonUtil {
 
     /**
      * 返回结果封装成Json对象
@@ -15,7 +15,7 @@ public class JsonUtils {
      * @param errMsg
      * @return
      */
-    public static JSONObject packageJson(boolean result, String successMsg, String errMsg) {
+    public static JSONObject packageJson(boolean result, Object successMsg, Object errMsg) {
         JSONObject json = new JSONObject();
         if (result) {
             json.put("success", true);

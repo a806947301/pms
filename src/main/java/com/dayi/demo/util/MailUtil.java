@@ -1,8 +1,6 @@
 package com.dayi.demo.util;
 
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
@@ -11,7 +9,7 @@ import java.util.Properties;
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-11
  */
-public class MailUtils {
+public class MailUtil {
 
     /**
      * 邮箱主机
@@ -38,7 +36,7 @@ public class MailUtils {
      * @param content 邮件内容
      * @throws Exception
      */
-    public static void sendMail(String to, String title, String content) throws Exception {
+    public static void sendMail(String to, String title, String content) throws MessagingException{
         Properties properties = new Properties();
         properties.setProperty("mail.host", HOST);
         properties.setProperty("mail.transport.protocol", SEND_PROTOCOL);

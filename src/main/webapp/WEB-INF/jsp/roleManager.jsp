@@ -394,15 +394,13 @@
                 for ( var i = 0; i <result.length; i++){
                     premissions[i] = result[i].id;
                 }
-                console.log(this.roleId);
-                console.log(premissions);
                 params = new URLSearchParams();
                 params.append("roleId",this.roleId);
                 params.append("premissions",premissions);
                 axios
                     .post("/premission/authorization",params)
                     .then(function (response) {
-                            console.log(response.data);
+                            alert(response.data.msg);
                     })
 
             }

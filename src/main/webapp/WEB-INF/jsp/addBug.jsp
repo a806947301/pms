@@ -145,10 +145,17 @@
                 params.append("bugContent",vm.content);
                 params.append("project.id",vm.projectId);
                 params.append("bugProcesser.id",vm.processer);
+               // window.location.href = "/bug/getBugPage/" + vm.productId + "/" + vm.projectId + "/" + "aaaa";
                 axios
                     .post("/bug/addBug",params)
                     .then(function (response) {
-
+                        result = response.data;
+                        if(result.success) {
+                            alert("添加成功");
+                            window.location.href = "/bug/getBugPage/" + vm.productId + "/" + vm.projectId + "/" + result.msg;
+                        } else {
+                            alert(result.msg);
+                        }
                     })
 
             }

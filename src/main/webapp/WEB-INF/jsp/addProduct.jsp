@@ -129,7 +129,13 @@
                 axios
                     .post("/product/addProduct",params)
                     .then(function (response) {
-                        console.log(response.data);
+                        result = response.data;
+                        if(result.success == true) {
+                            alert("添加成功");
+                            window.location.href="/product/getProductPage/" + result.msg;
+                        } else {
+                            alert(result.msg);
+                        }
                     })
             }
         }

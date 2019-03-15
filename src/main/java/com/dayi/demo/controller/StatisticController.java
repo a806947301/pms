@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.dayi.demo.statistic.service.UserStatisticService;
 import com.dayi.demo.statistic.service.ProductStatisticService;
 import com.dayi.demo.util.ExcelUtil;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -64,6 +65,7 @@ public class StatisticController {
      */
     @RequestMapping("/productStatistic")
     @ResponseBody
+    @RequiresPermissions("products:statistic")
     public JSONArray productStatistic(HttpServletRequest request) {
         String realPath = request.getSession().getServletContext().getRealPath("/");
         return productStatisticService.doStatistic();
@@ -75,13 +77,13 @@ public class StatisticController {
      * @param response
      */
     @RequestMapping("/exportExcelProduct")
+    @RequiresPermissions("products:statistic")
     public void exportExcelProduct(HttpServletResponse response) {
-        JSONArray productJsonArray = productStatisticService.doStatistic();
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
         response.setHeader("Content-Disposition", "attachment;fileName=" + PRODUCT_EXCEL_NAME);
         try {
-            productStatisticService.exportExcelProduct(productJsonArray, response.getOutputStream());
+            productStatisticService.exportExcelProduct(response.getOutputStream());
         } catch (IOException e) {
             logger.error(ExcelUtil.class.toString() + "_" + e.getMessage(), e);
         }
@@ -105,6 +107,7 @@ public class StatisticController {
      */
     @RequestMapping("/developerStatistic")
     @ResponseBody
+    @RequiresPermissions("developer:statistic")
     public JSONArray developerStatistic() {
         return userStatisticService.doStatisicDeveloper();
     }
@@ -115,6 +118,7 @@ public class StatisticController {
      * @param response
      */
     @RequestMapping("/exportExcelDevloper")
+    @RequiresPermissions("developer:statistic")
     public void exportExcelDeveloper(HttpServletResponse response) {
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
@@ -143,6 +147,7 @@ public class StatisticController {
      */
     @RequestMapping("/testerStatistic")
     @ResponseBody
+    @RequiresPermissions("test:statistic")
     public JSONArray testerStatistic() {
         return userStatisticService.doStatisicTester();
     }
@@ -153,6 +158,7 @@ public class StatisticController {
      * @param response
      */
     @RequestMapping("/exportExcelTester")
+    @RequiresPermissions("test:statistic")
     public void exportExcelTester(HttpServletResponse response) {
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");

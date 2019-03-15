@@ -3,15 +3,22 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xmlns:context="http://www.springframework.org/schema/context"
 	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans-3.1.xsd  
             http://www.springframework.org/schema/context  
             http://www.springframework.org/schema/context/spring-context-3.1.xsd  
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context-3.1.xsd
-			http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+			http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 
 
+
+	<!-- 扫描控制器 -->
+	<context:component-scan base-package="com.dayi.demo.controller" />
+	<!--开启aop注解-->
+	<aop:aspectj-autoproxy/>
 
 
 	<mvc:annotation-driven  >
@@ -32,8 +39,6 @@
 			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
-	<!-- 扫描控制器 -->
-	<context:component-scan base-package="com.dayi.demo.controller" />
 
 	<!-- 多部分文件上传 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -59,6 +64,13 @@
 
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
 
-
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property  name="exceptionMappings">
+			<props>
+				<prop key="org.apache.shiro.authz.UnauthorizedException">redirect:/exception/haveNotPremission</prop>
+				<prop key="org.springframework.dao.DataAccessException">redirect:/exception/mybatisException</prop>
+			</props>
+		</property>
+	</bean>
 
 </beans>

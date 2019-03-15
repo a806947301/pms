@@ -1,15 +1,12 @@
 package com.dayi.demo.product.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.product.dao.ProductDao;
 import com.dayi.demo.product.model.Product;
 import com.dayi.demo.product.service.ProductService;
-import com.dayi.demo.project.model.Project;
 import com.dayi.demo.project.service.ProjectService;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.UserService;
-import com.dayi.demo.util.IdUtils;
+import com.dayi.demo.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,14 +37,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public String addProduct(Product product, String[] participators) {
         // 添加产品
-        product.setId(IdUtils.getPrimaryKey());
+        product.setId(IdUtil.getPrimaryKey());
         product.setAddTime(new Date());
         product.setUpdateTime(new Date());
         int countAdd = productDao.addProduct(product);
 
         //  添加产品成员
         for (String participator : participators) {
-            String id = IdUtils.getPrimaryKey();
+            String id = IdUtil.getPrimaryKey();
             Date addTime = new Date();
             Date updateTime = new Date();
             productDao.addProductParticipator(id, product.getId(), participator, addTime, updateTime);
@@ -83,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
         // 计算被添加的行数
         int countAdd = 0;
         for (String participator : newParticipator) {
-            String participatorId = IdUtils.getPrimaryKey();
+            String participatorId = IdUtil.getPrimaryKey();
             Date addTime = new Date();
             Date updateTime = new Date();
             countAdd += productDao.addProductParticipator(participatorId, id, participator, addTime, updateTime);
@@ -107,4 +104,11 @@ public class ProductServiceImpl implements ProductService {
         return productDao.findAllProduct();
     }
 
+    @Override
+    public PageInfo<Product> findProductByUser(String userId, int currentPage, int pageSize) {
+        PageHelper.startPage(currentPage, pageSize);
+        List<Product> list = productDao.findProductByUser(userId);
+        PageInfo<Product> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
 }

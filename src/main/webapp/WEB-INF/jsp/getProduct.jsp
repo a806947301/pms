@@ -250,7 +250,6 @@
         },
         methods:{
             updateProduct:function() {
-                console.log(this.id + "\t" + this.productName + "\t" + this.productPresentation)
                 params = new URLSearchParams();
                 params.append("id",this.id);
                 params.append("productName",this.productName);
@@ -258,6 +257,7 @@
                 axios
                     .post("/product/updateProduct",params)
                     .then(function (response) {
+                        alert(response.data.msg);
                         vm.updateProduct();
                     })
             }
@@ -297,7 +297,6 @@
                                 continue outer;
                             }
                         }
-                        console.log("set")
                         setParticipator(vm.users[i].id,vm.users[i].department.departmentName + "-"+vm.users[i].name)
                     }
                 })
@@ -360,11 +359,13 @@
                 axios
                     .post("/product/deleteProductParticipator",params)
                     .then(function (response) {
+                        if(response.data.success == false) {
+                            alert(response.data.msg);
+                        }
                         vm.updateParticipator();
                     })
             },
             updateParticipator:function() {
-                console.log(11);
                 params = new URLSearchParams();
                 params.append("id",this.productId);
                 axios
@@ -390,7 +391,6 @@
                     continue outer;
                 }
             }
-            console.log("set")
             setParticipator(vm.users[i].id,vm.users[i].department.departmentName + "-"+vm.users[i].name)
         }
     }

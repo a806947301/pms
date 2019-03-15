@@ -11,12 +11,12 @@
     </resultMap>
 
     <sql id="selectAllColumnProduct">
-        SELECT id,addtime,updatetime,product_name,product_presentation FROM
+        SELECT product.id, product.addtime, product.updatetime, product_name, product_presentation FROM
     </sql>
 
     <!-- 查找所有 -->
     <select id="findAllProduct" resultMap="productResultMap">
-        SELECT id,product_name FROM
+        SELECT id, product_name FROM
         product ORDER BY addtime
     </select>
 
@@ -26,22 +26,29 @@
         product WHERE id=#{0}
     </select>
 
+    <!--查找用户参与的产品-->
+    <select id="findProductByUser" resultMap="productResultMap">
+        <include refid="selectAllColumnProduct"/>
+        product JOIN product_member ON product.id = product_member.product_id
+        WHERE user_id = #{0}
+    </select>
+
     <!-- 添加产品 -->
     <insert id="addProduct">
-        INSERT INTO product (id,addtime,updatetime,product_name,product_presentation)
-        VALUES (#{id},#{addTime},#{updateTime},#{productName},#{productPresentation})
+        INSERT INTO product (id, addtime, updatetime, product_name, product_presentation)
+        VALUES (#{id}, #{addTime}, #{updateTime}, #{productName}, #{productPresentation})
     </insert>
 
     <!-- 添加产品成员 -->
     <insert id="addProductParticipator">
-        INSERT INTO product_member (id,addtime,updatetime,product_id,user_id)
-        VALUES (#{id},#{addTime},#{updateTime},#{productId},#{userId})
+        INSERT INTO product_member (id, addtime, updatetime, product_id, user_id)
+        VALUES (#{id}, #{addTime}, #{updateTime}, #{productId}, #{userId})
     </insert>
 
     <!-- 删除产品成员 -->
     <delete id="deleteParticipator">
         DELETE FROM product_member
-        WHERE product_id=#{productId} AND user_id=#{userId}
+        WHERE product_id = #{productId} AND user_id = #{userId}
     </delete>
 
     <update id="updateProduct">

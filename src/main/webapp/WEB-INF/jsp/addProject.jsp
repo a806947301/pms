@@ -72,7 +72,7 @@
                                             <br><br>
                                         </div>
 
-                                        <button class="btn btn-block btn-secondary" type="button" v-on:click="addProject()">创建产品</button>
+                                        <button class="btn btn-block btn-secondary" type="button" v-on:click="addProject()">创建项目</button>
 
                                     </div>
 
@@ -128,6 +128,22 @@
         },
         methods:{
             addProject:function () {
+                if(null == this.beginDate) {
+                    alert("开始时间不能为空");
+                    return;
+                }
+                if(null == this.endDate) {
+                    alert("结束时间不能为空");
+                    return;
+                }
+                if(null == this.productId) {
+                    alert("产品id不能为空");
+                    return;
+                }
+                if(null == this.projectName) {
+                    alert("项目名不能为空");
+                    return;
+                }
                 /*console.log("productName:"+vm.productName)
                 console.log("productPresentation:"+vm.productPresentation)
                 console.log("participator:"+vm.participator)*/
@@ -139,7 +155,14 @@
                 axios
                     .post("/project/addProject",params)
                     .then(function (response) {
-                        console.log(response.data);
+                        result = response.data;
+                        console.log(result)
+                        if(result.success) {
+                            alert("添加成功");
+                            window.location.href="/project/getProjectPage/" + result.msg;
+                        } else {
+                            alert(result.msg);
+                        }
                     })
             }
         }

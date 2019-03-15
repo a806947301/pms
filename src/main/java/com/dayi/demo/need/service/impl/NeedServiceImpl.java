@@ -4,8 +4,8 @@ import com.dayi.demo.need.dao.NeedDao;
 import com.dayi.demo.need.model.Need;
 import com.dayi.demo.need.service.NeedService;
 import com.dayi.demo.user.model.User;
-import com.dayi.demo.util.IdUtils;
-import com.dayi.demo.util.WordUtils;
+import com.dayi.demo.util.IdUtil;
+import com.dayi.demo.util.WordUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
@@ -14,11 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 /**
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut   @   pvc123.com>
  * @date 2019-03-04
  */
 @Service
@@ -35,28 +36,29 @@ public class NeedServiceImpl implements NeedService {
 
     @Override
     public String addNeed(MultipartFile needDescriptionFile, MultipartFile needFile, Need need,
-                          String realPath, User currentUser) {
-        need.setId(IdUtils.getPrimaryKey());
+                          String realPath, User currentUser) throws Exception {
+        need.setId(IdUtil.getPrimaryKey());
         // 处理需求说明文件
         String descriptionFilepath = "";
         String descriptionFilename = "";
         if (null != needDescriptionFile) {
             descriptionFilename = needDescriptionFile.getOriginalFilename();
-            descriptionFilepath = doSaveFile(needDescriptionFile, need.getId(), realPath);
+            descriptionFilepath = doSaveFile(needDescriptionFile, need.getId(), realPath, false);
         }
         need.setDescriptionFilepath(descriptionFilepath);
         need.setDescriptionFilename(descriptionFilename);
 
-        // 处理需求文件 */
+        // 处理需求文件
         String needFilepath = "";
         String needFilename = "";
         if (null != needFile) {
             needFilename = needFile.getOriginalFilename();
-            needFilepath = doSaveFile(needFile, need.getId(), realPath);
+            needFilepath = doSaveFile(needFile, need.getId(), realPath, true);
         }
         need.setNeedFilepath(needFilepath);
         need.setNeedFilename(needFilename);
 
+        //保存需求
         need.setAddTime(new Date());
         need.setUpdateTime(new Date());
         need.setUser(currentUser);
@@ -73,22 +75,22 @@ public class NeedServiceImpl implements NeedService {
      * @param file
      * @param needId
      * @param realPath
+     * @param isNeedFile
      * @return 文件真实地址
      */
-    private String doSaveFile(MultipartFile file, String needId, String realPath) {
+    private String doSaveFile(MultipartFile file, String needId, String realPath,
+                              boolean isNeedFile) throws Exception {
         // 获取文件上传目录，如不存在，创建新目录
         File newFilePath = new File(realPath + "\\needFile\\" + needId);
         if (!newFilePath.exists()) {
             newFilePath.mkdirs();
         }
         String filename = file.getOriginalFilename();
-        try {
-            file.transferTo(new File(newFilePath, filename));
-            WordUtils.wordToHtml(newFilePath.getAbsolutePath(), IMAGE_FILE_PATH, filename);
-            return "\\needFile\\" + needId + "\\" + filename;
-        } catch (Exception e) {
-            return "";
-        }
+        File saveFile = new File(newFilePath, filename);
+        file.transferTo(saveFile);
+        WordUtil.wordToHtml(newFilePath.getAbsolutePath(), IMAGE_FILE_PATH, filename);
+        return "\\needFile\\" + needId + "\\" + filename;
+
     }
 
 

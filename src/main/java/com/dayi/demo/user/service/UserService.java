@@ -4,12 +4,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 /**
  * 用户模块业务接口
  *
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut @ pvc123.com>
  * @date 2019-2-25
  */
 public interface UserService {
@@ -55,11 +56,12 @@ public interface UserService {
 
     /**
      * 根据用户角色表查询用户
+     *
      * @param userId
      * @param roleId
      * @return
      */
-    List<User> findUserByUserRole(String userId,String roleId);
+    List<User> findUserByUserRole(String userId, String roleId);
 
     /**
      * 查找指定用户
@@ -105,9 +107,25 @@ public interface UserService {
 
     /**
      * 查询产品下指定角色的用户
+     *
      * @param productId
      * @param roleId
      * @return
      */
     List<User> findUserByproductIdRole(String productId, String roleId);
+
+    /**
+     * 随机生成注册验证码发送到邮箱
+     *
+     * @return
+     */
+    String doRandomVarificationCodeToEmail(String email) throws MessagingException;
+
+    /**
+     * 验证邮箱是否已存在
+     *
+     * @param email
+     * @return
+     */
+    boolean doExistEmail(String email);
 }

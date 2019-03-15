@@ -1,12 +1,11 @@
 package com.dayi.demo.user.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.user.dao.RoleDao;
 import com.dayi.demo.user.model.Premission;
 import com.dayi.demo.user.model.Role;
 import com.dayi.demo.user.service.PremissionService;
 import com.dayi.demo.user.service.RoleService;
-import com.dayi.demo.util.IdUtils;
+import com.dayi.demo.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
@@ -32,7 +31,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public int addRole(Role role) {
-        role.setId(IdUtils.getPrimaryKey());
+        role.setId(IdUtil.getPrimaryKey());
         role.setAddTime(new Date());
         role.setUpdateTime(new Date());
         return roleDao.addRole(role);
@@ -64,7 +63,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public int doAscribedRole(String userId, String roleId) {
-        return roleDao.addUserRole(IdUtils.getPrimaryKey(),new Date(),new Date(),userId,roleId);
+        return roleDao.addUserRole(IdUtil.getPrimaryKey(),new Date(),new Date(),userId,roleId);
     }
 
     @Override

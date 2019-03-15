@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-08
  */
-public class IpUtils {
+public class IpUtil {
     public static String UNKOWN = "unknown";
     public static int MAX_IP_LENGTH = 15;
 

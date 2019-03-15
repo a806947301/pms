@@ -83,22 +83,20 @@ public class ProductStatisticServiceImpl implements ProductStatisticService {
      * @param productJsonMap 商品json对应的map
      */
     private void doAppendProject(Map<String, JSONObject> productJsonMap) {
-        Map<String, Integer> projectBugCountMap = bugService.countBugByProject();
+        Map<String, JSONObject> projectBugCountMap = bugService.countBugByProject();
         List<Project> projects = projectService.findAll();
         JSONObject projectJson;
         for (Project project : projects) {
             // 添加项目信息到json
-            projectJson = new JSONObject();
+            projectJson = projectBugCountMap.get(project.getId());
+            if(null == projectJson) {
+                projectJson = new JSONObject();
+                projectJson.put("bugNumber",0);
+                projectJson.put("allBug",0);
+            }
             projectJson.put("projectName", project.getProjectName());
             projectJson.put("finished", project.isFinished());
-            // 添加项目bug数到json
-            int countBug = 0;
-            Object countResult = projectBugCountMap.get(project.getId());
-            if (countResult != null) {
-                countBug = (int) countResult;
-            }
-            ;
-            projectJson.put("countBug", countBug);
+
             // 添加项目json到产品json
             JSONObject productJson = productJsonMap.get(project.getProduct().getId());
             LinkedList<Object> projectList = (LinkedList<Object>) productJson.get("projects");
@@ -107,8 +105,9 @@ public class ProductStatisticServiceImpl implements ProductStatisticService {
     }
 
     @Override
-    public void exportExcelProduct(JSONArray jsonArray, OutputStream out) throws IOException {
-        final int maxCellNumber = 3;
+    public void exportExcelProduct(OutputStream out) throws IOException {
+        JSONArray jsonArray = doStatistic();
+        final int maxCellNumber = 4;
         // 创建工作薄
         XSSFWorkbook workBook = new XSSFWorkbook();
         // 设置产品样式
@@ -142,8 +141,9 @@ public class ProductStatisticServiceImpl implements ProductStatisticService {
             // 插入值到表头
             titleCells[0].setCellValue("序号");
             titleCells[1].setCellValue("项目名");
-            titleCells[2].setCellValue("完成状态");
-            titleCells[3].setCellValue("Bug量");
+            titleCells[2].setCellValue("未完成Bug量");
+            titleCells[3].setCellValue("Bug总量");
+            titleCells[4].setCellValue("完成状态");
             // 表体，循环插入项目
             List<JSONObject> projects = (List<JSONObject>) json.get("projects");
             for (int i = 0; i < projects.size(); i++) {
@@ -154,9 +154,10 @@ public class ProductStatisticServiceImpl implements ProductStatisticService {
                 //插入数据到单元格
                 bodyCells[0].setCellValue(i);
                 bodyCells[1].setCellValue((String) project.get("projectName"));
+                bodyCells[2].setCellValue((int) project.get("bugNumber"));
+                bodyCells[3].setCellValue((int) project.get("allBug"));
                 String finished = (boolean) project.get("finished") ? "已完成" : "未完成";
-                bodyCells[2].setCellValue(finished);
-                bodyCells[3].setCellValue((int) project.get("countBug"));
+                bodyCells[4].setCellValue(finished);
 
             }
             // 如果没有数据，则插入“无项目”

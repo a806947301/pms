@@ -3,8 +3,9 @@ package com.dayi.demo.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.project.service.ProjectService;
 import com.dayi.demo.project.model.Project;
-import com.dayi.demo.util.JsonUtils;
+import com.dayi.demo.util.JsonUtil;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,8 +41,11 @@ public class ProjectController {
      */
     @RequestMapping("/addProject")
     @ResponseBody
-    public String addProject(Project project) {
-        return projectService.addProject(project);
+    @RequiresPermissions("add:project")
+    public JSONObject addProject(Project project) {
+        String projectId = projectService.addProject(project);
+        boolean addSuccess = (null != projectId && (!"".equals(projectId)));
+        return JsonUtil.packageJson(addSuccess,projectId,"添加失败");
     }
 
     /**
@@ -52,6 +56,7 @@ public class ProjectController {
      */
     @RequestMapping("/findProject")
     @ResponseBody
+    @RequiresPermissions("select:project")
     public PageInfo<Project> findProject(int currentPage) {
         return projectService.findByPage(currentPage, 5);
     }
@@ -66,6 +71,7 @@ public class ProjectController {
      */
     @RequestMapping("/findByProductId")
     @ResponseBody
+    @RequiresPermissions("select:project")
     public PageInfo<Project> findByProductId(String productId, int currentPage, int pageSize) {
         return projectService.findByProductIdPage(productId, currentPage, pageSize);
     }
@@ -99,6 +105,7 @@ public class ProjectController {
      */
     @RequestMapping("/getProject")
     @ResponseBody
+    @RequiresPermissions("select:project")
     public Project getProject(String id) {
         return projectService.getProject(id);
     }
@@ -111,15 +118,26 @@ public class ProjectController {
      */
     @RequestMapping("/updateProject")
     @ResponseBody
-    public int updateProject(Project project) {
-        return projectService.updateProject(project);
+    @RequiresPermissions("update:project")
+    public JSONObject updateProject(Project project) {
+        boolean updateSuccess = (0 != projectService.updateProject(project));
+        return JsonUtil.packageJson(updateSuccess,"更新成功","更新失败");
     }
 
+    /**
+     * 设置项目完成状态
+     *
+     * @param projectId
+     * @param finished
+     * @param countBugNotfinished
+     * @return
+     */
     @RequestMapping("/updateProjectFinished")
     @ResponseBody
+    @RequiresPermissions("update:project")
     public JSONObject updateProjectFinished(String projectId, boolean finished, int countBugNotfinished) {
         int countUpdate = projectService.updateProjectFinished(projectId,finished,countBugNotfinished);
         boolean updateSuccess = 0 != countUpdate;
-        return JsonUtils.packageJson(updateSuccess,"更新成功","改项目还有Bug未完成");
+        return JsonUtil.packageJson(updateSuccess,"更新成功","改项目还有Bug未完成");
     }
 }

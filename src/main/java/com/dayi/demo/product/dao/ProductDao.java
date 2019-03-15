@@ -8,13 +8,14 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut @ pvc123.com>
  * @date 2019-2-25
  */
 public interface ProductDao {
 
     /**
      * 添加产品
+     *
      * @param product
      * @return
      */
@@ -22,11 +23,12 @@ public interface ProductDao {
 
     /**
      * 添加产品成员
-     * @param id    产品成员表Id，从IdUtil获取
-     * @param productId 产品Id
-     * @param userId    用户Id
-     * @param addTime   添加时间
-     * @param updateTime    更新时间
+     *
+     * @param id         产品成员表Id，从IdUtil获取
+     * @param productId  产品Id
+     * @param userId     用户Id
+     * @param addTime    添加时间
+     * @param updateTime 更新时间
      * @return
      */
     int addProductParticipator(@Param("id") String id,
@@ -37,12 +39,14 @@ public interface ProductDao {
 
     /**
      * 查找所有产品
+     *
      * @return
      */
     List<Product> findAllProduct();
 
     /**
      * 获取指定产品
+     *
      * @param id
      * @return
      */
@@ -50,6 +54,7 @@ public interface ProductDao {
 
     /**
      * 删除产品成员
+     *
      * @param productId 产品Id
      * @param userId    用户Id
      * @return
@@ -58,8 +63,17 @@ public interface ProductDao {
 
     /**
      * 更新产品
+     *
      * @param product
      * @return
      */
     int updateProduct(Product product);
+
+    /**
+     * 查找用户参与的产品
+     *
+     * @param userId
+     * @return
+     */
+    List<Product> findProductByUser(String userId);
 }

@@ -71,32 +71,11 @@
                             </div>
 
                             <div class="card-body p-0"  id="productTable">
-                                <%--<div class="p-4">
-                                    <canvas id="line-chart" width="100%" height="20"></canvas>
-                                </div>--%>
                                 <ul class="list-group" >
                                     <a v-for="product in products.list" class="list-group-item" v-bind:href="['/product/getProductPage/'+product.id]">
                                         {{product.productName}}
                                     </a>
-
                                 </ul>
-
-
-                                <%--<table class="table table-striped">
-                                    <thead>
-                                   &lt;%&ndash; <tr>
-                                        <th>产品id</th>
-                                        <th>产品名</th>
-                                    </tr>&ndash;%&gt;
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="product in products.list">
-                                            <td><a href="">{{product.productName}}</a></td>
-                                        </tr>
-                                    </tbody>
-                                </table>--%>
-
-
                                 <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
                                         <ul class="pagination pagination-lg" v-if="products.pageNum <= products.pages && products.pageNum >= 3">
                                             <li><a v-on:Click="getPage(products.pageNum-1)" href="javascript:void(0);">&laquo;</a></li>
@@ -151,6 +130,7 @@
         created:function (){
             params = new URLSearchParams();
             params.append("currentPage",1);
+            params.append("pageSize",10);
             axios
                 .post("/product/findProduct",params)
                 .then(function (response) {
@@ -171,6 +151,7 @@
 
                 params = new URLSearchParams();
                 params.append("currentPage",currentPage);
+                params.append("pageSize",10);
                 axios
                     .post("/product/findProduct",params)
                     .then(function (response) {

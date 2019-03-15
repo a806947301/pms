@@ -1,16 +1,14 @@
 package com.dayi.demo.user.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.user.dao.UserDao;
-import com.dayi.demo.user.model.Department;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.LoginLogService;
 import com.dayi.demo.user.service.UserService;
-import com.dayi.demo.util.IdUtils;
+import com.dayi.demo.util.IdUtil;
+import com.dayi.demo.util.MailUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -21,8 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author WuTong<wut@pvc123.com>
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
     public int addUser(User user) {
         user.setAddTime(new Date());
         user.setUpdateTime(new Date());
-        user.setId(IdUtils.getPrimaryKey());
+        user.setId(IdUtil.getPrimaryKey());
         user.setPassword(encryptMd5(user));
         return userDao.addUser(user);
     }
@@ -129,5 +129,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findUserByproductIdRole(String productId, String roleId) {
         return userDao.findUserByproductIdRole(productId,roleId);
+    }
+
+    @Override
+    public String doRandomVarificationCodeToEmail(String email) throws MessagingException {
+        //随机生成四位数验证码
+        Random random = new Random();
+        int varificationCode = random.nextInt(9000) + 1000;
+        String title = "您的验证码";
+        String content = "您的验证码为：" + varificationCode;
+        MailUtil.sendMail(email,title,content);
+        return varificationCode+"";
+    }
+
+    @Override
+    public boolean doExistEmail(String email) {
+        User user = userDao.getUserByEmail(email);
+        return user != null;
     }
 }

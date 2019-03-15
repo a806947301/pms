@@ -1,11 +1,11 @@
 package com.dayi.demo.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.user.model.Role;
 import com.dayi.demo.user.service.RoleService;
-import com.dayi.demo.util.JsonUtils;
+import com.dayi.demo.util.JsonUtil;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,10 +42,11 @@ public class RoleController {
      */
     @RequestMapping("/addRole")
     @ResponseBody
+    @RequiresPermissions("add:role")
     public JSONObject addRole(Role role) {
         int coundAdd = roleService.addRole(role);
         boolean addSuccess = (0 != coundAdd);
-        return JsonUtils.packageJson(addSuccess, "", "添加角色失败");
+        return JsonUtil.packageJson(addSuccess, "", "添加角色失败");
     }
 
     /**
@@ -56,10 +57,11 @@ public class RoleController {
      */
     @RequestMapping("/updateRole")
     @ResponseBody
+    @RequiresPermissions("update:role")
     public JSONObject updateRole(Role role) {
         int countUpdate = roleService.updateRole(role);
         boolean updateSuccess = (0 != countUpdate);
-        return JsonUtils.packageJson(updateSuccess, "", "更新角色失败");
+        return JsonUtil.packageJson(updateSuccess, "", "更新角色失败");
     }
 
     /**
@@ -70,6 +72,7 @@ public class RoleController {
      */
     @RequestMapping("/findRole")
     @ResponseBody
+    @RequiresPermissions("select:role")
     public PageInfo<Role> findRole(int currentPage) {
         return roleService.findByPage(currentPage, 5);
     }
@@ -118,10 +121,11 @@ public class RoleController {
      */
     @RequestMapping("/ascribedRole")
     @ResponseBody
+    @RequiresPermissions("grant:role")
     public JSONObject ascribedRole(String userId, String roleId) {
         int countAdd = roleService.doAscribedRole(userId, roleId);
         boolean addSuccess = (0 != countAdd);
-        return JsonUtils.packageJson(addSuccess, "", "赋予角色失败");
+        return JsonUtil.packageJson(addSuccess, "", "赋予角色失败");
     }
 
     /**
@@ -133,10 +137,11 @@ public class RoleController {
      */
     @RequestMapping("/cancelRole")
     @ResponseBody
+    @RequiresPermissions("grant:role")
     public JSONObject cancelRole(String userId, String roleId) {
         int countDelete = roleService.doCancelRole(userId, roleId);
         boolean deleteSuccess = (0 != countDelete);
-        return JsonUtils.packageJson(deleteSuccess, "", "取消角色失败");
+        return JsonUtil.packageJson(deleteSuccess, "", "取消角色失败");
 
     }
 
@@ -148,10 +153,12 @@ public class RoleController {
      */
     @RequestMapping("/deleteRole")
     @ResponseBody
+    @RequiresPermissions("delete:role")
     public JSONObject deleteRole(String id) {
         int countDelete = roleService.deleteRole(id);
         boolean deleteSuccess = (0 != countDelete);
-        return JsonUtils.packageJson(deleteSuccess, "删除角色成功",
+        return JsonUtil.packageJson(deleteSuccess, "删除角色成功",
                 "该角色还有权限或者还有用户拥有该角色，删除失败");
     }
+
 }

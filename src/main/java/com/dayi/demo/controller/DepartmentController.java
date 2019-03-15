@@ -3,12 +3,16 @@ package com.dayi.demo.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.user.model.Department;
 import com.dayi.demo.user.service.DepartmentService;
+import com.dayi.demo.util.JsonUtil;
+import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 部门管理控制器
@@ -31,8 +35,11 @@ public class DepartmentController {
      */
     @RequestMapping("/deleteDepartment")
     @ResponseBody
-    public String deleteDepartment(String id) {
-        return departmentService.deleteDepartment(id) + "";
+    @RequiresPermissions("delete:department")
+    public JSONObject deleteDepartment(String id) {
+        int countDelete = departmentService.deleteDepartment(id);
+        boolean deleteSuccess = (0 != countDelete);
+        return JsonUtil.packageJson(deleteSuccess,"删除成功","删除失败");
     }
 
     /**
@@ -43,8 +50,11 @@ public class DepartmentController {
      */
     @RequestMapping("/updateDepartment")
     @ResponseBody
-    public int updateDepartment(Department department) {
-        return departmentService.updateDepartment(department);
+    @RequiresPermissions("update:department")
+    public JSONObject updateDepartment(Department department) {
+        int countUpdate = departmentService.updateDepartment(department);
+        boolean updateSuccess = (0 != countUpdate);
+        return JsonUtil.packageJson(updateSuccess,"更新成功","更新失败");
     }
 
     /**
@@ -54,8 +64,11 @@ public class DepartmentController {
      */
     @RequestMapping("/addDepartment")
     @ResponseBody
-    public int addDepartment(Department department) {
-        return departmentService.addDepartment(department);
+    @RequiresPermissions("add:department")
+    public JSONObject addDepartment(Department department) {
+        int countAdd = departmentService.addDepartment(department);
+        boolean addSuccess = (0 != countAdd);
+        return null;
     }
 
     /**
@@ -69,16 +82,18 @@ public class DepartmentController {
     }
 
     /**
-     * 分页显示
+     * 分页显示部门
      *
+     * @param currentPage
+     * @param pageSize
      * @return
      */
     @RequestMapping("/findDepartment")
     @ResponseBody
-    public String findByPage(int currentPage) {
-
-        JSONObject jsonObject = departmentService.findByPage(currentPage, 3);
-        return jsonObject.toString();
+    @RequiresPermissions("select:department")
+    public PageInfo<Department> findByPage(int currentPage, int pageSize) {
+        PageInfo<Department> departments = departmentService.findByPage(currentPage, pageSize);
+        return departments;
     }
 
     /**
@@ -88,9 +103,18 @@ public class DepartmentController {
      */
     @RequestMapping("/finfAllDepartment")
     @ResponseBody
-    public String findAll() {
-        JSONObject jsonObject = departmentService.findAll();
-        return jsonObject.toString();
+    public List<Department> findAll() {
+        return departmentService.findAll();
+    }
+
+    @RequestMapping("/test")
+    @ResponseBody
+    public String test() throws Exception{
+        Department d = new Department();
+
+        departmentService.addDepartment(d);
+
+        return "";
     }
 
 

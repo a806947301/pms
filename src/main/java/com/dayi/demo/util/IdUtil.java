@@ -9,7 +9,7 @@ import java.util.Random;
  * @author WuTong<wut@pvc123.com>
  * @date 2019-2-24
  */
-public class IdUtils {
+public class IdUtil {
     private static String KEYS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final int PRIMARY_KEY_SIZE = 12;
     private static final int KEY_LENGTH_TIME = 8;

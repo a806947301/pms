@@ -48,7 +48,7 @@
                             </div>
 
                             <div class="col-6">
-                                <a href="#" class="btn btn-link">立即注册?</a>
+                                <a href="/user/registerPage" class="btn btn-link">立即注册?</a>
                             </div>
                         </div>
                     </div>
@@ -64,8 +64,8 @@
 <script src="/js/carbon.js"></script>
 <script src="/js/demo.js"></script>
 <%--vue--%>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/js/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     var vm = new Vue({
         el:'#loginForm',

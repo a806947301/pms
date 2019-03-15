@@ -1,7 +1,7 @@
 package com.dayi.demo.user.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.dayi.demo.util.IdUtils;
+import com.dayi.demo.util.IdUtil;
 import com.dayi.demo.user.dao.DepartmentDao;
 import com.dayi.demo.user.model.Department;
 import com.dayi.demo.user.service.DepartmentService;
@@ -54,7 +54,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public int addDepartment(Department department) {
         department.setAddTime(new Date());
         department.setUpdateTime(new Date());
-        department.setId(IdUtils.getPrimaryKey());
+        department.setId(IdUtil.getPrimaryKey());
         return  departmentDao.addDepartment(department);
     }
 
@@ -63,9 +63,9 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @return
      */
     @Override
-    public JSONObject findAll() {
-        List<Department> list = departmentDao.findAll();
-        return listToJson(list);
+    public List<Department> findAll() {
+        return departmentDao.findAll();
+
     }
 
     /**
@@ -75,18 +75,11 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @return
      */
     @Override
-    public JSONObject findByPage(int currentPage, int pageSize) {
+    public PageInfo<Department> findByPage(int currentPage, int pageSize) {
         PageHelper.startPage(currentPage,pageSize);
         List<Department> list = departmentDao.findAll();
         PageInfo<Department> pageInfo = new PageInfo<>(list);
-
-        return pageToJson(pageInfo);
-    }
-
-    public JSONObject pageToJson(PageInfo<Department> pageInfo) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("pageInfo",pageInfo);
-        return jsonObject;
+        return pageInfo;
     }
 
     public JSONObject listToJson(List<Department> list)

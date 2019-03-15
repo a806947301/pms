@@ -18,7 +18,7 @@
     <!-- 由spring注册系统模块 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring-resources-conf.xml;classpath:spring-dao-conf.xml;classpath:spring-shiro-conf.xml</param-value>
+        <param-value>classpath:spring-shiro-conf.xml;classpath:spring-resources-conf.xml;classpath:spring-dao-conf.xml</param-value>
     </context-param>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

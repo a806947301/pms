@@ -21,7 +21,7 @@ public interface NeedService {
      * @return
      */
     String addNeed(MultipartFile needDescriptionFile, MultipartFile needFile, Need need,
-                   String realPath, User currentUser);
+                   String realPath, User currentUser) throws Exception;
 
     /**
      * 分页查找项目下的需求

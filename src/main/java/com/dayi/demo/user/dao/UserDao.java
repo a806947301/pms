@@ -73,4 +73,5 @@ public interface UserDao {
      * @return
      */
     User getUserByEmail(String email);
+
 }

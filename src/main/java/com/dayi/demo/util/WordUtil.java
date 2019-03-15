@@ -26,7 +26,7 @@ import java.io.OutputStreamWriter;
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-11
  */
-public class WordUtils {
+public class WordUtil {
 
     private static final String DOC = ".doc";
     private static final String DOCX = ".docx";

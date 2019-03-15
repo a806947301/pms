@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut @ pvc123.com>
  * @date 2019-2-28
  */
 public interface BugService {
@@ -38,14 +38,15 @@ public interface BugService {
 
     /**
      * 分页并筛选查看产品下的Bug
-     * @param currentPage   当前页
-     * @param pageSize  每页的size
-     * @param projectId 项目id，null为不筛选
-     * @param begin 开始时间，null为不筛选
-     * @param end   结束时间，null为不筛选
-     * @param status    状态，-1为不筛选
-     * @param processerId   Bug处理者，null为不筛选
-     * @param proposerId    Bug提出者，null为不筛选
+     *
+     * @param currentPage 当前页
+     * @param pageSize    每页的size
+     * @param projectId   项目id，null为不筛选
+     * @param begin       开始时间，null为不筛选
+     * @param end         结束时间，null为不筛选
+     * @param status      状态，-1为不筛选
+     * @param processerId Bug处理者，null为不筛选
+     * @param proposerId  Bug提出者，null为不筛选
      * @return
      */
     PageInfo<Bug> findBugByProject(int currentPage, int pageSize, String projectId, Date begin,
@@ -130,7 +131,7 @@ public interface BugService {
      *
      * @return
      */
-    Map<String, Integer> countBugByProject();
+    Map<String, JSONObject> countBugByProject();
 
     /**
      * 统计每个开发的Bug量
@@ -148,9 +149,20 @@ public interface BugService {
 
     /**
      * 统计项目下未完成Bug的数量
+     *
      * @param projectId
      * @return
      */
     int countBugByProjectNoFinished(String projectId);
+
+    /**
+     * 分页查找用户被指派的Bug
+     *
+     * @param userId
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
+    PageInfo<Bug> findBugByUserDesignee(String userId, int currentPage, int pageSize);
 
 }

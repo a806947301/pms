@@ -35,6 +35,11 @@
 				#/error = anon
 				/user/loginPage = anon
 				/user/login = anon
+				/user/registerPage = anon
+				/department/finfAllDepartment = anon
+				/user/getVarification = anon
+				/user/existEmail = anon
+				/user/register = anon
 				/** = authc
 				#/** = anon
 				# more URL-to-FilterChain definitions here
@@ -63,7 +68,9 @@
 
 	<!-- Enable Shiro Annotations for Spring-configured beans.  Only run after -->
 	<!-- the lifecycleBeanProcessor has run: -->
-	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor"/>
+	<!--扫描shiro权限注解-->
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		  depends-on="lifecycleBeanPostProcessor"/>
 	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager"/>
 	</bean>

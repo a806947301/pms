@@ -4,14 +4,15 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.user.model.Premission;
 import com.dayi.demo.user.service.PremissionService;
-import com.dayi.demo.util.JsonUtils;
+import com.dayi.demo.util.JsonUtil;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -43,6 +44,7 @@ public class PremissionController {
      */
     @RequestMapping("/addPremission")
     @ResponseBody
+    @RequiresPermissions("add:premission")
     public JSONObject addPremission(Premission premission) {
         JSONObject json = new JSONObject();
         int countAdd = premissionService.addPremission(premission);
@@ -63,6 +65,7 @@ public class PremissionController {
      */
     @RequestMapping("/findPremission")
     @ResponseBody
+    @RequiresPermissions("select:premission")
     public PageInfo<Premission> findPremission(int currentPage) {
         return premissionService.findByPage(currentPage, 5);
     }
@@ -87,6 +90,7 @@ public class PremissionController {
      */
     @RequestMapping("/updatePremission")
     @ResponseBody
+    @RequiresPermissions("update:premission")
     public JSONObject updatePremission(Premission premission) {
         JSONObject json = new JSONObject();
         int countAdd = premissionService.updatePremission(premission);
@@ -121,11 +125,12 @@ public class PremissionController {
      */
     @RequestMapping("/authorization")
     @ResponseBody
+    @RequiresPermissions("grant:premission")
     public JSONObject authorization(String roleId, String[] premissions) {
         JSONObject json = new JSONObject();
         int countAdd = premissionService.doAuthorization(roleId, premissions);
-        boolean success = premissions.length != countAdd;
-        json = JsonUtils.packageJson(success, "", "授权失败，还有权限未被授予");
+        boolean success = (0 != countAdd);
+        json = JsonUtil.packageJson(success, "授权成功", "授权失败");
         return json;
     }
 
@@ -137,10 +142,23 @@ public class PremissionController {
      */
     @RequestMapping("/deletePremission")
     @ResponseBody
+    @RequiresPermissions("delete:premission")
     public JSONObject deletePremission(String id) {
         int countDelete = premissionService.deletePremission(id);
         boolean deleteSuccess = (0 != countDelete);
-        return JsonUtils.packageJson(deleteSuccess, "删除成功", "删除失败");
+        return JsonUtil.packageJson(deleteSuccess, "删除成功", "删除失败");
+    }
+
+    /**
+     * 查询当前用户是否拥有权限
+     *
+     * @param premission
+     * @return
+     */
+    @RequestMapping("/hasPremission")
+    @ResponseBody
+    public boolean hasPremission(String premission) {
+        return SecurityUtils.getSubject().isPermitted(premission);
     }
 
 }

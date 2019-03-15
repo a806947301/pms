@@ -4,7 +4,7 @@ import com.dayi.demo.user.dao.LoginLogDao;
 import com.dayi.demo.user.model.LoginLog;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.LoginLogService;
-import com.dayi.demo.util.IdUtils;
+import com.dayi.demo.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class LoginLogServiceImpl implements LoginLogService {
         loginLog.setIp(ip);
         loginLog.setAddTime(new Date());
         loginLog.setUpdateTime(new Date());
-        loginLog.setId(IdUtils.getPrimaryKey());
+        loginLog.setId(IdUtil.getPrimaryKey());
         return loginLogDao.addLoginLog(loginLog);
     }
 

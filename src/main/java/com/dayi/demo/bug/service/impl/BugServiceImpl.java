@@ -10,8 +10,8 @@ import com.dayi.demo.bug.model.BugOperatingRecord;
 import com.dayi.demo.bug.service.BugService;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.UserService;
-import com.dayi.demo.util.IdUtils;
-import com.dayi.demo.util.MailUtils;
+import com.dayi.demo.util.IdUtil;
+import com.dayi.demo.util.MailUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
@@ -25,7 +25,7 @@ import java.io.File;
 import java.util.*;
 
 /**
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut @ pvc123.com>
  * @date 2019-2-28
  */
 @Service
@@ -48,7 +48,7 @@ public class BugServiceImpl implements BugService {
 
     @Override
     public String addBug(Bug bug, User currentUser) {
-        bug.setId(IdUtils.getPrimaryKey());
+        bug.setId(IdUtil.getPrimaryKey());
         bug.setAddTime(new Date());
         bug.setUpdateTime(new Date());
         bug.setBugStatus(0);
@@ -174,7 +174,7 @@ public class BugServiceImpl implements BugService {
 
     @Override
     public int addBugDescription(BugDescription bugDescription, User currentUser) {
-        bugDescription.setId(IdUtils.getPrimaryKey());
+        bugDescription.setId(IdUtil.getPrimaryKey());
         bugDescription.setAddTime(new Date());
         bugDescription.setUpdateTime(new Date());
         int countAdd = bugDescriptionDao.addBugDescription(bugDescription);
@@ -236,7 +236,7 @@ public class BugServiceImpl implements BugService {
         record.setBugId(bugId);
         record.setUpdateTime(new Date());
         record.setAddTime(new Date());
-        record.setId(IdUtils.getPrimaryKey());
+        record.setId(IdUtil.getPrimaryKey());
         return record;
     }
 
@@ -250,21 +250,24 @@ public class BugServiceImpl implements BugService {
      */
     private boolean sendMail(String email, String title, String content) {
         try {
-            MailUtils.sendMail(email, title, content);
+            MailUtil.sendMail(email, title, content);
             return true;
         } catch (Exception e) {
-            logger.error(MailUtils.class.toString() + "_" + e.getMessage(), e);
+            logger.error(MailUtil.class.toString() + "_" + e.getMessage(), e);
             return false;
         }
     }
 
     @Override
-    public Map<String, Integer> countBugByProject() {
-        HashMap<String, Integer> result = new LinkedHashMap<String, Integer>(32);
+    public Map<String, JSONObject> countBugByProject() {
+        HashMap<String, JSONObject> result = new LinkedHashMap<String, JSONObject>(32);
         // 多个产品Map封装成一个map
         List<Map<String, Object>> maps = bugDao.countBugByProject();
         for (Map<String, Object> map : maps) {
-            result.put((String) map.get("projectId"), ((Long) map.get("bugNumber")).intValue());
+            JSONObject project = new JSONObject();
+            project.put("bugNumber", ((Long) map.get("bugNumber")).intValue());
+            project.put("allBug", ((Long) map.get("allBug")).intValue());
+            result.put((String) map.get("projectId"), project);
         }
         return result;
     }
@@ -277,12 +280,12 @@ public class BugServiceImpl implements BugService {
         for (Map<String, Object> map : maps) {
             // 把开发人员Bug数据存入Json
             JSONObject json = new JSONObject();
-            json.put("bugNumber",((Long)map.get("bugNumber")).intValue());
-            json.put("designate",((Long)map.get("designate")).intValue());
-            json.put("processing",((Long)map.get("processing")).intValue());
-            json.put("checking",((Long)map.get("checking")).intValue());
-            json.put("finished",((Long)map.get("finished")).intValue());
-            result.put((String)map.get("processer"),json);
+            json.put("bugNumber", ((Long) map.get("bugNumber")).intValue());
+            json.put("designate", ((Long) map.get("designate")).intValue());
+            json.put("processing", ((Long) map.get("processing")).intValue());
+            json.put("checking", ((Long) map.get("checking")).intValue());
+            json.put("finished", ((Long) map.get("finished")).intValue());
+            result.put((String) map.get("processer"), json);
         }
         return result;
     }
@@ -295,12 +298,12 @@ public class BugServiceImpl implements BugService {
         for (Map<String, Object> map : maps) {
             // 把测试人员Bug数据存进Json
             JSONObject json = new JSONObject();
-            json.put("bugNumber",((Long)map.get("bugNumber")).intValue());
-            json.put("designate",((Long)map.get("designate")).intValue());
-            json.put("processing",((Long)map.get("processing")).intValue());
-            json.put("checking",((Long)map.get("checking")).intValue());
-            json.put("finished",((Long)map.get("finished")).intValue());
-            result.put((String)map.get("proposer"),json);
+            json.put("bugNumber", ((Long) map.get("bugNumber")).intValue());
+            json.put("designate", ((Long) map.get("designate")).intValue());
+            json.put("processing", ((Long) map.get("processing")).intValue());
+            json.put("checking", ((Long) map.get("checking")).intValue());
+            json.put("finished", ((Long) map.get("finished")).intValue());
+            result.put((String) map.get("proposer"), json);
         }
         return result;
     }
@@ -308,5 +311,13 @@ public class BugServiceImpl implements BugService {
     @Override
     public int countBugByProjectNoFinished(String projectId) {
         return bugDao.countBugByProjectNoFinished(projectId);
+    }
+
+    @Override
+    public PageInfo<Bug> findBugByUserDesignee(String userId, int currentPage, int pageSize) {
+        PageHelper.startPage(currentPage, pageSize);
+        List<Bug> list = bugDao.findBugByUserDesignee(userId);
+        PageInfo<Bug> pageInfo = new PageInfo<>(list);
+        return pageInfo;
     }
 }

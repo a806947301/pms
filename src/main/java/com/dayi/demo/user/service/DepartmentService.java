@@ -2,6 +2,9 @@ package com.dayi.demo.user.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.user.model.Department;
+import com.github.pagehelper.PageInfo;
+
+import java.util.List;
 
 /**
  * 部门模块接口
@@ -25,7 +28,7 @@ public interface DepartmentService {
      * @param pageSize
      * @return
      */
-    JSONObject findByPage(int currentPage, int pageSize);
+    PageInfo<Department> findByPage(int currentPage, int pageSize);
 
     /**
      * 更新部门
@@ -48,5 +51,5 @@ public interface DepartmentService {
      *
      * @return
      */
-    JSONObject findAll();
+    List<Department> findAll();
 }

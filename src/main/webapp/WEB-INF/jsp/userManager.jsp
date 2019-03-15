@@ -67,7 +67,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                部门管理
+                                用户管理
                             </div>
 
                             <div class="card-body p-0"  id="userTable">
@@ -344,7 +344,7 @@
         axios
                 .post("/department/finfAllDepartment")
                 .then(function (response) {
-                    updateUser.departmentList = eval('(' + response.data + ')').list;
+                    updateUser.departmentList = response.data;
                 })
         },
         methods:{
@@ -358,6 +358,7 @@
                 axios
                     .post("/user/updateUser",params)
                     .then(function (response) {
+                        alert(response.data.msg);
                         vm.getPage(vm.users.pageNum);
                     })
             }
@@ -378,7 +379,7 @@
             axios
                 .post("/department/finfAllDepartment")
                 .then(function (response) {
-                    addUser.departmentList = eval('(' + response.data + ')').list;
+                    addUser.departmentList = response.data;
                 })
         },
         methods:{
@@ -557,7 +558,7 @@
                     })
             }
         }
-    })
+    });
     function array_remove_repeat(a) { // 去重
         var r = [];
         for(var i = 0; i < a.length; i ++) {

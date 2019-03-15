@@ -81,4 +81,11 @@ public interface ProductService {
      */
     List<Product> findAllProduct();
 
+    /**
+     * 分页查找用户参与的产品
+     *
+     * @param userId
+     * @return
+     */
+    PageInfo<Product> findProductByUser(String userId, int currentPage, int pageSize);
 }

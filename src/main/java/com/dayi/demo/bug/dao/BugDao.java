@@ -60,7 +60,7 @@ public interface BugDao {
                         @Param("updateTime") Date updateTime);
 
     /**
-     * 查询每个项目Id对应的Bug数
+     * 统计每个项目Id对应的Bug数
      * @return
      */
     List<Map<String, Object>> countBugByProject();
@@ -83,4 +83,12 @@ public interface BugDao {
      * @return
      */
     int countBugByProjectNoFinished(String projectId);
+
+    /**
+     * 查找用户被指派的Bug
+     *
+     * @param userId
+     * @return
+     */
+    List<Bug> findBugByUserDesignee(String userId);
 }

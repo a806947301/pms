@@ -1,12 +1,11 @@
 package com.dayi.demo.user.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.user.dao.PremissionDao;
 import com.dayi.demo.user.model.Premission;
 import com.dayi.demo.user.service.PremissionService;
-import com.dayi.demo.util.IdUtils;
+import com.dayi.demo.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,7 @@ public class PremissionServiceImpl implements PremissionService {
 
     @Override
     public int addPremission(Premission premission) {
-        premission.setId(IdUtils.getPrimaryKey());
+        premission.setId(IdUtil.getPrimaryKey());
         premission.setAddTime(new Date());
         premission.setUpdateTime(new Date());
         return premissionDao.addPremission(premission);
@@ -113,7 +112,7 @@ public class PremissionServiceImpl implements PremissionService {
         premissionDao.deleteRolePremission(roleId,null);
         int countAdd = 0;
         for(String premissionId : premissionsId) {
-            countAdd += premissionDao.addRolePremission(IdUtils.getPrimaryKey(),new Date(),new Date(),roleId,premissionId);
+            countAdd += premissionDao.addRolePremission(IdUtil.getPrimaryKey(),new Date(),new Date(),roleId,premissionId);
         }
         return countAdd;
     }

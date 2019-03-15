@@ -1,12 +1,9 @@
 package com.dayi.demo.project.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.dayi.demo.bug.service.BugService;
 import com.dayi.demo.project.service.ProjectService;
 import com.dayi.demo.project.dao.ProjectDao;
 import com.dayi.demo.project.model.Project;
-import com.dayi.demo.util.IdUtils;
+import com.dayi.demo.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
@@ -29,7 +26,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public String addProject(Project project) {
-        project.setId(IdUtils.getPrimaryKey());
+        project.setId(IdUtil.getPrimaryKey());
         project.setAddTime(new Date());
         project.setUpdateTime(new Date());
         project.setFinished(false);
