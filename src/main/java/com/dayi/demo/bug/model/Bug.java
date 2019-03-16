@@ -6,36 +6,55 @@ import com.dayi.demo.user.model.User;
 import java.util.Date;
 
 /**
- *
  * status状态说明：
- *          0.指派中
- * 	        1.处理中
- * 	        2.验收中
- * 	        3.已完成
+ * 0.指派中
+ * 1.处理中
+ * 2.验收中
+ * 3.已完成
  *
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut       @       pvc123.com>
  * @date 2019-2-28
  */
 public class Bug {
-    /** id */
+    /**
+     * id
+     */
     private String id;
-    /** 创建时间 */
+    /**
+     * 创建时间
+     */
     private Date addTime;
-    /** 更新时间 */
+    /**
+     * 更新时间
+     */
     private Date updateTime;
-    /** 是否不予处理 */
+    /**
+     * 是否不予处理
+     */
     private boolean noProcessing;
-    /** bug状态 */
+    /**
+     * bug状态
+     */
     private int bugStatus;
-    /** bug详情 */
+    /**
+     * bug详情
+     */
     private String bugTitle;
-    /** bug描述 */
+    /**
+     * bug描述
+     */
     private String bugContent;
-    /** bug提出者 */
+    /**
+     * bug提出者
+     */
     private User bugProposer;
-    /** bug处理者 */
+    /**
+     * bug处理者
+     */
     private User bugProcesser;
-    /** bug所属项目 */
+    /**
+     * bug所属项目
+     */
     private Project project;
 
     public String getId() {
@@ -116,5 +135,47 @@ public class Bug {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    /**
+     * 判断Bug是否有空字段
+     *
+     * @param bug
+     * @param includeId       是否包含id
+     * @param includeProposer 是否包含Bug提出者
+     * @return
+     */
+    public static boolean hasEmpty(Bug bug, boolean includeId, boolean includeProposer) {
+        if (null == bug) {
+            return true;
+        }
+        if (null == bug.getBugTitle() || "".equals(bug.getBugTitle())) {
+            return true;
+        }
+        if (includeId && (null == bug.getId() || "".equals(bug.getId()))) {
+            return true;
+        }
+        if (null == bug.getBugContent() || "".equals(bug.getBugContent())) {
+            return true;
+        }
+        if (includeProposer && null == bug.getBugProposer()) {
+            return true;
+        }
+        if (includeProposer && (null == bug.getBugProposer().getId() || "".equals(bug.getBugProposer().getId()))) {
+            return true;
+        }
+        if (null == bug.getBugProcesser()) {
+            return true;
+        }
+        if (null == bug.getBugProcesser().getId() || "".equals(bug.getBugProcesser().getId())) {
+            return true;
+        }
+        if (null == bug.getProject()) {
+            return true;
+        }
+        if (null == bug.getProject().getId() || "".equals(bug.getProject().getId())) {
+            return true;
+        }
+        return false;
     }
 }

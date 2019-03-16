@@ -143,6 +143,7 @@
             params = new URLSearchParams();
             /*params.append("id",this.userId);*/
             params.append("currentPage",1);
+            params.append("pageSize",10);
             axios
                 .post("/user/loginLogByUser",params)
                 .then(function (response) {
@@ -164,6 +165,7 @@
 
                 params = new URLSearchParams();
                 params.append("currentPage",currentPage);
+                params.append("pageSize",10);
                 /*params.append("id",vm.userId)*/
                 axios
                     .post("/user/loginLogByUser",params)

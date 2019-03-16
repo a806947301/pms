@@ -35,19 +35,19 @@ public class ProductServiceImpl implements ProductService {
     ProjectService projectService;
 
     @Override
-    public String addProduct(Product product, String[] participators) {
+    public String add(Product product, String[] participators) {
         // 添加产品
         product.setId(IdUtil.getPrimaryKey());
         product.setAddTime(new Date());
         product.setUpdateTime(new Date());
-        int countAdd = productDao.addProduct(product);
+        int countAdd = productDao.add(product);
 
         //  添加产品成员
         for (String participator : participators) {
             String id = IdUtil.getPrimaryKey();
             Date addTime = new Date();
             Date updateTime = new Date();
-            productDao.addProductParticipator(id, product.getId(), participator, addTime, updateTime);
+            productDao.addParticipator(id, product.getId(), participator, addTime, updateTime);
         }
         // 判断产品是否添加成功
         if (countAdd != 0) {
@@ -59,14 +59,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public PageInfo<Product> findByPage(int currentPage, int pageSize) {
         PageHelper.startPage(currentPage, pageSize);
-        List<Product> list = productDao.findAllProduct();
+        List<Product> list = productDao.findAll();
         PageInfo<Product> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
 
     @Override
-    public Product getProduct(String id) {
-        return productDao.getProduct(id);
+    public Product get(String id) {
+        return productDao.get(id);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
             String participatorId = IdUtil.getPrimaryKey();
             Date addTime = new Date();
             Date updateTime = new Date();
-            countAdd += productDao.addProductParticipator(participatorId, id, participator, addTime, updateTime);
+            countAdd += productDao.addParticipator(participatorId, id, participator, addTime, updateTime);
         }
         return countAdd;
     }
@@ -94,20 +94,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public int updateProduct(Product product) {
+    public int update(Product product) {
         product.setUpdateTime(new Date());
-        return productDao.updateProduct(product);
+        return productDao.update(product);
     }
 
     @Override
-    public List<Product> findAllProduct() {
-        return productDao.findAllProduct();
+    public List<Product> findAll() {
+        return productDao.findAll();
     }
 
     @Override
-    public PageInfo<Product> findProductByUser(String userId, int currentPage, int pageSize) {
+    public PageInfo<Product> findByUser(String userId, int currentPage, int pageSize) {
         PageHelper.startPage(currentPage, pageSize);
-        List<Product> list = productDao.findProductByUser(userId);
+        List<Product> list = productDao.findByUser(userId);
         PageInfo<Product> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }

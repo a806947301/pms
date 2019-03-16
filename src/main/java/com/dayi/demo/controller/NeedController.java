@@ -9,6 +9,7 @@ import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.session.Session;
+import org.apache.xmlbeans.impl.piccolo.io.FileFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author WuTong<wut   @   pvc123.com>
+ * @author WuTong<wut                                                               @                                                               pvc123.com>
  * @date 2019-03-04
  */
 @Controller
@@ -61,11 +62,17 @@ public class NeedController {
         boolean addSuccess = false;
         String needId = null;
         try {
-            needId = needService.addNeed(needDescriptionFile, needFile, need, realPath, getCurrentUser());
+            //保存需求
+            needId = needService.add(needDescriptionFile, needFile, need, realPath, getCurrentUser());
             addSuccess = (null != needId && (!"".equals(needId)));
-        } catch (Exception e) {
+        } catch (FileFormatException e) {
+            //捕获到文件格式异常
             logger.error(NeedController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false,"","保存文件失败");
+            return JsonUtil.packageJson(false, "", e.getMessage());
+        } catch (Exception e) {
+            //如果捕获到异常
+            logger.error(NeedController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(false, "", "添加需求失败");
         }
         return JsonUtil.packageJson(addSuccess, needId, "添加失败");
     }
@@ -80,8 +87,8 @@ public class NeedController {
     @RequestMapping("/findNeedByProjectId")
     @ResponseBody
     @RequiresPermissions("select:need")
-    public PageInfo<Need> findNeedByProjectId(String projectId, int currentPage) {
-        return needService.findNeedByProjectId(projectId, currentPage, 5);
+    public PageInfo<Need> findNeedByProjectId(String projectId, int currentPage, int pageSize) {
+        return needService.findByProjectId(projectId, currentPage, pageSize);
     }
 
     /**
@@ -105,7 +112,21 @@ public class NeedController {
     @ResponseBody
     @RequiresPermissions("select:need")
     public Need getNeed(String id) {
-        return needService.getNeed(id);
+        return needService.get(id);
+    }
+
+    /**
+     * 在线预览需求文件
+     *
+     * @param needId
+     * @param request
+     * @return
+     */
+    @RequestMapping("/previewNeedFile")
+    @ResponseBody
+    public JSONObject previewNeedFile(String needId, HttpServletRequest request) {
+        String realPath = request.getSession().getServletContext().getRealPath("/");
+        return needService.doPreview(needId, realPath);
     }
 
     /**
@@ -118,4 +139,6 @@ public class NeedController {
         User user = (User) session.getAttribute("user");
         return user;
     }
+
+
 }

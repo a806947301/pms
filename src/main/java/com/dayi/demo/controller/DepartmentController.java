@@ -37,6 +37,9 @@ public class DepartmentController {
     @ResponseBody
     @RequiresPermissions("delete:department")
     public JSONObject deleteDepartment(String id) {
+        if(null == id || "".equals(id)) {
+            return JsonUtil.packageJson(false,"","删除失败，id不能为空");
+        }
         int countDelete = departmentService.deleteDepartment(id);
         boolean deleteSuccess = (0 != countDelete);
         return JsonUtil.packageJson(deleteSuccess,"删除成功","删除失败");
@@ -52,6 +55,9 @@ public class DepartmentController {
     @ResponseBody
     @RequiresPermissions("update:department")
     public JSONObject updateDepartment(Department department) {
+        if(Department.hasEmpty(department,true)) {
+            return JsonUtil.packageJson(false,"","有字段为空");
+        }
         int countUpdate = departmentService.updateDepartment(department);
         boolean updateSuccess = (0 != countUpdate);
         return JsonUtil.packageJson(updateSuccess,"更新成功","更新失败");
@@ -66,6 +72,9 @@ public class DepartmentController {
     @ResponseBody
     @RequiresPermissions("add:department")
     public JSONObject addDepartment(Department department) {
+        if(Department.hasEmpty(department,false)) {
+            return JsonUtil.packageJson(false,"","部门名不能为空");
+        }
         int countAdd = departmentService.addDepartment(department);
         boolean addSuccess = (0 != countAdd);
         return null;

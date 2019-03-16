@@ -3,17 +3,25 @@ package com.dayi.demo.user.model;
 import java.util.Date;
 
 /**
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut @ pvc123.com>
  * @date 2019-2-22
  */
 public class Department {
-    /** id */
+    /**
+     * id
+     */
     private String id;
-    /** 添加时间 */
+    /**
+     * 添加时间
+     */
     private Date addTime;
-    /** 更新时间 */
+    /**
+     * 更新时间
+     */
     private Date updateTime;
-    /** 部门名 */
+    /**
+     * 部门名
+     */
     private String departmentName;
 
     public String getId() {
@@ -46,5 +54,18 @@ public class Department {
 
     public void setDepartmentName(String departmentName) {
         this.departmentName = departmentName;
+    }
+
+    public static boolean hasEmpty(Department department, boolean includeId) {
+        if (null == department) {
+            return true;
+        }
+        if (null == department.getDepartmentName() || "".equals(department.getDepartmentName())) {
+            return true;
+        }
+        if (includeId && (null == department.getId() || "".equals(department.getId()))) {
+            return true;
+        }
+        return false;
     }
 }

@@ -6,10 +6,12 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>产品</title>
     <link rel="stylesheet" href="/vendor/simple-line-icons/css/simple-line-icons.css">
@@ -27,7 +29,9 @@
             margin: 0;
         }
 
-        ul.pagination li {display: inline;}
+        ul.pagination li {
+            display: inline;
+        }
 
         ul.pagination li a {
             color: black;
@@ -54,7 +58,9 @@
             border: 1px solid #4CAF50;
         }
 
-        ul.pagination li a:hover:not(.active) {background-color: #ddd;}
+        ul.pagination li a:hover:not(.active) {
+            background-color: #ddd;
+        }
     </style>
 </head>
 <body class="sidebar-fixed header-fixed">
@@ -76,8 +82,13 @@
                                 <div class="row">
                                     <div class="col-md-9"><h4>{{product.productName}}</h4></div>
                                     <div class="col-md-2">
-                                        <button class="btn btn-block btn-outline-warning" type="button" data-toggle="modal" data-target="#updateProductModal"
-                                                v-on:click="updateProductModal(product.id,product.productName,product.productPresentation)">更新产品信息</button>
+                                        <shiro:hasPermission name="update:product">
+                                        <button class="btn btn-block btn-outline-warning" type="button"
+                                                data-toggle="modal" data-target="#updateProductModal"
+                                                v-on:click="updateProductModal(product.id,product.productName,product.productPresentation)">
+                                            更新产品信息
+                                        </button>
+                                        </shiro:hasPermission>
                                     </div>
                                 </div>
                             </div>
@@ -99,40 +110,81 @@
                                                 <h7>项目列表</h7>
                                             </div>
 
-                                            <div class="card-body p-0"  id="projectTable">
+                                            <div class="card-body p-0" id="projectTable">
                                                 <%--<div class="p-4">
                                                     <canvas id="line-chart" width="100%" height="20"></canvas>
                                                 </div>--%>
-                                                <ul class="list-group" >
-                                                    <a v-for="(project,index) in projects.list" class="list-group-item" v-bind:href="['/project/getProjectPage/'+project.id]">
-                                                        <div><h8>{{project.projectName}}</h8></div>
+                                                <ul class="list-group">
+                                                    <a v-for="(project,index) in projects.list" class="list-group-item"
+                                                       v-bind:href="['/project/getProjectPage/'+project.id]">
                                                         <div>
-                                                            <small v-if="project.product">{{project.product.productName}} -
-                                                                <span class="badge badge-success" v-if="project.finished==true">已完成</span>
-                                                                <span class="badge badge-warning"  v-else>未完成</span>
+                                                            <h8>{{project.projectName}}</h8>
+                                                        </div>
+                                                        <div>
+                                                            <small v-if="project.product">
+                                                                {{project.product.productName}} -
+                                                                <span class="badge badge-success"
+                                                                      v-if="project.finished==true">已完成</span>
+                                                                <span class="badge badge-warning" v-else>未完成</span>
                                                             </small>
                                                         </div>
                                                     </a>
 
                                                 </ul>
                                                 <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
-                                                    <ul class="pagination pagination-lg" v-if="projects.pageNum <= projects.pages && projects.pageNum >= 3">
-                                                        <li><a v-on:Click="getPage(projects.pageNum-1)" href="javascript:void(0);">&laquo;</a></li>
-                                                        <li><a v-on:Click="getPage(projects.pageNum-2)" href="javascript:void(0);" v-show="projects.pages>=projects.pageNum-2"  v-bind:class="{'active':(projects.pageNum==2)}">{{projects.pageNum-2}}</a></li>
-                                                        <li><a v-on:Click="getPage(projects.pageNum-1)" href="javascript:void(0);" v-show="projects.pages>=projects.pageNum-1"  v-bind:class="{'active':(projects.pageNum==2)}">{{projects.pageNum-1}}</a></li>
-                                                        <li><a v-on:Click="getPage(projects.pageNum)" href="javascript:void(0);"   v-bind:class="{'active':true}">{{projects.pageNum}}</a></li>
-                                                        <li><a v-on:Click="getPage(projects.pageNum+1)" href="javascript:void(0);" v-show="projects.pages>=projects.pageNum+1" >{{projects.pageNum+1}}</a></li>
-                                                        <li><a v-on:Click="getPage(projects.pageNum+2)" href="javascript:void(0);" v-show="projects.pages>=projects.pageNum+2" >{{projects.pageNum+2}}</a></li>
-                                                        <li><a v-on:Click="getPage(projects.pageNum+1)" href="javascript:void(0);">&raquo;</a></li>
+                                                    <ul class="pagination pagination-lg"
+                                                        v-if="projects.pageNum <= projects.pages && projects.pageNum >= 3">
+                                                        <li><a v-on:Click="getPage(projects.pageNum-1)"
+                                                               href="javascript:void(0);">&laquo;</a></li>
+                                                        <li><a v-on:Click="getPage(projects.pageNum-2)"
+                                                               href="javascript:void(0);"
+                                                               v-show="projects.pages>=projects.pageNum-2"
+                                                               v-bind:class="{'active':(projects.pageNum==2)}">{{projects.pageNum-2}}</a>
+                                                        </li>
+                                                        <li><a v-on:Click="getPage(projects.pageNum-1)"
+                                                               href="javascript:void(0);"
+                                                               v-show="projects.pages>=projects.pageNum-1"
+                                                               v-bind:class="{'active':(projects.pageNum==2)}">{{projects.pageNum-1}}</a>
+                                                        </li>
+                                                        <li><a v-on:Click="getPage(projects.pageNum)"
+                                                               href="javascript:void(0);"
+                                                               v-bind:class="{'active':true}">{{projects.pageNum}}</a>
+                                                        </li>
+                                                        <li><a v-on:Click="getPage(projects.pageNum+1)"
+                                                               href="javascript:void(0);"
+                                                               v-show="projects.pages>=projects.pageNum+1">{{projects.pageNum+1}}</a>
+                                                        </li>
+                                                        <li><a v-on:Click="getPage(projects.pageNum+2)"
+                                                               href="javascript:void(0);"
+                                                               v-show="projects.pages>=projects.pageNum+2">{{projects.pageNum+2}}</a>
+                                                        </li>
+                                                        <li><a v-on:Click="getPage(projects.pageNum+1)"
+                                                               href="javascript:void(0);">&raquo;</a></li>
                                                     </ul>
                                                     <ul class="pagination pagination-lg" v-else>
-                                                        <li><a v-on:Click="getPage(projects.pageNum-1)" href="javascript:void(0);">&laquo;</a></li>
-                                                        <li><a v-on:Click="getPage(1)" href="javascript:void(0);" v-bind:class="{'active':(projects.pageNum==1)}">1</a></li>
-                                                        <li><a v-on:Click="getPage(2)" href="javascript:void(0);" v-show="projects.pages>=2"  v-bind:class="{'active':(projects.pageNum==2)}">2</a></li>
-                                                        <li><a v-on:Click="getPage(3)" href="javascript:void(0);" v-show="projects.pages>=3"  v-bind:class="{'active':(projects.pageNum==3)}">3</a></li>
-                                                        <li><a v-on:Click="getPage(4)" href="javascript:void(0);" v-show="projects.pages>=4"  v-bind:class="{'active':(projects.pageNum==4)}">4</a></li>
-                                                        <li><a v-on:Click="getPage(5)" href="javascript:void(0);" v-show="projects.pages>=5"  v-bind:class="{'active':(projects.pageNum==5)}">5</a></li>
-                                                        <li><a v-on:Click="getPage(projects.pageNum+1)" href="javascript:void(0);">&raquo;</a></li>
+                                                        <li><a v-on:Click="getPage(projects.pageNum-1)"
+                                                               href="javascript:void(0);">&laquo;</a></li>
+                                                        <li><a v-on:Click="getPage(1)" href="javascript:void(0);"
+                                                               v-bind:class="{'active':(projects.pageNum==1)}">1</a>
+                                                        </li>
+                                                        <li><a v-on:Click="getPage(2)" href="javascript:void(0);"
+                                                               v-show="projects.pages>=2"
+                                                               v-bind:class="{'active':(projects.pageNum==2)}">2</a>
+                                                        </li>
+                                                        <li><a v-on:Click="getPage(3)" href="javascript:void(0);"
+                                                               v-show="projects.pages>=3"
+                                                               v-bind:class="{'active':(projects.pageNum==3)}">3</a>
+                                                        </li>
+                                                        <li><a v-on:Click="getPage(4)" href="javascript:void(0);"
+                                                               v-show="projects.pages>=4"
+                                                               v-bind:class="{'active':(projects.pageNum==4)}">4</a>
+                                                        </li>
+                                                        <li><a v-on:Click="getPage(5)" href="javascript:void(0);"
+                                                               v-show="projects.pages>=5"
+                                                               v-bind:class="{'active':(projects.pageNum==5)}">5</a>
+                                                        </li>
+                                                        <li><a v-on:Click="getPage(projects.pageNum+1)"
+                                                               href="javascript:void(0);">&raquo;</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -148,29 +200,39 @@
                                                 <div class="row pre-scrollable">
                                                     <table class="table table-hover">
                                                         <tbody>
-                                                            <tr v-for="participator in participators">
-                                                                <td>{{participator.department.departmentName}}-{{participator.name}}</td>
-                                                                <td>
-                                                                    <button class="btn btn-outline-danger btn-sm" type="button"
+                                                        <tr v-for="participator in participators">
+                                                            <td>
+                                                                {{participator.department.departmentName}}-{{participator.name}}
+                                                            </td>
+                                                            <td>
+                                                                <shiro:hasPermission name="addUser:product">
+                                                                    <button class="btn btn-outline-danger btn-sm"
+                                                                            type="button"
                                                                             v-on:click="deleteParticipator(participator.id)">
                                                                         移出产品组
                                                                     </button>
-                                                                </td>
-                                                            </tr>
+                                                                </shiro:hasPermission>
+                                                            </td>
+                                                        </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
                                         </div>
                                         <%-- 添加成员 --%>
+                                        <shiro:hasPermission name="addUser:product">
                                         <div class="form-group">
-                                            <label >参与人员</label>
-                                            <select id ="schoolno"class="form-control selectpicker" data-live-search="true" multiple v-model="newParticipators">
+                                            <label>参与人员</label>
+                                            <select id="schoolno" class="form-control selectpicker"
+                                                    data-live-search="true" multiple v-model="newParticipators">
                                             </select>
                                             <br><br>
-                                            <button class="btn btn-block btn-outline-success" type="button" v-on:click="addParticipators()">添加成员</button>
+                                            <button class="btn btn-block btn-outline-success" type="button"
+                                                    v-on:click="addParticipators()">添加成员
+                                            </button>
                                         </div>
                                     </div>
+                                    </shiro:hasPermission>
                                 </div>
                             </div>
                         </div>
@@ -181,7 +243,8 @@
     </div>
 </div>
 <%--更新产品模拟框--%>
-<div class="modal fade" id="updateProductModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="updateProductModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -193,18 +256,19 @@
 
                 <div class="form-group">
                     <div class="form-group">
-                        <label  class="control-label">id</label>
+                        <label class="control-label">id</label>
                         <input type="text" class="form-control" v-model="id"
                                disabled>
                     </div>
                     <div class="form-group">
-                        <label  class="control-label">产品名</label>
+                        <label class="control-label">产品名</label>
                         <input type="text" class="form-control" v-model="productName"
                                placeholder="产品名">
                     </div>
                     <div class="form-group">
-                        <label  class="control-label">产品描述</label>
-                        <textarea name="textarea-input" class="form-control" id="textarea-input" placeholder="Content..." rows="9" v-model="productPresentation">
+                        <label class="control-label">产品描述</label>
+                        <textarea name="textarea-input" class="form-control" id="textarea-input"
+                                  placeholder="Content..." rows="9" v-model="productPresentation">
 
                         </textarea>
                     </div>
@@ -214,7 +278,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                 </button>
-                <button type="button" class="btn btn-primary" v-on:click="updateProduct()"  data-dismiss="modal">
+                <button type="button" class="btn btn-primary" v-on:click="updateProduct()" data-dismiss="modal">
                     更新产品
                 </button>
             </div>
@@ -242,20 +306,20 @@
 
 <script>
     var updateVm = new Vue({
-        el:'#updateProductModal',
-        data:{
-            id:null,
-            productName:null,
-            productPresentation:null
+        el: '#updateProductModal',
+        data: {
+            id: null,
+            productName: null,
+            productPresentation: null
         },
-        methods:{
-            updateProduct:function() {
+        methods: {
+            updateProduct: function () {
                 params = new URLSearchParams();
-                params.append("id",this.id);
-                params.append("productName",this.productName);
-                params.append("productPresentation",this.productPresentation);
+                params.append("id", this.id);
+                params.append("productName", this.productName);
+                params.append("productPresentation", this.productPresentation);
                 axios
-                    .post("/product/updateProduct",params)
+                    .post("/product/updateProduct", params)
                     .then(function (response) {
                         alert(response.data.msg);
                         vm.updateProduct();
@@ -264,25 +328,25 @@
         }
     })
     var vm = new Vue({
-        el:"#getProduct",
-        data:{
-            product:{productName:null},
-            productId:null,
-            participators:null,
-            newParticipators:null,
-            projects:{}
+        el: "#getProduct",
+        data: {
+            product: {productName: null},
+            productId: null,
+            participators: null,
+            newParticipators: null,
+            projects: {}
         },
-        created:function(){
-            this.productId = window.location.href.split('/')[window.location.href.split('/').length-1];
+        created: function () {
+            this.productId = window.location.href.split('/')[window.location.href.split('/').length - 1];
             params = new URLSearchParams();
-            params.append("id",this.productId)
+            params.append("id", this.productId)
             axios
-                .post("/product/getProduct",params)
+                .post("/product/getProduct", params)
                 .then(function (response) {
                     vm.product = response.data;
                 });
             axios
-                .post("/product/getProductParticipator",params)
+                .post("/product/getProductParticipator", params)
                 .then(function (response) {
                     vm.participators = response.data;
                 })
@@ -290,115 +354,114 @@
                 .post("/user/findAllUser")
                 .then(function (response) {
                     vm.users = response.data;
-                    outer:for( i in vm.users)
-                    {
-                        for(j in vm.participators) {
-                            if(vm.participators[j].id == vm.users[i].id) {
+                    outer:for (i in vm.users) {
+                        for (j in vm.participators) {
+                            if (vm.participators[j].id == vm.users[i].id) {
                                 continue outer;
                             }
                         }
-                        setParticipator(vm.users[i].id,vm.users[i].department.departmentName + "-"+vm.users[i].name)
+                        setParticipator(vm.users[i].id, vm.users[i].department.departmentName + "-" + vm.users[i].name)
                     }
                 })
             projectParams = new URLSearchParams();
-            projectParams.append("productId",this.productId);
-            projectParams.append("currentPage",1);
-            projectParams.append("pageSize",7);
+            projectParams.append("productId", this.productId);
+            projectParams.append("currentPage", 1);
+            projectParams.append("pageSize", 7);
             axios
-                .post("/project/findByProductId",projectParams)
+                .post("/project/findByProductId", projectParams)
                 .then(function (response) {
                     vm.projects = response.data;
                 })
         },
-        methods:{
-            getPage:function(currentPage){
-                if(currentPage<=0)
-                {
+        methods: {
+            getPage: function (currentPage) {
+                if (currentPage <= 0) {
                     return;
                 }
-                if(currentPage>vm.projects.pages)
-                {
+                if (currentPage > vm.projects.pages) {
                     return;
                 }
                 projectParams = new URLSearchParams();
-                projectParams.append("productId",this.productId);
-                projectParams.append("currentPage",currentPage);
-                projectParams.append("pageSize",7);
+                projectParams.append("productId", this.productId);
+                projectParams.append("currentPage", currentPage);
+                projectParams.append("pageSize", 7);
                 axios
-                    .post("/project/findByProductId",projectParams)
+                    .post("/project/findByProductId", projectParams)
                     .then(function (response) {
                         vm.projects = response.data;
                     })
             },
-            updateProduct:function(){
+            updateProduct: function () {
                 params = new URLSearchParams();
-                params.append("id",this.productId)
+                params.append("id", this.productId)
                 axios
-                    .post("/product/getProduct",params)
+                    .post("/product/getProduct", params)
                     .then(function (response) {
                         vm.product = response.data;
                     });
             },
-            addParticipators:function () {
+            addParticipators: function () {
 
                 params = new URLSearchParams();
-                params.append("id",this.productId);
-                params.append("newParticipator",this.newParticipators);
+                params.append("id", this.productId);
+                params.append("newParticipator", this.newParticipators);
                 axios
-                    .post("/product/addProductParticipator",params)
+                    .post("/product/addProductParticipator", params)
                     .then(function (response) {
                         vm.updateParticipator();
                     })
 
 
             },
-            deleteParticipator:function(userId) {
+            deleteParticipator: function (userId) {
                 params = new URLSearchParams();
-                params.append("productId",this.productId);
-                params.append("userId",userId);
+                params.append("productId", this.productId);
+                params.append("userId", userId);
                 axios
-                    .post("/product/deleteProductParticipator",params)
+                    .post("/product/deleteProductParticipator", params)
                     .then(function (response) {
-                        if(response.data.success == false) {
+                        if (response.data.success == false) {
                             alert(response.data.msg);
                         }
                         vm.updateParticipator();
                     })
             },
-            updateParticipator:function() {
+            updateParticipator: function () {
                 params = new URLSearchParams();
-                params.append("id",this.productId);
+                params.append("id", this.productId);
                 axios
-                    .post("/product/getProductParticipator",params)
+                    .post("/product/getProductParticipator", params)
                     .then(function (response) {
                         vm.participators = response.data;
                         reImportSelectData();
                     })
             },
-            updateProductModal:function(productId,productName,productPresentation) {
+            updateProductModal: function (productId, productName, productPresentation) {
                 updateVm.id = productId;
                 updateVm.productName = productName;
                 updateVm.productPresentation = productPresentation;
             }
         }
     })
+
     function reImportSelectData() {
         clearParticipator();
-        outer:for( i in vm.users)
-        {
-            for(j in vm.participators) {
-                if(vm.participators[j].id == vm.users[i].id) {
+        outer:for (i in vm.users) {
+            for (j in vm.participators) {
+                if (vm.participators[j].id == vm.users[i].id) {
                     continue outer;
                 }
             }
-            setParticipator(vm.users[i].id,vm.users[i].department.departmentName + "-"+vm.users[i].name)
+            setParticipator(vm.users[i].id, vm.users[i].department.departmentName + "-" + vm.users[i].name)
         }
     }
-    function setParticipator(value,html) {
-        $('#schoolno.selectpicker').append("<option value='"+value+"'>"+html+"</option>");
+
+    function setParticipator(value, html) {
+        $('#schoolno.selectpicker').append("<option value='" + value + "'>" + html + "</option>");
         $('#schoolno').selectpicker('refresh');
         $('#schoolno').selectpicker('render');
     }
+
     function clearParticipator() {
 
         $('#schoolno.selectpicker').empty();

@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro"%>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -77,8 +78,10 @@
                                 <div class="row">
                                     <div class="col-md-8">{{project.projectName}}</div>
                                     <div class="col-md-2">
+                                        <shiro:hasPermission name="update:project">
                                         <button class="btn btn-block btn-outline-warning" type="button" data-toggle="modal" data-target="#updateProjectModal"
                                                 v-on:click="beforeUpdate()">更新项目信息</button>
+                                        </shiro:hasPermission>
                                     </div>
                                     <div class="col-md-1" v-if="project.finished">
                                         <button class="btn btn-success" type="button" data-toggle="modal" data-target="#finishedModal"
@@ -110,10 +113,12 @@
                                     </div>
                                     <div class="col-md-6"></div>
                                     <div class="col-md-4">
+                                        <shiro:hasPermission name="add:need">
                                         <button class="btn btn-outline-primary" type="button"
                                                 v-on:click="addNeed()">
                                             添加需求
                                         </button>
+                                        </shiro:hasPermission>
                                     </div>
                                 </dir>
                             </div>
@@ -151,16 +156,20 @@
                                     </div>
                                     <div class="col-md-2"></div>
                                     <div class="col-md-4">
+                                        <shiro:hasPermission name="select:bug">
                                         <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#filtrateModal"
                                             onclick="filtrateVm.reflash()">
                                             筛选
                                         </button>
+                                        </shiro:hasPermission>
                                     </div>
                                     <div class="col-md-4">
+                                        <shiro:hasPermission name="add:bug">
                                         <button class="btn btn-outline-primary" type="button"
                                             v-on:click="addBug()">
                                             添加Bug
                                         </button>
+                                        </shiro:hasPermission>
                                     </div>
                                 </dir>
                             </div>
@@ -283,7 +292,7 @@
         <div class="modal-content">
             <div class="modal-header">
 
-                <h3>筛选项目</h3>
+                <h3>筛选Bug</h3>
                 <a class="close" data-dismiss="modal">×</a>
             </div>
             <div class="modal-body">
@@ -327,6 +336,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<shiro:hasPermission name="update:project">
 <%--确定完成状态--%>
 <div class="modal fade" id="finishedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -350,6 +360,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+</shiro:hasPermission>
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/popper.js/popper.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -486,6 +497,7 @@
             params = new URLSearchParams();
             params.append("projectId",this.projectId);
             params.append("currentPage",1);
+            params.append("pageSize",5);
             axios
                 .post("/need/findNeedByProjectId",params)
                 .then(function (response) {
@@ -508,6 +520,7 @@
                 params = new URLSearchParams();
                 params.append("projectId",this.projectId);
                 params.append("currentPage",currentPage);
+                params.append("pageSize",5);
                 axios
                     .post("/need/findNeedByProjectId",params)
                     .then(function (response) {

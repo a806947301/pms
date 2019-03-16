@@ -417,6 +417,7 @@
                 axios
                     .post("/bug/processSelf",params)
                     .then(function (response) {
+                        alert(response.data.msg);
                         vm.reloadBug();
                     });
 
@@ -427,6 +428,7 @@
                 axios
                     .post("/bug/noProcessing",params)
                     .then(function (response) {
+                        alert(response.data.msg);
                         vm.reloadBug();
                     });
             },
@@ -436,6 +438,7 @@
                 axios
                     .post("/bug/closeBug",params)
                     .then(function (response) {
+                        alert(response.data.msg);
                         vm.reloadBug();
                     });
             }
@@ -457,6 +460,7 @@
                 axios
                     .post("/bug/addBugDescription",params)
                     .then(function (response) {
+                        alert(response.data.msg);
                         vm.reloadBug();
                     })
             }
@@ -476,12 +480,22 @@
             this.projectId = window.location.href.split('/')[window.location.href.split('/').length-2];
             this.productId = window.location.href.split('/')[window.location.href.split('/').length-3];
             params = new URLSearchParams();
-            params.append("id",this.productId);
+            params.append("rolename","开发人员");
             axios
-                .post("/user/findUserByProductId",params)
+                .post("/role/getRoleByRoleName",params)
                 .then(function (response) {
-                    redesignateVm.users = response.data;
+                    redesignateVm.roleId = response.data.id;
+                    params = new URLSearchParams();
+                    params.append("productId",redesignateVm.productId);
+                    params.append("roleId",redesignateVm.roleId);
+                    axios
+                        .post("/user/findUserByproductIdRole",params)
+                        .then(function (response) {
+                            console.log(response.data)
+                            redesignateVm.users = response.data;
+                        })
                 })
+
         },
         methods:{
             redesignate:function () {
@@ -491,6 +505,7 @@
                 axios
                     .post("/bug/redesignate",params)
                     .then(function (response) {
+                        alert(response.data.msg);
                         vm.reloadBug();
                     })
             }

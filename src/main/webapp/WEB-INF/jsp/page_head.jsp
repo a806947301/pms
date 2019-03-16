@@ -16,7 +16,7 @@
         <i class="fa fa-bars"></i>
     </a>
 
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="/user/index">
         <img src="/imgs/logo.png" alt="logo">
     </a>
 

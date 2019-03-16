@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut   @   pvc123.com>
  * @date 2019-03-06
  */
 @Controller
@@ -46,15 +46,11 @@ public class PremissionController {
     @ResponseBody
     @RequiresPermissions("add:premission")
     public JSONObject addPremission(Premission premission) {
-        JSONObject json = new JSONObject();
-        int countAdd = premissionService.addPremission(premission);
-        if (0 != countAdd) {
-            json.put("success", "true");
-        } else {
-            json.put("success", "false");
-            json.put("msg", "添加失败");
+        if (Premission.hasEmpty(premission, false)) {
+            return JsonUtil.packageJson(false, "", "有字段为空");
         }
-        return json;
+        boolean addSuccess = (0 != premissionService.addPremission(premission));
+        return JsonUtil.packageJson(addSuccess, "添加成功", "添加失败");
     }
 
     /**
@@ -92,15 +88,11 @@ public class PremissionController {
     @ResponseBody
     @RequiresPermissions("update:premission")
     public JSONObject updatePremission(Premission premission) {
-        JSONObject json = new JSONObject();
-        int countAdd = premissionService.updatePremission(premission);
-        if (0 != countAdd) {
-            json.put("success", "true");
-        } else {
-            json.put("success", "false");
-            json.put("msg", "更新失败");
+        if (Premission.hasEmpty(premission, true)) {
+            return JsonUtil.packageJson(false, "", "有字段为空");
         }
-        return json;
+        boolean addSuccess = (0 != premissionService.updatePremission(premission));
+        return JsonUtil.packageJson(addSuccess, "更新成功", "更新失败");
     }
 
     /**
@@ -127,11 +119,11 @@ public class PremissionController {
     @ResponseBody
     @RequiresPermissions("grant:premission")
     public JSONObject authorization(String roleId, String[] premissions) {
-        JSONObject json = new JSONObject();
-        int countAdd = premissionService.doAuthorization(roleId, premissions);
-        boolean success = (0 != countAdd);
-        json = JsonUtil.packageJson(success, "授权成功", "授权失败");
-        return json;
+        if(null == roleId || "".equals(roleId)) {
+            return JsonUtil.packageJson(false, "", "授权失败");
+        }
+        premissionService.doAuthorization(roleId, premissions);
+        return JsonUtil.packageJson(true, "授权成功", "授权失败");
     }
 
     /**
@@ -144,6 +136,9 @@ public class PremissionController {
     @ResponseBody
     @RequiresPermissions("delete:premission")
     public JSONObject deletePremission(String id) {
+        if(null == id || "".equals(id)) {
+            return JsonUtil.packageJson(false, "", "id不能为空");
+        }
         int countDelete = premissionService.deletePremission(id);
         boolean deleteSuccess = (0 != countDelete);
         return JsonUtil.packageJson(deleteSuccess, "删除成功", "删除失败");

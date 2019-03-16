@@ -414,6 +414,7 @@
         created:function (){
             params = new URLSearchParams();
             params.append("currentPage",1);
+            params.append("pageSize",5);
             axios
                 .post("/user/findUser",params)
                 .then(function (response) {
@@ -434,6 +435,7 @@
 
                 params = new URLSearchParams();
                 params.append("currentPage",currentPage);
+                params.append("pageSize",5);
                 axios
                     .post("/user/findUser",params)
                     .then(function (response) {

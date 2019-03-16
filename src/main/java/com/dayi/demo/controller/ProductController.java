@@ -47,7 +47,7 @@ public class ProductController {
     @ResponseBody
     @RequiresPermissions("add:product")
     public JSONObject addProduct(Product product, String[] participator) {
-        String productId = productService.addProduct(product, participator);
+        String productId = productService.add(product, participator);
         boolean addSuccess = (null != productId);
         return JsonUtil.packageJson(addSuccess, productId, "添加失败");
     }
@@ -108,7 +108,7 @@ public class ProductController {
     @ResponseBody
     @RequiresPermissions("select:product")
     public Product getProduct(String id) {
-        return productService.getProduct(id);
+        return productService.get(id);
     }
 
     /**
@@ -151,7 +151,7 @@ public class ProductController {
     @ResponseBody
     @RequiresPermissions("update:product")
     public JSONObject updateProduct(Product product) {
-        boolean updateSuccess = (0 != productService.updateProduct(product));
+        boolean updateSuccess = (0 != productService.update(product));
         return JsonUtil.packageJson(updateSuccess, "更新成功", "更新失败");
     }
 
@@ -163,7 +163,7 @@ public class ProductController {
     @RequestMapping("/findAllProduct")
     @ResponseBody
     public List<Product> findAllProduct() {
-        return productService.findAllProduct();
+        return productService.findAll();
     }
 
     /**
@@ -177,7 +177,7 @@ public class ProductController {
     @ResponseBody
     public PageInfo<Product> findProductByCurrentUser(int currentPage, int pageSize) {
         User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
-        return productService.findProductByUser(user.getId(), currentPage, pageSize);
+        return productService.findByUser(user.getId(), currentPage, pageSize);
     }
 
 }

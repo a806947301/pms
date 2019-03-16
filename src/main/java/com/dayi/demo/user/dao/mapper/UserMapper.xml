@@ -40,6 +40,7 @@
         ORDER BY user.addtime
     </select>
 
+    <!--查询产品下指定角色的用户-->
     <select id="findUserByproductIdRole" resultMap="userResultMap">
         <include refid="selectAllColumnUser"/>
         user JOIN user_role ON user.id = user_role.user_id
@@ -51,6 +52,13 @@
     <select id="findUserByProductId" resultMap="userResultMap">
         <include refid="selectAllColumnUser"/>
         user JOIN product_member pm on user.id =  pm.user_id WHERE product_id = #{0} AND is_stopped = 0 ORDER BY addtime
+    </select>
+
+    <!-- 获取指定的产品参与者 -->
+    <select id="getProductUser" resultMap="userResultMap">
+        <include refid="selectAllColumnUser"/>
+        user JOIN product_member pm on user.id =  pm.user_id WHERE product_id = #{productId} AND is_stopped = 0
+        AND user_id = #{userId} ORDER BY addtime
     </select>
 
     <!--根据用户id获取用户-->

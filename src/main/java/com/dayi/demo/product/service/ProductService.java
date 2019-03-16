@@ -9,7 +9,7 @@ import com.github.pagehelper.PageInfo;
 import java.util.List;
 
 /**
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut @ pvc123.com>
  * @date 2019-2-25
  */
 public interface ProductService {
@@ -21,7 +21,7 @@ public interface ProductService {
      * @param participators 参与者
      * @return
      */
-    String addProduct(Product product, String[] participators);
+    String add(Product product, String[] participators);
 
     /**
      * 分页查询产品
@@ -38,7 +38,7 @@ public interface ProductService {
      * @param id
      * @return
      */
-    Product getProduct(String id);
+    Product get(String id);
 
     /**
      * 获取产品参与者
@@ -72,20 +72,22 @@ public interface ProductService {
      * @param product
      * @return
      */
-    int updateProduct(Product product);
+    int update(Product product);
 
     /**
      * 查找所有产品
      *
      * @return
      */
-    List<Product> findAllProduct();
+    List<Product> findAll();
 
     /**
      * 分页查找用户参与的产品
      *
      * @param userId
+     * @param currentPage
+     * @param pageSize
      * @return
      */
-    PageInfo<Product> findProductByUser(String userId, int currentPage, int pageSize);
+    PageInfo<Product> findByUser(String userId, int currentPage, int pageSize);
 }

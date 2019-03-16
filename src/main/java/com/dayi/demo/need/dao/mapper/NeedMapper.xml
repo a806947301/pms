@@ -22,18 +22,18 @@
     </sql>
 
     <!--查找项目下的所有需求-->
-    <select id="findNeedByprojectId" resultMap="NeedResultMap">
+    <select id="findByprojectId" resultMap="NeedResultMap">
         <include refid="selectAllColumnNeed"/>
         need WHERE project_id = #{0} ORDER BY addtime
     </select>
 
     <!--获取单个需求-->
-    <select id="getNeed" resultMap="NeedResultMap">
+    <select id="get" resultMap="NeedResultMap">
         <include refid="selectAllColumnNeed"/>
         need WHERE id = #{0}
     </select>
 
-    <insert id="addNeed">
+    <insert id="add">
         insert into need (id,addtime,updatetime,need_name,need_description,need_description_filepath
             ,need_description_filename,need_filepath,need_filename,user_id,project_id)
         VALUES (#{id},#{addTime},#{updateTime},#{needName},#{needDescription},#{descriptionFilepath}

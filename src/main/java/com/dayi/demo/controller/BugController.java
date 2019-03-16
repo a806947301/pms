@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut       @       pvc123.com>
  * @date 2019-2-28
  */
 @Controller
@@ -43,10 +43,13 @@ public class BugController {
     @ResponseBody
     @RequiresPermissions("add:bug")
     public JSONObject addBug(Bug bug) {
+        if (Bug.hasEmpty(bug, false, false)) {
+            return JsonUtil.packageJson(false, "", "有字段为空");
+        }
         User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
         String bugId = bugService.addBug(bug, user);
-        boolean addSuccess = (null != bugId && (!"".equals(bugId))) ;
-        return JsonUtil.packageJson(addSuccess,bugId,"添加失败");
+        boolean addSuccess = (null != bugId && (!"".equals(bugId)));
+        return JsonUtil.packageJson(addSuccess, bugId, "添加失败");
     }
 
     /**
@@ -122,9 +125,16 @@ public class BugController {
      */
     @RequestMapping("/redesignate")
     @ResponseBody
-    public int redesignate(String bugId, String userId) {
+    public JSONObject redesignate(String bugId, String userId) {
+        if(null == bugId || "".equals(bugId)) {
+            return JsonUtil.packageJson(false, "", "Bug Id不能为空");
+        }
+        if(null == userId || "".equals(userId)) {
+            return JsonUtil.packageJson(false, "", "被指派人不能为空");
+        }
         User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
-        return bugService.doRedesignate(bugId, userId, user);
+        boolean success = (0 != bugService.doRedesignate(bugId, userId, user));
+        return JsonUtil.packageJson(success, "重新指派成功", "重新指派失败");
     }
 
     /**
@@ -135,9 +145,13 @@ public class BugController {
      */
     @RequestMapping("/processSelf")
     @ResponseBody
-    public int processSelf(String bugId) {
+    public JSONObject processSelf(String bugId) {
+        if(null == bugId || "".equals(bugId)) {
+            return JsonUtil.packageJson(false, "", "Bug Id不能为空");
+        }
         User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
-        return bugService.doProcessSelf(bugId, user);
+        boolean success = (0 != bugService.doProcessSelf(bugId, user));
+        return JsonUtil.packageJson(success, "设置自己处理", "设置自己处理失败");
     }
 
     /**
@@ -148,9 +162,13 @@ public class BugController {
      */
     @RequestMapping("/noProcessing")
     @ResponseBody
-    public int noProcessing(String bugId) {
+    public JSONObject noProcessing(String bugId) {
+        if(null == bugId || "".equals(bugId)) {
+            return JsonUtil.packageJson(false, "", "Bug Id不能为空");
+        }
         User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
-        return bugService.doNoProcessing(bugId, user);
+        boolean success = (0 != bugService.doNoProcessing(bugId, user));
+        return JsonUtil.packageJson(success, "不予处理Bug", "设置不予处理失败");
     }
 
     /**
@@ -161,9 +179,13 @@ public class BugController {
      */
     @RequestMapping("/closeBug")
     @ResponseBody
-    public int closeBug(String bugId) {
+    public JSONObject closeBug(String bugId) {
+        if(null == bugId || "".equals(bugId)) {
+            return JsonUtil.packageJson(false, "", "Bug Id不能为空");
+        }
         User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
-        return bugService.doCloseBug(bugId, user);
+        boolean success = (0 != bugService.doCloseBug(bugId, user));
+        return JsonUtil.packageJson(success, "关闭Bug成功", "关闭Bug失败");
     }
 
     /**
@@ -174,9 +196,13 @@ public class BugController {
      */
     @RequestMapping("/addBugDescription")
     @ResponseBody
-    public int addBugDescription(BugDescription bugDescription) {
+    public JSONObject addBugDescription(BugDescription bugDescription) {
+        if(BugDescription.hasEmpty(bugDescription,false)) {
+            return JsonUtil.packageJson(false, "", "有字段为空，添加失败");
+        }
         User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
-        return bugService.addBugDescription(bugDescription, user);
+        boolean success = (0 != bugService.addBugDescription(bugDescription, user));
+        return JsonUtil.packageJson(success, "添加说明成功", "添加说明失败");
     }
 
     /**
@@ -226,7 +252,6 @@ public class BugController {
      */
     @RequestMapping("/findBugByCurrentUserDesignee")
     @ResponseBody
-    @RequiresPermissions("select:bug")
     public PageInfo<Bug> findBugByCurrentUserDesignee(int currentPage, int pageSize) {
         User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
         return bugService.findBugByUserDesignee(user.getId(), currentPage, pageSize);

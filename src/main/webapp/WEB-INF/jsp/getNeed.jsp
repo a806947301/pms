@@ -130,7 +130,14 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-4"></div>
+                                    <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-outline-success" type="button" v-on:click="preview()"
+                                                data-toggle="modal" data-target="#myModal">
+                                            在线预览
+                                        </button>
+                                    </div>
                                     <div class="col-md-4">
                                         <button class="btn btn-outline-primary" type="button" v-on:click="download(need.needFilepath)">立即下载</button>
                                     </div>
@@ -138,17 +145,51 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
-
-
                 </div>
             </div>
         </div>
     </div>
 
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">预览文件</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>文件名</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td v-on:click="click(0,'',true,true)" style="cursor: pointer;">...</td>
+                            </tr>
+                            <tr v-for="(file,index) in tree.children"
+                                v-on:click="click(index,file.filename,file.isDirection,false)"
+                                style="cursor: pointer;">
+                                <td>
+                                    <i class="fa fa-align-center" v-if="file.isDirection"></i>
+                                    <i class="fa fa-clipboard" v-else></i>
+                                    {{file.filename}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
 </div>
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/popper.js/popper.min.js"></script>
@@ -177,6 +218,30 @@
                 fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
         return fmt;
     };
+    var treeVm = new Vue({
+        el:'#myModal',
+        data:{
+            tree:{},
+            baseTree:null
+        },
+        methods:{
+            click:function(index,name,isDirection,isGoParent){
+                if(!isDirection) {
+                    window.open(this.tree.children[index].file);
+                    return;
+                }
+                if(isGoParent) {
+                    if(this.tree.parent == null) return;
+                    this.tree = this.tree.parent;
+                    return;
+                }
+                parentTree = this.tree;
+                this.tree = this.tree.children[index];
+                this.tree.parent = parentTree;
+
+            }
+        }
+    })
     var vm = new Vue({
         el:"#need" ,
         data:{
@@ -197,6 +262,18 @@
                 })
         },
         methods:{
+            preview:function() {
+                params = new URLSearchParams();
+                params.append("needId",this.needId);
+                axios
+                    .post("/need/previewNeedFile",params)
+                    .then(function (response) {
+                        treeVm.tree = response.data;
+                        treeVm.baseTree = response.data;
+                        /*console.log(response.data)*/
+
+                    })
+            },
             download:function(path) {
                 window.location.href=path;
             }

@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * 用户模块控制器
  *
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut                                                               @                                                               pvc123.com>
  * @date 2019-2-23
  */
 @Controller
@@ -99,9 +99,12 @@ public class UserController {
     @RequestMapping("/getVarification")
     @ResponseBody
     public JSONObject getVarification(String email) throws MessagingException {
+        if (null == email || "".equals(email)) {
+            return JsonUtil.packageJson(false, "", "邮箱不能为空");
+        }
         //生成验证码
         String varificationCode = userService.doRandomVarificationCodeToEmail(email);
-        return JsonUtil.packageJson(true, varificationCode,"");
+        return JsonUtil.packageJson(true, varificationCode, "");
     }
 
     /**
@@ -112,8 +115,8 @@ public class UserController {
     @RequestMapping("/findUser")
     @ResponseBody
     @RequiresPermissions("select:user")
-    public PageInfo<User> findUser(int currentPage) {
-        return userService.findByPage(currentPage, 5);
+    public PageInfo<User> findUser(int currentPage, int pageSize) {
+        return userService.findByPage(currentPage, pageSize);
     }
 
     /**
@@ -137,6 +140,9 @@ public class UserController {
     @ResponseBody
     @RequiresPermissions("add:user")
     public JSONObject addUser(User user) {
+        if (User.hasEmpty(user, false)) {
+            return JsonUtil.packageJson(false, "", "有字段为空！");
+        }
         boolean addSuccess = userService.addUser(user) != 0;
         return JsonUtil.packageJson(addSuccess, "添加成功", "添加失败");
     }
@@ -151,8 +157,11 @@ public class UserController {
     @ResponseBody
     @RequiresPermissions("update:user")
     public JSONObject updateUser(User user) {
+        if (User.hasEmpty(user, true)) {
+            return JsonUtil.packageJson(false, "", "有字段为空！");
+        }
         boolean updateSuccess = (userService.updateUser(user) != 0);
-        return JsonUtil.packageJson(updateSuccess,"更新成功","更新失败");
+        return JsonUtil.packageJson(updateSuccess, "更新成功", "更新失败");
     }
 
     /**
@@ -177,6 +186,12 @@ public class UserController {
     @RequestMapping("/login")
     @ResponseBody
     public JSONObject login(String email, String password, HttpServletRequest request) {
+        if (null == email || "".equals(email)) {
+            return JsonUtil.packageJson(false, "", "邮箱不能为空");
+        }
+        if (null == password || "".equals(password)) {
+            return JsonUtil.packageJson(false, "", "密码不能为空");
+        }
         boolean loginSuccess = userService.doLogin(email, password, IpUtil.getIpAddress(request));
         return JsonUtil.packageJson(loginSuccess, INDEX_PAGE, "登陆失败");
     }
@@ -204,6 +219,9 @@ public class UserController {
     @ResponseBody
     @RequiresPermissions("delete:user")
     public JSONObject updateStopped(String id, boolean stopped) {
+        if (null == id || "".equals(id)) {
+            return JsonUtil.packageJson(false, "", "id为空");
+        }
         int countUpdate = userService.updateUserStopped(id, stopped);
         boolean updateSuccess = (0 != countUpdate);
         return JsonUtil.packageJson(updateSuccess, "停用/启用成功", "停用/启用失败");
@@ -219,12 +237,12 @@ public class UserController {
     @RequestMapping("/loginLogByUser")
     @ResponseBody
     @RequiresPermissions("loginLog")
-    public PageInfo<LoginLog> findLoginLogByUserId(String id, int currentPage) {
+    public PageInfo<LoginLog> findLoginLogByUserId(String id, int currentPage, int pageSize) {
         if (null == id) {
             User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
             id = user.getId();
         }
-        PageInfo<LoginLog> logs = loginLogService.findLoginLogByUserId(id, currentPage, 10);
+        PageInfo<LoginLog> logs = loginLogService.findLoginLogByUserId(id, currentPage, pageSize);
         return logs;
     }
 
@@ -263,7 +281,10 @@ public class UserController {
     @RequestMapping("/register")
     @ResponseBody
     public JSONObject register(User user) {
+        if (User.hasEmpty(user, false)) {
+            return JsonUtil.packageJson(false, "", "有字段为空！");
+        }
         boolean resigterSuccess = (userService.addUser(user) != 0);
-        return JsonUtil.packageJson(resigterSuccess,"注册成功","注册失败");
+        return JsonUtil.packageJson(resigterSuccess, "注册成功", "注册失败");
     }
 }

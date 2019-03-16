@@ -19,7 +19,7 @@ public interface ProductDao {
      * @param product
      * @return
      */
-    int addProduct(Product product);
+    int add(Product product);
 
     /**
      * 添加产品成员
@@ -31,7 +31,7 @@ public interface ProductDao {
      * @param updateTime 更新时间
      * @return
      */
-    int addProductParticipator(@Param("id") String id,
+    int addParticipator(@Param("id") String id,
                                @Param("productId") String productId,
                                @Param("userId") String userId,
                                @Param("addTime") Date addTime,
@@ -42,7 +42,7 @@ public interface ProductDao {
      *
      * @return
      */
-    List<Product> findAllProduct();
+    List<Product> findAll();
 
     /**
      * 获取指定产品
@@ -50,7 +50,7 @@ public interface ProductDao {
      * @param id
      * @return
      */
-    Product getProduct(String id);
+    Product get(String id);
 
     /**
      * 删除产品成员
@@ -67,7 +67,7 @@ public interface ProductDao {
      * @param product
      * @return
      */
-    int updateProduct(Product product);
+    int update(Product product);
 
     /**
      * 查找用户参与的产品
@@ -75,5 +75,5 @@ public interface ProductDao {
      * @param userId
      * @return
      */
-    List<Product> findProductByUser(String userId);
+    List<Product> findByUser(String userId);
 }

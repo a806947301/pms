@@ -65,7 +65,7 @@ public class ProductStatisticServiceImpl implements ProductStatisticService {
      * @return
      */
     private Map<String, JSONObject> doPackageProductJsonMap() {
-        List<Product> products = productService.findAllProduct();
+        List<Product> products = productService.findAll();
         Map<String, JSONObject> productMap = new LinkedHashMap<String, JSONObject>();
         JSONObject productJson;
         for (Product product : products) {

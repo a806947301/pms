@@ -9,7 +9,9 @@ import org.apache.poi.xwpf.converter.core.FileImageExtractor;
 import org.apache.poi.xwpf.converter.xhtml.XHTMLConverter;
 import org.apache.poi.xwpf.converter.xhtml.XHTMLOptions;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTDocument1;
+import org.apache.xmlbeans.impl.piccolo.io.FileFormatException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -17,16 +19,15 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 
 /**
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut       @       pvc123.com>
  * @date 2019-03-11
  */
 public class WordUtil {
+
+    Logger logger = LoggerFactory.getLogger(WordUtil.class);
 
     private static final String DOC = ".doc";
     private static final String DOCX = ".docx";
@@ -64,7 +65,6 @@ public class WordUtil {
                     out.write(bytes);
                     out.close();
                 } catch (Exception e) {
-                    e.printStackTrace();
                     return "";
                 }
                 return imagePath + "\\" + s;
@@ -92,7 +92,7 @@ public class WordUtil {
      * @return
      * @throws Exception
      */
-    private static String docxToHtml(String filepath, String imagePath, String sourceFileName) throws Exception {
+    private static String docxToHtml(String filepath, String imagePath, String sourceFileName) throws IOException {
         File path = new File(filepath);
         String imagePathStr = path.getAbsolutePath() + "\\" + imagePath + "\\";
         sourceFileName = path.getAbsolutePath() + "\\" + sourceFileName;
@@ -133,7 +133,8 @@ public class WordUtil {
             return docToHtml(filepath, imagePath, sourceFileName);
         } else if (sourceFileName.endsWith(DOCX)) {
             return docxToHtml(filepath, imagePath, sourceFileName);
+        } else {
+            throw new FileFormatException("需求文件格式不正确");
         }
-        return null;
     }
 }

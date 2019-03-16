@@ -74,4 +74,12 @@ public interface UserDao {
      */
     User getUserByEmail(String email);
 
+    /**
+     * 获取指定的产品参与者
+     * @param productId
+     * @param userId
+     * @return
+     */
+    User getProductUser(@Param("productId") String productId, @Param("userId") String userId);
+
 }
