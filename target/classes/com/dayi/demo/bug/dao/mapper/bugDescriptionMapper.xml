@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayi.demo.bug.dao.BugDescriptionDao">
+
+    <resultMap id="bugDescriptionResultMap" type="BugDescription">
+        <id property="id" column="id"></id>
+        <result property="addTime" column="addtime"></result>
+        <result property="updateTime" column="updatetime"></result>
+        <result property="bugId" column="bug_id"></result>
+        <result property="content" column="content"></result>
+    </resultMap>
+
+    <insert id="addBugDescription">
+        INSERT INTO bug_description (id,addtime,updatetime,bug_id,content)
+        VALUES (#{id},#{addTime},#{updateTime},#{bugId},#{content})
+    </insert>
+
+    <select id="findByBugId" resultMap="bugDescriptionResultMap">
+        SELECT id,addtime,updatetime,content FROM bug_description
+        WHERE bug_id = #{0}  ORDER BY addtime
+    </select>
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayi.demo.user.dao.LoginLogDao">
+
+    <resultMap id="loginLogResultMap" type="LoginLog">
+        <id property="id" column="id"></id>
+        <result property="addTime" column="addtime"></result>
+        <result property="updateTime" column="updatetime"></result>
+        <result property="ip" column="ip"></result>
+        <association property="user" column="user_id" select="com.dayi.demo.user.dao.UserDao.getUser"></association>
+    </resultMap>
+
+    <sql id="selectAllColumnDepartment">
+        SELECT id,addtime,updatetime,user_id,ip FROM
+    </sql>
+
+    <select id="findLoginLogByUserId" resultMap="loginLogResultMap">
+        <include refid="selectAllColumnDepartment"/>
+        login_log WHERE user_id = #{0}
+    </select>
+
+    <insert id="addLoginLog">
+        INSERT INTO login_log(id,addtime,updatetime,user_id,ip)
+        VALUES (#{id},#{addTime},#{updateTime},#{user.id},#{ip})
+    </insert>
+
+</mapper>
