@@ -11,11 +11,12 @@
         <result property="email" column="email"></result>
         <result property="password" column="password"></result>
         <result property="stopped" column="is_stopped"></result>
-        <association property="department" column="department_id" select="com.dayi.demo.user.dao.DepartmentDao.getDepartment" />
+        <association property="department" column="department_id" select="com.dayi.demo.user.dao.DepartmentDao.get" />
     </resultMap>
 
     <sql id="selectAllColumnUser">
-        SELECT user.id,user.addtime,user.updatetime,user.name,user.department_id,user.job_number,user.email,user.password,user.is_stopped FROM
+        SELECT user.id, user.addtime, user.updatetime, user.name, user.department_id,
+        user.job_number, user.email, user.password, user.is_stopped FROM
     </sql>
 
     <!--查询所有（包含停用）-->
@@ -74,19 +75,19 @@
     </select>
 
     <insert id="addUser">
-        INSERT  INTO user (id,addtime,updatetime,name,department_id,job_number,email,password)
-        VALUES (#{id},#{addTime},#{updateTime},#{name},#{department.id},#{jobNumber},#{email},#{password})
+        INSERT  INTO user (id, addtime, updatetime, name, department_id, job_number, email, password)
+        VALUES (#{id} ,#{addTime}, #{updateTime}, #{name}, #{department.id}, #{jobNumber}, #{email}, #{password})
     </insert>
 
     <update id="updateUser">
         UPDATE user
         <set>
-            updatetime = #{updateTime}
-            ,name = #{name}
-            ,department_id = #{department.id}
-            ,job_number = #{jobNumber}
-            ,email = #{email}
-            ,is_stopped = #{stopped}
+            updatetime = #{updateTime},
+            name = #{name},
+            department_id = #{department.id},
+            job_number = #{jobNumber},
+            email = #{email},
+            is_stopped = #{stopped}
         </set>
         WHERE id = #{id}
     </update>

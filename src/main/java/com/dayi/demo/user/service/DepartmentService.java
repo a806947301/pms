@@ -1,6 +1,7 @@
 package com.dayi.demo.user.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dayi.demo.exception.SystemException;
 import com.dayi.demo.user.model.Department;
 import com.github.pagehelper.PageInfo;
 
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * 部门模块接口
  *
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut @ pvc123.com>
  * @date 2019-2-22
  */
 public interface DepartmentService {
@@ -17,9 +18,9 @@ public interface DepartmentService {
      * 添加部门
      *
      * @param department
-     * @return
+     * @throws SystemException
      */
-    int addDepartment(Department department);
+    void add(Department department) throws SystemException;
 
     /**
      * 分页查询部门
@@ -34,17 +35,17 @@ public interface DepartmentService {
      * 更新部门
      *
      * @param department
-     * @return
+     * @throws SystemException
      */
-    int updateDepartment(Department department);
+    void update(Department department) throws SystemException;
 
     /**
      * 删除部门
      *
      * @param id
-     * @return
+     * @throws SystemException
      */
-    int deleteDepartment(String id);
+    void delete(String id) throws SystemException;
 
     /**
      * 查询所有部门

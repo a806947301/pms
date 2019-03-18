@@ -14,7 +14,7 @@
     </sql>
 
     <!-- 根据id查询 -->
-    <select id="getDepartment" resultMap="departmentResultMap">
+    <select id="get" resultMap="departmentResultMap">
         <include refid="selectAllColumnDepartment"/>
         department WHERE id = #{0}
     </select>
@@ -25,12 +25,12 @@
         department ORDER BY addtime
     </select>
 
-    <insert id="addDepartment">
+    <insert id="add">
          INSERT INTO department (id,addtime,updatetime,department_name)
          VALUES (#{id},#{addTime},#{updateTime},#{departmentName})
     </insert>
 
-    <update id="updateDepartment">
+    <update id="update">
         UPDATE department
         <set>
             department_name=#{departmentName},
@@ -39,7 +39,7 @@
         WHERE id = #{id}
     </update>
 
-    <delete id="deleteDepartment">
+    <delete id="delete">
         DELETE FROM department WHERE id = #{0}
     </delete>
 </mapper>

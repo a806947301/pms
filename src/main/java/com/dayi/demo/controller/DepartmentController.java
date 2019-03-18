@@ -7,6 +7,8 @@ import com.dayi.demo.user.service.DepartmentService;
 import com.dayi.demo.util.JsonUtil;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,12 +20,14 @@ import java.util.List;
 /**
  * 部门管理控制器
  *
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut @ pvc123.com>
  * @date 2019-2-20
  */
 @Controller
 @RequestMapping("/department")
 public class DepartmentController extends BaseController {
+
+    Logger logger = LoggerFactory.getLogger(DepartmentController.class);
 
     @Resource
     private DepartmentService departmentService;
@@ -38,12 +42,16 @@ public class DepartmentController extends BaseController {
     @ResponseBody
     @RequiresPermissions("delete:department")
     public JSONObject deleteDepartment(String id) {
-        if(null == id || "".equals(id)) {
-            return JsonUtil.packageJson(false,"","删除失败，id不能为空");
+        if (null == id || "".equals(id)) {
+            return JsonUtil.packageJson(false, "", "删除失败，id不能为空");
         }
-        int countDelete = departmentService.deleteDepartment(id);
-        boolean deleteSuccess = (0 != countDelete);
-        return JsonUtil.packageJson(deleteSuccess,"删除成功","删除失败");
+        try {
+            departmentService.delete(id);
+        } catch (Exception e) {
+            logger.error(DepartmentController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(false,"",e.getMessage());
+        }
+        return JsonUtil.packageJson(true, "删除成功", "");
     }
 
     /**
@@ -56,12 +64,16 @@ public class DepartmentController extends BaseController {
     @ResponseBody
     @RequiresPermissions("update:department")
     public JSONObject updateDepartment(Department department) {
-        if(Department.hasEmpty(department,true)) {
-            return JsonUtil.packageJson(false,"","有字段为空");
+        if (Department.hasEmpty(department, true)) {
+            return JsonUtil.packageJson(false, "", "有字段为空");
         }
-        int countUpdate = departmentService.updateDepartment(department);
-        boolean updateSuccess = (0 != countUpdate);
-        return JsonUtil.packageJson(updateSuccess,"更新成功","更新失败");
+        try {
+            departmentService.update(department);
+        } catch (Exception e) {
+            logger.error(DepartmentController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(false,"",e.getMessage());
+        }
+        return JsonUtil.packageJson(true, "更新成功", "");
     }
 
     /**
@@ -73,12 +85,16 @@ public class DepartmentController extends BaseController {
     @ResponseBody
     @RequiresPermissions("add:department")
     public JSONObject addDepartment(Department department) {
-        if(Department.hasEmpty(department,false)) {
-            return JsonUtil.packageJson(false,"","部门名不能为空");
+        if (Department.hasEmpty(department, false)) {
+            return JsonUtil.packageJson(false, "", "部门名不能为空");
         }
-        int countAdd = departmentService.addDepartment(department);
-        boolean addSuccess = (0 != countAdd);
-        return null;
+        try {
+            departmentService.add(department);
+        } catch (Exception e) {
+            logger.error(DepartmentController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(false,"",e.getMessage());
+        }
+        return JsonUtil.packageJson(true, "添加成功", "");
     }
 
     /**
@@ -116,16 +132,5 @@ public class DepartmentController extends BaseController {
     public List<Department> findAll() {
         return departmentService.findAll();
     }
-
-    @RequestMapping("/test")
-    @ResponseBody
-    public String test() throws Exception{
-        Department d = new Department();
-
-        departmentService.addDepartment(d);
-
-        return "";
-    }
-
 
 }

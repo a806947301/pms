@@ -15,28 +15,28 @@ public interface DepartmentDao {
      * @param department
      * @return
      */
-    int addDepartment(Department department);
+    int add(Department department);
 
     /**
      * 更新部门
      * @param department
      * @return
      */
-    int updateDepartment(Department department);
+    int update(Department department);
 
     /**
      * 删除部门
      * @param id
      * @return
      */
-    int deleteDepartment(String id);
+    int delete(String id);
 
     /**
      * 获取指定部门
      * @param id
      * @return
      */
-    Department getDepartment(String id);
+    Department get(String id);
 
     /**
      * 查找所有部门
