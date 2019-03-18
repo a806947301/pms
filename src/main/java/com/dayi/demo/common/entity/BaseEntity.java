@@ -3,7 +3,7 @@ package com.dayi.demo.common.entity;
 import java.util.Date;
 
 /**
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut   @   pvc123.com>
  * @date 2019-03-18
  */
 public abstract class BaseEntity {
@@ -48,7 +48,8 @@ public abstract class BaseEntity {
         if (null == entity) {
             return true;
         }
-        if (includeId && (null == entity.getId() || "".equals(entity.getId()))) {
+        boolean emptyId = null == entity.getId() || "".equals(entity.getId());
+        if (includeId && emptyId) {
             return true;
         }
         return false;

@@ -157,7 +157,8 @@ public class Bug extends BaseEntity {
         if (includeProposer && null == bug.getBugProposer()) {
             return true;
         }
-        if (includeProposer && (null == bug.getBugProposer().getId() || "".equals(bug.getBugProposer().getId()))) {
+        boolean emptyProposerId = null == bug.getBugProposer().getId() || "".equals(bug.getBugProposer().getId());
+        if (includeProposer && emptyProposerId) {
             return true;
         }
         if (null == bug.getBugProcesser()) {

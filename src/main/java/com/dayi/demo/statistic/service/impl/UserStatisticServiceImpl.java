@@ -78,8 +78,8 @@ public class UserStatisticServiceImpl implements UserStatisticService {
 
     @Override
     public void exportExcelTester(OutputStream out) throws IOException {
-        JSONArray Testers = doStatisicTester();
-        doExportExcelUser(Testers,out);
+        JSONArray testers = doStatisicTester();
+        doExportExcelUser(testers,out);
     }
 
     /**

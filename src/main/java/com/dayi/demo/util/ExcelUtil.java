@@ -54,12 +54,12 @@ public class ExcelUtil {
      * @return
      */
     public static XSSFCell[] createCells(XSSFRow row, int countCell, XSSFCellStyle style) {
-        XSSFCell[] Cells = new XSSFCell[countCell + 1];
+        XSSFCell[] cells = new XSSFCell[countCell + 1];
         for (int i = 0; i <= countCell; i++) {
-            Cells[i] = row.createCell(i);
-            Cells[i].setCellStyle(style);
+            cells[i] = row.createCell(i);
+            cells[i].setCellStyle(style);
         }
-        return Cells;
+        return cells;
     }
 
     /**

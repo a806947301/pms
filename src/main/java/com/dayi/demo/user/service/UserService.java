@@ -117,7 +117,9 @@ public interface UserService {
     /**
      * 随机生成注册验证码发送到邮箱
      *
+     * @param email
      * @return
+     * @throws MessagingException
      */
     String doRandomVarificationCodeToEmail(String email) throws MessagingException;
 
