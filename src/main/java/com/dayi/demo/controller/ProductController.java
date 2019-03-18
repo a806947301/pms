@@ -1,6 +1,7 @@
 package com.dayi.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dayi.demo.common.controller.BaseController;
 import com.dayi.demo.product.service.ProductService;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.product.model.Product;
@@ -23,7 +24,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/product")
-public class ProductController {
+public class ProductController extends BaseController {
 
     @Resource
     private ProductService productService;
@@ -176,7 +177,7 @@ public class ProductController {
     @RequestMapping("/findProductByCurrentUser")
     @ResponseBody
     public PageInfo<Product> findProductByCurrentUser(int currentPage, int pageSize) {
-        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
+        User user = getCurrentUser();
         return productService.findByUser(user.getId(), currentPage, pageSize);
     }
 

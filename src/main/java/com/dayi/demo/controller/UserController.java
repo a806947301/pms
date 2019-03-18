@@ -1,6 +1,7 @@
 package com.dayi.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dayi.demo.common.controller.BaseController;
 import com.dayi.demo.user.model.LoginLog;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.LoginLogService;
@@ -22,12 +23,12 @@ import java.util.List;
 /**
  * 用户模块控制器
  *
- * @author WuTong<wut                                                               @                                                               pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-2-23
  */
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController  {
 
     @Resource
     private UserService userService;
@@ -239,7 +240,7 @@ public class UserController {
     @RequiresPermissions("loginLog")
     public PageInfo<LoginLog> findLoginLogByUserId(String id, int currentPage, int pageSize) {
         if (null == id) {
-            User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
+            User user = getCurrentUser();
             id = user.getId();
         }
         PageInfo<LoginLog> logs = loginLogService.findLoginLogByUserId(id, currentPage, pageSize);

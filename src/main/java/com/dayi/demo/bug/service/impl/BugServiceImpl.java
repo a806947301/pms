@@ -8,6 +8,7 @@ import com.dayi.demo.bug.model.Bug;
 import com.dayi.demo.bug.model.BugDescription;
 import com.dayi.demo.bug.model.BugOperatingRecord;
 import com.dayi.demo.bug.service.BugService;
+import com.dayi.demo.exception.SystemException;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.UserService;
 import com.dayi.demo.util.IdUtil;
@@ -47,14 +48,17 @@ public class BugServiceImpl implements BugService {
     private UserService userService;
 
     @Override
-    public String addBug(Bug bug, User currentUser) {
+    public String add(Bug bug, User currentUser) throws SystemException {
+        //设置Bug
         bug.setId(IdUtil.getPrimaryKey());
         bug.setAddTime(new Date());
         bug.setUpdateTime(new Date());
-        bug.setBugStatus(0);
+        bug.setBugStatus(Bug.Status.DESIGNATE.getValue());
         bug.setNoProcessing(false);
         bug.setBugProposer(currentUser);
+        //添加Bug
         int countAdd = bugDao.addBug(bug);
+        //添加成功
         if (countAdd != 0) {
             // 发送邮件
             User processer = userService.getUser(bug.getBugProcesser().getId());
@@ -66,7 +70,7 @@ public class BugServiceImpl implements BugService {
             bugOperatingRecordDao.addBugOperatingRecord(record);
             return bug.getId();
         }
-        return "";
+        throw new SystemException("添加失败");
     }
 
     @Override
@@ -91,7 +95,7 @@ public class BugServiceImpl implements BugService {
     }
 
     @Override
-    public PageInfo<Bug> findBugByProject(int currentPage, int pageSize, String projectId, Date begin, Date end,
+    public PageInfo<Bug> findByProject(int currentPage, int pageSize, String projectId, Date begin, Date end,
                                           int status, String processerId, String proposerId) {
         PageHelper.startPage(currentPage, pageSize);
         List<Bug> list = bugDao.findBugByProject(projectId, begin, end, status, processerId, proposerId);
@@ -105,10 +109,24 @@ public class BugServiceImpl implements BugService {
     }
 
     @Override
-    public int doRedesignate(String bugId, String userId, User currentUser) {
-        int bugStatus = 0;
+    public int doRedesignate(String bugId, String userId, User currentUser) throws SystemException {
+        Bug bug = getBug(bugId);
+        // 是否合法处理者 （Bug状态为指派中，且Bug的处理者为当前用户）
+        boolean isLegalProcesser = bug.getBugStatus() == Bug.Status.DESIGNATE.getValue() &&
+                bug.getBugProcesser().getId().equals(currentUser.getId());
+        // 是否合法提出者 （Bug状态为验收中，且Bug提出者为当年用户）
+        boolean isLegalProposer = bug.getBugStatus() == Bug.Status.CHECKING.getValue() &&
+                bug.getBugProposer().getId().equals(currentUser.getId());
+        if(!(isLegalProcesser || isLegalProposer)) {
+            throw new SystemException("违法操作");
+        }
+
+        //更新Bug状态
         Date updateTime = new Date();
-        int countAdd = bugDao.updateBugStatue(bugId, bugStatus, userId, false, updateTime);
+        int countAdd = bugDao.updateBugStatue(bugId, Bug.Status.DESIGNATE.getValue(),
+                userId, false, updateTime);
+
+        //更新成功
         if (countAdd != 0) {
             // 发送邮件
             User processer = userService.getUser(userId);
@@ -117,49 +135,80 @@ public class BugServiceImpl implements BugService {
             emailContent.append(" 指派您处理Bug，Bug Id：" + bugId);
             sendMail(processer.getEmail(), "您被指派一个Bug", emailContent.toString());
             // 添加Bug记录
-            BugOperatingRecord record = doPackageOperatingRecord(bugId, userId, 0, currentUser);
+            BugOperatingRecord record = doPackageOperatingRecord(bugId, userId,
+                    0, currentUser);
             bugOperatingRecordDao.addBugOperatingRecord(record);
+            return countAdd;
         }
-        return countAdd;
+        throw new SystemException("重新指派失败");
     }
 
     @Override
-    public int doProcessSelf(String bugId, User currentUser) {
-        int bugStatus = 1;
+    public int doProcessSelf(String bugId, User currentUser) throws SystemException{
+        Bug bug = getBug(bugId);
+        // 是否合法处理者 （Bug状态为指派中，且Bug的处理者为当前用户）
+        boolean isLegalProcesser = bug.getBugStatus() == Bug.Status.DESIGNATE.getValue() &&
+                bug.getBugProcesser().getId().equals(currentUser.getId());
+        if (!isLegalProcesser) {
+            throw new SystemException("非法操作");
+        }
+
+        //更新Bug状态
         Date updateTime = new Date();
-        int countAdd = bugDao.updateBugStatue(bugId, bugStatus, null, false, updateTime);
+        int countAdd = bugDao.updateBugStatue(bugId, Bug.Status.PROCESSER.getValue(),
+                null, false, updateTime);
         if (countAdd != 0) {
             // 添加Bug记录
-            BugOperatingRecord record = doPackageOperatingRecord(bugId, "", 1, currentUser);
+            BugOperatingRecord record = doPackageOperatingRecord(bugId, "",
+                    1, currentUser);
             bugOperatingRecordDao.addBugOperatingRecord(record);
         }
         return countAdd;
     }
 
     @Override
-    public int doNoProcessing(String bugId, User currentUser) {
-        int bugStatus = 2;
+    public int doNoProcessing(String bugId, User currentUser) throws SystemException {
+        Bug bug = getBug(bugId);
+        // 是否合法处理者 （Bug状态为处理中，且Bug的处理者为当前用户）
+        boolean isLegalProcesser = bug.getBugStatus() == Bug.Status.PROCESSER.getValue() &&
+                bug.getBugProcesser().getId().equals(currentUser.getId());
+        if (!isLegalProcesser) {
+            throw new SystemException("非法操作");
+        }
+
+        //修改Bug状态
         Date updateTime = new Date();
-        int countAdd = bugDao.updateBugStatue(bugId, bugStatus, null, true, updateTime);
+        int countAdd = bugDao.updateBugStatue(bugId, Bug.Status.CHECKING.getValue(),
+                null, true, updateTime);
+
         if (countAdd != 0) {
             // 发送邮件
-            Bug bug = getBug(bugId);
             String mailContent = "您好，您的Bug Id：" + bugId + "，被设置不予处理，请您查收。";
             sendMail(bug.getBugProposer().getEmail(), "您的Bug已处理完毕", mailContent);
             // 添加Bug记录
             BugOperatingRecord record;
             record = doPackageOperatingRecord(bugId, "", 2, currentUser);
             bugOperatingRecordDao.addBugOperatingRecord(record);
+            return countAdd;
         }
-        return countAdd;
+        throw new SystemException("操作失败");
     }
 
     @Override
-    public int doCloseBug(String bugId, User currentUser) {
+    public int doCloseBug(String bugId, User currentUser) throws SystemException {
         Bug bug = getBug(bugId);
-        int bugStatus = 3;
+        //判断是合法用户（Bug当前状态为验收中，且提出者为当前用户）
+        boolean isLegalProposer = Bug.Status.CHECKING.getValue() == bug.getBugStatus() &&
+                bug.getBugProposer().getId().equals(currentUser.getId());
+        if(!isLegalProposer) {
+            throw new SystemException("非法操作");
+        }
+
+        //修改Bug状态
         Date updateTime = new Date();
-        int countAdd = bugDao.updateBugStatue(bugId, bugStatus, null, bug.isNoProcessing(), updateTime);
+        int countAdd = bugDao.updateBugStatue(bugId, Bug.Status.FINISHED.getValue(),
+                null, bug.isNoProcessing(), updateTime);
+
         if (countAdd != 0) {
             // 发送邮件
             sendMail(bug.getBugProcesser().getEmail(),
@@ -168,29 +217,39 @@ public class BugServiceImpl implements BugService {
             BugOperatingRecord record;
             record = doPackageOperatingRecord(bugId, "", 4, currentUser);
             bugOperatingRecordDao.addBugOperatingRecord(record);
+            return countAdd;
         }
-        return countAdd;
+        throw new SystemException("操作失败");
     }
 
     @Override
-    public int addBugDescription(BugDescription bugDescription, User currentUser) {
+    public int addBugDescription(BugDescription bugDescription, User currentUser) throws SystemException{
+        Bug bug = getBug(bugDescription.getBugId());
+        // 判断是否合法处理者（Bug当前状态为处理中，且处理者为当前用户）
+        boolean isLegalProcesser = bug.getBugStatus() == Bug.Status.PROCESSER.getValue() &&
+                bug.getBugProcesser().getId().equals(currentUser.getId());
+        if(!isLegalProcesser) {
+            throw new SystemException("非法操作");
+        }
+
+        // 添加Bug说明
         bugDescription.setId(IdUtil.getPrimaryKey());
         bugDescription.setAddTime(new Date());
         bugDescription.setUpdateTime(new Date());
         int countAdd = bugDescriptionDao.addBugDescription(bugDescription);
         if (countAdd != 0) {
             // 发送邮件
-            Bug bug = getBug(bugDescription.getBugId());
             sendMail(bug.getBugProcesser().getEmail(),
                     "您的Bug已处理完毕", "您的Bug已经被处理，请查收。");
             // 更新bug状态
-            bugDao.updateBugStatue(bugDescription.getBugId(), 2,
+            bugDao.updateBugStatue(bugDescription.getBugId(), Bug.Status.CHECKING.getValue(),
                     null, false, new Date());
             // 添加Bug记录
             BugOperatingRecord record;
             record = doPackageOperatingRecord(bugDescription.getBugId(), "",
                     3, currentUser);
             bugOperatingRecordDao.addBugOperatingRecord(record);
+            return countAdd;
         }
         return countAdd;
     }
@@ -230,6 +289,7 @@ public class BugServiceImpl implements BugService {
         } else {
             operationUser = userService.getUser(operationUserId);
         }
+        //把操作记录数据存进对象
         record.setOperationUser(operationUser);
         record.setOperationNumber(operationNumber);
         record.setUser(currentUser);
@@ -314,7 +374,7 @@ public class BugServiceImpl implements BugService {
     }
 
     @Override
-    public PageInfo<Bug> findBugByUserDesignee(String userId, int currentPage, int pageSize) {
+    public PageInfo<Bug> findByUserDesignee(String userId, int currentPage, int pageSize) {
         PageHelper.startPage(currentPage, pageSize);
         List<Bug> list = bugDao.findBugByUserDesignee(userId);
         PageInfo<Bug> pageInfo = new PageInfo<>(list);

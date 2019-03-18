@@ -1,6 +1,7 @@
 package com.dayi.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dayi.demo.common.controller.BaseController;
 import com.dayi.demo.user.model.Department;
 import com.dayi.demo.user.service.DepartmentService;
 import com.dayi.demo.util.JsonUtil;
@@ -22,7 +23,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/department")
-public class DepartmentController {
+public class DepartmentController extends BaseController {
 
     @Resource
     private DepartmentService departmentService;

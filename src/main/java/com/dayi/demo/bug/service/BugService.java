@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.bug.model.Bug;
 import com.dayi.demo.bug.model.BugDescription;
 import com.dayi.demo.bug.model.BugOperatingRecord;
+import com.dayi.demo.exception.SystemException;
 import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,7 +13,7 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-2-28
  */
 public interface BugService {
@@ -21,10 +22,11 @@ public interface BugService {
      * 添加bug
      *
      * @param bug
-     * @param currentUser 当前用户
+     * @param currentUser
      * @return
+     * @throws SystemException
      */
-    String addBug(Bug bug, User currentUser);
+    String add(Bug bug, User currentUser) throws SystemException;
 
     /**
      * 上传bug图片
@@ -49,7 +51,7 @@ public interface BugService {
      * @param proposerId  Bug提出者，null为不筛选
      * @return
      */
-    PageInfo<Bug> findBugByProject(int currentPage, int pageSize, String projectId, Date begin,
+    PageInfo<Bug> findByProject(int currentPage, int pageSize, String projectId, Date begin,
                                    Date end, int status, String processerId, String proposerId);
 
     /**
@@ -67,8 +69,9 @@ public interface BugService {
      * @param userId
      * @param currentUser
      * @return
+     * @throws SystemException
      */
-    int doRedesignate(String bugId, String userId, User currentUser);
+    int doRedesignate(String bugId, String userId, User currentUser) throws SystemException;
 
     /**
      * 设置自己处理Bug
@@ -76,8 +79,9 @@ public interface BugService {
      * @param bugId
      * @param currentUser
      * @return
+     * @throws SystemException
      */
-    int doProcessSelf(String bugId, User currentUser);
+    int doProcessSelf(String bugId, User currentUser) throws SystemException;
 
     /**
      * 设置不予处理Bug
@@ -85,8 +89,9 @@ public interface BugService {
      * @param bugId
      * @param currentUser
      * @return
+     * @throws SystemException
      */
-    int doNoProcessing(String bugId, User currentUser);
+    int doNoProcessing(String bugId, User currentUser) throws SystemException;
 
     /**
      * 设置关闭Bug
@@ -94,8 +99,9 @@ public interface BugService {
      * @param bugId
      * @param currentUser
      * @return
+     * @throws SystemException
      */
-    int doCloseBug(String bugId, User currentUser);
+    int doCloseBug(String bugId, User currentUser) throws SystemException;
 
     /**
      * 添加Bug说明
@@ -103,8 +109,9 @@ public interface BugService {
      * @param bugDescription
      * @param currentUser
      * @return
+     * @throws SystemException
      */
-    int addBugDescription(BugDescription bugDescription, User currentUser);
+    int addBugDescription(BugDescription bugDescription, User currentUser) throws SystemException;
 
     /**
      * 分页查找Bug说明
@@ -163,6 +170,6 @@ public interface BugService {
      * @param pageSize
      * @return
      */
-    PageInfo<Bug> findBugByUserDesignee(String userId, int currentPage, int pageSize);
+    PageInfo<Bug> findByUserDesignee(String userId, int currentPage, int pageSize);
 
 }

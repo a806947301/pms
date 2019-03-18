@@ -1,6 +1,7 @@
 package com.dayi.demo.user.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.dayi.demo.common.entity.BaseEntity;
 
 import java.util.Date;
 
@@ -8,19 +9,8 @@ import java.util.Date;
  * @author WuTong<wut@pvc123.com>
  * @date 2019-2-25
  */
-public class User {
-    /**
-     * id
-     */
-    private String id;
-    /**
-     * 添加时间
-     */
-    private Date addTime;
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
+public class User extends BaseEntity{
+
     /**
      * 姓名
      */
@@ -45,30 +35,6 @@ public class User {
      * 已停用
      */
     private boolean stopped;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Date getAddTime() {
-        return addTime;
-    }
-
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public String getName() {
         return name;
@@ -119,7 +85,7 @@ public class User {
     }
 
     public User(String id) {
-        this.id = id;
+        this.setId(id);
     }
 
     public User() {
@@ -133,13 +99,10 @@ public class User {
      * @return
      */
     public static boolean hasEmpty(User user, boolean includeId) {
-        if (null == user) {
+        if (BaseEntity.hasEmpty(user, includeId)) {
             return true;
         }
         if (user.getName() == null || "".equals(user.getName())) {
-            return true;
-        }
-        if (includeId && (null == user.getId() || "".equals(user.getId()))) {
             return true;
         }
         if (null == user.getPassword() || "".equals(user.getPassword())) {

@@ -1,6 +1,7 @@
 package com.dayi.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dayi.demo.common.controller.BaseController;
 import com.dayi.demo.user.model.Role;
 import com.dayi.demo.user.service.RoleService;
 import com.dayi.demo.util.JsonUtil;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/role")
-public class RoleController {
+public class RoleController extends BaseController {
 
     @Resource
     private RoleService roleService;

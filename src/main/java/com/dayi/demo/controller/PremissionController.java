@@ -2,6 +2,7 @@ package com.dayi.demo.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dayi.demo.common.controller.BaseController;
 import com.dayi.demo.user.model.Premission;
 import com.dayi.demo.user.service.PremissionService;
 import com.dayi.demo.util.JsonUtil;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/premission")
-public class PremissionController {
+public class PremissionController extends BaseController {
 
     @Resource
     private PremissionService premissionService;

@@ -1,46 +1,19 @@
 package com.dayi.demo.product.model;
 
+import com.dayi.demo.common.entity.BaseEntity;
+
 import java.util.Date;
 
 /**
  * @author WuTong<wut@pvc123.com>
  * @date 2019-2-25
  */
-public class Product {
-    /** id */
-    private String id;
-    /** 创建时间 */
-    private Date addTime;
-    /** 更新时间 */
-    private Date updateTime;
+public class Product extends BaseEntity {
+
     /** 产品名 */
     private String productName;
     /** 产品介绍 */
     private String productPresentation;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Date getAddTime() {
-        return addTime;
-    }
-
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public String getProductName() {
         return productName;

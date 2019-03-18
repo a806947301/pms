@@ -2,6 +2,7 @@ package com.dayi.demo.need.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dayi.demo.exception.SystemException;
 import com.dayi.demo.need.dao.NeedDao;
 import com.dayi.demo.need.model.Need;
 import com.dayi.demo.need.service.NeedService;
@@ -95,7 +96,7 @@ public class NeedServiceImpl implements NeedService {
      * @throws Exception
      */
     private String doSaveFile(MultipartFile file, String needId, String realPath,
-                              boolean isNeedFile) throws Exception {
+                              boolean isNeedFile) throws SystemException {
         // 获取文件上传目录，如不存在，创建新目录
         File newFilePath = new File(realPath + "\\needFile\\" + needId);
         if (!newFilePath.exists()) {
@@ -103,8 +104,11 @@ public class NeedServiceImpl implements NeedService {
         }
         String filename = file.getOriginalFilename();
         File saveFile = new File(newFilePath, filename);
-        /*try {*/
-        file.transferTo(saveFile);
+        try {
+            file.transferTo(saveFile);
+        } catch (Exception e) {
+            throw new SystemException("文件保存失败");
+        }
         if (isNeedFile) {
             //拼接解压后路径
             String unZipPath = newFilePath + "\\" + filename.substring(0, filename.lastIndexOf('.'));

@@ -1,24 +1,15 @@
 package com.dayi.demo.bug.model;
 
+import com.dayi.demo.common.entity.BaseEntity;
+
 import java.util.Date;
 
 /**
  * @author WuTong<wut   @   pvc123.com>
  * @date 2019-2-28
  */
-public class BugDescription {
-    /**
-     * id
-     */
-    private String id;
-    /**
-     * 创建时间
-     */
-    private Date addTime;
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
+public class BugDescription extends BaseEntity {
+
     /**
      * 所属Bug id
      */
@@ -27,30 +18,6 @@ public class BugDescription {
      * 说明内容
      */
     private String content;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Date getAddTime() {
-        return addTime;
-    }
-
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public String getBugId() {
         return bugId;
@@ -75,13 +42,7 @@ public class BugDescription {
      * @return
      */
     public static boolean hasEmpty(BugDescription bugDescription, boolean includeId) {
-        if (null == bugDescription) {
-            return true;
-        }
-        if (includeId && (null == bugDescription.getId() || "".equals(bugDescription.getId()))) {
-            return true;
-        }
-        if (null == bugDescription.getBugId() || "".equals(bugDescription.getBugId())) {
+        if (BaseEntity.hasEmpty(bugDescription,includeId)) {
             return true;
         }
         if (null == bugDescription.getContent() || "".equals(bugDescription.getContent())) {

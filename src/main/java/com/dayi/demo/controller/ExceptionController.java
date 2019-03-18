@@ -1,6 +1,7 @@
 package com.dayi.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dayi.demo.common.controller.BaseController;
 import com.dayi.demo.util.JsonUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/exception")
-public class ExceptionController {
+public class ExceptionController extends BaseController {
 
     /**
      * 没有权限异常信息

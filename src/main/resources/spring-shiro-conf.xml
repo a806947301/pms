@@ -27,12 +27,10 @@
         </property> -->
 		<property name="filterChainDefinitions">
 			<value>
-				# some example chain definitions:
-				# /admin/** = authc, roles[admin]
-				# /docs/** = authc, perms[document:read]
-				#/login = anon
-				#/logout = anon
-				#/error = anon
+				/css/** = anon
+				/fonts/** = anon
+				/js/** = anon
+				/vendor/** = anon
 				/user/loginPage = anon
 				/user/login = anon
 				/user/registerPage = anon

@@ -1,5 +1,6 @@
 package com.dayi.demo.util;
 
+import com.dayi.demo.exception.SystemException;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.converter.PicturesManager;
 import org.apache.poi.hwpf.converter.WordToHtmlConverter;
@@ -27,7 +28,7 @@ import java.io.*;
  */
 public class WordUtil {
 
-    Logger logger = LoggerFactory.getLogger(WordUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(WordUtil.class);
 
     private static final String DOC = ".doc";
     private static final String DOCX = ".docx";
@@ -56,15 +57,19 @@ public class WordUtil {
         HWPFDocument wordDocument = new HWPFDocument(new FileInputStream(sourceFileName));
         org.w3c.dom.Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         WordToHtmlConverter wordToHtmlConverter = new WordToHtmlConverter(document);
-        // 保存图片，并返回图片的相对路径
+        // 设置图片管理器
         wordToHtmlConverter.setPicturesManager(new PicturesManager() {
             @Override
             public String savePicture(byte[] bytes, PictureType pictureType, String s, float v, float v1) {
                 try {
+                    // 保存图片
                     FileOutputStream out = new FileOutputStream(imagePathStr + "\\" + s);
                     out.write(bytes);
                     out.close();
                 } catch (Exception e) {
+                    synchronized (logger) {
+                        logger.error(WordUtil.class.toString() + "_" + e.getMessage(),e);
+                    }
                     return "";
                 }
                 return imagePath + "\\" + s;
@@ -128,13 +133,17 @@ public class WordUtil {
      * @return
      * @throws Exception
      */
-    public static String wordToHtml(String filepath, String imagePath, String sourceFileName) throws Exception {
-        if (sourceFileName.endsWith(DOC)) {
-            return docToHtml(filepath, imagePath, sourceFileName);
-        } else if (sourceFileName.endsWith(DOCX)) {
-            return docxToHtml(filepath, imagePath, sourceFileName);
-        } else {
-            throw new FileFormatException("需求文件格式不正确");
+    public static String wordToHtml(String filepath, String imagePath, String sourceFileName) throws SystemException {
+        try {
+            if (sourceFileName.endsWith(DOC)) {
+                return docToHtml(filepath, imagePath, sourceFileName);
+            } else if (sourceFileName.endsWith(DOCX)) {
+                return docxToHtml(filepath, imagePath, sourceFileName);
+            } else {
+                throw new SystemException("需求文件格式不正确");
+            }
+        } catch (Exception e) {
+            throw new SystemException("文件转换失败");
         }
     }
 }

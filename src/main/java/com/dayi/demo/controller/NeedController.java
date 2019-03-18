@@ -1,6 +1,7 @@
 package com.dayi.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dayi.demo.common.controller.BaseController;
 import com.dayi.demo.need.model.Need;
 import com.dayi.demo.need.service.NeedService;
 import com.dayi.demo.user.model.User;
@@ -26,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @RequestMapping("/need")
-public class NeedController {
+public class NeedController extends BaseController {
 
     Logger logger = LoggerFactory.getLogger(NeedController.class);
 
@@ -128,17 +129,4 @@ public class NeedController {
         String realPath = request.getSession().getServletContext().getRealPath("/");
         return needService.doPreview(needId, realPath);
     }
-
-    /**
-     * 获取当前用户
-     *
-     * @return
-     */
-    private User getCurrentUser() {
-        Session session = SecurityUtils.getSubject().getSession();
-        User user = (User) session.getAttribute("user");
-        return user;
-    }
-
-
 }

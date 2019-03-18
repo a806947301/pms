@@ -1,52 +1,19 @@
 package com.dayi.demo.user.model;
 
+import com.dayi.demo.common.entity.BaseEntity;
+
 import java.util.Date;
 
 /**
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut   @   pvc123.com>
  * @date 2019-2-22
  */
-public class Department {
-    /**
-     * id
-     */
-    private String id;
-    /**
-     * 添加时间
-     */
-    private Date addTime;
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
+public class Department extends BaseEntity {
+
     /**
      * 部门名
      */
     private String departmentName;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Date getAddTime() {
-        return addTime;
-    }
-
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public String getDepartmentName() {
         return departmentName;
@@ -57,13 +24,10 @@ public class Department {
     }
 
     public static boolean hasEmpty(Department department, boolean includeId) {
-        if (null == department) {
+        if (BaseEntity.hasEmpty(department, includeId)) {
             return true;
         }
         if (null == department.getDepartmentName() || "".equals(department.getDepartmentName())) {
-            return true;
-        }
-        if (includeId && (null == department.getId() || "".equals(department.getId()))) {
             return true;
         }
         return false;

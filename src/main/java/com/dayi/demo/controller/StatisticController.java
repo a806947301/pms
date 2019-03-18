@@ -1,6 +1,7 @@
 package com.dayi.demo.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.dayi.demo.common.controller.BaseController;
 import com.dayi.demo.statistic.service.UserStatisticService;
 import com.dayi.demo.statistic.service.ProductStatisticService;
 import com.dayi.demo.util.ExcelUtil;
@@ -22,7 +23,7 @@ import java.io.IOException;
  */
 @Controller
 @RequestMapping("/statistic")
-public class StatisticController {
+public class StatisticController extends BaseController {
 
     /**
      * 导出产品Excel的文件名

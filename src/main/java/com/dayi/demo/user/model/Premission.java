@@ -1,24 +1,14 @@
 package com.dayi.demo.user.model;
 
+import com.dayi.demo.common.entity.BaseEntity;
+
 import java.util.Date;
 
 /**
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut       @       pvc123.com>
  * @date 2019-3-6
  */
-public class Premission {
-    /**
-     * id
-     */
-    private String id;
-    /**
-     * 添加时间
-     */
-    private Date addTime;
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
+public class Premission extends BaseEntity {
     /**
      * 权限名
      */
@@ -35,30 +25,6 @@ public class Premission {
      * 父级菜单id
      */
     private String parentId;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Date getAddTime() {
-        return addTime;
-    }
-
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public String getPremissionName() {
         return premissionName;
@@ -100,16 +66,13 @@ public class Premission {
      * @return
      */
     public static boolean hasEmpty(Premission p, boolean includeId) {
-        if (null == p) {
+        if (BaseEntity.hasEmpty(p, includeId)) {
             return true;
         }
         if (null == p.getPremissionName() || "".equals(p.getPremissionName())) {
             return true;
         }
         if (null == p.getField() || "".equals(p.getField())) {
-            return true;
-        }
-        if (includeId && (null == p.getId() || "".equals(p.getId()))) {
             return true;
         }
         return false;

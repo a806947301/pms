@@ -1,8 +1,10 @@
 package com.dayi.demo.bug.model;
 
+import com.dayi.demo.common.entity.BaseEntity;
 import com.dayi.demo.project.model.Project;
 import com.dayi.demo.user.model.User;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.Date;
 
 /**
@@ -12,22 +14,43 @@ import java.util.Date;
  * 2.验收中
  * 3.已完成
  *
- * @author WuTong<wut       @       pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-2-28
  */
-public class Bug {
+public class Bug extends BaseEntity {
+
     /**
-     * id
+     * Bug状态枚举类
      */
-    private String id;
-    /**
-     * 创建时间
-     */
-    private Date addTime;
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
+    public enum Status {
+        /**
+         * 指派中
+         */
+        DESIGNATE(0),
+        /**
+         * 处理中
+         */
+        PROCESSER(1),
+        /**
+         * 验收中
+         */
+        CHECKING(2),
+        /**
+         * 已完成
+         */
+        FINISHED(3);
+
+        private final int value;
+
+        Status(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
     /**
      * 是否不予处理
      */
@@ -56,30 +79,6 @@ public class Bug {
      * bug所属项目
      */
     private Project project;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Date getAddTime() {
-        return addTime;
-    }
-
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public boolean isNoProcessing() {
         return noProcessing;
@@ -146,13 +145,10 @@ public class Bug {
      * @return
      */
     public static boolean hasEmpty(Bug bug, boolean includeId, boolean includeProposer) {
-        if (null == bug) {
+        if (BaseEntity.hasEmpty(bug,includeId)) {
             return true;
         }
         if (null == bug.getBugTitle() || "".equals(bug.getBugTitle())) {
-            return true;
-        }
-        if (includeId && (null == bug.getId() || "".equals(bug.getId()))) {
             return true;
         }
         if (null == bug.getBugContent() || "".equals(bug.getBugContent())) {

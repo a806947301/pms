@@ -10,11 +10,12 @@
         <result property="endDate" column="enddate"></result>
         <result property="projectName" column="project_name"></result>
         <result property="finished" column="is_finished"></result>
-        <association property="product" column="product_id" select="com.dayi.demo.product.dao.ProductDao.getProduct"></association>
+        <association property="product" column="product_id" select="com.dayi.demo.product.dao.ProductDao.get"/>
     </resultMap>
 
     <sql id="selectAllColumnProject">
-        SELECT project.id,project.addtime,project.updatetime,project.begindate,project.enddate,project.project_name,project.is_finished,project.product_id  FROM
+        SELECT project.id, project.addtime, project.updatetime, project.begindate,
+        project.enddate, project.project_name, project.is_finished, project.product_id  FROM
     </sql>
 
     <!--查询所有项目-->
@@ -37,8 +38,8 @@
 
     <!--添加项目-->
     <insert id="addProject">
-        INSERT INTO project (id,addtime,updatetime,begindate,enddate,project_name,is_finished,product_id)
-        VALUES (#{id},#{addTime},#{updateTime},#{beginDate},#{endDate},#{projectName},#{finished},#{product.id})
+        INSERT INTO project (id, addtime, updatetime, begindate, enddate, project_name, is_finished,product_id)
+        VALUES (#{id}, #{addTime}, #{updateTime}, #{beginDate}, #{endDate}, #{projectName}, #{finished}, #{product.id})
     </insert>
 
     <!--修改项目-->

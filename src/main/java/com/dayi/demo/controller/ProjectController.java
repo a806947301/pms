@@ -1,6 +1,7 @@
 package com.dayi.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dayi.demo.common.controller.BaseController;
 import com.dayi.demo.project.service.ProjectService;
 import com.dayi.demo.project.model.Project;
 import com.dayi.demo.util.JsonUtil;
@@ -18,7 +19,7 @@ import javax.annotation.Resource;
  */
 @Controller
 @RequestMapping("/project")
-public class ProjectController {
+public class ProjectController extends BaseController {
 
     @Resource
     private ProjectService projectService;

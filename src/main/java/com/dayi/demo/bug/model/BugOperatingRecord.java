@@ -1,5 +1,6 @@
 package com.dayi.demo.bug.model;
 
+import com.dayi.demo.common.entity.BaseEntity;
 import com.dayi.demo.user.model.User;
 
 import java.util.Date;
@@ -8,13 +9,8 @@ import java.util.Date;
  * @author WuTong<wut@pvc123.com>
  * @date 2019-2-28
  */
-public class BugOperatingRecord {
-    /** id */
-    private String id;
-    /** 创建时间 */
-    private Date addTime;
-    /** 更新时间 */
-    private Date updateTime;
+public class BugOperatingRecord extends BaseEntity {
+
     /** 所属Bug id */
     private String bugId;
     /** 操作人 */
@@ -23,30 +19,6 @@ public class BugOperatingRecord {
     private int operationNumber;
     /** 操作对象 */
     private User operationUser;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Date getAddTime() {
-        return addTime;
-    }
-
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public String getBugId() {
         return bugId;
