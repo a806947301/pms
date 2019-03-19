@@ -39,9 +39,12 @@ public class DepartmentController extends BaseController {
     @ResponseBody
     @RequiresPermissions("delete:department")
     public JSONObject deleteDepartment(String id) {
+        //判断非空
         if (null == id || "".equals(id)) {
             return JsonUtil.packageJson(false, "", "删除失败，id不能为空");
         }
+
+        //删除部门
         try {
             departmentService.delete(id);
         } catch (SystemException e) {
@@ -60,9 +63,12 @@ public class DepartmentController extends BaseController {
     @ResponseBody
     @RequiresPermissions("update:department")
     public JSONObject updateDepartment(Department department) {
+        //判断非空
         if (Department.hasEmpty(department, true)) {
             return JsonUtil.packageJson(false, "", "有字段为空");
         }
+
+        //更新部门
         try {
             departmentService.update(department);
         } catch (SystemException e) {
@@ -80,9 +86,12 @@ public class DepartmentController extends BaseController {
     @ResponseBody
     @RequiresPermissions("add:department")
     public JSONObject addDepartment(Department department) {
+        //判断非空
         if (Department.hasEmpty(department, false)) {
             return JsonUtil.packageJson(false, "", "部门名不能为空");
         }
+
+        //添加部门
         try {
             departmentService.add(department);
         } catch (SystemException e) {

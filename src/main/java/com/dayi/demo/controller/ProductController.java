@@ -166,6 +166,7 @@ public class ProductController extends BaseController {
             return JsonUtil.packageJson(false, "", "用户不能为空");
         }
 
+        //删除产品成员
         try {
             productService.deleteParticipator(productId, userId);
         } catch (SystemException e) {

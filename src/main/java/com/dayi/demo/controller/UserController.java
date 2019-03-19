@@ -252,9 +252,12 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequiresPermissions("delete:user")
     public JSONObject updateStopped(String id, boolean stopped) {
+        //判断非空
         if (null == id || "".equals(id)) {
             return JsonUtil.packageJson(false, "", "id为空");
         }
+
+        //更新账号状态
         try {
             userService.updateStopped(id, stopped);
         } catch (SystemException e) {
@@ -274,6 +277,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequiresPermissions("loginLog")
     public PageInfo<LoginLog> findLoginLogByUserId(String id, int currentPage, int pageSize) {
+        //如果Id为空，则设置为当前用户id
         if (null == id) {
             User user = getCurrentUser();
             id = user.getId();

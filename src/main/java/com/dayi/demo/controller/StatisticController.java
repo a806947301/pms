@@ -82,9 +82,11 @@ public class StatisticController extends BaseController {
     @RequestMapping("/exportExcelProduct")
     @RequiresPermissions("products:statistic")
     public void exportExcelProduct(HttpServletResponse response) {
+        //设置返回格式
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
         response.setHeader("Content-Disposition", "attachment;fileName=" + PRODUCT_EXCEL_NAME);
+        //返回Excel
         try {
             productStatisticService.exportExcelProduct(response.getOutputStream());
         } catch (IOException e) {
@@ -123,9 +125,11 @@ public class StatisticController extends BaseController {
     @RequestMapping("/exportExcelDevloper")
     @RequiresPermissions("developer:statistic")
     public void exportExcelDeveloper(HttpServletResponse response) {
+        //设置返回格式
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
         response.setHeader("Content-Disposition", "attachment;fileName=" + DEVELOPER_EXCEL_NAME);
+        //返回Excel
         try {
             userStatisticService.exportExcelDeveloper(response.getOutputStream());
         } catch (IOException e) {
@@ -163,9 +167,11 @@ public class StatisticController extends BaseController {
     @RequestMapping("/exportExcelTester")
     @RequiresPermissions("test:statistic")
     public void exportExcelTester(HttpServletResponse response) {
+        //设置返回格式
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
         response.setHeader("Content-Disposition", "attachment;fileName=" + TESTER_EXCEL_NAME);
+        //返回Excel
         try {
             userStatisticService.exportExcelTester(response.getOutputStream());
         } catch (IOException e) {

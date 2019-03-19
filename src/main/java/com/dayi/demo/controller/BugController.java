@@ -53,6 +53,8 @@ public class BugController extends BaseController {
         if (Bug.hasEmpty(bug, false, false)) {
             return JsonUtil.packageJson(false, "", "有字段为空");
         }
+
+        //添加Bug
         User user = getCurrentUser();
         String bugId = null;
         boolean success = true;
@@ -75,6 +77,14 @@ public class BugController extends BaseController {
         return "addBug";
     }
 
+    /**
+     * Bug图片上传
+     *
+     * @param file
+     * @param projectId
+     * @param request
+     * @return
+     */
     @RequestMapping("/bugImgUpload")
     @ResponseBody
     public Map<String, String> bugImgUpload(MultipartFile file, String projectId, HttpServletRequest request) {
@@ -240,9 +250,12 @@ public class BugController extends BaseController {
     @RequestMapping("/addBugDescription")
     @ResponseBody
     public JSONObject addBugDescription(BugDescription bugDescription) {
+        //判断非空
         if (BugDescription.hasEmpty(bugDescription, false)) {
             return JsonUtil.packageJson(false, "", "有字段为空，添加失败");
         }
+
+        //添加说明
         User user = getCurrentUser();
         try {
             bugService.addBugDescription(bugDescription, user);

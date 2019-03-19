@@ -55,6 +55,7 @@ public class PremissionController extends BaseController {
             return JsonUtil.packageJson(false, "", "有字段为空");
         }
 
+        //添加权限
         try {
             premissionService.add(premission);
         } catch (SystemException e) {
@@ -155,9 +156,12 @@ public class PremissionController extends BaseController {
     @ResponseBody
     @RequiresPermissions("delete:premission")
     public JSONObject deletePremission(String id) {
+        //判断非空
         if (null == id || "".equals(id)) {
             return JsonUtil.packageJson(false, "", "id不能为空");
         }
+
+        //删除权限
         try {
             premissionService.delete(id);
         } catch (SystemException e) {
