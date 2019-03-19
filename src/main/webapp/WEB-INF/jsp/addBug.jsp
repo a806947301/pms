@@ -152,7 +152,7 @@
                         result = response.data;
                         if(result.success) {
                             alert("添加成功");
-                            window.location.href = "/bug/getBugPage/" + vm.productId + "/" + vm.projectId + "/" + result.msg;
+                            window.location.href = "/bug/getBugPage/" + result.msg;
                         } else {
                             alert(result.msg);
                         }

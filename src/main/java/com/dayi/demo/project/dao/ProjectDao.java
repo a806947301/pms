@@ -16,27 +16,27 @@ public interface ProjectDao {
      * @param project
      * @return
      */
-    int addProject(Project project);
+    int add(Project project);
 
     /**
      * 查找所有项目
      * @return
      */
-    List<Project> findAllProject();
+    List<Project> findAll();
 
     /**
      * 获取指定项目
      * @param id
      * @return
      */
-    Project getProject(String id);
+    Project get(String id);
 
     /**
      * 更新项目
      * @param project
      * @return
      */
-    int updateProject(Project project);
+    int update(Project project);
 
     /**
      * 查找指定产品下的项目

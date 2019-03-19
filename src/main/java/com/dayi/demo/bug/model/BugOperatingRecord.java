@@ -11,6 +11,39 @@ import java.util.Date;
  */
 public class BugOperatingRecord extends BaseEntity {
 
+    public enum Operation {
+        /**
+         * 指派
+         */
+        DESIGNATE(0),
+        /**
+         * 设置自己处理
+         */
+        PROCESS_SELF(1),
+        /**
+         * 设置不予处理
+         */
+        NOT_PROCESS(2),
+        /**
+         * 添加Bug说明
+         */
+        ADD_DESCRIPTION(3),
+        /**
+         * 关闭Bug
+         */
+        CLOSE_BUG(4);
+
+        private final int value;
+
+        Operation(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
     /** 所属Bug id */
     private String bugId;
     /** 操作人 */

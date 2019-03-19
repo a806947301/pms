@@ -17,9 +17,6 @@
 
 	<!-- 扫描控制器 -->
 	<context:component-scan base-package="com.dayi.demo.controller" />
-	<!--开启aop注解-->
-	<aop:aspectj-autoproxy/>
-
 
 	<mvc:annotation-driven  >
 		<mvc:message-converters register-defaults="true">
@@ -46,6 +43,7 @@
 		<property name="maxInMemorySize" value="4096" />
 		<property name="defaultEncoding" value="UTF-8"></property>
 	</bean>
+
 	<!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
 	<bean id="S-IRVR"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -67,8 +65,18 @@
 	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property  name="exceptionMappings">
 			<props>
-				<!--<prop key="org.apache.shiro.authz.UnauthorizedException">redirect:/exception/haveNotPremission</prop>
-				<prop key="org.springframework.dao.DataAccessException">redirect:/exception/mybatisException</prop>-->
+				<prop key="org.apache.shiro.authz.UnauthorizedException">
+					redirect:/exception/haveNotPremission
+				</prop>
+				<prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">
+					redirect:/exception/maxUploadException
+				</prop>
+				<prop key="org.springframework.dao.DataAccessException">
+					redirect:/exception/sqlException
+				</prop>
+				<prop key="java.lang.Exception">
+					redirect:/exception/otherException
+				</prop>
 			</props>
 		</property>
 	</bean>

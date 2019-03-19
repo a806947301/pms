@@ -1,8 +1,7 @@
 package com.dayi.demo.project.service;
 
-import com.alibaba.fastjson.JSONArray;
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.project.model.Project;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
@@ -14,11 +13,11 @@ import java.util.List;
 public interface ProjectService {
     /**
      * 添加项目
-     *
      * @param project
      * @return
+     * @throws SystemException
      */
-    String addProject(Project project);
+    String add(Project project) throws SystemException;
 
     /**
      * 分页查找项目
@@ -52,24 +51,23 @@ public interface ProjectService {
      * @param id
      * @return
      */
-    Project getProject(String id);
+    Project get(String id);
 
     /**
      * 更新项目
-     *
      * @param project
-     * @return
+     * @throws SystemException
      */
-    int updateProject(Project project);
+    void update(Project project) throws SystemException;
 
     /**
      * 更新项目完成状态
-     *
      * @param projectId
      * @param finished
-     * @param countBugNotfinished   未完成Bug的数量
+     * @param countBugNotfinished 未完成的Bug量
      * @return
+     * @throws SystemException
      */
-    int updateProjectFinished(String projectId, boolean finished, int countBugNotfinished);
+    int updateProjectFinished(String projectId, boolean finished, int countBugNotfinished)  throws SystemException;
 
 }

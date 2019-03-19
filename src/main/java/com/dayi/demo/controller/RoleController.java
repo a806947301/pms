@@ -7,6 +7,8 @@ import com.dayi.demo.user.service.RoleService;
 import com.dayi.demo.util.JsonUtil;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,12 +17,14 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut @ pvc123.com>
  * @date 2019-03-06
  */
 @Controller
 @RequestMapping("/role")
 public class RoleController extends BaseController {
+
+    Logger logger = LoggerFactory.getLogger(RoleController.class);
 
     @Resource
     private RoleService roleService;
@@ -45,9 +49,19 @@ public class RoleController extends BaseController {
     @ResponseBody
     @RequiresPermissions("add:role")
     public JSONObject addRole(Role role) {
-        int coundAdd = roleService.addRole(role);
-        boolean addSuccess = (0 != coundAdd);
-        return JsonUtil.packageJson(addSuccess, "", "添加角色失败");
+        //判断非空
+        if (Role.hasEmpty(role, false)) {
+            return JsonUtil.packageJson(true, "", "字段必须非空");
+        }
+
+        //添加角色
+        try {
+            roleService.add(role);
+        } catch (Exception e) {
+            logger.error(RoleController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(false, "", "添加角色失败");
+        }
+        return JsonUtil.packageJson(true, "添加成功", "");
     }
 
     /**
@@ -60,9 +74,19 @@ public class RoleController extends BaseController {
     @ResponseBody
     @RequiresPermissions("update:role")
     public JSONObject updateRole(Role role) {
-        int countUpdate = roleService.updateRole(role);
-        boolean updateSuccess = (0 != countUpdate);
-        return JsonUtil.packageJson(updateSuccess, "", "更新角色失败");
+        // 判断字段是否为空
+        if (Role.hasEmpty(role, true)) {
+            return JsonUtil.packageJson(true, "", "字段必须非空");
+        }
+
+        //更新角色
+        try {
+            roleService.update(role);
+        } catch (Exception e) {
+            logger.error(RoleController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(false, "", "更新角色失败");
+        }
+        return JsonUtil.packageJson(true, "更新成功", "");
     }
 
     /**
@@ -124,9 +148,22 @@ public class RoleController extends BaseController {
     @ResponseBody
     @RequiresPermissions("grant:role")
     public JSONObject ascribedRole(String userId, String roleId) {
-        int countAdd = roleService.doAscribedRole(userId, roleId);
-        boolean addSuccess = (0 != countAdd);
-        return JsonUtil.packageJson(addSuccess, "", "赋予角色失败");
+        //判断非空
+        if (null == userId || "".equals(userId)) {
+            return JsonUtil.packageJson(true, "", "操作失败");
+        }
+        if (null == roleId || "".equals(roleId)) {
+            return JsonUtil.packageJson(true, "", "操作失败");
+        }
+
+        //赋予角色
+        try {
+            roleService.doAscribedRole(userId, roleId);
+        } catch (Exception e) {
+            logger.error(RoleController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(true, "", "赋予角色失败");
+        }
+        return JsonUtil.packageJson(true, "赋予成功", "");
     }
 
     /**
@@ -140,9 +177,22 @@ public class RoleController extends BaseController {
     @ResponseBody
     @RequiresPermissions("grant:role")
     public JSONObject cancelRole(String userId, String roleId) {
-        int countDelete = roleService.doCancelRole(userId, roleId);
-        boolean deleteSuccess = (0 != countDelete);
-        return JsonUtil.packageJson(deleteSuccess, "", "取消角色失败");
+        //判断非空
+        if (null == roleId || "".equals(roleId)) {
+            return JsonUtil.packageJson(true, "", "角色为空");
+        }
+        if (null == userId || "".equals(userId)) {
+            return JsonUtil.packageJson(true, "", "用户名为空");
+        }
+
+        //取消角色
+        try {
+            roleService.doCancelRole(userId, roleId);
+        } catch (Exception e) {
+            logger.error(RoleController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(true, "", "取消角色失败");
+        }
+        return JsonUtil.packageJson(true, "取消成功", "");
 
     }
 
@@ -156,7 +206,19 @@ public class RoleController extends BaseController {
     @ResponseBody
     @RequiresPermissions("delete:role")
     public JSONObject deleteRole(String id) {
-        int countDelete = roleService.deleteRole(id);
+        //判断非空
+        if (null == id || "".equals(id)) {
+            return JsonUtil.packageJson(true, "", "id为空");
+        }
+
+        //删除角色
+        int countDelete = 0;
+        try {
+            countDelete = roleService.delete(id);
+        } catch (Exception e) {
+            logger.error(RoleController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(true, "", "删除角色失败");
+        }
         boolean deleteSuccess = (0 != countDelete);
         return JsonUtil.packageJson(deleteSuccess, "删除角色成功",
                 "该角色还有权限或者还有用户拥有该角色，删除失败");

@@ -3,8 +3,7 @@ package com.dayi.demo.bug.service;
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.bug.model.Bug;
 import com.dayi.demo.bug.model.BugDescription;
-import com.dayi.demo.bug.model.BugOperatingRecord;
-import com.dayi.demo.exception.SystemException;
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,7 +59,7 @@ public interface BugService {
      * @param id
      * @return
      */
-    Bug getBug(String id);
+    Bug get(String id);
 
     /**
      * 重新指派Bug
@@ -122,16 +121,6 @@ public interface BugService {
      * @return
      */
     PageInfo<BugDescription> findDescriptionByBugId(String bugId, int currentPage, int pageSize);
-
-    /**
-     * 分页查找Bug操作记录
-     *
-     * @param bugId
-     * @param currentPage
-     * @param pageSize
-     * @return
-     */
-    PageInfo<BugOperatingRecord> findBugOperationRecordByBugId(String bugId, int currentPage, int pageSize);
 
     /**
      * 统计所有项目下的Bug量

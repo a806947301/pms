@@ -18,7 +18,7 @@ public interface PremissionDao {
      * @param premission
      * @return
      */
-    int addPremission(Premission premission);
+    int add(Premission premission);
 
     /**
      * 查找权限
@@ -38,7 +38,7 @@ public interface PremissionDao {
      * @param premission
      * @return
      */
-    int updatePremission(Premission premission);
+    int update(Premission premission);
 
     /**
      * 查找指定角色下的所有权限
@@ -72,6 +72,6 @@ public interface PremissionDao {
      * @param id
      * @return
      */
-    int deletePremission(String id);
+    int delete(String id);
 
 }

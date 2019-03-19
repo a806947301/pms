@@ -12,8 +12,8 @@
         <result property="descriptionFilename" column="need_description_filename"></result>
         <result property="needFilepath" column="need_filepath"></result>
         <result property="needFilename" column="need_filename"></result>
-        <association property="user" column="user_id" select="com.dayi.demo.user.dao.UserDao.getUser"/>
-        <association property="project" column="project_id" select="com.dayi.demo.project.dao.ProjectDao.getProject"/>
+        <association property="user" column="user_id" select="com.dayi.demo.user.dao.UserDao.get"/>
+        <association property="project" column="project_id" select="com.dayi.demo.project.dao.ProjectDao.get"/>
     </resultMap>
 
     <sql id="selectAllColumnNeed">

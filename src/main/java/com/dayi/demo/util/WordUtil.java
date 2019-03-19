@@ -1,6 +1,6 @@
 package com.dayi.demo.util;
 
-import com.dayi.demo.exception.SystemException;
+import com.dayi.demo.common.exception.SystemException;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.converter.PicturesManager;
 import org.apache.poi.hwpf.converter.WordToHtmlConverter;
@@ -10,7 +10,6 @@ import org.apache.poi.xwpf.converter.core.FileImageExtractor;
 import org.apache.poi.xwpf.converter.xhtml.XHTMLConverter;
 import org.apache.poi.xwpf.converter.xhtml.XHTMLOptions;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.xmlbeans.impl.piccolo.io.FileFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

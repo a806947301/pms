@@ -59,23 +59,17 @@ public class NeedController extends BaseController {
     @RequiresPermissions("add:need")
     public JSONObject addNeed(MultipartFile needDescriptionFile, MultipartFile needFile,
                               Need need, HttpServletRequest request) {
+        //获取真实地址
         String realPath = request.getSession().getServletContext().getRealPath("/");
-        boolean addSuccess = false;
         String needId = null;
         try {
             //保存需求
-            needId = needService.add(needDescriptionFile, needFile, need, realPath, getCurrentUser());
-            addSuccess = (null != needId && (!"".equals(needId)));
-        } catch (FileFormatException e) {
-            //捕获到文件格式异常
+            needId = needService.add(need,needDescriptionFile, needFile, realPath, getCurrentUser());
+        } catch (Exception e) {
             logger.error(NeedController.class.toString() + "_" + e.getMessage(), e);
             return JsonUtil.packageJson(false, "", e.getMessage());
-        } catch (Exception e) {
-            //如果捕获到异常
-            logger.error(NeedController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "添加需求失败");
         }
-        return JsonUtil.packageJson(addSuccess, needId, "添加失败");
+        return JsonUtil.packageJson(true, needId, "添加失败");
     }
 
     /**

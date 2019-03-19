@@ -28,14 +28,14 @@ public interface UserDao {
      * @param user
      * @return
      */
-    int addUser(User user);
+    int add(User user);
 
     /**
      * 更新用户
      * @param user
      * @return
      */
-    int updateUser(User user);
+    int update(User user);
 
     /**
      * 查找指定产品下的用户
@@ -65,14 +65,14 @@ public interface UserDao {
      * @param id
      * @return
      */
-    User getUser(String id);
+    User get(String id);
 
     /**
      * 根据邮箱获取指定用户
      * @param email 邮箱
      * @return
      */
-    User getUserByEmail(String email);
+    User getByEmail(String email);
 
     /**
      * 获取指定的产品参与者

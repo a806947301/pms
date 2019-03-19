@@ -38,12 +38,12 @@
         VALUES (#{id},#{addTime},#{updateTime},#{roleId},#{premissionId})
     </insert>
 
-    <insert id="addPremission">
+    <insert id="add">
         INSERT INTO premission (id,addtime,updatetime,premission_name,premission_field,is_menu,parent_id)
         VALUES (#{id},#{addTime},#{updateTime},#{premissionName},#{field},#{menu},#{parentId})
     </insert>
 
-    <update id="updatePremission">
+    <update id="update">
         UPDATE premission
         <set>
             updatetime = #{updateTime},
@@ -61,7 +61,7 @@
         <if test="null != premissionId">and premission_id = #{premissionId}</if>
     </delete>
 
-    <delete id="deletePremission">
+    <delete id="delete">
         DELETE FROM premission WHERE id = #{0}
     </delete>
 </mapper>

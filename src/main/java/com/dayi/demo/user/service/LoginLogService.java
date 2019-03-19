@@ -15,11 +15,10 @@ public interface LoginLogService {
     /**
      * 添加登陆日志
      *
-     * @param userId
-     * @param ip
+     * @param loginLog
      * @return
      */
-    int addLoginLog(String userId, String ip);
+    int add(LoginLog loginLog);
 
     /**
      * 查找指定用户的登陆日志

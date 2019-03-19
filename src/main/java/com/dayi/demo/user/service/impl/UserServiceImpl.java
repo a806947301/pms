@@ -1,15 +1,14 @@
 package com.dayi.demo.user.service.impl;
 
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.dao.UserDao;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.LoginLogService;
 import com.dayi.demo.user.service.UserService;
-import com.dayi.demo.util.IdUtil;
 import com.dayi.demo.util.MailUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
@@ -39,20 +38,29 @@ public class UserServiceImpl implements UserService {
     private LoginLogService loginLogService;
 
     @Override
-    public int updateUser(User user) {
-        User oldUser = getUser(user.getId());
+    public void update(User user)  throws SystemException {
+        //判断用户是否存在
+        User oldUser = get(user.getId());
+        if (null == oldUser) {
+            throw new SystemException("用户不存在");
+        }
+
+        //更新用户
         user.setUpdateTime(new Date());
         user.setStopped(oldUser.isStopped());
-        return userDao.updateUser(user);
+        int countUpdate = userDao.update(user);
+        if (0 == countUpdate) {
+            throw new SystemException("操作失败");
+        }
     }
 
     @Override
-    public int addUser(User user) {
-        user.setAddTime(new Date());
-        user.setUpdateTime(new Date());
-        user.setId(IdUtil.getPrimaryKey());
+    public void add(User user)  throws SystemException{
         user.setPassword(encryptMd5(user));
-        return userDao.addUser(user);
+        int countAdd = userDao.add(user);
+        if (0 == countAdd) {
+            throw new SystemException("操作失败");
+        }
     }
 
     @Override
@@ -64,45 +72,38 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAllUser() {
+    public List<User> findAll() {
         List<User> list = userDao.findAll();
         return list;
     }
 
     @Override
-    public List<User> findUserByProductId(String productId) {
+    public List<User> findByProductId(String productId) {
         return userDao.findUserByProductId(productId);
     }
 
     @Override
-    public List<User> findUserByUserRole(String userId, String roleId) {
+    public List<User> findByUserRole(String userId, String roleId) {
         return userDao.findUserByUserRole(userId,roleId);
     }
 
     @Override
-    public User getUser(String id) {
-        return userDao.getUser(id);
+    public User get(String id) {
+        return userDao.get(id);
     }
 
     @Override
-    public User getUserByEmail(String email) {
-        return userDao.getUserByEmail(email);
+    public User getByEmail(String email) {
+        return userDao.getByEmail(email);
     }
 
     @Override
     public boolean doLogin(String email, String password,String ip) {
         Subject subject = SecurityUtils.getSubject();
-        try {
-            subject.login(new UsernamePasswordToken(email,password));
-        }catch (AuthenticationException e) {
-            return false;
-        }catch (Exception e) {
-            return false;
-        }
+        subject.login(new UsernamePasswordToken(email,password));
         Session session = SecurityUtils.getSubject().getSession();
-        User currentUser = getUserByEmail(email);
+        User currentUser = getByEmail(email);
         session.setAttribute("user",currentUser);
-        loginLogService.addLoginLog(currentUser.getId(),ip);
         return true;
     }
 
@@ -113,21 +114,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updateUserStopped(String id,boolean stopped) {
-        User oldUser = getUser(id);
+    public void updateStopped(String id,boolean stopped) throws SystemException{
+        //判断是否存在用户
+        User oldUser = get(id);
+        if(null == oldUser) {
+            throw new SystemException("用户不存在");
+        }
+
+        //更新用户
         oldUser.setStopped(stopped);
-        return userDao.updateUser(oldUser);
+        int countUpdate = userDao.update(oldUser);
+        if (0 == countUpdate) {
+            throw new SystemException("操作失败");
+        }
     }
 
     @Override
-    public boolean doLogout() {
-        SecurityUtils.getSubject().getSession().removeAttribute("user");
+    public void doLogout() {
         SecurityUtils.getSubject().logout();
-        return true;
     }
 
     @Override
-    public List<User> findUserByproductIdRole(String productId, String roleId) {
+    public List<User> findByproductIdRole(String productId, String roleId) {
         return userDao.findUserByproductIdRole(productId,roleId);
     }
 
@@ -136,6 +144,7 @@ public class UserServiceImpl implements UserService {
         //随机生成四位数验证码
         Random random = new Random();
         int varificationCode = random.nextInt(9000) + 1000;
+        //发送邮件
         String title = "您的验证码";
         String content = "您的验证码为：" + varificationCode;
         MailUtil.sendMail(email,title,content);
@@ -144,7 +153,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean doExistEmail(String email) {
-        User user = userDao.getUserByEmail(email);
+        User user = userDao.getByEmail(email);
         return user != null;
     }
 }

@@ -19,4 +19,14 @@ public class Role extends BaseEntity {
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
+
+    public static boolean hasEmpty(Role role, boolean includingId) {
+        if(BaseEntity.hasEmpty(role, includingId)) {
+            return true;
+        }
+        if(null == role || "".equals(role)) {
+            return true;
+        }
+        return false;
+    }
 }

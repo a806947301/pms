@@ -1,9 +1,9 @@
 package com.dayi.demo.project.service.impl;
 
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.project.service.ProjectService;
 import com.dayi.demo.project.dao.ProjectDao;
 import com.dayi.demo.project.model.Project;
-import com.dayi.demo.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut @ pvc123.com>
  * @date 2019-2-26
  */
 @Service
@@ -25,35 +25,42 @@ public class ProjectServiceImpl implements ProjectService {
     private ProjectDao projectDao;
 
     @Override
-    public String addProject(Project project) {
-        project.setId(IdUtil.getPrimaryKey());
-        project.setAddTime(new Date());
-        project.setUpdateTime(new Date());
+    public String add(Project project) throws SystemException {
         project.setFinished(false);
-        int countAdd = projectDao.addProject(project);
+        int countAdd = projectDao.add(project);
         if (countAdd != 0) {
             return project.getId();
         }
-        return "";
+        throw new SystemException("操作失败");
     }
 
     @Override
     public PageInfo<Project> findByPage(int currentPage, int pageSize) {
         PageHelper.startPage(currentPage, pageSize);
-        List<Project> list = projectDao.findAllProject();
+        List<Project> list = projectDao.findAll();
         PageInfo<Project> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
 
     @Override
-    public Project getProject(String id) {
-        return projectDao.getProject(id);
+    public Project get(String id) {
+        return projectDao.get(id);
     }
 
     @Override
-    public int updateProject(Project project) {
+    public void update(Project project) throws SystemException {
+        //判断是否存在产品
+        Project oldProject = get(project.getId());
+        if (null == oldProject) {
+            throw new SystemException("无此产品");
+        }
+
+        //更新产品
         project.setUpdateTime(new Date());
-        return projectDao.updateProject(project);
+        int countUpdate = projectDao.update(project);
+        if (0 == countUpdate) {
+            throw new SystemException("操作失败");
+        }
     }
 
     @Override
@@ -66,14 +73,26 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Project> findAll() {
-        return projectDao.findAllProject();
+        return projectDao.findAll();
     }
 
     @Override
-    public int updateProjectFinished(String projectId, boolean finished, int countBugNotfinished) {
-        if(0 != countBugNotfinished) {
+    public int updateProjectFinished(String projectId, boolean finished,
+                                      int countBugNotfinished) throws SystemException{
+        //判断是否存在产品
+        Project oldProject = get(projectId);
+        if (null == oldProject) {
+            throw new SystemException("无此产品");
+        }
+        //是否有Bug没完成
+        if (0 != countBugNotfinished) {
             return 0;
         }
-        return projectDao.updateIsFinished(projectId,finished);
+        //更新
+        int countUpdate = projectDao.updateIsFinished(projectId, finished);
+        if(0 == countUpdate) {
+            throw new SystemException("操作失败");
+        }
+        return  countUpdate;
     }
 }

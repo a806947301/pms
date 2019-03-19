@@ -1,7 +1,6 @@
 package com.dayi.demo.user.service;
 
-import com.alibaba.fastjson.JSONObject;
-import com.dayi.demo.exception.SystemException;
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.Department;
 import com.github.pagehelper.PageInfo;
 

@@ -1,6 +1,7 @@
 package com.dayi.demo.user.service;
 
 import com.alibaba.fastjson.JSONArray;
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.Premission;
 import com.github.pagehelper.PageInfo;
 
@@ -16,9 +17,9 @@ public interface PremissionService {
      * 添加权限
      *
      * @param premission
-     * @return
+     * @throws SystemException
      */
-    int addPremission(Premission premission);
+    void add(Premission premission) throws SystemException;
 
     /**
      * 分页查找权限
@@ -47,9 +48,9 @@ public interface PremissionService {
      * 修改权限
      *
      * @param premission
-     * @return
+     * @throws SystemException
      */
-    int updatePremission(Premission premission);
+    void update(Premission premission) throws SystemException;
 
     /**
      * 封装成权限树数据
@@ -80,16 +81,15 @@ public interface PremissionService {
      * 删除权限
      *
      * @param id
-     * @return
+     * @throws SystemException
      */
-    int deletePremission(String id);
+    void delete(String id) throws SystemException;
 
     /**
      * 删除角色权限表（中间表）
-     *
      * @param roleId
      * @param premissionId
-     * @return
+     * @throws SystemException
      */
-    public int deleteRolePremission(String roleId, String premissionId);
+    void deleteRolePremission(String roleId, String premissionId) throws SystemException;
 }

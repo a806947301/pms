@@ -50,7 +50,7 @@ public class UserStatisticServiceImpl implements UserStatisticService {
         //获取开发人员角色
         Role role = roleService.getRoleByRoleName(DEVELOPER_NAME);
         //获取所有开发人员
-        List<User> users = userService.findUserByUserRole(null, role.getId());
+        List<User> users = userService.findByUserRole(null, role.getId());
         //获取开发人员id对应的bug量
         Map<String, JSONObject> processerBugMap = bugService.countBugByProcesser();
         JSONArray userJsonArray = doPackageUserBugJsonArray(users, processerBugMap);
@@ -62,7 +62,7 @@ public class UserStatisticServiceImpl implements UserStatisticService {
         //获取测试人员角色
         Role role = roleService.getRoleByRoleName(TESTER_NAME);
         //获取所有测试人员
-        List<User> users = userService.findUserByUserRole(null, role.getId());
+        List<User> users = userService.findByUserRole(null, role.getId());
         //获取测试人员id对应的bug量
         Map<String, JSONObject> processerBugMap = bugService.countBugByProposer();
         JSONArray userJsonArray = doPackageUserBugJsonArray(users, processerBugMap);

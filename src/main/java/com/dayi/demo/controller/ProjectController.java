@@ -7,6 +7,8 @@ import com.dayi.demo.project.model.Project;
 import com.dayi.demo.util.JsonUtil;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,12 +16,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 
 /**
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut   @   pvc123.com>
  * @date 2019-2-26
  */
 @Controller
 @RequestMapping("/project")
 public class ProjectController extends BaseController {
+
+    Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
     @Resource
     private ProjectService projectService;
@@ -44,9 +48,20 @@ public class ProjectController extends BaseController {
     @ResponseBody
     @RequiresPermissions("add:project")
     public JSONObject addProject(Project project) {
-        String projectId = projectService.addProject(project);
-        boolean addSuccess = (null != projectId && (!"".equals(projectId)));
-        return JsonUtil.packageJson(addSuccess,projectId,"添加失败");
+        //判断非空
+        if (Project.hasEmpty(project,false)) {
+            return JsonUtil.packageJson(false, "", "字段必须不为空");
+        }
+
+        //添加项目
+        String projectId = null;
+        try {
+            projectId = projectService.add(project);
+        } catch (Exception e) {
+            logger.error(ProjectController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(false, "", "添加项目失败");
+        }
+        return JsonUtil.packageJson(true, projectId, "");
     }
 
     /**
@@ -58,8 +73,8 @@ public class ProjectController extends BaseController {
     @RequestMapping("/findProject")
     @ResponseBody
     @RequiresPermissions("select:project")
-    public PageInfo<Project> findProject(int currentPage) {
-        return projectService.findByPage(currentPage, 5);
+    public PageInfo<Project> findProject(int currentPage, int pageSize) {
+        return projectService.findByPage(currentPage, pageSize);
     }
 
     /**
@@ -108,7 +123,7 @@ public class ProjectController extends BaseController {
     @ResponseBody
     @RequiresPermissions("select:project")
     public Project getProject(String id) {
-        return projectService.getProject(id);
+        return projectService.get(id);
     }
 
     /**
@@ -121,8 +136,19 @@ public class ProjectController extends BaseController {
     @ResponseBody
     @RequiresPermissions("update:project")
     public JSONObject updateProject(Project project) {
-        boolean updateSuccess = (0 != projectService.updateProject(project));
-        return JsonUtil.packageJson(updateSuccess,"更新成功","更新失败");
+        // 判断非空
+        if (Project.hasEmpty(project,true)) {
+            return JsonUtil.packageJson(false, "", "字段必须非空");
+        }
+
+        // 更新项目
+        try {
+            projectService.update(project);
+        } catch (Exception e) {
+            logger.error(ProjectController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(false, "", "更新项目失败");
+        }
+        return JsonUtil.packageJson(true, "更新成功", "");
     }
 
     /**
@@ -137,8 +163,17 @@ public class ProjectController extends BaseController {
     @ResponseBody
     @RequiresPermissions("update:project")
     public JSONObject updateProjectFinished(String projectId, boolean finished, int countBugNotfinished) {
-        int countUpdate = projectService.updateProjectFinished(projectId,finished,countBugNotfinished);
-        boolean updateSuccess = 0 != countUpdate;
-        return JsonUtil.packageJson(updateSuccess,"更新成功","改项目还有Bug未完成");
+        if (null == projectId || "".equals(projectId)) {
+            return JsonUtil.packageJson(false, "", "字段必须非空");
+        }
+        int countUpdate = 0;
+        try {
+            countUpdate = projectService.updateProjectFinished(projectId, finished, countBugNotfinished);
+        } catch (Exception e) {
+            logger.error(ProjectController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(false, "", "更新项目状态失败");
+        }
+        boolean updateSuccess = (0 != countUpdate);
+        return JsonUtil.packageJson(updateSuccess, "更新成功", "改项目还有Bug未完成");
     }
 }

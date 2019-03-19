@@ -1,7 +1,6 @@
 package com.dayi.demo.product.service;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.product.model.Product;
 import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
@@ -9,7 +8,7 @@ import com.github.pagehelper.PageInfo;
 import java.util.List;
 
 /**
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-2-25
  */
 public interface ProductService {
@@ -20,8 +19,9 @@ public interface ProductService {
      * @param product       产品
      * @param participators 参与者
      * @return
+     * @throws SystemException
      */
-    String add(Product product, String[] participators);
+    String add(Product product, String[] participators) throws SystemException;
 
     /**
      * 分页查询产品
@@ -54,8 +54,9 @@ public interface ProductService {
      * @param id
      * @param newParticipator
      * @return
+     * @throws SystemException
      */
-    int addParticipator(String id, String[] newParticipator);
+    int addParticipator(String id, String[] newParticipator) throws SystemException;
 
     /**
      * 删除产品组成员
@@ -63,16 +64,17 @@ public interface ProductService {
      * @param productId
      * @param userId
      * @return
+     * @throws SystemException
      */
-    int deleteParticipator(String productId, String userId);
+    int deleteParticipator(String productId, String userId) throws SystemException;
 
     /**
      * 更新产品信息
      *
      * @param product
-     * @return
+     * @throws SystemException
      */
-    int update(Product product);
+    void update(Product product) throws SystemException;
 
     /**
      * 查找所有产品

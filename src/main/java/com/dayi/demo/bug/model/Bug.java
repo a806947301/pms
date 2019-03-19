@@ -157,14 +157,15 @@ public class Bug extends BaseEntity {
         if (includeProposer && null == bug.getBugProposer()) {
             return true;
         }
-        boolean emptyProposerId = null == bug.getBugProposer().getId() || "".equals(bug.getBugProposer().getId());
-        if (includeProposer && emptyProposerId) {
+        boolean emptyProposerId = includeProposer &&
+                (null == bug.getBugProposer().getId() || "".equals(bug.getBugProposer().getId()));
+        if (emptyProposerId) {
             return true;
         }
-        if (null == bug.getBugProcesser()) {
+        if (null == bug.getBugProcesser() && includeProposer) {
             return true;
         }
-        if (null == bug.getBugProcesser().getId() || "".equals(bug.getBugProcesser().getId())) {
+        if (includeProposer && null == bug.getBugProcesser().getId() || "".equals(bug.getBugProcesser().getId())) {
             return true;
         }
         if (null == bug.getProject()) {

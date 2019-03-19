@@ -1,8 +1,7 @@
 package com.dayi.demo.user.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.dayi.demo.exception.SystemException;
-import com.dayi.demo.util.IdUtil;
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.dao.DepartmentDao;
 import com.dayi.demo.user.model.Department;
 import com.dayi.demo.user.service.DepartmentService;
@@ -62,9 +61,6 @@ public class DepartmentServiceImpl implements DepartmentService {
      */
     @Override
     public void add(Department department) throws SystemException {
-        department.setAddTime(new Date());
-        department.setUpdateTime(new Date());
-        department.setId(IdUtil.getPrimaryKey());
         int countAdd =  departmentDao.add(department);
         if(0 == countAdd) {
             throw new SystemException("添加失败");

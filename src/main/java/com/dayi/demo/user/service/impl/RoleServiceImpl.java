@@ -1,5 +1,6 @@
 package com.dayi.demo.user.service.impl;
 
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.dao.RoleDao;
 import com.dayi.demo.user.model.Premission;
 import com.dayi.demo.user.model.Role;
@@ -16,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut @ pvc123.com>
  * @date 2019-3-10
  */
 @Service
@@ -30,65 +31,89 @@ public class RoleServiceImpl implements RoleService {
     private PremissionService premissionService;
 
     @Override
-    public int addRole(Role role) {
-        role.setId(IdUtil.getPrimaryKey());
-        role.setAddTime(new Date());
-        role.setUpdateTime(new Date());
-        return roleDao.addRole(role);
+    public void add(Role role) throws SystemException {
+        int countAdd = roleDao.add(role);
+        if (0 == countAdd) {
+            throw new SystemException("操作失败");
+        }
     }
 
     @Override
-    public int updateRole(Role role) {
+    public void update(Role role) throws SystemException {
+        //判断是否存在
+        Role oldRole = get(role.getId());
+        if (null == oldRole) {
+            throw new SystemException("角色不存在");
+        }
+
+        //更新角色
         role.setUpdateTime(new Date());
-        return roleDao.updateRole(role);
+        int countUpdate = roleDao.update(role);
+        if (0 == countUpdate) {
+            throw new SystemException("操作失败");
+        }
     }
 
     @Override
     public PageInfo<Role> findByPage(int currentPage, int pageSize) {
-        PageHelper.startPage(currentPage,pageSize);
-        List<Role> list = roleDao.findRole();
+        PageHelper.startPage(currentPage, pageSize);
+        List<Role> list = roleDao.find();
         PageInfo<Role> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
 
     @Override
     public List<Role> findAll() {
-        return roleDao.findRole();
+        return roleDao.find();
     }
 
     @Override
     public List<Role> findRoleByUserId(String userId) {
-        return roleDao.findRoleByUserRole(userId,null);
+        return roleDao.findByUserRole(userId, null);
     }
 
     @Override
-    public int doAscribedRole(String userId, String roleId) {
-        return roleDao.addUserRole(IdUtil.getPrimaryKey(),new Date(),new Date(),userId,roleId);
+    public void doAscribedRole(String userId, String roleId) throws SystemException{
+        int countAdd = roleDao.addUserRole(IdUtil.getPrimaryKey(), new Date(), new Date(), userId, roleId);
+        if (0 == countAdd) {
+            throw new SystemException("操作失败");
+        }
     }
 
     @Override
-    public int doCancelRole(String userId, String roleId) {
-        return roleDao.deleteUserRole(userId,roleId);
+    public void doCancelRole(String userId, String roleId) throws SystemException{
+        int countDelete = roleDao.deleteUserRole(userId, roleId);
+        if (0 == countDelete) {
+            throw new SystemException("操作失败");
+        }
     }
 
     @Override
-    public int deleteRole(String id) {
+    public int delete(String id) throws SystemException {
         // 判断是否改角色是否还有权限
         List<Premission> premissions = premissionService.findByRoleId(id);
-        if(0 != premissions.size()) {
+        if (0 != premissions.size()) {
             return 0;
         }
         // 判断是否有用户有此角色
-        List<Role> roles = roleDao.findRoleByUserRole(null,id);
-        if(0 != roles.size()) {
+        List<Role> roles = roleDao.findByUserRole(null, id);
+        if (0 != roles.size()) {
             return 0;
-        }int countDelete = roleDao.deleteRole(id);
-
+        }
+        int countDelete = roleDao.delete(id);
+        if (0 == countDelete) {
+            throw new SystemException("操作失败");
+        }
         return countDelete;
     }
 
     @Override
     public Role getRoleByRoleName(String roleName) {
-        return roleDao.getRoleByRoleName(roleName);
+        return roleDao.getByRoleName(roleName);
+    }
+
+    @Override
+    public Role get(String id) {
+        return roleDao.get(id);
     }
 }

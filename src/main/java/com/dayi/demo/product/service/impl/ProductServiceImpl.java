@@ -1,5 +1,6 @@
 package com.dayi.demo.product.service.impl;
 
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.product.dao.ProductDao;
 import com.dayi.demo.product.model.Product;
 import com.dayi.demo.product.service.ProductService;
@@ -35,11 +36,8 @@ public class ProductServiceImpl implements ProductService {
     ProjectService projectService;
 
     @Override
-    public String add(Product product, String[] participators) {
+    public String add(Product product, String[] participators) throws SystemException{
         // 添加产品
-        product.setId(IdUtil.getPrimaryKey());
-        product.setAddTime(new Date());
-        product.setUpdateTime(new Date());
         int countAdd = productDao.add(product);
 
         //  添加产品成员
@@ -53,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
         if (countAdd != 0) {
             return product.getId();
         }
-        return "";
+        throw new SystemException("操作失败");
     }
 
     @Override
@@ -71,13 +69,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<User> getParticipator(String id) {
-        List<User> paticipator = userService.findUserByProductId(id);
+        List<User> paticipator = userService.findByProductId(id);
         return paticipator;
     }
 
     @Override
-    public int addParticipator(String id, String[] newParticipator) {
-        // 计算被添加的行数
+    public int addParticipator(String id, String[] newParticipator) throws SystemException{
+        //判断是否存在产品
+        Product product = get(id);
+        if(null == product) {
+            throw new SystemException("没有该产品");
+        }
+        // 添加产品成员
         int countAdd = 0;
         for (String participator : newParticipator) {
             String participatorId = IdUtil.getPrimaryKey();
@@ -89,14 +92,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public int deleteParticipator(String productId, String userId) {
+    public int deleteParticipator(String productId, String userId) throws SystemException{
         return productDao.deleteParticipator(productId, userId);
     }
 
     @Override
-    public int update(Product product) {
+    public void update(Product product) throws SystemException{
+        Product oldProduct = get(product.getId());
+        if(null == oldProduct) {
+            throw new SystemException("不存在该产品");
+        }
         product.setUpdateTime(new Date());
-        return productDao.update(product);
+        int countUpdate = productDao.update(product);
+        if(0 == countUpdate) {
+            throw new SystemException("操作失败");
+        }
     }
 
     @Override

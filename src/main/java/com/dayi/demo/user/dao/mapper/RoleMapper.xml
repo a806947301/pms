@@ -14,13 +14,18 @@
     </sql>
 
     <!--查询所有角色-->
-    <select id="findRole" resultMap="roleResultMap">
+    <select id="find" resultMap="roleResultMap">
         <include refid="selectAllColumnRole"/>
         role ORDER BY addtime
     </select>
 
+    <select id="get" resultMap="roleResultMap">
+        <include refid="selectAllColumnRole"/>
+        role WHERE id = #{0}
+    </select>
+
     <!--查询用户角色表信息-->
-    <select id="findRoleByUserRole" resultMap="roleResultMap">
+    <select id="findByUserRole" resultMap="roleResultMap">
         <include refid="selectAllColumnRole"/>
         role JOIN user_role ON role.id = user_role.role_id WHERE
         TRUE
@@ -29,12 +34,12 @@
     </select>
 
     <!---->
-    <select id="getRoleByRoleName" resultMap="roleResultMap">
+    <select id="getByRoleName" resultMap="roleResultMap">
         <include refid="selectAllColumnRole"/>
         role  WHERE role_name = #{0}
     </select>
 
-    <insert id="addRole">
+    <insert id="add">
         INSERT INTO role (id,addtime,updatetime,role_name)
         VALUES (#{id},#{addTime},#{updateTime},#{roleName})
     </insert>
@@ -44,7 +49,7 @@
         VALUES (#{id},#{addTime},#{updateTime},#{userId},#{roleId})
     </insert>
 
-    <update id="updateRole">
+    <update id="update">
         UPDATE role
         <set>
             updatetime = #{updateTime},
@@ -59,7 +64,7 @@
         <if test="roleId != null">and role_id = #{roleId}</if>
     </delete>
 
-    <delete id="deleteRole">
+    <delete id="delete">
         DELETE FROM role WHERE id = #{0}
     </delete>
 

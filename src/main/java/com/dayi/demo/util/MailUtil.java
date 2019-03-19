@@ -28,6 +28,14 @@ public class MailUtil {
      */
     private static String SEND_PROTOCOL = "smtp";
 
+    private static Properties properties = new Properties();
+
+    static {
+        properties.setProperty("mail.host", HOST);
+        properties.setProperty("mail.transport.protocol", SEND_PROTOCOL);
+        properties.setProperty("mail.smtp.auth", "true");
+    }
+
     /**
      * 发送邮件
      *
@@ -37,10 +45,6 @@ public class MailUtil {
      * @throws Exception
      */
     public static void sendMail(String to, String title, String content) throws MessagingException{
-        Properties properties = new Properties();
-        properties.setProperty("mail.host", HOST);
-        properties.setProperty("mail.transport.protocol", SEND_PROTOCOL);
-        properties.setProperty("mail.smtp.auth", "true");
         Session session = Session.getInstance(properties);
         Transport transport = session.getTransport();
         transport.connect(HOST, EMAIL, PASSWORD);

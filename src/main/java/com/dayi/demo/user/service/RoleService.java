@@ -1,6 +1,6 @@
 package com.dayi.demo.user.service;
 
-import com.alibaba.fastjson.JSONObject;
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.Role;
 import com.github.pagehelper.PageInfo;
 
@@ -14,19 +14,19 @@ public interface RoleService {
 
     /**
      * 添加角色
-     *
      * @param role
-     * @return
+     * @throws SystemException
      */
-    int addRole(Role role);
+    void add(Role role) throws SystemException;
 
     /**
      * 更新角色
      *
      * @param role
      * @return
+     * @throws SystemException
      */
-    int updateRole(Role role);
+    void update(Role role) throws SystemException ;
 
     /**
      * 分页查询角色
@@ -58,8 +58,9 @@ public interface RoleService {
      * @param userId
      * @param roleId
      * @return
+     * @throws SystemException
      */
-    int doAscribedRole(String userId, String roleId);
+    void doAscribedRole(String userId, String roleId) throws SystemException;
 
     /**
      * 取消用户角色
@@ -67,16 +68,18 @@ public interface RoleService {
      * @param userId
      * @param roleId
      * @return
+     * @throws SystemException
      */
-    int doCancelRole(String userId, String roleId);
+    void doCancelRole(String userId, String roleId) throws SystemException ;
 
     /**
      * 删除角色
      *
      * @param id
      * @return
+     * @throws SystemException
      */
-    int deleteRole(String id);
+    int delete(String id) throws SystemException ;
 
     /**
      * 获取指定角色名的角色
@@ -84,4 +87,11 @@ public interface RoleService {
      * @return
      */
     Role getRoleByRoleName(String roleName);
+
+    /**
+     * 获取指定角色
+     * @param id
+     * @return
+     */
+    Role get(String id);
 }

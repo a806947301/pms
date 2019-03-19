@@ -1,6 +1,6 @@
 package com.dayi.demo.user.service;
 
-import com.alibaba.fastjson.JSONObject;
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
 
@@ -28,23 +28,25 @@ public interface UserService {
      *
      * @param user
      * @return
+     * @throws SystemException
      */
-    int addUser(User user);
+    void add(User user) throws SystemException;
 
     /**
      * 更新用户数据
      *
      * @param user
      * @return
+     * @throws SystemException
      */
-    int updateUser(User user);
+    void update(User user) throws SystemException;
 
     /**
      * 查询所有用户数据
      *
      * @return
      */
-    List<User> findAllUser();
+    List<User> findAll();
 
     /**
      * 根据产品id 查找所有参与产品的用户
@@ -52,7 +54,7 @@ public interface UserService {
      * @param productId 产品id
      * @return
      */
-    List<User> findUserByProductId(String productId);
+    List<User> findByProductId(String productId);
 
     /**
      * 根据用户角色表查询用户
@@ -61,7 +63,7 @@ public interface UserService {
      * @param roleId
      * @return
      */
-    List<User> findUserByUserRole(String userId, String roleId);
+    List<User> findByUserRole(String userId, String roleId);
 
     /**
      * 查找指定用户
@@ -69,7 +71,7 @@ public interface UserService {
      * @param id 用户id
      * @return
      */
-    User getUser(String id);
+    User get(String id);
 
     /**
      * 登录
@@ -87,7 +89,7 @@ public interface UserService {
      * @param email
      * @return
      */
-    User getUserByEmail(String email);
+    User getByEmail(String email);
 
     /**
      * 修改用户停用状态
@@ -95,15 +97,16 @@ public interface UserService {
      * @param id
      * @param stopped
      * @return
+     * @throws SystemException
      */
-    int updateUserStopped(String id, boolean stopped);
+    void updateStopped(String id, boolean stopped) throws SystemException;
 
     /**
      * 退出登陆
      *
      * @return
      */
-    boolean doLogout();
+    void doLogout();
 
     /**
      * 查询产品下指定角色的用户
@@ -112,7 +115,7 @@ public interface UserService {
      * @param roleId
      * @return
      */
-    List<User> findUserByproductIdRole(String productId, String roleId);
+    List<User> findByproductIdRole(String productId, String roleId);
 
     /**
      * 随机生成注册验证码发送到邮箱

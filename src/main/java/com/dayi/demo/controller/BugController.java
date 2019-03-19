@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.bug.model.Bug;
 import com.dayi.demo.bug.model.BugDescription;
 import com.dayi.demo.bug.model.BugOperatingRecord;
+import com.dayi.demo.bug.service.BugOperatingRecordService;
 import com.dayi.demo.bug.service.BugService;
 import com.dayi.demo.common.controller.BaseController;
 import com.dayi.demo.user.model.User;
@@ -26,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Bug控制器
  * @author WuTong<wut@pvc123.com>
  * @date 2019-2-28
  */
@@ -37,6 +39,9 @@ public class BugController extends BaseController {
 
     @Resource
     private BugService bugService;
+
+    @Resource
+    BugOperatingRecordService bugOperatingRecordService;
 
     /**
      * 添加bug
@@ -54,11 +59,11 @@ public class BugController extends BaseController {
         }
         User user = getCurrentUser();
         String bugId = null;
+        boolean success = true;
         try {
             bugId = bugService.add(bug, user);
         } catch (Exception e) {
             logger.error(BugController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", e.getMessage());
         }
         boolean addSuccess = (null != bugId && (!"".equals(bugId)));
         return JsonUtil.packageJson(addSuccess, bugId, "添加失败");
@@ -85,6 +90,7 @@ public class BugController extends BaseController {
             System.out.println("file is null");
             return map;
         }
+        //获取真实路径
         String realPath = request.getSession().getServletContext().getRealPath("/");
         return bugService.bugImgUpload(file, projectId, realPath);
     }
@@ -111,8 +117,8 @@ public class BugController extends BaseController {
      * @param id
      * @return
      */
-    @RequestMapping("/getBugPage/{productId}/{projectId}/{id}")
-    public String getBugPage(String productId, String projectId, String id) {
+    @RequestMapping("/getBugPage/{id}")
+    public String getBugPage(String id) {
         return "getBug";
     }
 
@@ -126,7 +132,7 @@ public class BugController extends BaseController {
     @ResponseBody
     @RequiresPermissions("select:bug")
     public Bug getBug(String id) {
-        return bugService.getBug(id);
+        return bugService.get(id);
     }
 
     /**
@@ -146,8 +152,9 @@ public class BugController extends BaseController {
         if (null == userId || "".equals(userId)) {
             return JsonUtil.packageJson(false, "", "被指派人不能为空");
         }
-        User user = getCurrentUser();
+
         //执行重新指派
+        User user = getCurrentUser();
         try {
             bugService.doRedesignate(bugId, userId, user);
         } catch (Exception e) {
@@ -166,17 +173,21 @@ public class BugController extends BaseController {
     @RequestMapping("/processSelf")
     @ResponseBody
     public JSONObject processSelf(String bugId) {
+        //判断是否为空
         if (null == bugId || "".equals(bugId)) {
             return JsonUtil.packageJson(false, "", "Bug Id不能为空");
         }
+
+        //执行自己处理Bug
         User user = getCurrentUser();
+        boolean success = true;
         try {
             bugService.doProcessSelf(bugId, user);
         } catch (Exception e) {
             logger.error(BugController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            success = false;
         }
-        return JsonUtil.packageJson(true, "设置自己处理", "设置自己处理失败");
+        return JsonUtil.packageJson(success, "设置自己处理", "设置自己处理失败");
     }
 
     /**
@@ -194,14 +205,15 @@ public class BugController extends BaseController {
         }
 
         //设置不予处理
+        boolean success = true;
         User user = getCurrentUser();
         try {
             bugService.doNoProcessing(bugId, user);
         } catch (Exception e) {
             logger.error(BugController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            success = false;
         }
-        return JsonUtil.packageJson(true, "不予处理Bug", "");
+        return JsonUtil.packageJson(true, "不予处理Bug", "操作失败");
     }
 
     /**
@@ -224,7 +236,7 @@ public class BugController extends BaseController {
             bugService.doCloseBug(bugId, user);
         } catch (Exception e) {
             logger.error(BugController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return JsonUtil.packageJson(false, "", "操作失败");
         }
         return JsonUtil.packageJson(true, "关闭Bug成功", "");
     }
@@ -246,7 +258,7 @@ public class BugController extends BaseController {
             bugService.addBugDescription(bugDescription, user);
         } catch (Exception e) {
             logger.error(BugController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return JsonUtil.packageJson(false, "", "操作失败");
         }
         return JsonUtil.packageJson(true, "添加说明成功", "");
     }
@@ -273,8 +285,8 @@ public class BugController extends BaseController {
      */
     @RequestMapping("/findBugOperatingRecord")
     @ResponseBody
-    public PageInfo<BugOperatingRecord> findBugOperatingRecord(String bugId, int currentPage) {
-        return bugService.findBugOperationRecordByBugId(bugId, currentPage, 5);
+    public PageInfo<BugOperatingRecord> findBugOperatingRecord(String bugId, int currentPage, int pageSize) {
+        return bugOperatingRecordService.findByBugId(bugId, currentPage, pageSize);
     }
 
     /**

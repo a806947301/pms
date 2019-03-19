@@ -1,4 +1,4 @@
-package com.dayi.demo.exception;
+package com.dayi.demo.common.exception;
 
 /**
  * @author WuTong<wut@pvc123.com>

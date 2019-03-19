@@ -30,4 +30,17 @@ public class Product extends BaseEntity {
     public void setProductPresentation(String productPresentation) {
         this.productPresentation = productPresentation;
     }
+
+    public static boolean hasEmpty(Product product, boolean includingId) {
+        if(BaseEntity.hasEmpty(product, includingId)) {
+            return true;
+        }
+        if(null == product.getProductName() || "".equals(product.getProductName())) {
+            return true;
+        }
+        if(null == product.getProductPresentation() || "".equals(product.getProductPresentation())) {
+            return true;
+        }
+        return false;
+    }
 }

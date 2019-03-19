@@ -10,9 +10,9 @@
         <result property="bugTitle" column="bug_title"></result>
         <result property="bugContent" column="bug_content"></result>
         <result property="bugStatus" column="bug_status"></result>
-        <association property="project" column="project_id" select="com.dayi.demo.project.dao.ProjectDao.getProject"/>
-        <association property="bugProposer" column="bug_proposer" select="com.dayi.demo.user.dao.UserDao.getUser"/>
-        <association property="bugProcesser" column="bug_processer" select="com.dayi.demo.user.dao.UserDao.getUser"/>
+        <association property="project" column="project_id" select="com.dayi.demo.project.dao.ProjectDao.get"/>
+        <association property="bugProposer" column="bug_proposer" select="com.dayi.demo.user.dao.UserDao.get"/>
+        <association property="bugProcesser" column="bug_processer" select="com.dayi.demo.user.dao.UserDao.get"/>
     </resultMap>
 
     <sql id="selectAllColumnBug">

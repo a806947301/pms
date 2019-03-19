@@ -1,13 +1,11 @@
 package com.dayi.demo.need.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.need.model.Need;
 import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
-import net.lingala.zip4j.exception.ZipException;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 /**
  * @author WuTong<wut   @   pvc123.com>
@@ -18,16 +16,16 @@ public interface NeedService {
     /**
      * 添加需求
      *
+     * @param need                需求
      * @param needDescriptionFile 需求描述文件
      * @param needFile            需求文件
-     * @param need                需求
      * @param realPath            本地真实路径
      * @param currentUser         当前用户
      * @return
-     * @throws Exception
+     * @throws SystemException
      */
-    String add(MultipartFile needDescriptionFile, MultipartFile needFile, Need need,
-                   String realPath, User currentUser) throws Exception;
+    String add(Need need, MultipartFile needDescriptionFile, MultipartFile needFile,
+               String realPath, User currentUser) throws SystemException;
 
     /**
      * 分页查找项目下的需求

@@ -2,18 +2,15 @@ package com.dayi.demo.need.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.dayi.demo.exception.SystemException;
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.need.dao.NeedDao;
 import com.dayi.demo.need.model.Need;
 import com.dayi.demo.need.service.NeedService;
 import com.dayi.demo.user.model.User;
-import com.dayi.demo.util.IdUtil;
 import com.dayi.demo.util.WordUtil;
 import com.dayi.demo.util.ZipUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import net.lingala.zip4j.exception.ZipException;
-import org.apache.xmlbeans.impl.piccolo.io.FileFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,11 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 /**
- * @author WuTong<wut@pvc123.com>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               pvc123.com>
+ * @author WuTong<wut @ pvc123.com>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               pvc123.com>
  * @date 2019-03-04
  */
 @Service
@@ -39,20 +35,20 @@ public class NeedServiceImpl implements NeedService {
     private NeedDao needDao;
 
     /**
-     * 保存转换后html文件所需的图片
+     * 保存转换后html文件所需的图片保存的相对路径
      */
     private static final String IMAGE_FILE_PATH = "image";
 
     @Override
-    public String add(MultipartFile needDescriptionFile, MultipartFile needFile, Need need,
-                          String realPath, User currentUser) throws Exception {
+    public String add(Need need, MultipartFile needDescriptionFile, MultipartFile needFile,
+                      String realPath, User currentUser) throws SystemException {
         if (null == needDescriptionFile) {
-            throw new FileFormatException("需求说明文件不能为空");
+            throw new SystemException("需求说明文件不能为空");
         }
         if (null == needFile) {
-            throw new FileFormatException("需求文件不能为空");
+            throw new SystemException("需求文件不能为空");
         }
-        need.setId(IdUtil.getPrimaryKey());
+        need.setUser(currentUser);
 
         // 处理需求说明文件
         String descriptionFilepath = "";
@@ -75,14 +71,11 @@ public class NeedServiceImpl implements NeedService {
         need.setNeedFilename(needFilename);
 
         //保存需求
-        need.setAddTime(new Date());
-        need.setUpdateTime(new Date());
-        need.setUser(currentUser);
         int countAdd = needDao.add(need);
         if (0 != countAdd) {
             return need.getId();
         }
-        return "";
+        throw new SystemException("保存失败");
     }
 
     /**

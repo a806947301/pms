@@ -8,8 +8,8 @@
         <result property="updateTime" column="updatetime"></result>
         <result property="bugId" column="bug_id"></result>
         <result property="operationNumber" column="operation_number"></result>
-        <association property="operationUser" column="operation_user_id" select="com.dayi.demo.user.dao.UserDao.getUser"/>
-        <association property="user" column="user_id" select="com.dayi.demo.user.dao.UserDao.getUser"/>
+        <association property="operationUser" column="operation_user_id" select="com.dayi.demo.user.dao.UserDao.get"/>
+        <association property="user" column="user_id" select="com.dayi.demo.user.dao.UserDao.get"/>
     </resultMap>
 
     <sql id="selectAllColumnBugOperatingRecord">

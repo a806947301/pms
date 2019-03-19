@@ -7,21 +7,21 @@
         <result property="addTime" column="addtime"></result>
         <result property="updateTime" column="updatetime"></result>
         <result property="ip" column="ip"></result>
-        <association property="user" column="user_id" select="com.dayi.demo.user.dao.UserDao.getUser"></association>
+        <association property="user" column="user_id" select="com.dayi.demo.user.dao.UserDao.get"></association>
     </resultMap>
 
     <sql id="selectAllColumnDepartment">
-        SELECT id,addtime,updatetime,user_id,ip FROM
+        SELECT id, addtime, updatetime, user_id, ip FROM
     </sql>
 
     <select id="findLoginLogByUserId" resultMap="loginLogResultMap">
         <include refid="selectAllColumnDepartment"/>
-        login_log WHERE user_id = #{0}
+        login_log WHERE user_id = #{0} ORDER BY addtime DESC
     </select>
 
-    <insert id="addLoginLog">
-        INSERT INTO login_log(id,addtime,updatetime,user_id,ip)
-        VALUES (#{id},#{addTime},#{updateTime},#{user.id},#{ip})
+    <insert id="add">
+        INSERT INTO login_log(id, addtime, updatetime, user_id, ip)
+        VALUES (#{id}, #{addTime}, #{updateTime}, #{user.id}, #{ip})
     </insert>
 
 </mapper>

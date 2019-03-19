@@ -302,6 +302,7 @@
             params = new URLSearchParams();
             params.append("bugId",this.bugId);
             params.append("currentPage",1);
+            params.append("pageSize",5);
             axios
                 .post("/bug/findBugOperatingRecord",params)
                 .then(function (response) {
@@ -319,6 +320,7 @@
                 params = new URLSearchParams();
                 params.append("bugId",this.bugId);
                 params.append("currentPage",currentPage);
+                params.append("pageSize",5);
                 axios
                     .post("/bug/findBugOperatingRecord",params)
                     .then(function (response) {
@@ -387,15 +389,15 @@
         },
         created:function(){
             this.bugId = window.location.href.split('/')[window.location.href.split('/').length-1];
-            this.projectId = window.location.href.split('/')[window.location.href.split('/').length-2];
-            this.productId = window.location.href.split('/')[window.location.href.split('/').length-3];
             params = new URLSearchParams();
             params.append("id",this.bugId)
             axios
                 .post("/bug/getBug",params)
                 .then(function (response) {
                     vm.bug = response.data;
-
+                    vm.projectId = vm.bug.project.id;
+                    vm.productId = vm.bug.project.product.id;
+                    redesignateVm.loadPerson();
                 });
 
         },
@@ -476,28 +478,31 @@
             processer:null
         },
         created:function () {
-            this.bugId = window.location.href.split('/')[window.location.href.split('/').length-1];
-            this.projectId = window.location.href.split('/')[window.location.href.split('/').length-2];
-            this.productId = window.location.href.split('/')[window.location.href.split('/').length-3];
-            params = new URLSearchParams();
-            params.append("rolename","开发人员");
-            axios
-                .post("/role/getRoleByRoleName",params)
-                .then(function (response) {
-                    redesignateVm.roleId = response.data.id;
-                    params = new URLSearchParams();
-                    params.append("productId",redesignateVm.productId);
-                    params.append("roleId",redesignateVm.roleId);
-                    axios
-                        .post("/user/findUserByproductIdRole",params)
-                        .then(function (response) {
-                            console.log(response.data)
-                            redesignateVm.users = response.data;
-                        })
-                })
+
 
         },
         methods:{
+            loadPerson:function() {
+                this.bugId = vm.bug.id;
+                this.projectId = vm.projectId;
+                this.productId = vm.productId;
+                params = new URLSearchParams();
+                params.append("rolename","开发人员");
+                axios
+                    .post("/role/getRoleByRoleName",params)
+                    .then(function (response) {
+                        redesignateVm.roleId = response.data.id;
+                        params = new URLSearchParams();
+                        params.append("productId",redesignateVm.productId);
+                        params.append("roleId",redesignateVm.roleId);
+                        axios
+                            .post("/user/findUserByproductIdRole",params)
+                            .then(function (response) {
+                                console.log(response.data)
+                                redesignateVm.users = response.data;
+                            })
+                    })
+            },
             redesignate:function () {
                 params = new URLSearchParams();
                 params.append("bugId",this.bugId);

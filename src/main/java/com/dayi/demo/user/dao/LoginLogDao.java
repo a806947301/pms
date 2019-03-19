@@ -15,7 +15,7 @@ public interface LoginLogDao {
      * @param loginLog
      * @return
      */
-    int addLoginLog(LoginLog loginLog);
+    int add(LoginLog loginLog);
 
     /**
      * 查找指定用户的登陆日志

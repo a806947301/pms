@@ -9,6 +9,8 @@ import com.dayi.demo.util.JsonUtil;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,12 +21,14 @@ import java.util.List;
 /**
  * 产品模块控制器
  *
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut   @   pvc123.com>
  * @date 2019-2-25
  */
 @Controller
 @RequestMapping("/product")
 public class ProductController extends BaseController {
+
+    Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @Resource
     private ProductService productService;
@@ -48,9 +52,20 @@ public class ProductController extends BaseController {
     @ResponseBody
     @RequiresPermissions("add:product")
     public JSONObject addProduct(Product product, String[] participator) {
-        String productId = productService.add(product, participator);
-        boolean addSuccess = (null != productId);
-        return JsonUtil.packageJson(addSuccess, productId, "添加失败");
+        //判断是否有空
+        if (Product.hasEmpty(product, false)) {
+            return JsonUtil.packageJson(false, "", "字段必须非空");
+        }
+
+        //添加产品
+        String productId = null;
+        try {
+            productId = productService.add(product, participator);
+        } catch (Exception e) {
+            logger.error(ProductController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(false, "", "添加产品失败");
+        }
+        return JsonUtil.packageJson(true, productId, "");
     }
 
     /**
@@ -123,8 +138,19 @@ public class ProductController extends BaseController {
     @ResponseBody
     @RequiresPermissions("addUser:product")
     public JSONObject addProductParticipator(String id, String[] newParticipator) {
-        boolean addSuccess = (0 != productService.addParticipator(id, newParticipator));
-        return JsonUtil.packageJson(addSuccess, "添加成功", "添加失败");
+        //判断非空
+        if (null == id || "".equals(id)) {
+            return JsonUtil.packageJson(false, "", "id不能为空");
+        }
+
+        //添加参与者
+        try {
+            productService.addParticipator(id, newParticipator);
+        } catch (Exception e) {
+            logger.error(ProductController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(false, "", "添加成员失败");
+        }
+        return JsonUtil.packageJson(true, "添加成功", "");
     }
 
     /**
@@ -138,8 +164,21 @@ public class ProductController extends BaseController {
     @ResponseBody
     @RequiresPermissions("addUser:product")
     public JSONObject deleteProductParticipator(String productId, String userId) {
-        boolean deleteSuccess = (0 != productService.deleteParticipator(productId, userId));
-        return JsonUtil.packageJson(deleteSuccess, "", "删除失败");
+        //判断非空
+        if (null == productId || "".equals(productId)) {
+            return JsonUtil.packageJson(false, "", "产品不能为空");
+        }
+        if (null == userId || "".equals(userId)) {
+            return JsonUtil.packageJson(false, "", "用户不能为空");
+        }
+
+        try {
+            productService.deleteParticipator(productId, userId);
+        } catch (Exception e) {
+            logger.error(ProductController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(false, "", "删除成员失败");
+        }
+        return JsonUtil.packageJson(true, "删除成员成功", "");
     }
 
     /**
@@ -152,8 +191,19 @@ public class ProductController extends BaseController {
     @ResponseBody
     @RequiresPermissions("update:product")
     public JSONObject updateProduct(Product product) {
-        boolean updateSuccess = (0 != productService.update(product));
-        return JsonUtil.packageJson(updateSuccess, "更新成功", "更新失败");
+        //判断非空
+        if (Product.hasEmpty(product, true)) {
+            return JsonUtil.packageJson(false, "", "字段必须非空");
+        }
+
+        //更新产品
+        try {
+            productService.update(product);
+        } catch (Exception e) {
+            logger.error(ProductController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(false, "", "更新产品失败");
+        }
+        return JsonUtil.packageJson(true, "更新成功", "");
     }
 
     /**

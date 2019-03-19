@@ -1,4 +1,4 @@
-package com.dayi.demo.shiro.realm;
+package com.dayi.demo.common.shiro.realm;
 
 import com.dayi.demo.user.model.Premission;
 import com.dayi.demo.user.model.Role;
@@ -21,7 +21,7 @@ import java.util.List;
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-05
  */
-public class LoginRealm extends AuthorizingRealm {
+public class AuthRealm extends AuthorizingRealm {
 
     @Resource
     private UserService userService;
@@ -42,7 +42,7 @@ public class LoginRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         String email = (String) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        User user = userService.getUserByEmail(email);
+        User user = userService.getByEmail(email);
         List<Role> roles = roleService.findRoleByUserId(user.getId());
         LinkedHashSet<String> premissions = new LinkedHashSet<String>();
         for (Role role : roles) {
@@ -67,7 +67,7 @@ public class LoginRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String email = token.getPrincipal().toString();
-        User user = userService.getUserByEmail(email);
+        User user = userService.getByEmail(email);
         if (null == user) {
             throw new AccountException();
         }

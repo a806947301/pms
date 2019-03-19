@@ -176,7 +176,7 @@
                             <div class="card-body  border-top" v-for="bug in bugs.list">
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <a v-bind:href="['/bug/getBugPage/'+vm.productId+'/'+ vm.projectId +'/'+bug.id]">{{bug.bugTitle}}</a>
+                                        <a v-bind:href="['/bug/getBugPage/' + bug.id]">{{bug.bugTitle}}</a>
                                     </div>
                                     <div class="col-md-4" v-if="bug.bugStatus==3">
                                         <button class="btn btn-success">已完成</button>
@@ -582,7 +582,7 @@
         },
         methods:{
             addBug:function() {
-                window.location.href="/bug/addBugPage/"+vm.productId + "/" + this.projectId;
+                window.location.href="/bug/addBugPage/"+vm.project.product.id + "/" + this.projectId;
             },
             getPage:function(currentPage) {
                 if(currentPage<=0) {

@@ -11,12 +11,15 @@ import com.dayi.demo.util.JsonUtil;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
+import javax.security.auth.login.AccountException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -29,6 +32,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/user")
 public class UserController extends BaseController  {
+
+    Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Resource
     private UserService userService;
@@ -100,6 +105,7 @@ public class UserController extends BaseController  {
     @RequestMapping("/getVarification")
     @ResponseBody
     public JSONObject getVarification(String email) throws MessagingException {
+        //判断邮箱非空
         if (null == email || "".equals(email)) {
             return JsonUtil.packageJson(false, "", "邮箱不能为空");
         }
@@ -128,7 +134,7 @@ public class UserController extends BaseController  {
     @RequestMapping("/findAllUser")
     @ResponseBody
     public List<User> findAllUser() {
-        return userService.findAllUser();
+        return userService.findAll();
     }
 
     /**
@@ -141,11 +147,19 @@ public class UserController extends BaseController  {
     @ResponseBody
     @RequiresPermissions("add:user")
     public JSONObject addUser(User user) {
+        //判断非空
         if (User.hasEmpty(user, false)) {
             return JsonUtil.packageJson(false, "", "有字段为空！");
         }
-        boolean addSuccess = userService.addUser(user) != 0;
-        return JsonUtil.packageJson(addSuccess, "添加成功", "添加失败");
+
+        //添加用户
+        try {
+            userService.add(user);
+        } catch (Exception e) {
+            logger.error(UserController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(false, "", "添加用户失败");
+        }
+        return JsonUtil.packageJson(true, "添加成功", "");
     }
 
     /**
@@ -158,11 +172,19 @@ public class UserController extends BaseController  {
     @ResponseBody
     @RequiresPermissions("update:user")
     public JSONObject updateUser(User user) {
+        //判断非空
         if (User.hasEmpty(user, true)) {
             return JsonUtil.packageJson(false, "", "有字段为空！");
         }
-        boolean updateSuccess = (userService.updateUser(user) != 0);
-        return JsonUtil.packageJson(updateSuccess, "更新成功", "更新失败");
+
+        //更新用户
+        try {
+            userService.update(user);
+        } catch (Exception e) {
+            logger.error(UserController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(false, "", "更新用户失败");
+        }
+        return JsonUtil.packageJson(true, "更新成功", "");
     }
 
     /**
@@ -174,7 +196,7 @@ public class UserController extends BaseController  {
     @RequestMapping("/findUserByProductId")
     @ResponseBody
     public List<User> findUserByProductId(String id) {
-        return userService.findUserByProductId(id);
+        return userService.findByProductId(id);
     }
 
     /**
@@ -187,14 +209,26 @@ public class UserController extends BaseController  {
     @RequestMapping("/login")
     @ResponseBody
     public JSONObject login(String email, String password, HttpServletRequest request) {
+        //判断非空
         if (null == email || "".equals(email)) {
             return JsonUtil.packageJson(false, "", "邮箱不能为空");
         }
         if (null == password || "".equals(password)) {
             return JsonUtil.packageJson(false, "", "密码不能为空");
         }
-        boolean loginSuccess = userService.doLogin(email, password, IpUtil.getIpAddress(request));
-        return JsonUtil.packageJson(loginSuccess, INDEX_PAGE, "登陆失败");
+
+        //登陆
+        try {
+            userService.doLogin(email, password, IpUtil.getIpAddress(request));
+        } catch (Exception e) {
+            //如果是AccountException
+            if (e instanceof AccountException) {
+                return JsonUtil.packageJson(false, "", "用户名或密码不正确");
+            }
+            logger.error(UserController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(false, "", "登陆失败");
+        }
+        return JsonUtil.packageJson(true, INDEX_PAGE, "");
     }
 
     /**
@@ -205,8 +239,11 @@ public class UserController extends BaseController  {
     @RequestMapping("/logout")
     @ResponseBody
     public JSONObject logout() {
-        boolean logoutSuccess = userService.doLogout();
-        return JsonUtil.packageJson(logoutSuccess, "退出登陆", "退出登陆失败！！！");
+        //取消session数据
+        SecurityUtils.getSubject().getSession().removeAttribute("user");
+        //退出登陆
+        userService.doLogout();
+        return JsonUtil.packageJson(true, "退出登陆", "");
     }
 
     /**
@@ -223,9 +260,13 @@ public class UserController extends BaseController  {
         if (null == id || "".equals(id)) {
             return JsonUtil.packageJson(false, "", "id为空");
         }
-        int countUpdate = userService.updateUserStopped(id, stopped);
-        boolean updateSuccess = (0 != countUpdate);
-        return JsonUtil.packageJson(updateSuccess, "停用/启用成功", "停用/启用失败");
+        try {
+            userService.updateStopped(id, stopped);
+        } catch (Exception e) {
+            logger.error(UserController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(false, "", "停用/启用失败");
+        }
+        return JsonUtil.packageJson(true, "停用/启用成功", "");
     }
 
     /**
@@ -257,7 +298,7 @@ public class UserController extends BaseController  {
     @RequestMapping("/findUserByproductIdRole")
     @ResponseBody
     public List<User> findUserByproductIdRole(String productId, String roleId) {
-        return userService.findUserByproductIdRole(productId, roleId);
+        return userService.findByproductIdRole(productId, roleId);
     }
 
     /**
@@ -282,10 +323,18 @@ public class UserController extends BaseController  {
     @RequestMapping("/register")
     @ResponseBody
     public JSONObject register(User user) {
+        //判断非空
         if (User.hasEmpty(user, false)) {
             return JsonUtil.packageJson(false, "", "有字段为空！");
         }
-        boolean resigterSuccess = (userService.addUser(user) != 0);
-        return JsonUtil.packageJson(resigterSuccess, "注册成功", "注册失败");
+
+        //注册
+        try {
+            userService.add(user);
+        } catch (Exception e) {
+            logger.error(UserController.class.toString() + "_" + e.getMessage(), e);
+            return JsonUtil.packageJson(false, "", "注册失败");
+        }
+        return JsonUtil.packageJson(true, "注册成功", "");
     }
 }

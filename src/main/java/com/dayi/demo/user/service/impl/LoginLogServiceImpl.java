@@ -26,14 +26,8 @@ public class LoginLogServiceImpl implements LoginLogService {
     private LoginLogDao loginLogDao;
 
     @Override
-    public int addLoginLog(String userId,String ip) {
-        LoginLog loginLog = new LoginLog();
-        loginLog.setUser(new User(userId));
-        loginLog.setIp(ip);
-        loginLog.setAddTime(new Date());
-        loginLog.setUpdateTime(new Date());
-        loginLog.setId(IdUtil.getPrimaryKey());
-        return loginLogDao.addLoginLog(loginLog);
+    public int add(LoginLog loginLog) {
+        return loginLogDao.add(loginLog);
     }
 
     @Override
