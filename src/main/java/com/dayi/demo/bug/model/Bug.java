@@ -161,7 +161,9 @@ public class Bug extends BaseEntity {
         if (null == bug.getBugProcesser() && includeProposer) {
             return true;
         }
-        if (includeProposer && null == bug.getBugProcesser().getId() || "".equals(bug.getBugProcesser().getId())) {
+        boolean checkingProposer = includeProposer && null == bug.getBugProcesser().getId() ||
+                "".equals(bug.getBugProcesser().getId());
+        if (checkingProposer) {
             return true;
         }
         if (null == bug.getProject()) {

@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Bug说明 POJO类
  *
- * @author WuTong<wut   @   pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-2-28
  */
 public class BugDescription extends BaseEntity {

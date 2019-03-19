@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * 项目模块Service层实现类
  *
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-2-26
  */
 @Service
@@ -58,7 +58,6 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         //更新产品
-        project.setUpdateTime(new Date());
         int countUpdate = projectDao.update(project);
         if (0 == countUpdate) {
             throw new SystemException("操作失败");
@@ -79,7 +78,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public int updateProjectFinished(String projectId, boolean finished,
+    public void updateProjectFinished(String projectId, boolean finished,
                                       int countBugNotfinished) throws SystemException{
         //判断是否存在产品
         Project oldProject = get(projectId);
@@ -88,13 +87,12 @@ public class ProjectServiceImpl implements ProjectService {
         }
         //是否有Bug没完成
         if (0 != countBugNotfinished) {
-            return 0;
+            throw new SystemException("项目还有Bug未完成");
         }
         //更新
         int countUpdate = projectDao.updateIsFinished(projectId, finished);
         if(0 == countUpdate) {
             throw new SystemException("操作失败");
         }
-        return  countUpdate;
     }
 }

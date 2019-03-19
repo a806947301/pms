@@ -3,6 +3,7 @@ package com.dayi.demo.user.service;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authc.AccountException;
 
 import javax.mail.MessagingException;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * 用户模块Service层接口
  *
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-2-25
  */
 public interface UserService {
@@ -122,9 +123,9 @@ public interface UserService {
      *
      * @param email
      * @return
-     * @throws MessagingException
+     * @throws SystemException
      */
-    String doRandomVarificationCodeToEmail(String email) throws MessagingException;
+    String doRandomVarificationCodeToEmail(String email) throws SystemException;
 
     /**
      * 验证邮箱是否已存在

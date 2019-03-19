@@ -3,7 +3,7 @@ package com.dayi.demo.common.exception;
 /**
  * 系统异常
  *
- * @author WuTong<wut   @   pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-03-18
  */
 public class SystemException extends Exception {

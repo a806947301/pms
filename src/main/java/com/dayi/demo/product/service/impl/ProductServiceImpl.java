@@ -94,17 +94,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public int deleteParticipator(String productId, String userId) throws SystemException{
-        return productDao.deleteParticipator(productId, userId);
+    public void deleteParticipator(String productId, String userId) throws SystemException{
+        int countDelete = productDao.deleteParticipator(productId, userId);
+        if (0 == countDelete) {
+            throw new SystemException("操作失败");
+        }
     }
 
     @Override
     public void update(Product product) throws SystemException{
+        //判断产品是否存在
         Product oldProduct = get(product.getId());
         if(null == oldProduct) {
             throw new SystemException("不存在该产品");
         }
-        product.setUpdateTime(new Date());
+
+        //更新产品
         int countUpdate = productDao.update(product);
         if(0 == countUpdate) {
             throw new SystemException("操作失败");

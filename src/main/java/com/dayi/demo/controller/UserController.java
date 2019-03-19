@@ -2,6 +2,7 @@ package com.dayi.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.common.controller.BaseController;
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.LoginLog;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.LoginLogService;
@@ -10,6 +11,7 @@ import com.dayi.demo.util.IpUtil;
 import com.dayi.demo.util.JsonUtil;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,21 +21,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
-import javax.security.auth.login.AccountException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
  * 用户模块控制器
  *
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-2-23
  */
 @Controller
 @RequestMapping("/user")
 public class UserController extends BaseController {
-
-    Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Resource
     private UserService userService;
@@ -110,7 +109,12 @@ public class UserController extends BaseController {
             return JsonUtil.packageJson(false, "", "邮箱不能为空");
         }
         //生成验证码
-        String varificationCode = userService.doRandomVarificationCodeToEmail(email);
+        String varificationCode = null;
+        try {
+            varificationCode = userService.doRandomVarificationCodeToEmail(email);
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
+        }
         return JsonUtil.packageJson(true, varificationCode, "");
     }
 
@@ -155,11 +159,10 @@ public class UserController extends BaseController {
         //添加用户
         try {
             userService.add(user);
-        } catch (Exception e) {
-            logger.error(UserController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "添加用户失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
-        return JsonUtil.packageJson(true, "添加成功", "");
+        return JsonUtil.packageJson(true, "添加用户成功", "");
     }
 
     /**
@@ -180,11 +183,10 @@ public class UserController extends BaseController {
         //更新用户
         try {
             userService.update(user);
-        } catch (Exception e) {
-            logger.error(UserController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "更新用户失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
-        return JsonUtil.packageJson(true, "更新成功", "");
+        return JsonUtil.packageJson(true, "更新用户成功", "");
     }
 
     /**
@@ -220,13 +222,8 @@ public class UserController extends BaseController {
         //登陆
         try {
             userService.doLogin(email, password, IpUtil.getIpAddress(request));
-        } catch (Exception e) {
-            //如果是AccountException
-            if (e instanceof AccountException) {
-                return JsonUtil.packageJson(false, "", "用户名或密码不正确");
-            }
-            logger.error(UserController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "登陆失败");
+        } catch (AccountException e) {
+            return JsonUtil.packageJson(false, "", "用户名或密码不正确");
         }
         return JsonUtil.packageJson(true, INDEX_PAGE, "");
     }
@@ -262,9 +259,8 @@ public class UserController extends BaseController {
         }
         try {
             userService.updateStopped(id, stopped);
-        } catch (Exception e) {
-            logger.error(UserController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "停用/启用失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, "停用/启用成功", "");
     }
@@ -331,9 +327,8 @@ public class UserController extends BaseController {
         //注册
         try {
             userService.add(user);
-        } catch (Exception e) {
-            logger.error(UserController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "注册失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, "注册成功", "");
     }

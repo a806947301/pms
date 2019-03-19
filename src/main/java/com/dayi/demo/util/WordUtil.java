@@ -24,12 +24,12 @@ import java.io.*;
 /**
  * Word文档工具类
  *
- * @author WuTong<wut       @       pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-03-11
  */
 public class WordUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(WordUtil.class);
+    private final static Logger logger = LoggerFactory.getLogger(WordUtil.class);
 
     private static final String DOC = ".doc";
     private static final String DOCX = ".docx";
@@ -69,7 +69,7 @@ public class WordUtil {
                     out.close();
                 } catch (Exception e) {
                     synchronized (logger) {
-                        logger.error(WordUtil.class.toString() + "_" + e.getMessage(),e);
+                        logger.error(FileOutputStream.class.toString() + "_" + e.getMessage(),e);
                     }
                     return "";
                 }
@@ -144,6 +144,7 @@ public class WordUtil {
                 throw new SystemException("需求文件格式不正确");
             }
         } catch (Exception e) {
+            logger.error(WordUtil.class.toString() + "_" + e.getMessage(), e);
             throw new SystemException("文件转换失败");
         }
     }

@@ -2,6 +2,7 @@ package com.dayi.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.common.controller.BaseController;
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.need.model.Need;
 import com.dayi.demo.need.service.NeedService;
 import com.dayi.demo.user.model.User;
@@ -24,14 +25,12 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 需求控制器
  *
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-03-04
  */
 @Controller
 @RequestMapping("/need")
 public class NeedController extends BaseController {
-
-    Logger logger = LoggerFactory.getLogger(NeedController.class);
 
     @Resource
     private NeedService needService;
@@ -67,11 +66,10 @@ public class NeedController extends BaseController {
         try {
             //保存需求
             needId = needService.add(need, needDescriptionFile, needFile, realPath, getCurrentUser());
-        } catch (Exception e) {
-            logger.error(NeedController.class.toString() + "_" + e.getMessage(), e);
+        } catch (SystemException e) {
             return JsonUtil.packageJson(false, "", e.getMessage());
         }
-        return JsonUtil.packageJson(true, needId, "添加失败");
+        return JsonUtil.packageJson(true, needId, "");
     }
 
     /**

@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 /**
  * 需求模块Service层接口
  *
- * @author WuTong<wut   @   pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-03-04
  */
 public interface NeedService {

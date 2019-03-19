@@ -4,6 +4,7 @@ import com.dayi.demo.bug.model.Bug;
 import com.dayi.demo.bug.model.BugDescription;
 import com.dayi.demo.bug.model.BugOperatingRecord;
 import com.dayi.demo.bug.service.BugOperatingRecordService;
+import com.dayi.demo.bug.service.impl.BugOperetingRecordServiceImpl;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.UserService;
 import org.aspectj.lang.JoinPoint;
@@ -24,7 +25,7 @@ import javax.annotation.Resource;
 @Aspect
 public class BugRecordAspect {
 
-    Logger logger = LoggerFactory.getLogger(BugRecordAspect.class);
+    private final static Logger logger = LoggerFactory.getLogger(BugRecordAspect.class);
 
     @Resource
     UserService userService;
@@ -142,7 +143,7 @@ public class BugRecordAspect {
         try {
             recordService.add(record);
         } catch (Exception e) {
-            logger.error(BugRecordAspect.class.toString() + "_" + e.getMessage(), e);
+            logger.error(BugOperatingRecordService.class.toString() + "_" + e.getMessage(), e);
         }
     }
 

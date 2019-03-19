@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * 权限 POJO类
  *
- * @author WuTong<wut       @       pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-3-6
  */
 public class Premission extends BaseEntity {

@@ -2,6 +2,7 @@ package com.dayi.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.common.controller.BaseController;
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.Role;
 import com.dayi.demo.user.service.RoleService;
 import com.dayi.demo.util.JsonUtil;
@@ -17,14 +18,12 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-03-06
  */
 @Controller
 @RequestMapping("/role")
 public class RoleController extends BaseController {
-
-    Logger logger = LoggerFactory.getLogger(RoleController.class);
 
     @Resource
     private RoleService roleService;
@@ -57,11 +56,10 @@ public class RoleController extends BaseController {
         //添加角色
         try {
             roleService.add(role);
-        } catch (Exception e) {
-            logger.error(RoleController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "添加角色失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
-        return JsonUtil.packageJson(true, "添加成功", "");
+        return JsonUtil.packageJson(true, "添加角色成功", "");
     }
 
     /**
@@ -82,11 +80,10 @@ public class RoleController extends BaseController {
         //更新角色
         try {
             roleService.update(role);
-        } catch (Exception e) {
-            logger.error(RoleController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "更新角色失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
-        return JsonUtil.packageJson(true, "更新成功", "");
+        return JsonUtil.packageJson(true, "更新角色成功", "");
     }
 
     /**
@@ -159,9 +156,8 @@ public class RoleController extends BaseController {
         //赋予角色
         try {
             roleService.doAscribedRole(userId, roleId);
-        } catch (Exception e) {
-            logger.error(RoleController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(true, "", "赋予角色失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(true, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, "赋予成功", "");
     }
@@ -188,9 +184,8 @@ public class RoleController extends BaseController {
         //取消角色
         try {
             roleService.doCancelRole(userId, roleId);
-        } catch (Exception e) {
-            logger.error(RoleController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(true, "", "取消角色失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(true, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, "取消成功", "");
 
@@ -212,16 +207,12 @@ public class RoleController extends BaseController {
         }
 
         //删除角色
-        int countDelete = 0;
         try {
-            countDelete = roleService.delete(id);
-        } catch (Exception e) {
-            logger.error(RoleController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(true, "", "删除角色失败");
+            roleService.delete(id);
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(true, "", e.getMessage());
         }
-        boolean deleteSuccess = (0 != countDelete);
-        return JsonUtil.packageJson(deleteSuccess, "删除角色成功",
-                "该角色还有权限或者还有用户拥有该角色，删除失败");
+        return JsonUtil.packageJson(true, "删除角色成功", "");
     }
 
 }

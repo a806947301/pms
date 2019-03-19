@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 /**
  * 登陆切面
  *
- * @author WuTong<wut   @   pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-03-18
  */
 @Aspect

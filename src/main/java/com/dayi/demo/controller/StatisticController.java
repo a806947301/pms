@@ -20,7 +20,7 @@ import java.io.IOException;
 /**
  * 统计模块控制器
  *
- * @author WuTong<wut   @   pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-03-13
  */
 @Controller
@@ -42,7 +42,7 @@ public class StatisticController extends BaseController {
      */
     private static final String TESTER_EXCEL_NAME = "tester.xlsx";
 
-    private Logger logger = LoggerFactory.getLogger(StatisticController.class);
+    private final static Logger logger = LoggerFactory.getLogger(StatisticController.class);
 
     @Resource
     private ProductStatisticService productStatisticService;

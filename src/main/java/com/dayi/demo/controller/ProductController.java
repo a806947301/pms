@@ -2,6 +2,7 @@ package com.dayi.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.common.controller.BaseController;
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.product.service.ProductService;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.product.model.Product;
@@ -21,14 +22,12 @@ import java.util.List;
 /**
  * 产品模块控制器
  *
- * @author WuTong<wut   @   pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-2-25
  */
 @Controller
 @RequestMapping("/product")
 public class ProductController extends BaseController {
-
-    Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @Resource
     private ProductService productService;
@@ -61,9 +60,8 @@ public class ProductController extends BaseController {
         String productId = null;
         try {
             productId = productService.add(product, participator);
-        } catch (Exception e) {
-            logger.error(ProductController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "添加产品失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, productId, "");
     }
@@ -146,9 +144,8 @@ public class ProductController extends BaseController {
         //添加参与者
         try {
             productService.addParticipator(id, newParticipator);
-        } catch (Exception e) {
-            logger.error(ProductController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "添加成员失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, "添加成功", "");
     }
@@ -174,9 +171,8 @@ public class ProductController extends BaseController {
 
         try {
             productService.deleteParticipator(productId, userId);
-        } catch (Exception e) {
-            logger.error(ProductController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "删除成员失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, "删除成员成功", "");
     }
@@ -199,11 +195,10 @@ public class ProductController extends BaseController {
         //更新产品
         try {
             productService.update(product);
-        } catch (Exception e) {
-            logger.error(ProductController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "更新产品失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
-        return JsonUtil.packageJson(true, "更新成功", "");
+        return JsonUtil.packageJson(true, "更新产品成功", "");
     }
 
     /**

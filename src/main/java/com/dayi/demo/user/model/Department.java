@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * 部门 POJO类
  *
- * @author WuTong<wut   @   pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-2-22
  */
 public class Department extends BaseEntity {

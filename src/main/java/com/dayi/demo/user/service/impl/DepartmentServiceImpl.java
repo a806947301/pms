@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * 部门模块Service层实现类
  *
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-2-22
  */
 @Service
@@ -48,7 +48,6 @@ public class DepartmentServiceImpl implements DepartmentService {
      */
     @Override
     public void update(Department department) throws SystemException {
-        department.setUpdateTime(new Date());
         int countUpdate = departmentDao.update(department);
         if (0 == countUpdate) {
             throw new SystemException("更新失败");

@@ -26,7 +26,7 @@ import java.util.*;
 /**
  * Bug模块Service层实现类
  *
- * @author WuTong<wut       @       pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-2-28
  */
 @Service
@@ -81,6 +81,7 @@ public class BugServiceImpl implements BugService {
             String imgSrc = "/imgs/" + projectId + "/" + filename;
             result.put("file_path", imgSrc);
         } catch (Exception e) {
+            logger.error(MultipartFile.class.toString() + "_" + e.getMessage(), e);
             result.put("success", "false");
         }
         return result;
@@ -114,9 +115,10 @@ public class BugServiceImpl implements BugService {
         }
 
         //更新Bug状态
-        Date updateTime = new Date();
-        int countAdd = bugDao.updateStatus(bugId, Bug.Status.DESIGNATE.getValue(),
-                userId, false, updateTime);
+        bug.setBugStatus(Bug.Status.DESIGNATE.getValue());
+        bug.setBugProcesser(userService.get(userId));
+        bug.setNoProcessing(false);
+        int countAdd = update(bug);
 
         //更新成功
         if (countAdd != 0) {
@@ -142,9 +144,8 @@ public class BugServiceImpl implements BugService {
         }
 
         //更新Bug状态
-        Date updateTime = new Date();
-        int countAdd = bugDao.updateStatus(bugId, Bug.Status.PROCESSER.getValue(),
-                null, false, updateTime);
+        bug.setBugStatus(Bug.Status.PROCESSER.getValue());
+        int countAdd = update(bug);
         if (countAdd != 0) {
             return countAdd;
         }
@@ -163,8 +164,9 @@ public class BugServiceImpl implements BugService {
 
         //修改Bug状态
         Date updateTime = new Date();
-        int countAdd = bugDao.updateStatus(bugId, Bug.Status.CHECKING.getValue(),
-                null, true, updateTime);
+        bug.setBugStatus(Bug.Status.CHECKING.getValue());
+        bug.setNoProcessing(true);
+        int countAdd = update(bug);
 
         if (countAdd != 0) {
             //发送邮箱
@@ -187,9 +189,8 @@ public class BugServiceImpl implements BugService {
         }
 
         //修改Bug状态
-        Date updateTime = new Date();
-        int countAdd = bugDao.updateStatus(bugId, Bug.Status.FINISHED.getValue(),
-                null, bug.isNoProcessing(), updateTime);
+        bug.setBugStatus(Bug.Status.FINISHED.getValue());
+        int countAdd = update(bug);
 
         if (countAdd != 0) {
             //发送邮件
@@ -213,14 +214,11 @@ public class BugServiceImpl implements BugService {
         }
 
         // 添加Bug说明
-        bugDescription.setId(IdUtil.getPrimaryKey());
-        bugDescription.setAddTime(new Date());
-        bugDescription.setUpdateTime(new Date());
         int countAdd = bugDescriptionDao.add(bugDescription);
         if (countAdd != 0) {
             //更新Bug状态
-            int countUpdate = bugDao.updateStatus(bugDescription.getBugId(), Bug.Status.CHECKING.getValue(),
-                    null, false, new Date());
+            bug.setBugStatus(Bug.Status.CHECKING.getValue());
+            int countUpdate = update(bug);
             if (0 == countUpdate) {
                 throw new SystemException("操作失败");
             }
@@ -233,6 +231,16 @@ public class BugServiceImpl implements BugService {
             return countAdd;
         }
         throw new SystemException("操作失败");
+    }
+
+    /**
+     * 更新Bug
+     *
+     * @param bug
+     * @return
+     */
+    private int update(Bug bug) {
+        return bugDao.update(bug);
     }
 
     /**

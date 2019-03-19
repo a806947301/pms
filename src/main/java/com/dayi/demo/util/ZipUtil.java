@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class ZipUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(ZipUtil.class);
+    private final static Logger logger = LoggerFactory.getLogger(ZipUtil.class);
 
     /**
      * 解压Zip文件
@@ -33,9 +33,7 @@ public class ZipUtil {
             zipFile.setFileNameCharset(getEncoding(zipFile));
             zipFile.extractAll(path);
         } catch (Exception e) {
-            synchronized (logger) {
-                logger.error(ZipUtil.class.toString() + "_" + e.getMessage(), e);
-            }
+            logger.error(ZipUtil.class.toString() + "_" + e.getMessage(), e);
         }
     }
 

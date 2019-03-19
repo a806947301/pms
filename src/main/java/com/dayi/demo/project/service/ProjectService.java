@@ -70,6 +70,6 @@ public interface ProjectService {
      * @return
      * @throws SystemException
      */
-    int updateProjectFinished(String projectId, boolean finished, int countBugNotfinished)  throws SystemException;
+    void updateProjectFinished(String projectId, boolean finished, int countBugNotfinished)  throws SystemException;
 
 }

@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * ip工具类
  *
- * @author WuTong<wut   @   pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-03-08
  */
 public class IpUtil {

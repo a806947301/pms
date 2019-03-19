@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 部门模块Service层接口
  *
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-2-22
  */
 public interface DepartmentService {

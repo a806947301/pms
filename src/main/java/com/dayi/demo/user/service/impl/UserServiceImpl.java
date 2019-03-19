@@ -14,6 +14,8 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +35,8 @@ import java.util.Random;
 @Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
 
+    private final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Resource
     private UserDao userDao;
 
@@ -48,7 +52,6 @@ public class UserServiceImpl implements UserService {
         }
 
         //更新用户
-        user.setUpdateTime(new Date());
         user.setStopped(oldUser.isStopped());
         int countUpdate = userDao.update(user);
         if (0 == countUpdate) {
@@ -142,14 +145,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String doRandomVarificationCodeToEmail(String email) throws MessagingException {
+    public String doRandomVarificationCodeToEmail(String email) throws SystemException {
         //随机生成四位数验证码
         Random random = new Random();
         int varificationCode = random.nextInt(9000) + 1000;
         //发送邮件
         String title = "您的验证码";
         String content = "您的验证码为：" + varificationCode;
-        MailUtil.sendMail(email,title,content);
+        try {
+            MailUtil.sendMail(email, title, content);
+        } catch (Exception e) {
+            logger.error(MailUtil.class.toString() + "_" + e.getMessage(), e);
+            throw new SystemException("邮件发送失败");
+        }
         return varificationCode+"";
     }
 

@@ -2,6 +2,7 @@ package com.dayi.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.common.controller.BaseController;
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.Department;
 import com.dayi.demo.user.service.DepartmentService;
 import com.dayi.demo.util.JsonUtil;
@@ -20,14 +21,12 @@ import java.util.List;
 /**
  * 部门管理控制器
  *
- * @author WuTong<wut   @   pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-2-20
  */
 @Controller
 @RequestMapping("/department")
 public class DepartmentController extends BaseController {
-
-    Logger logger = LoggerFactory.getLogger(DepartmentController.class);
 
     @Resource
     private DepartmentService departmentService;
@@ -47,8 +46,7 @@ public class DepartmentController extends BaseController {
         }
         try {
             departmentService.delete(id);
-        } catch (Exception e) {
-            logger.error(DepartmentController.class.toString() + "_" + e.getMessage(), e);
+        } catch (SystemException e) {
             return JsonUtil.packageJson(false, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, "删除成功", "");
@@ -69,8 +67,7 @@ public class DepartmentController extends BaseController {
         }
         try {
             departmentService.update(department);
-        } catch (Exception e) {
-            logger.error(DepartmentController.class.toString() + "_" + e.getMessage(), e);
+        } catch (SystemException e) {
             return JsonUtil.packageJson(false, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, "更新成功", "");
@@ -90,8 +87,7 @@ public class DepartmentController extends BaseController {
         }
         try {
             departmentService.add(department);
-        } catch (Exception e) {
-            logger.error(DepartmentController.class.toString() + "_" + e.getMessage(), e);
+        } catch (SystemException e) {
             return JsonUtil.packageJson(false, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, "添加成功", "");

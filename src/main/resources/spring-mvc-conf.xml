@@ -62,23 +62,5 @@
 
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
 
-	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-		<property  name="exceptionMappings">
-			<props>
-				<prop key="org.apache.shiro.authz.UnauthorizedException">
-					redirect:/exception/haveNotPremission
-				</prop>
-				<prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">
-					redirect:/exception/maxUploadException
-				</prop>
-				<prop key="org.springframework.dao.DataAccessException">
-					redirect:/exception/sqlException
-				</prop>
-				<prop key="java.lang.Exception">
-					redirect:/exception/otherException
-				</prop>
-			</props>
-		</property>
-	</bean>
 
 </beans>

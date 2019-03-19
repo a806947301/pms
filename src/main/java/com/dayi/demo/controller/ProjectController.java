@@ -2,6 +2,7 @@ package com.dayi.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.common.controller.BaseController;
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.project.service.ProjectService;
 import com.dayi.demo.project.model.Project;
 import com.dayi.demo.util.JsonUtil;
@@ -18,14 +19,12 @@ import javax.annotation.Resource;
 /**
  * 项目模块控制器
  *
- * @author WuTong<wut               @               pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-2-26
  */
 @Controller
 @RequestMapping("/project")
 public class ProjectController extends BaseController {
-
-    Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
     @Resource
     private ProjectService projectService;
@@ -59,9 +58,8 @@ public class ProjectController extends BaseController {
         String projectId = null;
         try {
             projectId = projectService.add(project);
-        } catch (Exception e) {
-            logger.error(ProjectController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "添加项目失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, projectId, "");
     }
@@ -146,11 +144,10 @@ public class ProjectController extends BaseController {
         // 更新项目
         try {
             projectService.update(project);
-        } catch (Exception e) {
-            logger.error(ProjectController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "更新项目失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
-        return JsonUtil.packageJson(true, "更新成功", "");
+        return JsonUtil.packageJson(true, "更新项目成功", "");
     }
 
     /**
@@ -165,17 +162,17 @@ public class ProjectController extends BaseController {
     @ResponseBody
     @RequiresPermissions("update:project")
     public JSONObject updateProjectFinished(String projectId, boolean finished, int countBugNotfinished) {
+        //判断非空
         if (null == projectId || "".equals(projectId)) {
             return JsonUtil.packageJson(false, "", "字段必须非空");
         }
-        int countUpdate = 0;
+
+        //更新项目状态
         try {
-            countUpdate = projectService.updateProjectFinished(projectId, finished, countBugNotfinished);
-        } catch (Exception e) {
-            logger.error(ProjectController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "更新项目状态失败");
+            projectService.updateProjectFinished(projectId, finished, countBugNotfinished);
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
-        boolean updateSuccess = (0 != countUpdate);
-        return JsonUtil.packageJson(updateSuccess, "更新成功", "改项目还有Bug未完成");
+        return JsonUtil.packageJson(true, "更新成功", "");
     }
 }

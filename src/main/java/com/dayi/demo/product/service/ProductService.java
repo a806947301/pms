@@ -68,7 +68,7 @@ public interface ProductService {
      * @return
      * @throws SystemException
      */
-    int deleteParticipator(String productId, String userId) throws SystemException;
+    void deleteParticipator(String productId, String userId) throws SystemException;
 
     /**
      * 更新产品信息

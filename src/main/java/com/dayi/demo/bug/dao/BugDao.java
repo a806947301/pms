@@ -47,19 +47,12 @@ public interface BugDao {
     Bug get(String id);
 
     /**
-     * 更新Bug的状态
-     * @param id    Bug Id
-     * @param bugStatus Bug 状态
-     * @param bugProcesser  Bug 处理者
-     * @param noProcessing  不处理Bug
-     * @param updateTime    更新时间
+     * 更新Bug
+     *
+     * @param bug
      * @return
      */
-    int updateStatus(@Param("id") String id,
-                        @Param("bugStatus") int bugStatus,
-                        @Param("bugProcesser") String bugProcesser,
-                        @Param("noProcessing") boolean noProcessing,
-                        @Param("updateTime") Date updateTime);
+    int update(Bug bug);
 
     /**
      * 统计每个项目Id对应的Bug数

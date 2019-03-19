@@ -18,7 +18,7 @@ import java.util.*;
 /**
  * 权限模块Service层实现类
  *
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-03-06
  */
 @Service
@@ -56,7 +56,6 @@ public class PremissionServiceImpl implements PremissionService {
 
     @Override
     public void update(Premission premission) throws SystemException {
-        premission.setUpdateTime(new Date());
         int countUpdate = premissionDao.update(premission);
         if (0 == countUpdate) {
             throw new SystemException("操作失败");

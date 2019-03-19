@@ -35,8 +35,6 @@ public class ProductStatisticServiceImpl implements ProductStatisticService {
      */
     private static final String PATH = "\\excel\\product.xlsx";
 
-    private Logger logger = LoggerFactory.getLogger(ProductStatisticServiceImpl.class);
-
     @Resource
     private ProductService productService;
 

@@ -3,6 +3,7 @@ package com.dayi.demo.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.common.controller.BaseController;
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.Premission;
 import com.dayi.demo.user.service.PremissionService;
 import com.dayi.demo.util.JsonUtil;
@@ -21,14 +22,12 @@ import java.util.List;
 /**
  * 权限控制器
  *
- * @author WuTong<wut               @               pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-03-06
  */
 @Controller
 @RequestMapping("/premission")
 public class PremissionController extends BaseController {
-
-    Logger logger = LoggerFactory.getLogger(PremissionController.class);
 
     @Resource
     private PremissionService premissionService;
@@ -60,9 +59,8 @@ public class PremissionController extends BaseController {
 
         try {
             premissionService.add(premission);
-        } catch (Exception e) {
-            logger.error(PremissionController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "添加权限失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, "添加权限成功", "");
     }
@@ -110,9 +108,8 @@ public class PremissionController extends BaseController {
         //更新权限
         try {
             premissionService.update(premission);
-        } catch (Exception e) {
-            logger.error(PremissionController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "更新权限失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, "更新权限成功", "");
     }
@@ -146,12 +143,7 @@ public class PremissionController extends BaseController {
         }
 
         //授权
-        try {
-            premissionService.doAuthorization(roleId, premissions);
-        } catch (Exception e) {
-            logger.error(PremissionController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "授权失败");
-        }
+        premissionService.doAuthorization(roleId, premissions);
         return JsonUtil.packageJson(true, "授权成功", "");
     }
 
@@ -170,11 +162,10 @@ public class PremissionController extends BaseController {
         }
         try {
             premissionService.delete(id);
-        } catch (Exception e) {
-            logger.error(PremissionController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "删除权限失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
-        return JsonUtil.packageJson(true, "删除成功", "");
+        return JsonUtil.packageJson(true, "删除权限成功", "");
     }
 
     /**

@@ -7,6 +7,7 @@ import com.dayi.demo.bug.model.BugOperatingRecord;
 import com.dayi.demo.bug.service.BugOperatingRecordService;
 import com.dayi.demo.bug.service.BugService;
 import com.dayi.demo.common.controller.BaseController;
+import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.util.JsonUtil;
 import com.github.pagehelper.PageInfo;
@@ -29,14 +30,12 @@ import java.util.Map;
 /**
  * Bug模块控制器
  *
- * @author WuTong<wut   @   pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-2-28
  */
 @Controller
 @RequestMapping("/bug")
 public class BugController extends BaseController {
-
-    private Logger logger = LoggerFactory.getLogger(BugController.class);
 
     @Resource
     private BugService bugService;
@@ -63,8 +62,8 @@ public class BugController extends BaseController {
         boolean success = true;
         try {
             bugId = bugService.add(bug, user);
-        } catch (Exception e) {
-            logger.error(BugController.class.toString() + "_" + e.getMessage(), e);
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
         boolean addSuccess = (null != bugId && (!"".equals(bugId)));
         return JsonUtil.packageJson(addSuccess, bugId, "添加失败");
@@ -158,8 +157,7 @@ public class BugController extends BaseController {
         User user = getCurrentUser();
         try {
             bugService.doRedesignate(bugId, userId, user);
-        } catch (Exception e) {
-            logger.error(BugController.class.toString() + "_" + e.getMessage(), e);
+        } catch (SystemException e) {
             return JsonUtil.packageJson(false, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, "重新指派成功", "");
@@ -181,14 +179,12 @@ public class BugController extends BaseController {
 
         //执行自己处理Bug
         User user = getCurrentUser();
-        boolean success = true;
         try {
             bugService.doProcessSelf(bugId, user);
-        } catch (Exception e) {
-            logger.error(BugController.class.toString() + "_" + e.getMessage(), e);
-            success = false;
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
-        return JsonUtil.packageJson(success, "设置自己处理", "设置自己处理失败");
+        return JsonUtil.packageJson(true, "设置自己处理", "");
     }
 
     /**
@@ -206,15 +202,13 @@ public class BugController extends BaseController {
         }
 
         //设置不予处理
-        boolean success = true;
         User user = getCurrentUser();
         try {
             bugService.doNoProcessing(bugId, user);
-        } catch (Exception e) {
-            logger.error(BugController.class.toString() + "_" + e.getMessage(), e);
-            success = false;
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
-        return JsonUtil.packageJson(true, "不予处理Bug", "操作失败");
+        return JsonUtil.packageJson(true, "不予处理Bug", "");
     }
 
     /**
@@ -235,9 +229,8 @@ public class BugController extends BaseController {
         User user = getCurrentUser();
         try {
             bugService.doCloseBug(bugId, user);
-        } catch (Exception e) {
-            logger.error(BugController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "操作失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, "关闭Bug成功", "");
     }
@@ -257,9 +250,8 @@ public class BugController extends BaseController {
         User user = getCurrentUser();
         try {
             bugService.addBugDescription(bugDescription, user);
-        } catch (Exception e) {
-            logger.error(BugController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false, "", "操作失败");
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, "添加说明成功", "");
     }

@@ -81,7 +81,7 @@ public interface RoleService {
      * @return
      * @throws SystemException
      */
-    int delete(String id) throws SystemException ;
+    void delete(String id) throws SystemException ;
 
     /**
      * 获取指定角色名的角色

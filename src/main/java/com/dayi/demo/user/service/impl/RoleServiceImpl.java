@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * 角色模块Service层实现类
  *
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-3-10
  */
 @Service
@@ -49,7 +49,6 @@ public class RoleServiceImpl implements RoleService {
         }
 
         //更新角色
-        role.setUpdateTime(new Date());
         int countUpdate = roleDao.update(role);
         if (0 == countUpdate) {
             throw new SystemException("操作失败");
@@ -91,22 +90,21 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public int delete(String id) throws SystemException {
+    public void delete(String id) throws SystemException {
         // 判断是否改角色是否还有权限
         List<Premission> premissions = premissionService.findByRoleId(id);
         if (0 != premissions.size()) {
-            return 0;
+            throw new SystemException("角色下还有权限");
         }
         // 判断是否有用户有此角色
         List<Role> roles = roleDao.findByUserRole(null, id);
         if (0 != roles.size()) {
-            return 0;
+            throw new SystemException("还有用户拥有此角色");
         }
         int countDelete = roleDao.delete(id);
         if (0 == countDelete) {
             throw new SystemException("操作失败");
         }
-        return countDelete;
     }
 
     @Override

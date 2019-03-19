@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Bug操作记录模块Service层实现类
  *
- * @author WuTong<wut   @   pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-03-18
  */
 @Service

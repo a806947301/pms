@@ -86,14 +86,15 @@
                 #{bugTitle}, #{bugContent}, #{bugProposer.id}, #{bugProcesser.id})
     </insert>
 
-    <!--更新Bug状态-->
-    <update id="updateStatus">
+    <!--更新Bug-->
+    <update id="update">
         UPDATE bug
         <set>
             <if test="-1 != bugStatus">bug_status = #{bugStatus}, </if>
-            <if test="null != bugProcesser">bug_processer = #{bugProcesser}, </if>
+            <if test="null != bugProcesser">bug_processer = #{bugProcesser.id}, </if>
             <if test="null != updateTime">updatetime = #{updateTime}, </if>
-            is_noprocessing = #{noProcessing}
+            is_noprocessing = #{noProcessing},
+            updatetime = #{updateTime}
         </set>
         WHERE id = #{id}
     </update>

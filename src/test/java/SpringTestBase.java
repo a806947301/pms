@@ -4,7 +4,7 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * @Author wut
+ * @Author WuTong<wut@pvc123.com>
  * @Date 2019-03-12
  */
 @ContextConfiguration(locations = { "classpath:spring-dao-conf.xml" , "classpath:spring-mvc-conf.xml"
