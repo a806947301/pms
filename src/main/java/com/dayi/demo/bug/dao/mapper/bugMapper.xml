@@ -16,13 +16,13 @@
     </resultMap>
 
     <sql id="selectAllColumnBug">
-        SELECT bug.id,bug.addtime,bug.updatetime,project_id,is_noprocessing,bug_title,bug_content
-        ,bug_status,bug_proposer,bug_processer  FROM
+        SELECT bug.id, bug.addtime, bug.updatetime, project_id, is_noprocessing, bug_title, bug_content,
+        bug_status, bug_proposer, bug_processer  FROM
     </sql>
 
     <!--查询项目下的bug-->
-    <select id="findBugByProject" resultMap="bugResultMap">
-        SELECT id,bug_title,bug_status,bug_proposer,addtime,bug_processer FROM bug
+    <select id="findByProject" resultMap="bugResultMap">
+        SELECT id, bug_title, bug_status, bug_proposer, addtime, bug_processer FROM bug
             WHERE project_id = #{projectId}
             <if test="null != begin">AND addtime >= #{begin}</if>
             <if test="null != end">AND addtime &lt;= #{end}</if>
@@ -32,15 +32,15 @@
     </select>
 
     <!--查找用户被指派的Bug-->
-    <select id="findBugByUserDesignee" resultMap="bugResultMap">
-        SELECT id,bug_title,bug_status,bug_proposer,addtime,bug_processer FROM bug
+    <select id="findByUserDesignee" resultMap="bugResultMap">
+        SELECT id, bug_title, bug_status, bug_proposer, addtime, bug_processer FROM bug
             bug WHERE
             (bug_proposer = #{0} AND bug_status = 2)
             OR
             (bug_processer = #{0} AND 2 > bug_status)
     </select>
 
-    <select id="getBug" resultMap="bugResultMap">
+    <select id="get" resultMap="bugResultMap">
         <include refid="selectAllColumnBug"/>
             bug WHERE id = #{0}
     </select>
@@ -78,8 +78,8 @@
         SELECT COUNT(*) FROM bug WHERE project_id = #{0} AND bug_status != 3
     </select>
 
-    <!--添加ug-->
-    <insert id="addBug">
+    <!--添加Bug-->
+    <insert id="add">
         INSERT INTO bug (id, addtime, updatetime, project_id, is_noprocessing,
                          bug_status, bug_title, bug_content, bug_proposer, bug_processer)
         VALUES (#{id}, #{addTime}, #{updateTime}, #{project.id}, #{noProcessing}, #{bugStatus},
@@ -87,7 +87,7 @@
     </insert>
 
     <!--更新Bug状态-->
-    <update id="updateBugStatue">
+    <update id="updateStatus">
         UPDATE bug
         <set>
             <if test="-1 != bugStatus">bug_status = #{bugStatus}, </if>

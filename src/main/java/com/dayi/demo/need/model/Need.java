@@ -7,6 +7,8 @@ import com.dayi.demo.user.model.User;
 import java.util.Date;
 
 /**
+ * 需求 POJO类
+ *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-04
  */

@@ -24,7 +24,9 @@ import java.io.File;
 import java.util.*;
 
 /**
- * @author WuTong<wut @ pvc123.com>
+ * Bug模块Service层实现类
+ *
+ * @author WuTong<wut       @       pvc123.com>
  * @date 2019-2-28
  */
 @Service
@@ -49,7 +51,7 @@ public class BugServiceImpl implements BugService {
         bug.setNoProcessing(false);
         bug.setBugProposer(currentUser);
         //添加Bug
-        int countAdd = bugDao.addBug(bug);
+        int countAdd = bugDao.add(bug);
         //添加成功
         if (countAdd != 0) {
             //发送邮件
@@ -86,16 +88,16 @@ public class BugServiceImpl implements BugService {
 
     @Override
     public PageInfo<Bug> findByProject(int currentPage, int pageSize, String projectId, Date begin, Date end,
-                                          int status, String processerId, String proposerId) {
+                                       int status, String processerId, String proposerId) {
         PageHelper.startPage(currentPage, pageSize);
-        List<Bug> list = bugDao.findBugByProject(projectId, begin, end, status, processerId, proposerId);
+        List<Bug> list = bugDao.findByProject(projectId, begin, end, status, processerId, proposerId);
         PageInfo<Bug> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
 
     @Override
     public Bug get(String id) {
-        return bugDao.getBug(id);
+        return bugDao.get(id);
     }
 
     @Override
@@ -107,13 +109,13 @@ public class BugServiceImpl implements BugService {
         // 是否合法提出者 （Bug状态为验收中，且Bug提出者为当年用户）
         boolean isLegalProposer = bug.getBugStatus() == Bug.Status.CHECKING.getValue() &&
                 bug.getBugProposer().getId().equals(currentUser.getId());
-        if(!(isLegalProcesser || isLegalProposer)) {
+        if (!(isLegalProcesser || isLegalProposer)) {
             throw new SystemException("违法操作");
         }
 
         //更新Bug状态
         Date updateTime = new Date();
-        int countAdd = bugDao.updateBugStatue(bugId, Bug.Status.DESIGNATE.getValue(),
+        int countAdd = bugDao.updateStatus(bugId, Bug.Status.DESIGNATE.getValue(),
                 userId, false, updateTime);
 
         //更新成功
@@ -130,7 +132,7 @@ public class BugServiceImpl implements BugService {
     }
 
     @Override
-    public int doProcessSelf(String bugId, User currentUser) throws SystemException{
+    public int doProcessSelf(String bugId, User currentUser) throws SystemException {
         Bug bug = get(bugId);
         // 是否合法处理者 （Bug状态为指派中，且Bug的处理者为当前用户）
         boolean isLegalProcesser = bug.getBugStatus() == Bug.Status.DESIGNATE.getValue() &&
@@ -141,10 +143,10 @@ public class BugServiceImpl implements BugService {
 
         //更新Bug状态
         Date updateTime = new Date();
-        int countAdd = bugDao.updateBugStatue(bugId, Bug.Status.PROCESSER.getValue(),
+        int countAdd = bugDao.updateStatus(bugId, Bug.Status.PROCESSER.getValue(),
                 null, false, updateTime);
         if (countAdd != 0) {
-           return countAdd;
+            return countAdd;
         }
         throw new SystemException("操作失败");
     }
@@ -161,7 +163,7 @@ public class BugServiceImpl implements BugService {
 
         //修改Bug状态
         Date updateTime = new Date();
-        int countAdd = bugDao.updateBugStatue(bugId, Bug.Status.CHECKING.getValue(),
+        int countAdd = bugDao.updateStatus(bugId, Bug.Status.CHECKING.getValue(),
                 null, true, updateTime);
 
         if (countAdd != 0) {
@@ -180,13 +182,13 @@ public class BugServiceImpl implements BugService {
         //判断是合法用户（Bug当前状态为验收中，且提出者为当前用户）
         boolean isLegalProposer = Bug.Status.CHECKING.getValue() == bug.getBugStatus() &&
                 bug.getBugProposer().getId().equals(currentUser.getId());
-        if(!isLegalProposer) {
+        if (!isLegalProposer) {
             throw new SystemException("非法操作");
         }
 
         //修改Bug状态
         Date updateTime = new Date();
-        int countAdd = bugDao.updateBugStatue(bugId, Bug.Status.FINISHED.getValue(),
+        int countAdd = bugDao.updateStatus(bugId, Bug.Status.FINISHED.getValue(),
                 null, bug.isNoProcessing(), updateTime);
 
         if (countAdd != 0) {
@@ -201,12 +203,12 @@ public class BugServiceImpl implements BugService {
     }
 
     @Override
-    public int addBugDescription(BugDescription bugDescription, User currentUser) throws SystemException{
+    public int addBugDescription(BugDescription bugDescription, User currentUser) throws SystemException {
         Bug bug = get(bugDescription.getBugId());
         // 判断是否合法处理者（Bug当前状态为处理中，且处理者为当前用户）
         boolean isLegalProcesser = bug.getBugStatus() == Bug.Status.PROCESSER.getValue() &&
                 bug.getBugProcesser().getId().equals(currentUser.getId());
-        if(!isLegalProcesser) {
+        if (!isLegalProcesser) {
             throw new SystemException("非法操作");
         }
 
@@ -214,10 +216,10 @@ public class BugServiceImpl implements BugService {
         bugDescription.setId(IdUtil.getPrimaryKey());
         bugDescription.setAddTime(new Date());
         bugDescription.setUpdateTime(new Date());
-        int countAdd = bugDescriptionDao.addBugDescription(bugDescription);
+        int countAdd = bugDescriptionDao.add(bugDescription);
         if (countAdd != 0) {
             //更新Bug状态
-            int countUpdate = bugDao.updateBugStatue(bugDescription.getBugId(), Bug.Status.CHECKING.getValue(),
+            int countUpdate = bugDao.updateStatus(bugDescription.getBugId(), Bug.Status.CHECKING.getValue(),
                     null, false, new Date());
             if (0 == countUpdate) {
                 throw new SystemException("操作失败");
@@ -260,7 +262,6 @@ public class BugServiceImpl implements BugService {
     }
 
 
-
     @Override
     public Map<String, JSONObject> countBugByProject() {
         HashMap<String, JSONObject> result = new LinkedHashMap<String, JSONObject>(32);
@@ -274,6 +275,7 @@ public class BugServiceImpl implements BugService {
         }
         return result;
     }
+
     @Override
     public Map<String, JSONObject> countBugByProcesser() {
         HashMap<String, JSONObject> result = new LinkedHashMap<String, JSONObject>(32);
@@ -320,7 +322,7 @@ public class BugServiceImpl implements BugService {
     @Override
     public PageInfo<Bug> findByUserDesignee(String userId, int currentPage, int pageSize) {
         PageHelper.startPage(currentPage, pageSize);
-        List<Bug> list = bugDao.findBugByUserDesignee(userId);
+        List<Bug> list = bugDao.findByUserDesignee(userId);
         PageInfo<Bug> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }

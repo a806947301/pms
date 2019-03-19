@@ -5,6 +5,8 @@ import com.dayi.demo.user.model.LoginLog;
 import java.util.List;
 
 /**
+ * 登陆日志dao层接口
+ *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-08
  */

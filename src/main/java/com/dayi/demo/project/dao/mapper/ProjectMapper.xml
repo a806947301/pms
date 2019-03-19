@@ -38,7 +38,7 @@
 
     <!--添加项目-->
     <insert id="add">
-        INSERT INTO project (id, addtime, updatetime, begindate, enddate, project_name, is_finished,product_id)
+        INSERT INTO project (id, addtime, updatetime, begindate, enddate, project_name, is_finished, product_id)
         VALUES (#{id}, #{addTime}, #{updateTime}, #{beginDate}, #{endDate}, #{projectName}, #{finished}, #{product.id})
     </insert>
 

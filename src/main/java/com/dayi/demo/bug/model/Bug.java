@@ -8,11 +8,7 @@ import javax.swing.text.html.parser.Entity;
 import java.util.Date;
 
 /**
- * status状态说明：
- * 0.指派中
- * 1.处理中
- * 2.验收中
- * 3.已完成
+ * Bug POJO类
  *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-2-28

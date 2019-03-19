@@ -26,12 +26,12 @@ import java.util.List;
 /**
  * 用户模块控制器
  *
- * @author WuTong<wut@pvc123.com>
+ * @author WuTong<wut @ pvc123.com>
  * @date 2019-2-23
  */
 @Controller
 @RequestMapping("/user")
-public class UserController extends BaseController  {
+public class UserController extends BaseController {
 
     Logger logger = LoggerFactory.getLogger(UserController.class);
 

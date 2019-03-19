@@ -6,6 +6,8 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 /**
+ * 邮件工具类
+ *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-11
  */

@@ -3,6 +3,8 @@ package com.dayi.demo.common.entity;
 import java.util.Date;
 
 /**
+ * 所有数据库实体的基类
+ *
  * @author WuTong<wut   @   pvc123.com>
  * @date 2019-03-18
  */

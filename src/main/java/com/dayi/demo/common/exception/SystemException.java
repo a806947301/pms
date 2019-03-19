@@ -1,10 +1,12 @@
 package com.dayi.demo.common.exception;
 
 /**
- * @author WuTong<wut@pvc123.com>
+ * 系统异常
+ *
+ * @author WuTong<wut   @   pvc123.com>
  * @date 2019-03-18
  */
-public class SystemException extends Exception{
+public class SystemException extends Exception {
 
     private String message;
 

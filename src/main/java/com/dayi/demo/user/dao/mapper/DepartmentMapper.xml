@@ -10,7 +10,7 @@
     </resultMap>
 
     <sql id="selectAllColumnDepartment">
-        SELECT id,addtime,updatetime,department_name FROM
+        SELECT id, addtime, updatetime, department_name FROM
     </sql>
 
     <!-- 根据id查询 -->
@@ -26,8 +26,8 @@
     </select>
 
     <insert id="add">
-         INSERT INTO department (id,addtime,updatetime,department_name)
-         VALUES (#{id},#{addTime},#{updateTime},#{departmentName})
+         INSERT INTO department (id, addtime, updatetime, department_name)
+         VALUES (#{id}, #{addTime}, #{updateTime}, #{departmentName})
     </insert>
 
     <update id="update">

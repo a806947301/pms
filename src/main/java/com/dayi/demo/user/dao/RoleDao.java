@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * 角色dao层接口
+ *
  * @author WuTong<wut @ pvc123.com>
  * @date 2019-3-10
  */

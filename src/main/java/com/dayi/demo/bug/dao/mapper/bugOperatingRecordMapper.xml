@@ -13,7 +13,7 @@
     </resultMap>
 
     <sql id="selectAllColumnBugOperatingRecord">
-        SELECT id,addtime,updatetime,bug_id,operation_number,operation_user_id,operation_user_id,user_id FROM
+        SELECT id, addtime, updatetime, bug_id, operation_number, operation_user_id, operation_user_id, user_id FROM
     </sql>
 
     <select id="findBugOperatingRecordByBugId" resultMap="bugOperatingRecordResultMap">
@@ -22,8 +22,8 @@
     </select>
 
     <insert id="addBugOperatingRecord">
-        INSERT INTO bug_operating_record (id,addtime,updatetime,user_id,operation_number,bug_id,operation_user_id)
-        VALUES (#{id},#{addTime},#{updateTime},#{user.id},#{operationNumber},#{bugId},#{operationUser.id})
+        INSERT INTO bug_operating_record (id, addtime, updatetime, user_id, operation_number, bug_id, operation_user_id)
+        VALUES (#{id}, #{addTime}, #{updateTime}, #{user.id}, #{operationNumber}, #{bugId}, #{operationUser.id})
     </insert>
 
 </mapper>

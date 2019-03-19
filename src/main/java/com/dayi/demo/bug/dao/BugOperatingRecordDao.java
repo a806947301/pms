@@ -5,6 +5,8 @@ import com.dayi.demo.bug.model.BugOperatingRecord;
 import java.util.List;
 
 /**
+ * Bug操作记录 dao层接口
+ *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-2-28
  */

@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 /**
- * @author WuTong<wut@pvc123.com>
+ * 登陆切面
+ *
+ * @author WuTong<wut   @   pvc123.com>
  * @date 2019-03-18
  */
 @Aspect
@@ -27,12 +29,13 @@ public class LoginAspect {
 
     /**
      * 登陆后保存登陆日志
+     *
      * @param point
      */
     @AfterReturning("execution(* com.dayi.demo.user.service.impl.UserServiceImpl.doLogin(..))")
     public void afterLogin(JoinPoint point) {
-        String email = (String)point.getArgs()[0];
-        String ip = (String)point.getArgs()[2];
+        String email = (String) point.getArgs()[0];
+        String ip = (String) point.getArgs()[2];
         User user = userService.getByEmail(email);
         LoginLog loginLog = new LoginLog();
         loginLog.setUser(user);

@@ -5,6 +5,8 @@ import com.dayi.demo.user.model.Department;
 import java.util.List;
 
 /**
+ * 部门dao层接口
+ *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-2-22
  */

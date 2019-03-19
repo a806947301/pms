@@ -8,7 +8,7 @@ import javax.mail.MessagingException;
 import java.util.List;
 
 /**
- * 用户模块业务接口
+ * 用户模块Service层接口
  *
  * @author WuTong<wut @ pvc123.com>
  * @date 2019-2-25

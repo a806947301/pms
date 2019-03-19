@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.List;
 
 /**
+ * Zip压缩文件工具类
+ *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-15
  */

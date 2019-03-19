@@ -3,13 +3,21 @@ package com.dayi.demo.util;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author WuTong<wut@pvc123.com>
+ * ip工具类
+ *
+ * @author WuTong<wut   @   pvc123.com>
  * @date 2019-03-08
  */
 public class IpUtil {
     public static String UNKOWN = "unknown";
     public static int MAX_IP_LENGTH = 15;
 
+    /**
+     * 获取当前ip
+     *
+     * @param request
+     * @return
+     */
     public static String getIpAddress(HttpServletRequest request) {
         // 获取请求主机IP地址,如果通过代理进来，则透过防火墙获取真实IP地址
         String ip = request.getHeader("X-Forwarded-For");

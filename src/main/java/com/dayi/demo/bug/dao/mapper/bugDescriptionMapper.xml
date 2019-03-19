@@ -10,11 +10,12 @@
         <result property="content" column="content"></result>
     </resultMap>
 
-    <insert id="addBugDescription">
-        INSERT INTO bug_description (id,addtime,updatetime,bug_id,content)
-        VALUES (#{id},#{addTime},#{updateTime},#{bugId},#{content})
+    <insert id="add">
+        INSERT INTO bug_description (id, addtime, updatetime, bug_id, content)
+        VALUES (#{id}, #{addTime}, #{updateTime}, #{bugId}, #{content})
     </insert>
 
+    <!--根据Bug id查找Bug说明-->
     <select id="findByBugId" resultMap="bugDescriptionResultMap">
         SELECT id,addtime,updatetime,content FROM bug_description
         WHERE bug_id = #{0}  ORDER BY addtime

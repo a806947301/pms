@@ -5,6 +5,8 @@ import com.dayi.demo.common.exception.SystemException;
 import com.github.pagehelper.PageInfo;
 
 /**
+ * bug操作记录模块Service层接口
+ *
  * @author WuTong<wut @ pvc123.com>
  * @date 2019-03-18
  */

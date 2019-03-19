@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 /**
  * 异常控制器，负责返回异常信息
  *
- * @author WuTong<wut   @   pvc123.com>
+ * @author WuTong<wut       @       pvc123.com>
  * @date 2019-03-14
  */
 @Controller

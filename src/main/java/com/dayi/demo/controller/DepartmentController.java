@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * 部门管理控制器
  *
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut   @   pvc123.com>
  * @date 2019-2-20
  */
 @Controller
@@ -49,7 +49,7 @@ public class DepartmentController extends BaseController {
             departmentService.delete(id);
         } catch (Exception e) {
             logger.error(DepartmentController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false,"",e.getMessage());
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, "删除成功", "");
     }
@@ -71,7 +71,7 @@ public class DepartmentController extends BaseController {
             departmentService.update(department);
         } catch (Exception e) {
             logger.error(DepartmentController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false,"",e.getMessage());
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, "更新成功", "");
     }
@@ -92,7 +92,7 @@ public class DepartmentController extends BaseController {
             departmentService.add(department);
         } catch (Exception e) {
             logger.error(DepartmentController.class.toString() + "_" + e.getMessage(), e);
-            return JsonUtil.packageJson(false,"",e.getMessage());
+            return JsonUtil.packageJson(false, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, "添加成功", "");
     }

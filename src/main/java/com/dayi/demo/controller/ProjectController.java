@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 
 /**
- * @author WuTong<wut   @   pvc123.com>
+ * 项目模块控制器
+ *
+ * @author WuTong<wut               @               pvc123.com>
  * @date 2019-2-26
  */
 @Controller
@@ -49,7 +51,7 @@ public class ProjectController extends BaseController {
     @RequiresPermissions("add:project")
     public JSONObject addProject(Project project) {
         //判断非空
-        if (Project.hasEmpty(project,false)) {
+        if (Project.hasEmpty(project, false)) {
             return JsonUtil.packageJson(false, "", "字段必须不为空");
         }
 
@@ -137,7 +139,7 @@ public class ProjectController extends BaseController {
     @RequiresPermissions("update:project")
     public JSONObject updateProject(Project project) {
         // 判断非空
-        if (Project.hasEmpty(project,true)) {
+        if (Project.hasEmpty(project, true)) {
             return JsonUtil.packageJson(false, "", "字段必须非空");
         }
 

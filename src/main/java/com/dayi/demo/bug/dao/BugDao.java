@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Bug dao层接口
+ *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-2-28
  */
@@ -18,7 +20,7 @@ public interface BugDao {
      * @param bug
      * @return
      */
-    int addBug(Bug bug);
+    int add(Bug bug);
 
     /**
      * 根据条件查找Bug
@@ -30,7 +32,7 @@ public interface BugDao {
      * @param proposerId    Bug提出者，null为不筛选
      * @return
      */
-    List<Bug> findBugByProject(@Param("projectId") String projectId,
+    List<Bug> findByProject(@Param("projectId") String projectId,
                                @Param("begin") Date begin,
                                @Param("end") Date end,
                                @Param("status") int status,
@@ -42,7 +44,7 @@ public interface BugDao {
      * @param id    Bug Id
      * @return
      */
-    Bug getBug(String id);
+    Bug get(String id);
 
     /**
      * 更新Bug的状态
@@ -53,7 +55,7 @@ public interface BugDao {
      * @param updateTime    更新时间
      * @return
      */
-    int updateBugStatue(@Param("id") String id,
+    int updateStatus(@Param("id") String id,
                         @Param("bugStatus") int bugStatus,
                         @Param("bugProcesser") String bugProcesser,
                         @Param("noProcessing") boolean noProcessing,
@@ -90,5 +92,5 @@ public interface BugDao {
      * @param userId
      * @return
      */
-    List<Bug> findBugByUserDesignee(String userId);
+    List<Bug> findByUserDesignee(String userId);
 }

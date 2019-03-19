@@ -5,6 +5,8 @@ import com.dayi.demo.need.model.Need;
 import java.util.List;
 
 /**
+ * 需求dao层接口
+ *
  * @author WuTong<wut@pvc123.com>
  * @Date 2019-03-04
  */

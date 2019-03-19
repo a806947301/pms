@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
+ * 用户模块Service层实现类
+ *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-2-25
  */

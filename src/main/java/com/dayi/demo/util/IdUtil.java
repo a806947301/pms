@@ -4,14 +4,25 @@ package com.dayi.demo.util;
 import java.util.Random;
 
 /**
- * 该类用于生成数据库12位主键
+ * Id工具类，该类用于生成数据库主键
  *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-2-24
  */
 public class IdUtil {
+    /**
+     * id从keys所包含的字符中取
+     */
     private static String KEYS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+    /**
+     * id长度
+     */
     private static final int PRIMARY_KEY_SIZE = 12;
+
+    /**
+     * id中时间的长度
+     */
     private static final int KEY_LENGTH_TIME = 8;
 
     /**

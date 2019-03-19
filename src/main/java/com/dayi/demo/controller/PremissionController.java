@@ -19,7 +19,9 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @author WuTong<wut   @   pvc123.com>
+ * 权限控制器
+ *
+ * @author WuTong<wut               @               pvc123.com>
  * @date 2019-03-06
  */
 @Controller
@@ -139,7 +141,7 @@ public class PremissionController extends BaseController {
     @RequiresPermissions("grant:premission")
     public JSONObject authorization(String roleId, String[] premissions) {
         //判断非空
-        if(null == roleId || "".equals(roleId)) {
+        if (null == roleId || "".equals(roleId)) {
             return JsonUtil.packageJson(false, "", "授权失败");
         }
 
@@ -163,7 +165,7 @@ public class PremissionController extends BaseController {
     @ResponseBody
     @RequiresPermissions("delete:premission")
     public JSONObject deletePremission(String id) {
-        if(null == id || "".equals(id)) {
+        if (null == id || "".equals(id)) {
             return JsonUtil.packageJson(false, "", "id不能为空");
         }
         try {

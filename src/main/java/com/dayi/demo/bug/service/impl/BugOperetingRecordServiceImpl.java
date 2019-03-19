@@ -14,7 +14,9 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @author WuTong<wut @ pvc123.com>
+ * Bug操作记录模块Service层实现类
+ *
+ * @author WuTong<wut   @   pvc123.com>
  * @date 2019-03-18
  */
 @Service

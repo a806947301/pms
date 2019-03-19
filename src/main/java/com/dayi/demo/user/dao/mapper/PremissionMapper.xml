@@ -12,7 +12,7 @@
     </resultMap>
 
     <sql id="selectAllColumnPremission">
-        SELECT p.id , p.addtime , p.updatetime ,premission_name , premission_field , is_menu , parent_id FROM
+        SELECT p.id, p.addtime, p.updatetime, premission_name, premission_field, is_menu, parent_id FROM
     </sql>
 
     <!--查找所有权限-->
@@ -34,13 +34,13 @@
     </select>
 
     <insert id="addRolePremission">
-        INSERT INTO role_premission (id,addtime,updatetime,role_id,premission_id)
-        VALUES (#{id},#{addTime},#{updateTime},#{roleId},#{premissionId})
+        INSERT INTO role_premission (id, addtime, updatetime, role_id, premission_id)
+        VALUES (#{id}, #{addTime}, #{updateTime}, #{roleId}, #{premissionId})
     </insert>
 
     <insert id="add">
-        INSERT INTO premission (id,addtime,updatetime,premission_name,premission_field,is_menu,parent_id)
-        VALUES (#{id},#{addTime},#{updateTime},#{premissionName},#{field},#{menu},#{parentId})
+        INSERT INTO premission (id, addtime, updatetime, premission_name, premission_field, is_menu, parent_id)
+        VALUES (#{id}, #{addTime}, #{updateTime}, #{premissionName}, #{field}, #{menu}, #{parentId})
     </insert>
 
     <update id="update">

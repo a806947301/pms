@@ -5,7 +5,9 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 
 /**
- * @author WuTong<wut @ pvc123.com>
+ * 所有controller的基类
+ *
+ * @author WuTong<wut       @       pvc123.com>
  * @date 2019-03-18
  */
 public abstract class BaseController {

@@ -10,7 +10,7 @@
 
     <!--查询表中所有列-->
     <sql id="selectAllColumnRole">
-        SELECT role.id , role.addtime , role.updatetime , role_name FROM
+        SELECT role.id, role.addtime, role.updatetime, role_name FROM
     </sql>
 
     <!--查询所有角色-->
@@ -40,13 +40,13 @@
     </select>
 
     <insert id="add">
-        INSERT INTO role (id,addtime,updatetime,role_name)
-        VALUES (#{id},#{addTime},#{updateTime},#{roleName})
+        INSERT INTO role (id, addtime, updatetime, role_name)
+        VALUES (#{id}, #{addTime}, #{updateTime}, #{roleName})
     </insert>
 
     <insert id="addUserRole">
-        INSERT INTO user_role (id,addtime,updatetime,user_id,role_id)
-        VALUES (#{id},#{addTime},#{updateTime},#{userId},#{roleId})
+        INSERT INTO user_role (id, addtime, updatetime, user_id, role_id)
+        VALUES (#{id}, #{addTime}, #{updateTime}, #{userId}, #{roleId})
     </insert>
 
     <update id="update">

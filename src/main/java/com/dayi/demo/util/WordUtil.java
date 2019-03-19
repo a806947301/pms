@@ -22,6 +22,8 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 
 /**
+ * Word文档工具类
+ *
  * @author WuTong<wut       @       pvc123.com>
  * @date 2019-03-11
  */

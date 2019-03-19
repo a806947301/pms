@@ -17,8 +17,8 @@
     </resultMap>
 
     <sql id="selectAllColumnNeed">
-        SELECT id,addtime,updatetime,need_name,need_description,need_description_filepath,need_description_filename
-            ,need_filepath,need_filename,user_id,project_id FROM
+        SELECT id, addtime, updatetime, need_name, need_description, need_description_filepath,
+        need_description_filename, need_filepath, need_filename, user_id, project_id FROM
     </sql>
 
     <!--查找项目下的所有需求-->
@@ -34,10 +34,10 @@
     </select>
 
     <insert id="add">
-        insert into need (id,addtime,updatetime,need_name,need_description,need_description_filepath
-            ,need_description_filename,need_filepath,need_filename,user_id,project_id)
-        VALUES (#{id},#{addTime},#{updateTime},#{needName},#{needDescription},#{descriptionFilepath}
-            ,#{descriptionFilename},#{needFilepath},#{needFilename},#{user.id},#{project.id})
+        insert into need (id, addtime, updatetime, need_name, need_description, need_description_filepath,
+        need_description_filename, need_filepath, need_filename,user_id, project_id)
+        VALUES (#{id}, #{addTime}, #{updateTime}, #{needName}, #{needDescription}, #{descriptionFilepath},
+        #{descriptionFilename}, #{needFilepath}, #{needFilename}, #{user.id}, #{project.id})
     </insert>
 
 

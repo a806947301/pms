@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.Map;
 
 /**
+ * Bug模块Service层接口
+ *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-2-28
  */

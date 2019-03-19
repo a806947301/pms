@@ -18,6 +18,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 /**
+ * 登陆、授权Realm
+ *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-05
  */

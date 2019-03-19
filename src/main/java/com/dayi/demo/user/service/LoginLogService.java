@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
+ * 登陆日志模块Service层接口
+ *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-08
  */

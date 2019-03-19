@@ -5,6 +5,8 @@ import com.dayi.demo.common.entity.BaseEntity;
 import java.util.Date;
 
 /**
+ * 角色 POJO类
+ *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-3-10
  */

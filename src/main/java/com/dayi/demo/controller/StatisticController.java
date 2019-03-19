@@ -18,7 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author WuTong<wut@pvc123.com>
+ * 统计模块控制器
+ *
+ * @author WuTong<wut   @   pvc123.com>
  * @date 2019-03-13
  */
 @Controller

@@ -6,6 +6,8 @@ import com.dayi.demo.user.model.User;
 import java.util.Date;
 
 /**
+ * Bug记录 POJO类
+ *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-2-28
  */

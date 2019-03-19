@@ -22,7 +22,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author WuTong<wut                                                               @                                                               pvc123.com>
+ * 需求控制器
+ *
+ * @author WuTong<wut @ pvc123.com>
  * @date 2019-03-04
  */
 @Controller
@@ -64,7 +66,7 @@ public class NeedController extends BaseController {
         String needId = null;
         try {
             //保存需求
-            needId = needService.add(need,needDescriptionFile, needFile, realPath, getCurrentUser());
+            needId = needService.add(need, needDescriptionFile, needFile, realPath, getCurrentUser());
         } catch (Exception e) {
             logger.error(NeedController.class.toString() + "_" + e.getMessage(), e);
             return JsonUtil.packageJson(false, "", e.getMessage());

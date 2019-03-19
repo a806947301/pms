@@ -7,6 +7,8 @@ import com.github.pagehelper.PageInfo;
 import java.util.List;
 
 /**
+ * 项目模块Service层接口
+ *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-2-26
  */

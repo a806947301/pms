@@ -7,6 +7,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 /**
+ * 项目 POJO类
+ *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-2-26
  */

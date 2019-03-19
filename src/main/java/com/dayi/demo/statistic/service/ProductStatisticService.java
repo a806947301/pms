@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
+ * 产品统计模块Service层接口
+ *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-12
  */

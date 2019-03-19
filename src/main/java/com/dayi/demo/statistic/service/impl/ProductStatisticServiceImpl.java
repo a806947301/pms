@@ -22,6 +22,8 @@ import java.io.OutputStream;
 import java.util.*;
 
 /**
+ * 产品统计模块Service层实现类
+ *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-12
  */

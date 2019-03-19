@@ -27,8 +27,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Bug控制器
- * @author WuTong<wut@pvc123.com>
+ * Bug模块控制器
+ *
+ * @author WuTong<wut   @   pvc123.com>
  * @date 2019-2-28
  */
 @Controller

@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 用户统计模块Service层实现类
+ *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-13
  */
