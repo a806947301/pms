@@ -1,5 +1,6 @@
 package com.dayi.demo.product.service.impl;
 
+import com.dayi.demo.common.entity.BaseEntity;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.product.dao.ProductDao;
 import com.dayi.demo.product.model.Product;
@@ -43,12 +44,8 @@ public class ProductServiceImpl implements ProductService {
         int countAdd = productDao.add(product);
 
         //  添加产品成员
-        for (String participator : participators) {
-            String id = IdUtil.getPrimaryKey();
-            Date addTime = new Date();
-            Date updateTime = new Date();
-            productDao.addParticipator(id, product.getId(), participator, addTime, updateTime);
-        }
+        addParticipator(product.getId(), participators);
+
         // 判断产品是否添加成功
         if (countAdd != 0) {
             return product.getId();
@@ -85,12 +82,23 @@ public class ProductServiceImpl implements ProductService {
         // 添加产品成员
         int countAdd = 0;
         for (String participator : newParticipator) {
-            String participatorId = IdUtil.getPrimaryKey();
-            Date addTime = new Date();
-            Date updateTime = new Date();
-            countAdd += productDao.addParticipator(participatorId, id, participator, addTime, updateTime);
+            BaseEntity entity = new BaseEntity() ;
+            countAdd += addParticipator(entity, id, participator);
         }
         return countAdd;
+    }
+
+    /**
+     * 添加产品参与者
+     *
+     * @param entity
+     * @param productId
+     * @param participatorId
+     * @return
+     */
+    private int addParticipator(BaseEntity entity, String productId, String participatorId) {
+        return productDao.addParticipator(entity.getId(), productId,
+                participatorId, entity.getAddTime(), entity.getUpdateTime());
     }
 
     @Override

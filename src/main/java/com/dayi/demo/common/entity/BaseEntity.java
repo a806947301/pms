@@ -8,7 +8,7 @@ import java.util.Date;
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-18
  */
-public abstract class BaseEntity {
+public class BaseEntity {
     /**
      * id
      */
