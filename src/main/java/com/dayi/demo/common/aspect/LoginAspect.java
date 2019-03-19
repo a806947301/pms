@@ -6,7 +6,6 @@ import com.dayi.demo.user.service.LoginLogService;
 import com.dayi.demo.user.service.UserService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

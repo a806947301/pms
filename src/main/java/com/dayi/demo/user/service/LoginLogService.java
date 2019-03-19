@@ -4,7 +4,6 @@ import com.dayi.demo.user.model.LoginLog;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 /**
  * 登陆日志模块Service层接口

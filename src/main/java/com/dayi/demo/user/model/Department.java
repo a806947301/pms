@@ -2,7 +2,6 @@ package com.dayi.demo.user.model;
 
 import com.dayi.demo.common.entity.BaseEntity;
 
-import java.util.Date;
 
 /**
  * 部门 POJO类

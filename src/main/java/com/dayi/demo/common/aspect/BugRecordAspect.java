@@ -4,7 +4,6 @@ import com.dayi.demo.bug.model.Bug;
 import com.dayi.demo.bug.model.BugDescription;
 import com.dayi.demo.bug.model.BugOperatingRecord;
 import com.dayi.demo.bug.service.BugOperatingRecordService;
-import com.dayi.demo.bug.service.impl.BugOperetingRecordServiceImpl;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.UserService;
 import org.aspectj.lang.JoinPoint;

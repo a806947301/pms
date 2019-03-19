@@ -3,9 +3,6 @@ package com.dayi.demo.user.service;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
-import org.apache.shiro.authc.AccountException;
-
-import javax.mail.MessagingException;
 import java.util.List;
 
 /**

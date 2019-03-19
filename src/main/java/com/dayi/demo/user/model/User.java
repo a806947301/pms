@@ -1,9 +1,7 @@
 package com.dayi.demo.user.model;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.dayi.demo.common.entity.BaseEntity;
 
-import java.util.Date;
 
 /**
  * 用户 POJO类

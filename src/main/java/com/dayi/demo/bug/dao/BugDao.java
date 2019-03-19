@@ -1,7 +1,6 @@
 package com.dayi.demo.bug.dao;
 
 import com.dayi.demo.bug.model.Bug;
-import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;

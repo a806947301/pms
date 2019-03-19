@@ -2,9 +2,7 @@ package com.dayi.demo.user.service.impl;
 
 import com.dayi.demo.user.dao.LoginLogDao;
 import com.dayi.demo.user.model.LoginLog;
-import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.LoginLogService;
-import com.dayi.demo.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
