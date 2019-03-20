@@ -80,7 +80,7 @@
 
                             <div class="card-header bg-light">
                                 <div class="row">
-                                    <div class="col-md-9"><h4>{{product.productName}}</h4></div>
+                                    <div class="col-md-7"><h4>{{product.productName}}</h4></div>
                                     <div class="col-md-2">
                                         <shiro:hasPermission name="update:product">
                                         <button class="btn btn-block btn-outline-warning" type="button"
@@ -89,6 +89,12 @@
                                             更新产品信息
                                         </button>
                                         </shiro:hasPermission>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-block btn-outline-danger" type="button"
+                                                v-on:click="deleteproduct()">
+                                            删除产品
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -390,6 +396,18 @@
                     .then(function (response) {
                         vm.projects = response.data;
                     })
+            },
+            deleteproduct:function() {
+                params = new URLSearchParams();
+                params.append("productId", this.productId);
+                axios
+                    .post("/product/deleteProduct", params)
+                    .then(function (response) {
+                        alert(response.data.msg);
+                        if (response.data.success) {
+                            window.location.href = "/product/findProductPage"
+                        }
+                    });
             },
             updateProduct: function () {
                 params = new URLSearchParams();

@@ -224,4 +224,27 @@ public class ProductController extends BaseController {
         return productService.findByUser(user.getId(), currentPage, pageSize);
     }
 
+    /**
+     * 删除产品
+     *
+     * @param productId
+     * @return
+     */
+    @RequestMapping("/deleteProduct")
+    @ResponseBody
+    @RequiresPermissions("delete:product")
+    public JSONObject deleteProduct(String productId) {
+        //判断非空
+        if (null == productId || "".equals(productId)) {
+            return JsonUtil.packageJson(false, "", "产品Id不能为空");
+        }
+
+        //删除产品
+        try {
+            productService.delete(productId);
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
+        }
+        return JsonUtil.packageJson(true, "删除产品成功", "");
+    }
 }

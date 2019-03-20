@@ -5,6 +5,7 @@ import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.product.dao.ProductDao;
 import com.dayi.demo.product.model.Product;
 import com.dayi.demo.product.service.ProductService;
+import com.dayi.demo.project.model.Project;
 import com.dayi.demo.project.service.ProjectService;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.UserService;
@@ -130,5 +131,25 @@ public class ProductServiceImpl implements ProductService {
         List<Product> list = productDao.findByUser(userId);
         PageInfo<Product> pageInfo = new PageInfo<>(list);
         return pageInfo;
+    }
+
+    @Override
+    public void delete(String id) throws SystemException {
+        //判断产品参与者是否为空
+        List<User> participant = userService.findByProductId(id);
+        if (0 != participant.size()) {
+            throw new SystemException("参与者不为空");
+        }
+        //判断产品下项目是否为空
+        PageInfo<Project> projects = projectService.findByProductIdPage(id, 1, 1);
+        if (0 != projects.getSize()) {
+            throw new SystemException("该产品下还有项目");
+        }
+
+        //删除产品
+        int countDelete = productDao.delete(id);
+        if (0 == countDelete) {
+            throw new SystemException("删除失败");
+        }
     }
 }

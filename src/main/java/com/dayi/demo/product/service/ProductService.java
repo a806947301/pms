@@ -105,4 +105,12 @@ public interface ProductService {
      * @return
      */
     PageInfo<Product> findByUser(String userId, int currentPage, int pageSize);
+
+    /**
+     * 删除产品
+     *
+     * @param id
+     * @throws SystemException
+     */
+    void delete(String id) throws SystemException;
 }

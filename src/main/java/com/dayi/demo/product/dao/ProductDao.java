@@ -78,4 +78,12 @@ public interface ProductDao {
      * @return
      */
     List<Product> findByUser(String userId);
+
+    /**
+     * 删除产品
+     *
+     * @param id
+     * @return
+     */
+    int delete(String id);
 }

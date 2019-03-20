@@ -60,4 +60,8 @@
         </set>
         WHERE id = #{id}
     </update>
+
+    <delete id="delete">
+        DELETE FROM product WHERE id = #{0}
+    </delete>
 </mapper>
