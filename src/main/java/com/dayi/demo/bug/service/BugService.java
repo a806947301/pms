@@ -37,7 +37,7 @@ public interface BugService {
      * @param realPath  webapp地址
      * @return
      */
-    Map<String, String> bugImgUpload(MultipartFile file, String projectId, String realPath);
+    Map<String, String> doBugImgUpload(MultipartFile file, String projectId, String realPath);
 
     /**
      * 分页并筛选查看产品下的Bug

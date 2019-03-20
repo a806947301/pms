@@ -62,15 +62,16 @@ public class WordUtil {
         wordToHtmlConverter.setPicturesManager(new PicturesManager() {
             @Override
             public String savePicture(byte[] bytes, PictureType pictureType, String s, float v, float v1) {
+                FileOutputStream out = null;
                 try {
                     // 保存图片
-                    FileOutputStream out = new FileOutputStream(imagePathStr + "\\" + s);
+                    out = new FileOutputStream(imagePathStr + "\\" + s);
                     out.write(bytes);
-                    out.close();
                 } catch (Exception e) {
-                    synchronized (logger) {
-                        logger.error(FileOutputStream.class.toString() + "_" + e.getMessage(),e);
-                    }
+                    logger.error(WordUtil.class.toString() + "_" + e.getMessage(),e);
+                    try {
+                        out.close();
+                    } catch (Exception ex) {}
                     return "";
                 }
                 return imagePath + "\\" + s;

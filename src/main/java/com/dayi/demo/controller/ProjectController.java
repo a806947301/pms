@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 项目模块控制器
@@ -176,15 +177,16 @@ public class ProjectController extends BaseController {
     @RequestMapping("/deleteProject")
     @ResponseBody
     @RequiresPermissions("delete:project")
-    public JSONObject deleteProject(String projectId) {
+    public JSONObject deleteProject(String projectId, HttpServletRequest request) {
         //判断非空
         if (null == projectId || "".equals(projectId)) {
             return JsonUtil.packageJson(false, "", "字段必须非空");
         }
 
         //删除项目
+        String realPath = request.getSession().getServletContext().getRealPath("/imgs/" + projectId);
         try {
-            projectService.delete(projectId);
+            projectService.delete(projectId, realPath);
         } catch (SystemException e) {
             return JsonUtil.packageJson(false, "", e.getMessage());
         }

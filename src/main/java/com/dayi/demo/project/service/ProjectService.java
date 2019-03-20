@@ -78,8 +78,9 @@ public interface ProjectService {
      * 删除项目
      *
      * @param id
+     * @param realPath
      * @throws SystemException
      */
-    void delete(String id) throws SystemException;
+    void delete(String id, String realPath) throws SystemException;
 
 }

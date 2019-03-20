@@ -10,11 +10,15 @@ import com.dayi.demo.project.dao.ProjectDao;
 import com.dayi.demo.project.model.Project;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -26,6 +30,8 @@ import java.util.List;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class ProjectServiceImpl implements ProjectService {
+
+    private final static Logger logger = LoggerFactory.getLogger(ProjectServiceImpl.class);
 
     @Resource
     private ProjectDao projectDao;
@@ -106,7 +112,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void delete(String id) throws SystemException {
+    public void delete(String id, String realPath) throws SystemException {
         //判断项目是否有Bug
         PageInfo<Bug> bugs = bugService.findByProject(1, 1, id, null,
                 null, -1, null, null);
@@ -123,6 +129,14 @@ public class ProjectServiceImpl implements ProjectService {
         int countDelete = projectDao.delete(id);
         if (0 == countDelete) {
             throw new SystemException("删除失败");
+        }
+        File file = new File(realPath);
+        System.out.println(file.exists());
+        //删除项目文件
+        try {
+            FileUtils.deleteDirectory(new File(realPath));
+        } catch (Exception e) {
+            logger.error(ProjectServiceImpl.class.toString() + "_" + e.getMessage(), e);
         }
     }
 }

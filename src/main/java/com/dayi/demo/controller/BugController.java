@@ -99,7 +99,9 @@ public class BugController extends BaseController {
         }
         //获取真实路径
         String realPath = request.getSession().getServletContext().getRealPath("/");
-        return bugService.bugImgUpload(file, projectId, realPath);
+        Map<String, String> stringStringMap = bugService.doBugImgUpload(file, projectId, realPath);
+
+        return stringStringMap;
     }
 
     /**

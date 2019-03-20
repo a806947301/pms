@@ -71,7 +71,7 @@ public class BugServiceImpl implements BugService {
     }
 
     @Override
-    public Map<String, String> bugImgUpload(MultipartFile file, String projectId, String realPath) {
+    public Map<String, String> doBugImgUpload(MultipartFile file, String projectId, String realPath) {
         Map<String, String> result = new HashMap<String, String>(16);
         // 获取文件上传目录，如不存在，创建新目录
         File imgFilePath = new File(realPath + "\\imgs\\" + projectId);
@@ -83,10 +83,10 @@ public class BugServiceImpl implements BugService {
             file.transferTo(new File(imgFilePath, filename));
             result.put("success", "true");
             // 拼接图片src
-            String imgSrc = "/imgs/" + projectId + "/" + filename;
+           String imgSrc = "/imgs/" + projectId + "/" + filename;
             result.put("file_path", imgSrc);
         } catch (Exception e) {
-            logger.error(MultipartFile.class.toString() + "_" + e.getMessage(), e);
+            logger.error(BugServiceImpl.class.toString() + "_" + e.getMessage(), e);
             result.put("success", "false");
         }
         return result;

@@ -30,6 +30,7 @@ public interface BugOperatingRecordDao {
      * 删除指定BugId的Bug操作记录
      *
      * @param bugId
+     * @return
      */
     int deleteByBugId(String bugId);
 }
