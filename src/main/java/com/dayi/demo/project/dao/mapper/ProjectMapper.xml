@@ -55,6 +55,7 @@
         WHERE id = #{id}
     </update>
 
+    <!--更新完成状态-->
     <update id="updateIsFinished">
         UPDATE project
         <set>
@@ -63,4 +64,7 @@
         WHERE id = #{id}
     </update>
 
+    <delete id="delete">
+        DELETE FROM project WHERE id = #{0}
+    </delete>
 </mapper>

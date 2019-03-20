@@ -153,13 +153,12 @@ public class ProjectController extends BaseController {
      *
      * @param projectId
      * @param finished
-     * @param countBugNotfinished
      * @return
      */
     @RequestMapping("/updateProjectFinished")
     @ResponseBody
     @RequiresPermissions("update:project")
-    public JSONObject updateProjectFinished(String projectId, boolean finished, int countBugNotfinished) {
+    public JSONObject updateProjectFinished(String projectId, boolean finished) {
         //判断非空
         if (null == projectId || "".equals(projectId)) {
             return JsonUtil.packageJson(false, "", "字段必须非空");
@@ -167,10 +166,28 @@ public class ProjectController extends BaseController {
 
         //更新项目状态
         try {
-            projectService.updateProjectFinished(projectId, finished, countBugNotfinished);
+            projectService.updateProjectFinished(projectId, finished);
         } catch (SystemException e) {
             return JsonUtil.packageJson(false, "", e.getMessage());
         }
         return JsonUtil.packageJson(true, "更新成功", "");
+    }
+
+    @RequestMapping("/deleteProject")
+    @ResponseBody
+    @RequiresPermissions("delete:project")
+    public JSONObject deleteProject(String projectId) {
+        //判断非空
+        if (null == projectId || "".equals(projectId)) {
+            return JsonUtil.packageJson(false, "", "字段必须非空");
+        }
+
+        //删除项目
+        try {
+            projectService.delete(projectId);
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
+        }
+        return JsonUtil.packageJson(true, "删除项目成功", "");
     }
 }

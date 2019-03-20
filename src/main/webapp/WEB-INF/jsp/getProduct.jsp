@@ -91,10 +91,12 @@
                                         </shiro:hasPermission>
                                     </div>
                                     <div class="col-md-2">
+                                        <shiro:hasPermission name="delete:product">
                                         <button class="btn btn-block btn-outline-danger" type="button"
                                                 v-on:click="deleteproduct()">
                                             删除产品
                                         </button>
+                                        </shiro:hasPermission>
                                     </div>
                                 </div>
                             </div>

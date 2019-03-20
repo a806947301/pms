@@ -15,6 +15,7 @@ import java.util.List;
 public interface ProjectService {
     /**
      * 添加项目
+     *
      * @param project
      * @return
      * @throws SystemException
@@ -57,6 +58,7 @@ public interface ProjectService {
 
     /**
      * 更新项目
+     *
      * @param project
      * @throws SystemException
      */
@@ -64,12 +66,20 @@ public interface ProjectService {
 
     /**
      * 更新项目完成状态
+     *
      * @param projectId
      * @param finished
-     * @param countBugNotfinished 未完成的Bug量
      * @return
      * @throws SystemException
      */
-    void updateProjectFinished(String projectId, boolean finished, int countBugNotfinished)  throws SystemException;
+    void updateProjectFinished(String projectId, boolean finished) throws SystemException;
+
+    /**
+     * 删除项目
+     *
+     * @param id
+     * @throws SystemException
+     */
+    void delete(String id) throws SystemException;
 
 }

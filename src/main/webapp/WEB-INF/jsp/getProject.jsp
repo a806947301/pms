@@ -79,7 +79,8 @@
                                     <div class="col-md-8">{{project.projectName}}</div>
                                     <div class="col-md-2">
                                         <shiro:hasPermission name="update:project">
-                                        <button class="btn btn-block btn-outline-warning" type="button" data-toggle="modal" data-target="#updateProjectModal"
+                                        <button class="btn btn-block btn-outline-warning" type="button"
+                                                data-toggle="modal" data-target="#updateProjectModal"
                                                 v-on:click="beforeUpdate()">更新项目信息</button>
                                         </shiro:hasPermission>
                                     </div>
@@ -94,6 +95,12 @@
                                                 v-on:click="finishedVm.beforeVm(project.id,true)">
                                             <i class="fa fa-clipboard"></i> &nbsp; 未完成
                                         </button>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <shiro:hasPermission name="delete:project">
+                                            <button class="btn btn-block btn-outline-danger" type="button"
+                                                    v-on:click="deleteProject()">删除项目</button>
+                                        </shiro:hasPermission>
                                     </div>
                                 </div>
                             </div>
@@ -394,7 +401,6 @@
                 params = new URLSearchParams();
                 params.append("projectId",this.id);
                 params.append("finished",this.finished);
-                params.append("countBugNotfinished",vm.countBugNofinished);
                 axios
                     .post("/project/updateProjectFinished",params)
                     .then(function (response) {
@@ -466,6 +472,18 @@
                 })
         },
         methods:{
+            deleteProject:function() {
+                params = new URLSearchParams();
+                params.append("projectId",this.projectId);
+                axios
+                    .post("/project/deleteProject",params)
+                    .then(function (response) {
+                        alert(response.data.msg);
+                        if(response.data.success) {
+                            window.location.href = "project/findProjectPage"
+                        }
+                    });
+            },
             beforeUpdate:function() {
                 updateVm.project = JSON.parse(JSON.stringify(this.project));
                 updateVm.project.beginDate = dateFormat (updateVm.project.beginDate);

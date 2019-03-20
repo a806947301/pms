@@ -15,6 +15,7 @@ public interface ProjectDao {
 
     /**
      * 添加项目
+     *
      * @param project
      * @return
      */
@@ -22,12 +23,14 @@ public interface ProjectDao {
 
     /**
      * 查找所有项目
+     *
      * @return
      */
     List<Project> findAll();
 
     /**
      * 获取指定项目
+     *
      * @param id
      * @return
      */
@@ -35,6 +38,7 @@ public interface ProjectDao {
 
     /**
      * 更新项目
+     *
      * @param project
      * @return
      */
@@ -42,6 +46,7 @@ public interface ProjectDao {
 
     /**
      * 查找指定产品下的项目
+     *
      * @param productId
      * @return
      */
@@ -49,9 +54,18 @@ public interface ProjectDao {
 
     /**
      * 更新项目完成状态
+     *
      * @param id
      * @param finished
      * @return
      */
     int updateIsFinished(@Param("id") String id, @Param("finished") boolean finished);
+
+    /**
+     * 删除项目
+     *
+     * @param id
+     * @return
+     */
+    int delete(String id);
 }
