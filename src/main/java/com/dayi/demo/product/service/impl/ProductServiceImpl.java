@@ -11,6 +11,7 @@ import com.dayi.demo.user.service.UserService;
 import com.dayi.demo.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,11 +44,10 @@ public class ProductServiceImpl implements ProductService {
         // 添加产品
         int countAdd = productDao.add(product);
 
-        //  添加产品成员
-        addParticipator(product.getId(), participators);
-
         // 判断产品是否添加成功
         if (countAdd != 0) {
+            //  添加产品成员
+            addParticipator(product.getId(), participators);
             return product.getId();
         }
         throw new SystemException("操作失败");
@@ -81,22 +81,17 @@ public class ProductServiceImpl implements ProductService {
         }
         // 添加产品成员
         int countAdd = 0;
+        ProductService serviceProxy = (ProductService) AopContext.currentProxy();
+        BaseEntity entity;
         for (String participator : newParticipator) {
-            BaseEntity entity = new BaseEntity() ;
-            countAdd += addParticipator(entity, id, participator);
+            entity = new BaseEntity() ;
+            countAdd += serviceProxy.addParticipator(entity, id, participator);
         }
         return countAdd;
     }
 
-    /**
-     * 添加产品参与者
-     *
-     * @param entity
-     * @param productId
-     * @param participatorId
-     * @return
-     */
-    private int addParticipator(BaseEntity entity, String productId, String participatorId) {
+    @Override
+    public int addParticipator(BaseEntity entity, String productId, String participatorId) {
         return productDao.addParticipator(entity.getId(), productId,
                 participatorId, entity.getAddTime(), entity.getUpdateTime());
     }

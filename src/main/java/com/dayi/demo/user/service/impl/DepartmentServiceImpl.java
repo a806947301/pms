@@ -5,6 +5,7 @@ import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.dao.DepartmentDao;
 import com.dayi.demo.user.model.Department;
 import com.dayi.demo.user.service.DepartmentService;
+import com.dayi.demo.user.service.UserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Resource
     private DepartmentDao departmentDao;
 
+    @Resource
+    private UserService userService;
+
     /**
      * 删除部门
      *
@@ -33,6 +37,13 @@ public class DepartmentServiceImpl implements DepartmentService {
      */
     @Override
     public void delete(String id) throws SystemException {
+        //判断该部门下是否有用户
+        int countUser = userService.countDepartmentId(id);
+        if(0 != countUser) {
+            throw new SystemException("部门人数不为0");
+        }
+
+        //删除部门
         int countDelete = departmentDao.delete(id);
         if (0 == countDelete) {
             throw new SystemException("删除失败");

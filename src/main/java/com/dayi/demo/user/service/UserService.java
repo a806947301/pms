@@ -131,4 +131,12 @@ public interface UserService {
      * @return
      */
     boolean doExistEmail(String email);
+
+    /**
+     * 部门的人数
+     *
+     * @param departmentId
+     * @return
+     */
+    int countDepartmentId(String departmentId);
 }

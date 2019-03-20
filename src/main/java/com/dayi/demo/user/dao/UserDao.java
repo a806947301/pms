@@ -15,18 +15,21 @@ public interface UserDao {
 
     /**
      * 查找用户
+     *
      * @return
      */
     List<User> findAll();
 
     /**
      * 查找所有用户，包括已停用的
+     *
      * @return
      */
     List<User> findAllIncludeStopped();
 
     /**
      * 添加用户
+     *
      * @param user
      * @return
      */
@@ -34,6 +37,7 @@ public interface UserDao {
 
     /**
      * 更新用户
+     *
      * @param user
      * @return
      */
@@ -41,6 +45,7 @@ public interface UserDao {
 
     /**
      * 查找指定产品下的用户
+     *
      * @param productId
      * @return
      */
@@ -48,14 +53,16 @@ public interface UserDao {
 
     /**
      * 查找指定产品指定角色的用户
+     *
      * @param productId
      * @param roleId
      * @return
      */
-    List<User> findUserByproductIdRole(@Param("productId") String productId,@Param("roleId") String roleId);
+    List<User> findUserByproductIdRole(@Param("productId") String productId, @Param("roleId") String roleId);
 
     /**
      * 根据用户角色表查询用户
+     *
      * @param userId
      * @param roleId
      * @return
@@ -64,6 +71,7 @@ public interface UserDao {
 
     /**
      * 获取指定用户
+     *
      * @param id
      * @return
      */
@@ -71,6 +79,7 @@ public interface UserDao {
 
     /**
      * 根据邮箱获取指定用户
+     *
      * @param email 邮箱
      * @return
      */
@@ -78,10 +87,19 @@ public interface UserDao {
 
     /**
      * 获取指定的产品参与者
+     *
      * @param productId
      * @param userId
      * @return
      */
     User getProductUser(@Param("productId") String productId, @Param("userId") String userId);
+
+    /**
+     * 查找部门人数
+     *
+     * @param departmentId
+     * @return
+     */
+    int countDepartmentId(String departmentId);
 
 }

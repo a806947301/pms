@@ -1,6 +1,7 @@
 package com.dayi.demo.user.service;
 
 import com.alibaba.fastjson.JSONArray;
+import com.dayi.demo.common.entity.BaseEntity;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.Premission;
 import com.github.pagehelper.PageInfo;
@@ -78,6 +79,16 @@ public interface PremissionService {
      * @return
      */
     int doAuthorization(String roleId, String[] premissionsId);
+
+    /**
+     * 给角色授权
+     *
+     * @param entity
+     * @param roleId
+     * @param premissionId
+     * @return
+     */
+    public int addRolePremission(BaseEntity entity, String roleId, String premissionId);
 
     /**
      * 删除权限

@@ -6,7 +6,6 @@
         <result property="addTime" column="addtime"></result>
         <result property="updateTime" column="updatetime"></result>
         <result property="name" column="name"></result>
-        <!--<result property="departmentId" column="department_id"></result>-->
         <result property="jobNumber" column="job_number"></result>
         <result property="email" column="email"></result>
         <result property="password" column="password"></result>
@@ -72,6 +71,10 @@
     <select id="getByEmail" resultMap="userResultMap">
         <include refid="selectAllColumnUser"/>
         user WHERE email = #{0} AND is_stopped = 0
+    </select>
+
+    <select id="countDepartmentId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM user WHERE department_id = #{0}
     </select>
 
     <insert id="add">

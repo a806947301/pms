@@ -2,6 +2,7 @@ package com.dayi.demo.user.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dayi.demo.common.entity.BaseEntity;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.dao.PremissionDao;
 import com.dayi.demo.user.model.Premission;
@@ -9,6 +10,8 @@ import com.dayi.demo.user.service.PremissionService;
 import com.dayi.demo.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -114,14 +117,24 @@ public class PremissionServiceImpl implements PremissionService {
 
     @Override
     public int doAuthorization(String roleId, String[] premissionsId) {
+        //删除已有权限
         premissionDao.deleteRolePremission(roleId, null);
-        premissionDao.deleteRolePremission(roleId, null);
+
+        //授权
         int countAdd = 0;
+        BaseEntity entity;
+        PremissionService proxyService = (PremissionService) AopContext.currentProxy();
         for (String premissionId : premissionsId) {
-            countAdd += premissionDao.addRolePremission(IdUtil.getPrimaryKey(),
-                    new Date(), new Date(), roleId, premissionId);
+            entity = new BaseEntity();
+            countAdd += proxyService.addRolePremission(entity, roleId, premissionId);
         }
         return countAdd;
+    }
+
+    @Override
+    public int addRolePremission(BaseEntity entity, String roleId, String premissionId) {
+        return premissionDao.addRolePremission(entity.getId(), entity.getAddTime(), entity.getUpdateTime(),
+                roleId, premissionId);
     }
 
     @Override

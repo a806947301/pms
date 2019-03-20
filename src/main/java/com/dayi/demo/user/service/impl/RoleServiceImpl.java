@@ -1,5 +1,6 @@
 package com.dayi.demo.user.service.impl;
 
+import com.dayi.demo.common.entity.BaseEntity;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.dao.RoleDao;
 import com.dayi.demo.user.model.Premission;
@@ -9,6 +10,7 @@ import com.dayi.demo.user.service.RoleService;
 import com.dayi.demo.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,10 +77,26 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void doAscribedRole(String userId, String roleId) throws SystemException{
-        int countAdd = roleDao.addUserRole(IdUtil.getPrimaryKey(), new Date(), new Date(), userId, roleId);
+        BaseEntity entity = new BaseEntity();
+        RoleService serviceProxy = (RoleService) AopContext.currentProxy();
+        int countAdd = serviceProxy.addUserRole(entity, userId, roleId);
         if (0 == countAdd) {
             throw new SystemException("操作失败");
         }
+    }
+
+    /**
+     * 给用户添加角色
+     *
+     * @param entity
+     * @param userId
+     * @param roleId
+     * @return
+     */
+    @Override
+    public int addUserRole(BaseEntity entity, String userId, String roleId) {
+        return roleDao.addUserRole(entity.getId(), entity.getAddTime(), entity.getUpdateTime(),
+                userId, roleId);
     }
 
     @Override

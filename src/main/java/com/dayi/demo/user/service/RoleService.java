@@ -1,5 +1,6 @@
 package com.dayi.demo.user.service;
 
+import com.dayi.demo.common.entity.BaseEntity;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.Role;
 import com.github.pagehelper.PageInfo;
@@ -73,6 +74,16 @@ public interface RoleService {
      * @throws SystemException
      */
     void doCancelRole(String userId, String roleId) throws SystemException ;
+
+    /**
+     * 添加指定用户的角色
+     *
+     * @param entity
+     * @param userId
+     * @param roleId
+     * @return
+     */
+    int addUserRole(BaseEntity entity, String userId, String roleId);
 
     /**
      * 删除角色

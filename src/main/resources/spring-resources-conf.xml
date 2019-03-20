@@ -16,5 +16,5 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 	<!--开启aop注解-->
-	<aop:aspectj-autoproxy/>
+	<aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

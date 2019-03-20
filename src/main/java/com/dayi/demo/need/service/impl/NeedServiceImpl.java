@@ -137,14 +137,6 @@ public class NeedServiceImpl implements NeedService {
         return doPackageTreeFile(unZipPath, realpath);
     }
 
-    public static void main(String[] args) {
-        String realPath = "D:\\考核内容\\Newbie-master-ceda5f96f9dcd2dffdca3c15197669fd6c36308a\\demo\\src\\main\\webapp";
-        String base = "\\needFile\\0RKkRdiBOX8C\\jf";
-        File file = new File(realPath + "\\" + base);
-        String absolutePath = file.getAbsolutePath();
-        System.out.println(absolutePath.substring(realPath.length(), absolutePath.length()));
-    }
-
     /**
      * 把文件夹封装成树状Json
      *

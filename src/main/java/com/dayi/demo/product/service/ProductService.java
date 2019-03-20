@@ -1,5 +1,6 @@
 package com.dayi.demo.product.service;
 
+import com.dayi.demo.common.entity.BaseEntity;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.product.model.Product;
 import com.dayi.demo.user.model.User;
@@ -69,6 +70,16 @@ public interface ProductService {
      * @throws SystemException
      */
     void deleteParticipator(String productId, String userId) throws SystemException;
+
+    /**
+     * 添加产品参与者
+     *
+     * @param entity
+     * @param productId
+     * @param participatorId
+     * @return
+     */
+    public int addParticipator(BaseEntity entity, String productId, String participatorId);
 
     /**
      * 更新产品信息

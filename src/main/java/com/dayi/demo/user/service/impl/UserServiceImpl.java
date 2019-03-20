@@ -162,6 +162,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean doExistEmail(String email) {
         User user = userDao.getByEmail(email);
-        return user != null;
+        return (user != null);
+    }
+
+    @Override
+    public int countDepartmentId(String departmentId) {
+        return userDao.countDepartmentId(departmentId);
     }
 }
