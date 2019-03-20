@@ -29,4 +29,11 @@ public interface BugOperatingRecordService {
      * @throws SystemException
      */
     void add(BugOperatingRecord record) throws SystemException;
+
+    /**
+     * 删除指定BugId的Bug操作记录
+     *
+     * @param bugId
+     */
+    void deleteByBugId(String bugId);
 }

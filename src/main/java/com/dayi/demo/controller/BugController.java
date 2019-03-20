@@ -7,6 +7,7 @@ import com.dayi.demo.bug.model.BugOperatingRecord;
 import com.dayi.demo.bug.service.BugOperatingRecordService;
 import com.dayi.demo.bug.service.BugService;
 import com.dayi.demo.common.controller.BaseController;
+import com.dayi.demo.common.entity.BaseEntity;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.util.JsonUtil;
@@ -317,4 +318,44 @@ public class BugController extends BaseController {
         return bugService.findByUserDesignee(user.getId(), currentPage, pageSize);
     }
 
+    @RequestMapping("/updateBug")
+    @ResponseBody
+    public JSONObject updateBug(Bug bug) {
+        //判断非空
+        if (BaseEntity.hasEmpty(bug, true)) {
+            return JsonUtil.packageJson(false, "", "id不能为空");
+        }
+        String title = bug.getBugTitle();
+        if (null == title || "".equals(title)) {
+            return JsonUtil.packageJson(false, "", "标题不能为空");
+        }
+        String content = bug.getBugContent();
+        if (null == content || "".equals(content)) {
+            return JsonUtil.packageJson(false, "", "内容不能为空");
+        }
+
+        //更新Bug
+        try {
+            bugService.update(bug, getCurrentUser());
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
+        }
+        return JsonUtil.packageJson(true,"更新Bug成功", "");
+    }
+
+    @RequestMapping("/deleteBug")
+    @ResponseBody
+    public JSONObject deleteBug(String bugId) {
+        //判断非空
+        if (null == bugId || "".equals(bugId)) {
+            return JsonUtil.packageJson(false,"","Bug id不能为空");
+        }
+
+        try {
+            bugService.delete(bugId, getCurrentUser());
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false,"",e.getMessage());
+        }
+        return JsonUtil.packageJson(true,"删除Bug成功","");
+    }
 }

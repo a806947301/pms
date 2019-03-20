@@ -81,12 +81,12 @@
                             <div class="card-header bg-light">
                                 <div class="row">
                                     <div class="col-md-8">{{bug.bugTitle}}</div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-1">
                                         <div v-if="bug.noProcessing">
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-1">
                                         <div  v-if="bug.bugStatus==3">
                                             <button class="btn btn-success">已完成</button>
                                         </div>
@@ -101,6 +101,14 @@
                                             <button class="btn btn-danger">指派中</button>
                                         </div>
 
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button class="btn btn-outline-primary" type="button" v-on:click="beforeUpdate()"
+                                                data-toggle="modal" data-target="#updateBug">修改</button>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button class="btn btn-outline-dark" type="button" v-on:click="deleteBug()"
+                                            >删除</button>
                                     </div>
 
                                 </div>
@@ -119,19 +127,24 @@
                                 </div>
                             </div>
                             <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
-                                <button class="btn btn-outline-danger" type="button" v-if="(bug.bugStatus==0&&bug.bugProcesser.id=='<%=user.getId()%>') || (bug.bugStatus==2&&bug.bugProposer.id=='<%=user.getId()%>')"
+                                <button class="btn btn-outline-danger" type="button"
+                                        v-if="(bug.bugStatus==0&&bug.bugProcesser.id=='<%=user.getId()%>') || (bug.bugStatus==2&&bug.bugProposer.id=='<%=user.getId()%>')"
                                         data-toggle="modal" data-target="#redesignate">
                                     重新指派
                                 </button>
-                                <button class="btn btn-outline-warning" type="button" v-if="bug.bugStatus==1 && bug.bugProcesser.id=='<%=user.getId()%>'"
+                                <button class="btn btn-outline-warning" type="button"
+                                        v-if="bug.bugStatus==1 && bug.bugProcesser.id=='<%=user.getId()%>'"
                                     v-on:click="noProcessing()">设置不予处理</button>
-                                <button class="btn btn-outline-primary" type="button" v-if="bug.bugStatus==1 && bug.bugProcesser.id=='<%=user.getId()%>'"
+                                <button class="btn btn-outline-primary" type="button"
+                                        v-if="bug.bugStatus==1 && bug.bugProcesser.id=='<%=user.getId()%>'"
                                         data-toggle="modal" data-target="#addDescription">添加说明</button>
-                                <button class="btn btn-outline-info" type="button"  v-if="bug.bugStatus==0 && bug.bugProcesser.id=='<%=user.getId()%>'"
+                                <button class="btn btn-outline-info" type="button"
+                                        v-if="bug.bugStatus==0 && bug.bugProcesser.id=='<%=user.getId()%>'"
                                         v-on:click="processSelf()">
                                     自己处理
                                 </button>
-                                <button class="btn btn-outline-success" type="button" v-if="bug.bugStatus==2 && bug.bugProposer.id=='<%=user.getId()%>'"
+                                <button class="btn btn-outline-success" type="button"
+                                        v-if="bug.bugStatus==2 && bug.bugProposer.id=='<%=user.getId()%>'"
                                     v-on:click="closeBug()">关闭Bug</button>
                             </div>
                         </div>
@@ -270,7 +283,31 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-
+<%--更新Bug信息模拟框--%>
+<div class="modal fade bs-example-modal-lg" id="updateBug" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="width: 1000px;">
+            <div class="modal-header">
+                <h4 class="modal-title" >修改Bug</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label><h5>标题</h5></label>
+                    <input type="text" class="form-control" v-model="title">
+                </div>
+                <div class="form-group">
+                    <label><h5>内容</h5></label>
+                    <textarea id="editor" placeholder="Balabala" autofocus></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="updateBug()">提交更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/popper.js/popper.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -289,6 +326,31 @@
 <script src="/js/vue.min.js"></script>
 
 <script>
+
+    var updateVm = new Vue({
+        el:"#updateBug",
+        data:{
+            bugId:null,
+            title:null
+        },
+        methods:{
+            updateBug:function() {
+                params = new URLSearchParams();
+                params.append("id", this.bugId);
+                params.append("bugTitle", this.title);
+                params.append("bugContent", editor.getValue());
+                axios
+                    .post("/bug/updateBug",params)
+                    .then(function (response) {
+                        alert(response.data.msg);
+                        vm.getBug();
+                    });
+
+
+            }
+
+        }
+    })
     var bugOperatingRecordVm = new Vue({
         el:'#bugOperatingRecord',
         data:{
@@ -388,20 +450,40 @@
             }
         },
         created:function(){
-            this.bugId = window.location.href.split('/')[window.location.href.split('/').length-1];
-            params = new URLSearchParams();
-            params.append("id",this.bugId)
-            axios
-                .post("/bug/getBug",params)
-                .then(function (response) {
-                    vm.bug = response.data;
-                    vm.projectId = vm.bug.project.id;
-                    vm.productId = vm.bug.project.product.id;
-                    redesignateVm.loadPerson();
-                });
-
+            this.getBug();
         },
         methods:{
+            deleteBug:function() {
+                params = new URLSearchParams();
+                params.append("bugId",this.bugId);
+                axios
+                    .post("/bug/deleteBug",params)
+                    .then(function (response) {
+                        alert(response.data.msg);
+                        if (response.data.success) {
+                            window.location.href = "/project/getProjectPage/" + vm.bug.project.id;
+                        }
+                    });
+            },
+            getBug:function() {
+                this.bugId = window.location.href.split('/')[window.location.href.split('/').length-1];
+                params = new URLSearchParams();
+                params.append("id",this.bugId)
+                axios
+                    .post("/bug/getBug",params)
+                    .then(function (response) {
+                        vm.bug = response.data;
+                        vm.projectId = vm.bug.project.id;
+                        vm.productId = vm.bug.project.product.id;
+                        redesignateVm.loadPerson();
+                        f();
+                    });
+            },
+            beforeUpdate:function() {
+                updateVm.bugId = this.bug.id;
+                updateVm.title = this.bug.bugTitle;
+                editor.setValue(this.bug.bugContent);
+            },
             reloadBug:function() {
                 params = new URLSearchParams();
                 params.append("id",this.bugId);
@@ -537,6 +619,26 @@
             : "0" + val.getDate();
         return year + "-" + month + "-" + date;
     }
+
+    function f() {
+        Simditor.locale = 'zh-CN';//设置中文
+        editor = new Simditor({
+            textarea: $("#editor"),  //textarea的id
+            placeholder: '',
+            toolbar: ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', '|', 'ol',
+                'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment'], //工具条都包含哪些内容
+            pasteImage: true,//允许粘贴图片
+            defaultImage: '/simditor/images/image.png',//编辑器插入的默认图片，此处可以删除
+            upload: {
+                url: '/bug/bugImgUpload', //文件上传的接口地址
+                params: {projectId: vm.projectId}, //键值对,指定文件上传接口的额外参数,上传的时候随文件一起提交
+                fileKey: 'file', //服务器端获取文件数据的参数名
+                connectionCount: 3,
+                leaveConfirm: '正在上传文件'
+            }
+        });
+    }
+
 </script>
 </body>
 </html>

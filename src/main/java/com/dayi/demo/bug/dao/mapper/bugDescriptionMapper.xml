@@ -20,4 +20,8 @@
         SELECT id,addtime,updatetime,content FROM bug_description
         WHERE bug_id = #{0}  ORDER BY addtime
     </select>
+
+    <delete id="deleteByBugId">
+        DELETE FROM bug_description WHERE bug_id = #{0}
+    </delete>
 </mapper>

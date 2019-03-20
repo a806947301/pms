@@ -25,4 +25,11 @@ public interface BugOperatingRecordDao {
      * @return
      */
     List<BugOperatingRecord> findBugOperatingRecordByBugId(String bugId);
+
+    /**
+     * 删除指定BugId的Bug操作记录
+     *
+     * @param bugId
+     */
+    int deleteByBugId(String bugId);
 }

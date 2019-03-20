@@ -5,6 +5,7 @@ import com.dayi.demo.bug.dao.BugDao;
 import com.dayi.demo.bug.dao.BugDescriptionDao;
 import com.dayi.demo.bug.model.Bug;
 import com.dayi.demo.bug.model.BugDescription;
+import com.dayi.demo.bug.service.BugOperatingRecordService;
 import com.dayi.demo.bug.service.BugService;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.User;
@@ -15,6 +16,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,6 +45,9 @@ public class BugServiceImpl implements BugService {
 
     @Resource
     private UserService userService;
+
+    @Autowired
+    private BugOperatingRecordService recordService;
 
     @Override
     public String add(Bug bug, User currentUser) throws SystemException {
@@ -118,7 +123,7 @@ public class BugServiceImpl implements BugService {
         bug.setBugStatus(Bug.Status.DESIGNATE.getValue());
         bug.setBugProcesser(userService.get(userId));
         bug.setNoProcessing(false);
-        int countAdd = update(bug);
+        int countAdd = update(bug, null);
 
         //更新成功
         if (countAdd != 0) {
@@ -145,7 +150,7 @@ public class BugServiceImpl implements BugService {
 
         //更新Bug状态
         bug.setBugStatus(Bug.Status.PROCESSER.getValue());
-        int countAdd = update(bug);
+        int countAdd = update(bug, null);
         if (countAdd != 0) {
             return countAdd;
         }
@@ -166,7 +171,7 @@ public class BugServiceImpl implements BugService {
         Date updateTime = new Date();
         bug.setBugStatus(Bug.Status.CHECKING.getValue());
         bug.setNoProcessing(true);
-        int countAdd = update(bug);
+        int countAdd = update(bug, null);
 
         if (countAdd != 0) {
             //发送邮箱
@@ -190,7 +195,7 @@ public class BugServiceImpl implements BugService {
 
         //修改Bug状态
         bug.setBugStatus(Bug.Status.FINISHED.getValue());
-        int countAdd = update(bug);
+        int countAdd = update(bug, null);
 
         if (countAdd != 0) {
             //发送邮件
@@ -218,7 +223,7 @@ public class BugServiceImpl implements BugService {
         if (countAdd != 0) {
             //更新Bug状态
             bug.setBugStatus(Bug.Status.CHECKING.getValue());
-            int countUpdate = update(bug);
+            int countUpdate = update(bug, null);
             if (0 == countUpdate) {
                 throw new SystemException("操作失败");
             }
@@ -233,14 +238,22 @@ public class BugServiceImpl implements BugService {
         throw new SystemException("操作失败");
     }
 
-    /**
-     * 更新Bug
-     *
-     * @param bug
-     * @return
-     */
-    private int update(Bug bug) {
-        return bugDao.update(bug);
+    @Override
+    public int update(Bug bug, User currentUser) throws SystemException {
+        if (null != currentUser) {
+            //判断是否本人
+            Bug oldBug = get(bug.getId());
+            boolean isProposer = currentUser.getId().equals(oldBug.getBugProposer().getId());
+            if (!isProposer) {
+                throw new SystemException("您不是Bug提出者本人");
+            }
+
+            //更新Bug
+            return bugDao.update(bug);
+        } else {
+            bug.setUpdateTime(new Date());
+            return bugDao.update(bug);
+        }
     }
 
     /**
@@ -333,5 +346,29 @@ public class BugServiceImpl implements BugService {
         List<Bug> list = bugDao.findByUserDesignee(userId);
         PageInfo<Bug> pageInfo = new PageInfo<>(list);
         return pageInfo;
+    }
+
+    @Override
+    public void delete(String bugId, User currentUser) throws SystemException {
+        //判断是否存在
+        Bug bug = get(bugId);
+        if (null == bug) {
+            throw new SystemException("不存在Bug");
+        }
+        boolean isProposer = currentUser.getId().equals(bug.getBugProposer().getId());
+        //判断是否本人
+        if (!isProposer) {
+            throw new SystemException("您不是Bug提出者");
+        }
+
+        //删除Bug说明
+        bugDescriptionDao.deleteByBugId(bugId);
+        //删除Bug记录
+        recordService.deleteByBugId(bugId);
+        //删除Bug
+        int countDelete = bugDao.delete(bugId);
+        if (0 == countDelete) {
+            throw new SystemException("操作失败");
+        }
     }
 }

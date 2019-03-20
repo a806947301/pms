@@ -25,4 +25,12 @@ public interface BugDescriptionDao {
      * @return
      */
     List<BugDescription> findByBugId(String bugId);
+
+    /**
+     * 删除指定BugId的所有说明
+     *
+     * @param bugId
+     * @return
+     */
+    int deleteByBugId(String bugId);
 }

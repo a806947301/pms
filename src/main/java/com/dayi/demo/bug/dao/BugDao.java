@@ -85,4 +85,12 @@ public interface BugDao {
      * @return
      */
     List<Bug> findByUserDesignee(String userId);
+
+    /**
+     * 删除Bug
+     *
+     * @param id
+     * @return
+     */
+    int delete(String id);
 }

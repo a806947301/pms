@@ -163,4 +163,22 @@ public interface BugService {
      */
     PageInfo<Bug> findByUserDesignee(String userId, int currentPage, int pageSize);
 
+    /**
+     * 更新Bug
+     *
+     * @param bug
+     * @param currentUser
+     * @return
+     * @throws SystemException
+     */
+    int update(Bug bug, User currentUser) throws SystemException;
+
+    /**
+     * 删除Bug
+     *
+     * @param bugId
+     * @param currentUser
+     * @throws SystemException
+     */
+    void delete(String bugId, User currentUser) throws SystemException;
 }

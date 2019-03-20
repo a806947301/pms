@@ -26,4 +26,7 @@
         VALUES (#{id}, #{addTime}, #{updateTime}, #{user.id}, #{operationNumber}, #{bugId}, #{operationUser.id})
     </insert>
 
+    <delete id="deleteByBugId">
+        DELETE FROM bug_operating_record WHERE bug_id = #{0}
+    </delete>
 </mapper>

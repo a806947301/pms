@@ -42,4 +42,9 @@ public class BugOperetingRecordServiceImpl implements BugOperatingRecordService 
     public void add(BugOperatingRecord record) throws SystemException {
         bugOperatingRecordDao.addBugOperatingRecord(record);
     }
+
+    @Override
+    public void deleteByBugId(String bugId) {
+        bugOperatingRecordDao.deleteByBugId(bugId);
+    }
 }
