@@ -109,18 +109,6 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-    /**
-     * 把明文密码进行加密
-     *
-     * @param user
-     * @return
-     */
-    private String encryptMd5(User user) {
-        ByteSource source = ByteSource.Util.bytes(user.getId());
-        String result = new SimpleHash("MD5", user.getPassword(), source, 2).toHex();
-        return result;
-    }
-
     @Override
     public void updateStopped(String id, boolean stopped) throws SystemException {
         //判断是否存在用户
@@ -173,5 +161,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public int countDepartmentId(String departmentId) {
         return userDao.countDepartmentId(departmentId);
+    }
+
+    /**
+     * 把明文密码进行加密
+     *
+     * @param user
+     * @return
+     */
+    private String encryptMd5(User user) {
+        ByteSource source = ByteSource.Util.bytes(user.getId());
+        String result = new SimpleHash("MD5", user.getPassword(), source, 2).toHex();
+        return result;
     }
 }

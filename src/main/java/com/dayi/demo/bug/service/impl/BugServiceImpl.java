@@ -258,24 +258,6 @@ public class BugServiceImpl implements BugService {
         }
     }
 
-    /**
-     * 发送邮件
-     *
-     * @param email   邮箱号
-     * @param title   邮件标题
-     * @param content 邮件内容
-     * @return
-     */
-    private boolean sendMail(String email, String title, String content) {
-        try {
-            MailUtil.sendMail(email, title, content);
-            return true;
-        } catch (Exception e) {
-            logger.error(MailUtil.class.toString() + "_" + e.getMessage(), e);
-            return false;
-        }
-    }
-
     @Override
     public PageInfo<BugDescription> findDescriptionByBugId(String bugId, int currentPage, int pageSize) {
         PageHelper.startPage(currentPage, pageSize);
@@ -352,6 +334,24 @@ public class BugServiceImpl implements BugService {
         int countDelete = bugDao.delete(bugId);
         if (0 == countDelete) {
             throw new SystemException("操作失败");
+        }
+    }
+
+    /**
+     * 发送邮件
+     *
+     * @param email   邮箱号
+     * @param title   邮件标题
+     * @param content 邮件内容
+     * @return
+     */
+    private boolean sendMail(String email, String title, String content) {
+        try {
+            MailUtil.sendMail(email, title, content);
+            return true;
+        } catch (Exception e) {
+            logger.error(MailUtil.class.toString() + "_" + e.getMessage(), e);
+            return false;
         }
     }
 }

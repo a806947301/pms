@@ -35,6 +35,30 @@ public class WordUtil {
     private static final String DOCX = ".docx";
 
     /**
+     * word转换成html
+     *
+     * @param filepath       源文件路径
+     * @param imagePath      图片相对源文件路径
+     * @param sourceFileName 源文件文件名
+     * @return
+     * @throws Exception
+     */
+    public static String wordToHtml(String filepath, String imagePath, String sourceFileName) throws SystemException {
+        try {
+            if (sourceFileName.endsWith(DOC)) {
+                return docToHtml(filepath, imagePath, sourceFileName);
+            } else if (sourceFileName.endsWith(DOCX)) {
+                return docxToHtml(filepath, imagePath, sourceFileName);
+            } else {
+                throw new SystemException("需求文件格式不正确");
+            }
+        } catch (Exception e) {
+            logger.error(WordUtil.class.toString() + "_" + e.getMessage(), e);
+            throw new SystemException("文件转换失败");
+        }
+    }
+
+    /**
      * doc转换成html
      *
      * @param filepath       源文件路径
@@ -124,29 +148,5 @@ public class WordUtil {
             }
         }
         return targetFileName;
-    }
-
-    /**
-     * word转换成html
-     *
-     * @param filepath       源文件路径
-     * @param imagePath      图片相对源文件路径
-     * @param sourceFileName 源文件文件名
-     * @return
-     * @throws Exception
-     */
-    public static String wordToHtml(String filepath, String imagePath, String sourceFileName) throws SystemException {
-        try {
-            if (sourceFileName.endsWith(DOC)) {
-                return docToHtml(filepath, imagePath, sourceFileName);
-            } else if (sourceFileName.endsWith(DOCX)) {
-                return docxToHtml(filepath, imagePath, sourceFileName);
-            } else {
-                throw new SystemException("需求文件格式不正确");
-            }
-        } catch (Exception e) {
-            logger.error(WordUtil.class.toString() + "_" + e.getMessage(), e);
-            throw new SystemException("文件转换失败");
-        }
     }
 }

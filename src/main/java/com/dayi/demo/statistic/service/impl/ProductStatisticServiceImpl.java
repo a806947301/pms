@@ -59,54 +59,6 @@ public class ProductStatisticServiceImpl implements ProductStatisticService {
         return products;
     }
 
-    /**
-     * 打包产品dto对象
-     *
-     * @return
-     */
-    private Map<String, ProductBugDto> doPackageProductDtoMap() {
-        //查找产品
-        List<Product> products = productService.findAll();
-        //新建产品id、产品dto对应Map
-        Map<String, ProductBugDto> productMap = new LinkedHashMap<String, ProductBugDto>();
-        ProductBugDto productBugDto;
-        for (Product product : products) {
-            //把产品信息封装到dto
-            productBugDto = new ProductBugDto();
-            productBugDto.setProductName(product.getProductName());
-            productBugDto.setProjects(new LinkedList<ProjectBugDto>());
-            //添加到id、dto对应Map
-            productMap.put(product.getId(), productBugDto);
-        }
-        return productMap;
-    }
-
-    /**
-     * 添加项目到产品Map上
-     *
-     * @param productDtoMap 产品dto对应的map
-     */
-    private void doAppendProject(Map<String, ProductBugDto> productDtoMap) {
-        //查找项目Bug信息
-        Map<String, ProjectBugVo> projectBugVoMap = bugService.countBugByProject();
-        //查找项目
-        List<Project> projects = projectService.findAll();
-        for (Project p : projects) {
-            //把项目Bug Vo 转化为项目Bug Dto
-            ProjectBugVo vo = projectBugVoMap.get(p.getId());
-            ProjectBugDto projectBugDto = new ProjectBugDto(vo);
-            projectBugDto.setProjectName(p.getProjectName());
-            projectBugDto.setProjectId(p.getId());
-            projectBugDto.setFinished(p.getFinished());
-
-            //把项目Bug Dto添加到产品
-            List<ProjectBugDto> productChildren = productDtoMap.get(p.getProduct().getId()).getProjects();
-            productChildren.add(projectBugDto);
-
-        }
-
-    }
-
     @Override
     public void exportExcelProduct(OutputStream out) throws IOException {
         List<ProductBugDto> products = doStatistic();
@@ -184,5 +136,53 @@ public class ProductStatisticServiceImpl implements ProductStatisticService {
         out.flush();
         //操作结束，关闭流
         out.close();
+    }
+
+    /**
+     * 打包产品dto对象
+     *
+     * @return
+     */
+    private Map<String, ProductBugDto> doPackageProductDtoMap() {
+        //查找产品
+        List<Product> products = productService.findAll();
+        //新建产品id、产品dto对应Map
+        Map<String, ProductBugDto> productMap = new LinkedHashMap<String, ProductBugDto>();
+        ProductBugDto productBugDto;
+        for (Product product : products) {
+            //把产品信息封装到dto
+            productBugDto = new ProductBugDto();
+            productBugDto.setProductName(product.getProductName());
+            productBugDto.setProjects(new LinkedList<ProjectBugDto>());
+            //添加到id、dto对应Map
+            productMap.put(product.getId(), productBugDto);
+        }
+        return productMap;
+    }
+
+    /**
+     * 添加项目到产品Map上
+     *
+     * @param productDtoMap 产品dto对应的map
+     */
+    private void doAppendProject(Map<String, ProductBugDto> productDtoMap) {
+        //查找项目Bug信息
+        Map<String, ProjectBugVo> projectBugVoMap = bugService.countBugByProject();
+        //查找项目
+        List<Project> projects = projectService.findAll();
+        for (Project p : projects) {
+            //把项目Bug Vo 转化为项目Bug Dto
+            ProjectBugVo vo = projectBugVoMap.get(p.getId());
+            ProjectBugDto projectBugDto = new ProjectBugDto(vo);
+            projectBugDto.setProjectName(p.getProjectName());
+            projectBugDto.setProjectId(p.getId());
+            projectBugDto.setFinished(p.getFinished());
+
+            //把项目Bug Dto添加到产品
+            List<ProjectBugDto> productChildren = productDtoMap.get(p.getProduct().getId()).getProjects();
+            productChildren.add(projectBugDto);
+
+        }
+
     }
 }

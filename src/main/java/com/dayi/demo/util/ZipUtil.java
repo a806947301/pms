@@ -76,10 +76,4 @@ public class ZipUtil {
         }
         return false;
     }
-
-    public static void main(String[] args) throws Exception {
-        String path = "C:\\Users\\Administrator\\Desktop\\jf";
-        File file = new File("C:\\Users\\Administrator\\Desktop\\jf.zip");
-        unZip(file, path);
-    }
 }

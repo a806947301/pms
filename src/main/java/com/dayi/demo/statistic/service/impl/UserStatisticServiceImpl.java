@@ -86,28 +86,6 @@ public class UserStatisticServiceImpl implements UserStatisticService {
     }
 
     /**
-     * 封装成用户Bug Dto的List
-     *
-     * @param users
-     * @param bugMap
-     * @return
-     */
-    private List<UserBugDto> doPackageUser(List<User> users, Map<String, UserBugVo> bugMap) {
-        List<UserBugDto> userBugDtos = new LinkedList<UserBugDto>();
-        UserBugDto userDto;
-        for (User user : users) {
-            //封装成Dto
-            userDto = new UserBugDto(bugMap.get(user.getId()));
-            userDto.setUserId(user.getId());
-            userDto.setName(user.getName());
-
-            //添加到list
-            userBugDtos.add(userDto);
-        }
-        return userBugDtos;
-    }
-
-    /**
      * 把用户Dto List封装成Excel，并用输出流输出
      *
      * @param list
@@ -162,4 +140,27 @@ public class UserStatisticServiceImpl implements UserStatisticService {
         //操作结束，关闭流
         out.close();
     }
+
+    /**
+     * 封装成用户Bug Dto的List
+     *
+     * @param users
+     * @param bugMap
+     * @return
+     */
+    private List<UserBugDto> doPackageUser(List<User> users, Map<String, UserBugVo> bugMap) {
+        List<UserBugDto> userBugDtos = new LinkedList<UserBugDto>();
+        UserBugDto userDto;
+        for (User user : users) {
+            //封装成Dto
+            userDto = new UserBugDto(bugMap.get(user.getId()));
+            userDto.setUserId(user.getId());
+            userDto.setName(user.getName());
+
+            //添加到list
+            userBugDtos.add(userDto);
+        }
+        return userBugDtos;
+    }
+
 }
