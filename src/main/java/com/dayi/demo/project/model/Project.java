@@ -36,6 +36,46 @@ public class Project extends BaseEntity {
      */
     private Boolean finished;
 
+    @Override
+    public String toString() {
+        return "Project{" +
+                "beginDate=" + beginDate +
+                ", endDate=" + endDate +
+                ", product=" + product +
+                ", projectName='" + projectName + '\'' +
+                ", finished=" + finished +
+                '}';
+    }
+
+    /**
+     * 判断项目是否有空字段
+     * @param project
+     * @param includingId
+     * @return
+     */
+    public static boolean hasEmpty(Project project, boolean includingId) {
+        if (BaseEntity.hasEmpty(project, includingId)) {
+            return true;
+        }
+        if (null == project.getBeginDate()) {
+            return true;
+        }
+        if (null == project.getEndDate()) {
+            return true;
+        }
+        if (null == project.getProduct()) {
+            return true;
+        }
+        String productId = project.getProduct().getId();
+        if (null == productId || "".equals(productId)) {
+            return true;
+        }
+        if (null == project.getProjectName() || "".equals(project.getProjectName())) {
+            return true;
+        }
+        return false;
+    }
+
     public Date getBeginDate() {
         return beginDate;
     }
@@ -74,28 +114,5 @@ public class Project extends BaseEntity {
 
     public void setFinished(Boolean finished) {
         this.finished = finished;
-    }
-
-    public static boolean hasEmpty(Project project, boolean includingId) {
-        if (BaseEntity.hasEmpty(project, includingId)) {
-            return true;
-        }
-        if (null == project.getBeginDate()) {
-            return true;
-        }
-        if (null == project.getEndDate()) {
-            return true;
-        }
-        if (null == project.getProduct()) {
-            return true;
-        }
-        String productId = project.getProduct().getId();
-        if (null == productId || "".equals(productId)) {
-            return true;
-        }
-        if (null == project.getProjectName() || "".equals(project.getProjectName())) {
-            return true;
-        }
-        return false;
     }
 }

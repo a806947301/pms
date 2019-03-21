@@ -46,6 +46,20 @@ public class Need extends BaseEntity {
      */
     private String needFilename;
 
+    @Override
+    public String toString() {
+        return "Need{" +
+                "needName='" + needName + '\'' +
+                ", needDescription='" + needDescription + '\'' +
+                ", descriptionFilepath='" + descriptionFilepath + '\'' +
+                ", needFilepath='" + needFilepath + '\'' +
+                ", user=" + user +
+                ", project=" + project +
+                ", descriptionFilename='" + descriptionFilename + '\'' +
+                ", needFilename='" + needFilename + '\'' +
+                '}';
+    }
+
     public String getNeedName() {
         return needName;
     }

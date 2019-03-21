@@ -15,6 +15,14 @@ public class LoginLog extends BaseEntity {
     /** 登陆用户 */
     private User user;
 
+    @Override
+    public String toString() {
+        return "LoginLog{" +
+                "ip='" + ip + '\'' +
+                ", user=" + user +
+                '}';
+    }
+
     public User getUser() {
         return user;
     }

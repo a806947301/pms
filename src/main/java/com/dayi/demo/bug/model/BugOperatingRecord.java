@@ -63,6 +63,16 @@ public class BugOperatingRecord extends BaseEntity {
      */
     private User operationUser;
 
+    @Override
+    public String toString() {
+        return "BugOperatingRecord{" +
+                "bugId='" + bugId + '\'' +
+                ", user=" + user +
+                ", operationNumber=" + operationNumber +
+                ", operationUser=" + operationUser +
+                '}';
+    }
+
     public String getBugId() {
         return bugId;
     }

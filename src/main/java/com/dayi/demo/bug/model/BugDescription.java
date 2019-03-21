@@ -21,22 +21,6 @@ public class BugDescription extends BaseEntity {
      */
     private String content;
 
-    public String getBugId() {
-        return bugId;
-    }
-
-    public void setBugId(String bugId) {
-        this.bugId = bugId;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
     /**
      * 判断是否有字段为空
      * @param bugDescription
@@ -51,5 +35,29 @@ public class BugDescription extends BaseEntity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "BugDescription{" +
+                "bugId='" + bugId + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
+
+    public String getBugId() {
+        return bugId;
+    }
+
+    public void setBugId(String bugId) {
+        this.bugId = bugId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

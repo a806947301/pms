@@ -27,6 +27,36 @@ public class Permission extends BaseEntity {
      */
     private String parentId;
 
+    @Override
+    public String toString() {
+        return "Permission{" +
+                "permissionName='" + permissionName + '\'' +
+                ", field='" + field + '\'' +
+                ", menu=" + menu +
+                ", parentId='" + parentId + '\'' +
+                '}';
+    }
+
+    /**
+     * 判断是否有字段为空
+     *
+     * @param p
+     * @param includeId
+     * @return
+     */
+    public static boolean hasEmpty(Permission p, boolean includeId) {
+        if (BaseEntity.hasEmpty(p, includeId)) {
+            return true;
+        }
+        if (null == p.getPermissionName() || "".equals(p.getPermissionName())) {
+            return true;
+        }
+        if (null == p.getField() || "".equals(p.getField())) {
+            return true;
+        }
+        return false;
+    }
+
     public String getPermissionName() {
         return permissionName;
     }
@@ -59,23 +89,5 @@ public class Permission extends BaseEntity {
         this.parentId = parentId;
     }
 
-    /**
-     * 判断是否有字段为空
-     *
-     * @param p
-     * @param includeId
-     * @return
-     */
-    public static boolean hasEmpty(Permission p, boolean includeId) {
-        if (BaseEntity.hasEmpty(p, includeId)) {
-            return true;
-        }
-        if (null == p.getPermissionName() || "".equals(p.getPermissionName())) {
-            return true;
-        }
-        if (null == p.getField() || "".equals(p.getField())) {
-            return true;
-        }
-        return false;
-    }
+
 }

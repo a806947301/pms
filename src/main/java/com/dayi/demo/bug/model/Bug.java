@@ -76,6 +76,62 @@ public class Bug extends BaseEntity {
      */
     private Project project;
 
+    @Override
+    public String toString() {
+        return  "Bug{" +
+                "noProcessing=" + noProcessing +
+                ", bugStatus=" + bugStatus +
+                ", bugTitle='" + bugTitle + '\'' +
+                ", bugContent='" + bugContent + '\'' +
+                ", bugProposer=" + bugProposer +
+                ", bugProcesser=" + bugProcesser +
+                ", project=" + project +
+                '}';
+    }
+
+    /**
+     * 判断Bug是否有空字段
+     *
+     * @param bug
+     * @param includeId       是否包含id
+     * @param includeProposer 是否包含Bug提出者
+     * @return
+     */
+    public static boolean hasEmpty(Bug bug, boolean includeId, boolean includeProposer) {
+        if (BaseEntity.hasEmpty(bug,includeId)) {
+            return true;
+        }
+        if (null == bug.getBugTitle() || "".equals(bug.getBugTitle())) {
+            return true;
+        }
+        if (null == bug.getBugContent() || "".equals(bug.getBugContent())) {
+            return true;
+        }
+        if (includeProposer && null == bug.getBugProposer()) {
+            return true;
+        }
+        boolean emptyProposerId = includeProposer &&
+                (null == bug.getBugProposer().getId() || "".equals(bug.getBugProposer().getId()));
+        if (emptyProposerId) {
+            return true;
+        }
+        if (null == bug.getBugProcesser() && includeProposer) {
+            return true;
+        }
+        boolean checkingProposer = includeProposer && null == bug.getBugProcesser().getId() ||
+                "".equals(bug.getBugProcesser().getId());
+        if (checkingProposer) {
+            return true;
+        }
+        if (null == bug.getProject()) {
+            return true;
+        }
+        if (null == bug.getProject().getId() || "".equals(bug.getProject().getId())) {
+            return true;
+        }
+        return false;
+    }
+
     public Boolean getNoProcessing() {
         return noProcessing;
     }
@@ -132,46 +188,5 @@ public class Bug extends BaseEntity {
         this.project = project;
     }
 
-    /**
-     * 判断Bug是否有空字段
-     *
-     * @param bug
-     * @param includeId       是否包含id
-     * @param includeProposer 是否包含Bug提出者
-     * @return
-     */
-    public static boolean hasEmpty(Bug bug, boolean includeId, boolean includeProposer) {
-        if (BaseEntity.hasEmpty(bug,includeId)) {
-            return true;
-        }
-        if (null == bug.getBugTitle() || "".equals(bug.getBugTitle())) {
-            return true;
-        }
-        if (null == bug.getBugContent() || "".equals(bug.getBugContent())) {
-            return true;
-        }
-        if (includeProposer && null == bug.getBugProposer()) {
-            return true;
-        }
-        boolean emptyProposerId = includeProposer &&
-                (null == bug.getBugProposer().getId() || "".equals(bug.getBugProposer().getId()));
-        if (emptyProposerId) {
-            return true;
-        }
-        if (null == bug.getBugProcesser() && includeProposer) {
-            return true;
-        }
-        boolean checkingProposer = includeProposer && null == bug.getBugProcesser().getId() ||
-                "".equals(bug.getBugProcesser().getId());
-        if (checkingProposer) {
-            return true;
-        }
-        if (null == bug.getProject()) {
-            return true;
-        }
-        if (null == bug.getProject().getId() || "".equals(bug.getProject().getId())) {
-            return true;
-        }
-        return false;
-    }
+
 }

@@ -22,6 +22,15 @@ public class ProjectBugVo {
      */
     Integer countBug;
 
+    @Override
+    public String toString() {
+        return "ProjectBugVo{" +
+                "projectId='" + projectId + '\'' +
+                ", countAllBug=" + countAllBug +
+                ", countBug=" + countBug +
+                '}';
+    }
+
     public String getProjectId() {
         return projectId;
     }

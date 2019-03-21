@@ -37,6 +37,18 @@ public class UserBugVo {
      */
     private Integer finished;
 
+    @Override
+    public String toString() {
+        return "UserBugVo{" +
+                "userId='" + userId + '\'' +
+                ", bugNumber=" + bugNumber +
+                ", designate=" + designate +
+                ", processing=" + processing +
+                ", checking=" + checking +
+                ", finished=" + finished +
+                '}';
+    }
+
     public String getUserId() {
         return userId;
     }

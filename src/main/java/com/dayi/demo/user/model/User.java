@@ -36,6 +36,49 @@ public class User extends BaseEntity{
      */
     private Boolean stopped;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", jobNumber=" + jobNumber +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", department=" + department +
+                ", stopped=" + stopped +
+                '}';
+    }
+
+    /**
+     * 判断用户是否有字段为空
+     *
+     * @param user
+     * @param includeId 是否包含查询id为空
+     * @pram includePassword 是否包含查询密码为空
+     * @return
+     */
+    public static boolean hasEmpty(User user, boolean includeId, boolean includePassword) {
+        if (BaseEntity.hasEmpty(user, includeId)) {
+            return true;
+        }
+        if (null == user.getName() || "".equals(user.getName())) {
+            return true;
+        }
+        boolean errPassword = (includePassword && null == user.getPassword() || "".equals(user.getPassword()));
+        if (errPassword) {
+            return true;
+        }
+        if (null == user.getEmail() || "".equals(user.getEmail())) {
+            return true;
+        }
+        if (null == user.getDepartment()) {
+            return true;
+        }
+        if (null == user.getDepartment().getId() || "".equals(user.getDepartment().getId())) {
+            return true;
+        }
+        return false;
+    }
+
     public String getName() {
         return name;
     }
@@ -91,34 +134,5 @@ public class User extends BaseEntity{
     }
 
 
-    /**
-     * 判断User表是否有字段为空
-     *
-     * @param user
-     * @param includeId 是否包含查询id为空
-     * @pram includePassword 是否包含查询密码为空
-     * @return
-     */
-    public static boolean hasEmpty(User user, boolean includeId, boolean includePassword) {
-        if (BaseEntity.hasEmpty(user, includeId)) {
-            return true;
-        }
-        if (null == user.getName() || "".equals(user.getName())) {
-            return true;
-        }
-        boolean errPassword = (includePassword && null == user.getPassword() || "".equals(user.getPassword()));
-        if (errPassword) {
-            return true;
-        }
-        if (null == user.getEmail() || "".equals(user.getEmail())) {
-            return true;
-        }
-        if (null == user.getDepartment()) {
-            return true;
-        }
-        if (null == user.getDepartment().getId() || "".equals(user.getDepartment().getId())) {
-            return true;
-        }
-        return false;
-    }
+
 }

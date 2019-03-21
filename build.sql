@@ -1,4 +1,4 @@
-/*
+﻿/*
  Navicat Premium Data Transfer
 
  Source Server         : mysql
@@ -11,7 +11,7 @@
  Target Server Version : 50725
  File Encoding         : 65001
 
- Date: 11/03/2019 10:07:19
+ Date: 20/03/2019 20:17:31
 */
 
 SET NAMES utf8mb4;
@@ -36,13 +36,6 @@ CREATE TABLE `bug`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'bug表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of bug
--- ----------------------------
-INSERT INTO `bug` VALUES ('0RK1WrXbJPBP', '2019-03-07 17:40:26', '2019-03-08 15:51:17', '0RJKxY2oMnpL', 0, 0, '这是一个bug', '<p style=\"\">啊实打实的阿瑟东阿瑟东阿三</p>', '0RJtVRByNyjL', '0RJpq3vXMd0m');
-INSERT INTO `bug` VALUES ('0RKMnl2OOmVL', '2019-03-11 08:59:16', '2019-03-11 09:02:34', '0RJKxY2oMnpL', 1, 3, '这是一个测试bug', '<p style=\"\">bug信息信息信息<span style=\"color: rgb(51, 51, 51);\">bug信息信息信息</span><span style=\"color: rgb(51, 51, 51);\">bug信息信息信息</span><span style=\"color: rgb(51, 51, 51);\">bug信息信息信息</span><span style=\"color: rgb(51, 51, 51);\">bug信息信息信息</span><span style=\"color: rgb(51, 51, 51);\">bug信息信息信息</span><span style=\"color: rgb(51, 51, 51);\">bug信息信息信息</span><span style=\"color: rgb(51, 51, 51);\">bug信息</span></p>', '0RJpq3vXMd0m', '0RJpq3vXMd0m');
-INSERT INTO `bug` VALUES ('0RKMqLmdQAch', '2019-03-11 09:09:34', '2019-03-11 09:15:46', '0RJKxY2oMnpL', 0, 0, '第二个测试', '<p><span style=\"color: rgb(51, 51, 51);\">这是bug！！！</span><span style=\"color: rgb(51, 51, 51);\">这是bug！！！</span><span style=\"color: rgb(51, 51, 51);\">这是bug！！！</span><span style=\"color: rgb(51, 51, 51);\">这是bug！！！</span><span style=\"color: rgb(51, 51, 51);\">这是bug！！！</span><span style=\"color: rgb(51, 51, 51);\">这是bug！！！</span><span style=\"color: rgb(51, 51, 51);\">这是bug！！！</span><span style=\"color: rgb(51, 51, 51);\">这是bug！！！</span><span style=\"color: rgb(51, 51, 51);\">这是bug！！！</span><span style=\"color: rgb(51, 51, 51);\">这是bug！！！</span><span style=\"color: rgb(51, 51, 51);\">这是bug！！！</span><span style=\"color: rgb(51, 51, 51);\">这是bug！！！</span><span style=\"color: rgb(51, 51, 51);\">这是bug！！！</span><span style=\"color: rgb(51, 51, 51);\">这是bug！！！</span><span style=\"color: rgb(51, 51, 51);\">这是bug！！！</span><span style=\"color: rgb(51, 51, 51);\">这是bug！！！</span><span style=\"color: rgb(51, 51, 51);\">这是bug！！！</span><br></p>', '0RJpq3vXMd0m', '0RJtVRByNyjL');
-
--- ----------------------------
 -- Table structure for bug_description
 -- ----------------------------
 DROP TABLE IF EXISTS `bug_description`;
@@ -54,11 +47,6 @@ CREATE TABLE `bug_description`  (
   `content` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '说明内容',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'bug说明表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of bug_description
--- ----------------------------
-INSERT INTO `bug_description` VALUES ('0RKMoIfwQ4Ko', '2019-03-11 09:01:25', '2019-03-11 09:01:25', '0RKMnl2OOmVL', '说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明');
 
 -- ----------------------------
 -- Table structure for bug_operating_record
@@ -76,27 +64,6 @@ CREATE TABLE `bug_operating_record`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'bug操作记录表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of bug_operating_record
--- ----------------------------
-INSERT INTO `bug_operating_record` VALUES ('0RK1Uxk5K6gg', '2019-03-07 17:32:53', '2019-03-07 17:32:53', '0RJA8qMVJNCF', 0, '0RK1UxjvK89s', '0RK1PBA2KpQt');
-INSERT INTO `bug_operating_record` VALUES ('0RK1V4SoK6j0', '2019-03-07 17:33:19', '2019-03-07 17:33:19', '0RJA8qMVJNCF', 0, '0RK1V4SaKd1X', '0RJpq3vXMd0m');
-INSERT INTO `bug_operating_record` VALUES ('0RK1V61gOErr', '2019-03-07 17:33:25', '2019-03-07 17:33:25', '0RJA8qMVJNCF', 0, '0RK1V61TOoy7', '0RJpq3vXMd0m');
-INSERT INTO `bug_operating_record` VALUES ('0RK1WrXpJRtJ', '2019-03-07 17:40:26', '2019-03-07 17:40:26', '0RJtVRByNyjL', 0, '0RK1WrXbJPBP', '0RJpq3vXMd0m');
-INSERT INTO `bug_operating_record` VALUES ('0RK6slDlK6h1', '2019-03-08 15:38:47', '2019-03-08 15:38:47', '0RJtVRByNyjL', 0, '0RK1WrXbJPBP', '0RK1PBA2KpQt');
-INSERT INTO `bug_operating_record` VALUES ('0RK6tRS0Oe3V', '2019-03-08 15:41:29', '2019-03-08 15:41:29', '0RJtVRByNyjL', 1, '0RK1WrXbJPBP', '');
-INSERT INTO `bug_operating_record` VALUES ('0RK6vkYJSIWR', '2019-03-08 15:50:39', '2019-03-08 15:50:39', '0RJtVRByNyjL', 2, '0RK1WrXbJPBP', '');
-INSERT INTO `bug_operating_record` VALUES ('0RK6vuNIOn8b', '2019-03-08 15:51:17', '2019-03-08 15:51:17', '0RJtVRByNyjL', 0, '0RK1WrXbJPBP', '0RJpq3vXMd0m');
-INSERT INTO `bug_operating_record` VALUES ('0RKMnl2aOwAd', '2019-03-11 08:59:16', '2019-03-11 08:59:16', '0RJpq3vXMd0m', 0, '0RKMnl2OOmVL', '0RJtVRByNyjL');
-INSERT INTO `bug_operating_record` VALUES ('0RKMoadiJqaL', '2019-03-11 09:02:34', '2019-03-11 09:02:34', '0RJpq3vXMd0m', 4, '0RKMnl2OOmVL', '');
-INSERT INTO `bug_operating_record` VALUES ('0RKMoFqKNd4i', '2019-03-11 09:01:14', '2019-03-11 09:01:14', '0RJtVRByNyjL', 1, '0RKMnl2OOmVL', '');
-INSERT INTO `bug_operating_record` VALUES ('0RKMoIg6QRBO', '2019-03-11 09:01:25', '2019-03-11 09:01:25', '0RJtVRByNyjL', 3, '0RKMnl2OOmVL', '');
-INSERT INTO `bug_operating_record` VALUES ('0RKMoZ0aReGD', '2019-03-11 09:02:28', '2019-03-11 09:02:28', '0RJpq3vXMd0m', 0, '0RKMnl2OOmVL', '0RJpq3vXMd0m');
-INSERT INTO `bug_operating_record` VALUES ('0RKMoZaLN0Vu', '2019-03-11 09:02:30', '2019-03-11 09:02:30', '0RJpq3vXMd0m', 1, '0RKMnl2OOmVL', '');
-INSERT INTO `bug_operating_record` VALUES ('0RKMoZruQ2CW', '2019-03-11 09:02:31', '2019-03-11 09:02:31', '0RJpq3vXMd0m', 2, '0RKMnl2OOmVL', '');
-INSERT INTO `bug_operating_record` VALUES ('0RKMqLmnQWZZ', '2019-03-11 09:09:34', '2019-03-11 09:09:34', '0RJpq3vXMd0m', 0, '0RKMqLmdQAch', '0RJpq3vXMd0m');
-INSERT INTO `bug_operating_record` VALUES ('0RKMrulOQPOx', '2019-03-11 09:15:46', '2019-03-11 09:15:46', '0RJpq3vXMd0m', 0, '0RKMqLmdQAch', '0RJtVRByNyjL');
-
--- ----------------------------
 -- Table structure for department
 -- ----------------------------
 DROP TABLE IF EXISTS `department`;
@@ -112,6 +79,7 @@ CREATE TABLE `department`  (
 -- Records of department
 -- ----------------------------
 INSERT INTO `department` VALUES ('0RIss2SAVU7n', '2019-02-23 15:39:13', '2019-02-23 15:39:13', '研发部');
+INSERT INTO `department` VALUES ('0RKgHWcnOWIx', '2019-03-14 16:56:41', '2019-03-14 16:56:41', '测试部');
 
 -- ----------------------------
 -- Table structure for login_log
@@ -125,28 +93,6 @@ CREATE TABLE `login_log`  (
   `ip` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '登陆的ip地址',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of login_log
--- ----------------------------
-INSERT INTO `login_log` VALUES ('0RK6dITCLT5S', '2019-03-08 14:37:21', '2019-03-08 14:37:21', '0RJpq3vXMd0m', '0:0:0:0:0:0:0:1');
-INSERT INTO `login_log` VALUES ('0RK6l3EhJb9q', '2019-03-08 15:08:09', '2019-03-08 15:08:09', '0RJpq3vXMd0m', '0:0:0:0:0:0:0:1');
-INSERT INTO `login_log` VALUES ('0RK6n7XdOeH9', '2019-03-08 15:16:22', '2019-03-08 15:16:22', '0RJpq3vXMd0m', '0:0:0:0:0:0:0:1');
-INSERT INTO `login_log` VALUES ('0RK6QeRQOpFh', '2019-03-08 13:47:07', '2019-03-08 13:47:07', '0RJpq3vXMd0m', '0:0:0:0:0:0:0:1');
-INSERT INTO `login_log` VALUES ('0RK6tNSBKmBW', '2019-03-08 15:41:14', '2019-03-08 15:41:14', '0RK1PBA2KpQt', '0:0:0:0:0:0:0:1');
-INSERT INTO `login_log` VALUES ('0RK6uFAbJqfR', '2019-03-08 15:44:40', '2019-03-08 15:44:40', '0RJpq3vXMd0m', '0:0:0:0:0:0:0:1');
-INSERT INTO `login_log` VALUES ('0RK6vgcVJGTB', '2019-03-08 15:50:24', '2019-03-08 15:50:24', '0RK1PBA2KpQt', '0:0:0:0:0:0:0:1');
-INSERT INTO `login_log` VALUES ('0RK6vqPPSisH', '2019-03-08 15:51:02', '2019-03-08 15:51:02', '0RJtVRByNyjL', '0:0:0:0:0:0:0:1');
-INSERT INTO `login_log` VALUES ('0RK6vwnSQkcb', '2019-03-08 15:51:26', '2019-03-08 15:51:26', '0RJpq3vXMd0m', '0:0:0:0:0:0:0:1');
-INSERT INTO `login_log` VALUES ('0RK6xiGFJI4b', '2019-03-08 15:58:27', '2019-03-08 15:58:27', '0RK1PBA2KpQt', '0:0:0:0:0:0:0:1');
-INSERT INTO `login_log` VALUES ('0RK6xkkNJjyb', '2019-03-08 15:58:36', '2019-03-08 15:58:36', '0RJpq3vXMd0m', '0:0:0:0:0:0:0:1');
-INSERT INTO `login_log` VALUES ('0RKMjuWUVmqz', '2019-03-11 08:43:59', '2019-03-11 08:43:59', '0RJpq3vXMd0m', '0:0:0:0:0:0:0:1');
-INSERT INTO `login_log` VALUES ('0RKMmz9BS4n2', '2019-03-11 08:56:12', '2019-03-11 08:56:12', '0RJpq3vXMd0m', '0:0:0:0:0:0:0:1');
-INSERT INTO `login_log` VALUES ('0RKMnEBPSVeG', '2019-03-11 08:57:09', '2019-03-11 08:57:09', '0RJpq3vXMd0m', '0:0:0:0:0:0:0:1');
-INSERT INTO `login_log` VALUES ('0RKMnZoPJW7G', '2019-03-11 08:58:33', '2019-03-11 08:58:33', '0RJpq3vXMd0m', '0:0:0:0:0:0:0:1');
-INSERT INTO `login_log` VALUES ('0RKMoDGYNrgg', '2019-03-11 09:01:04', '2019-03-11 09:01:04', '0RJtVRByNyjL', '0:0:0:0:0:0:0:1');
-INSERT INTO `login_log` VALUES ('0RKMoMviQYSY', '2019-03-11 09:01:41', '2019-03-11 09:01:41', '0RJpq3vXMd0m', '0:0:0:0:0:0:0:1');
-INSERT INTO `login_log` VALUES ('0RKMtg8NIF0a', '2019-03-11 09:22:47', '2019-03-11 09:22:47', '0RJpq3vXMd0m', '0:0:0:0:0:0:0:1');
 
 -- ----------------------------
 -- Table structure for need
@@ -168,60 +114,69 @@ CREATE TABLE `need`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '需求表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of need
+-- Table structure for permission
 -- ----------------------------
-INSERT INTO `need` VALUES ('0RK1XxLwKgZt', '2019-03-07 17:44:47', '2019-03-07 17:44:47', '这是一个需求', '需求需求绣球', '\\needFile\\0RK1XxLwKgZt\\实习单位接收证明1.doc', '实习单位接收证明1.doc', '\\needFile\\0RK1XxLwKgZt\\jf.zip', 'jf.zip', '0RJpq3vXMd0m', '0RJKxY2oMnpL');
-INSERT INTO `need` VALUES ('0RKMtrT2PVCC', '2019-03-11 09:23:30', '2019-03-11 09:23:30', '需求测试1', '这是一个需求!这是一个需求!这是一个需求!这是一个需求!这是一个需求!这是一个需求!这是一个需求!这是一个需求!这是一个需求!这是一个需求!这是一个需求!这是一个需求!这是一个需求!这是一个需求!这是一个需求!这是一个需求!这是一个需求!', '\\needFile\\0RKMtrT2PVCC\\实习单位接收证明1.doc', '实习单位接收证明1.doc', '\\needFile\\0RKMtrT2PVCC\\jf.zip', 'jf.zip', '0RJpq3vXMd0m', '0RJL0jTeL1Rs');
-
--- ----------------------------
--- Table structure for premission
--- ----------------------------
-DROP TABLE IF EXISTS `premission`;
-CREATE TABLE `premission`  (
+DROP TABLE IF EXISTS `permission`;
+CREATE TABLE `permission`  (
   `id` char(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'id',
   `addtime` datetime(0) NOT NULL COMMENT '创建时间',
   `updatetime` datetime(0) NOT NULL COMMENT '更新时间',
-  `premission_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限名',
-  `premission_field` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限字段',
+  `permission_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限名',
+  `permission_field` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限字段',
   `is_menu` tinyint(3) UNSIGNED NOT NULL COMMENT '是否菜单',
   `parent_id` char(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '父级菜单id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of premission
+-- Records of permission
 -- ----------------------------
-INSERT INTO `premission` VALUES ('0RJv6UEeJsHi', '2019-03-06 15:18:02', '2019-03-06 15:18:02', '用户系统', 'user', 1, '');
-INSERT INTO `premission` VALUES ('0RJv9CfWO6RM', '2019-03-06 15:28:49', '2019-03-06 16:02:31', '产品', 'product', 1, '');
-INSERT INTO `premission` VALUES ('0RJv9dWcNXGQ', '2019-03-06 15:30:33', '2019-03-06 15:30:33', '部门管理', 'user:department', 1, '0RJv6UEeJsHi');
-INSERT INTO `premission` VALUES ('0RJvAOEbNZFl', '2019-03-06 15:33:32', '2019-03-06 15:33:32', '添加部门', 'user:department:add', 0, '0RJv9dWcNXGQ');
-INSERT INTO `premission` VALUES ('0RK1LAUiK5wY', '2019-03-07 16:53:59', '2019-03-07 16:53:59', '修改部门', 'user:department:update', 0, '0RJv9dWcNXGQ');
-INSERT INTO `premission` VALUES ('0RK1LMElNDsx', '2019-03-07 16:54:44', '2019-03-07 16:54:44', '删除部门', 'user:department:delete', 0, '0RJv9dWcNXGQ');
-INSERT INTO `premission` VALUES ('0RK1LmnLOkB1', '2019-03-07 16:56:26', '2019-03-07 16:56:26', '用户管理', 'user:user', 1, '0RJv6UEeJsHi');
-INSERT INTO `premission` VALUES ('0RK1M7PdMKEg', '2019-03-07 16:57:45', '2019-03-07 16:57:56', '添加用户', 'user:user:add', 0, '0RK1LmnLOkB1');
-INSERT INTO `premission` VALUES ('0RK1PRkRNHPQ', '2019-03-07 17:10:59', '2019-03-07 17:10:59', '修改用户', 'user:user:update', 0, '0RK1LmnLOkB1');
-INSERT INTO `premission` VALUES ('0RK1PsijNB9G', '2019-03-07 17:12:42', '2019-03-07 17:12:42', '角色管理', 'user:role', 1, '0RJv6UEeJsHi');
-INSERT INTO `premission` VALUES ('0RK1PVPINvYW', '2019-03-07 17:11:13', '2019-03-07 17:11:13', '删除用户', 'user:user:delete', 0, '0RK1LmnLOkB1');
-INSERT INTO `premission` VALUES ('0RK1Q531Rvcc', '2019-03-07 17:13:30', '2019-03-07 17:14:03', '添加角色', 'user:role:add', 0, '0RK1PsijNB9G');
-INSERT INTO `premission` VALUES ('0RK1Q7V1ON8m', '2019-03-07 17:13:39', '2019-03-07 17:14:10', '删除角色', 'user:role:delete', 0, '0RK1PsijNB9G');
-INSERT INTO `premission` VALUES ('0RK1QaPJMTWJ', '2019-03-07 17:15:30', '2019-03-07 17:15:30', '添加权限', 'user:premission:add', 0, '0RK1QSQdR0zI');
-INSERT INTO `premission` VALUES ('0RK1QBmxR7nr', '2019-03-07 17:13:56', '2019-03-07 17:13:56', '修改角色', 'user:role:update', 0, '0RK1PsijNB9G');
-INSERT INTO `premission` VALUES ('0RK1QcxgOBe8', '2019-03-07 17:15:40', '2019-03-07 17:15:40', '修改权限', 'user:premission:update', 0, '0RK1QSQdR0zI');
-INSERT INTO `premission` VALUES ('0RK1QfsJOKYV', '2019-03-07 17:15:51', '2019-03-07 17:15:51', '删除权限', 'user:premission:delete', 0, '0RK1QSQdR0zI');
-INSERT INTO `premission` VALUES ('0RK1QSQdR0zI', '2019-03-07 17:15:00', '2019-03-07 17:15:00', '权限管理', 'user:premission', 1, '0RJv6UEeJsHi');
-INSERT INTO `premission` VALUES ('0RK1Re9pOp0j', '2019-03-07 17:19:43', '2019-03-07 17:19:43', '授权', 'role', 1, '');
-INSERT INTO `premission` VALUES ('0RK1RphWKG0f', '2019-03-07 17:20:27', '2019-03-07 17:20:27', '赋予角色权限', 'role:authorization', 0, '0RK1Re9pOp0j');
-INSERT INTO `premission` VALUES ('0RK1SCv7OLEE', '2019-03-07 17:21:57', '2019-03-07 17:21:57', '赋予用户角色', 'role:ascribedRole', 0, '0RK1Re9pOp0j');
-INSERT INTO `premission` VALUES ('0RK1SfCsMpv6', '2019-03-07 17:23:45', '2019-03-07 17:23:45', '添加产品', 'product:add', 0, '0RJv9CfWO6RM');
-INSERT INTO `premission` VALUES ('0RK1SrhOKO6j', '2019-03-07 17:24:33', '2019-03-07 17:24:33', '更新产品', 'product:update', 0, '0RJv9CfWO6RM');
-INSERT INTO `premission` VALUES ('0RK1SyiBOta0', '2019-03-07 17:25:00', '2019-03-07 17:25:00', '添加成员', 'product:addUser', 0, '0RJv9CfWO6RM');
-INSERT INTO `premission` VALUES ('0RK1TK4OKth9', '2019-03-07 17:26:22', '2019-03-07 17:26:22', '项目', 'project', 1, '');
-INSERT INTO `premission` VALUES ('0RK1U5TRO7sN', '2019-03-07 17:29:25', '2019-03-07 17:29:25', '添加项目', 'project:add', 0, '0RK1TK4OKth9');
-INSERT INTO `premission` VALUES ('0RK1Uf7zOloS', '2019-03-07 17:31:42', '2019-03-07 17:31:42', '添加Bug', 'bug:add', 0, '0RK1UXbMMUXK');
-INSERT INTO `premission` VALUES ('0RK1UIH5R4tb', '2019-03-07 17:30:14', '2019-03-07 17:30:14', '更新项目', 'project:update', 0, '0RK1TK4OKth9');
-INSERT INTO `premission` VALUES ('0RK1UXbMMUXK', '2019-03-07 17:31:13', '2019-03-07 17:31:13', 'Bug', 'bug', 1, '');
-INSERT INTO `premission` VALUES ('0RK1Xl9JNUni', '2019-03-07 17:44:00', '2019-03-07 17:44:00', '需求', 'need', 1, '');
-INSERT INTO `premission` VALUES ('0RK1Xo7TIgAX', '2019-03-07 17:44:11', '2019-03-08 14:40:29', '添加需求', 'need:add', 0, '0RK1Xl9JNUni');
+INSERT INTO `permission` VALUES ('0RJv6UEeJsHi', '2019-03-06 15:18:02', '2019-03-14 13:30:49', '用户系统', 'userSys', 1, '');
+INSERT INTO `permission` VALUES ('0RJv9CfWO6RM', '2019-03-06 15:28:49', '2019-03-06 16:02:31', '产品', 'product', 1, '');
+INSERT INTO `permission` VALUES ('0RJv9dWcNXGQ', '2019-03-06 15:30:33', '2019-03-14 13:30:58', '部门管理', 'department', 1, '0RJv6UEeJsHi');
+INSERT INTO `permission` VALUES ('0RJvAOEbNZFl', '2019-03-06 15:33:32', '2019-03-14 13:31:08', '添加部门', 'add:department', 0, '0RJv9dWcNXGQ');
+INSERT INTO `permission` VALUES ('0RK1LAUiK5wY', '2019-03-07 16:53:59', '2019-03-14 13:31:18', '修改部门', 'update:department', 0, '0RJv9dWcNXGQ');
+INSERT INTO `permission` VALUES ('0RK1LMElNDsx', '2019-03-07 16:54:44', '2019-03-14 13:31:30', '删除部门', 'delete:department', 0, '0RJv9dWcNXGQ');
+INSERT INTO `permission` VALUES ('0RK1LmnLOkB1', '2019-03-07 16:56:26', '2019-03-14 13:31:42', '用户管理', 'user', 1, '0RJv6UEeJsHi');
+INSERT INTO `permission` VALUES ('0RK1M7PdMKEg', '2019-03-07 16:57:45', '2019-03-14 13:31:52', '添加用户', 'add:user', 0, '0RK1LmnLOkB1');
+INSERT INTO `permission` VALUES ('0RK1PRkRNHPQ', '2019-03-07 17:10:59', '2019-03-14 13:31:59', '修改用户', 'update:user', 0, '0RK1LmnLOkB1');
+INSERT INTO `permission` VALUES ('0RK1PsijNB9G', '2019-03-07 17:12:42', '2019-03-14 13:32:32', '角色管理', 'role', 1, '0RJv6UEeJsHi');
+INSERT INTO `permission` VALUES ('0RK1PVPINvYW', '2019-03-07 17:11:13', '2019-03-14 13:32:24', '禁用/启用用户', 'delete:user', 0, '0RK1LmnLOkB1');
+INSERT INTO `permission` VALUES ('0RK1Q531Rvcc', '2019-03-07 17:13:30', '2019-03-14 13:32:42', '添加角色', 'add:role', 0, '0RK1PsijNB9G');
+INSERT INTO `permission` VALUES ('0RK1Q7V1ON8m', '2019-03-07 17:13:39', '2019-03-14 13:32:50', '删除角色', 'delete:role', 0, '0RK1PsijNB9G');
+INSERT INTO `permission` VALUES ('0RK1QaPJMTWJ', '2019-03-07 17:15:30', '2019-03-14 13:33:16', '添加权限', 'add:permission', 0, '0RK1QSQdR0zI');
+INSERT INTO `permission` VALUES ('0RK1QBmxR7nr', '2019-03-07 17:13:56', '2019-03-14 13:32:56', '修改角色', 'update:role', 0, '0RK1PsijNB9G');
+INSERT INTO `permission` VALUES ('0RK1QcxgOBe8', '2019-03-07 17:15:40', '2019-03-14 13:33:22', '修改权限', 'update:permission', 0, '0RK1QSQdR0zI');
+INSERT INTO `permission` VALUES ('0RK1QfsJOKYV', '2019-03-07 17:15:51', '2019-03-14 13:33:29', '删除权限', 'delete:permission', 0, '0RK1QSQdR0zI');
+INSERT INTO `permission` VALUES ('0RK1QSQdR0zI', '2019-03-07 17:15:00', '2019-03-14 13:33:06', '权限管理', 'permission', 1, '0RJv6UEeJsHi');
+INSERT INTO `permission` VALUES ('0RK1Re9pOp0j', '2019-03-07 17:19:43', '2019-03-14 13:34:09', '授权', 'authorization', 1, '');
+INSERT INTO `permission` VALUES ('0RK1RphWKG0f', '2019-03-07 17:20:27', '2019-03-14 13:37:29', '赋予角色权限', 'grant:permission', 0, '0RK1Re9pOp0j');
+INSERT INTO `permission` VALUES ('0RK1SCv7OLEE', '2019-03-07 17:21:57', '2019-03-14 13:37:42', '赋予用户角色', 'grant:role', 0, '0RK1Re9pOp0j');
+INSERT INTO `permission` VALUES ('0RK1SfCsMpv6', '2019-03-07 17:23:45', '2019-03-14 13:37:51', '添加产品', 'add:product', 0, '0RJv9CfWO6RM');
+INSERT INTO `permission` VALUES ('0RK1SrhOKO6j', '2019-03-07 17:24:33', '2019-03-14 13:37:59', '更新产品', 'update:product', 0, '0RJv9CfWO6RM');
+INSERT INTO `permission` VALUES ('0RK1SyiBOta0', '2019-03-07 17:25:00', '2019-03-14 13:38:13', '增删产品成员', 'addUser:product', 0, '0RJv9CfWO6RM');
+INSERT INTO `permission` VALUES ('0RK1TK4OKth9', '2019-03-07 17:26:22', '2019-03-07 17:26:22', '项目', 'project', 1, '');
+INSERT INTO `permission` VALUES ('0RK1U5TRO7sN', '2019-03-07 17:29:25', '2019-03-14 13:38:28', '添加项目', 'add:project', 0, '0RK1TK4OKth9');
+INSERT INTO `permission` VALUES ('0RK1Uf7zOloS', '2019-03-07 17:31:42', '2019-03-14 13:38:43', '添加Bug', 'add:bug', 0, '0RK1UXbMMUXK');
+INSERT INTO `permission` VALUES ('0RK1UIH5R4tb', '2019-03-07 17:30:14', '2019-03-14 13:38:35', '更新项目', 'update:project', 0, '0RK1TK4OKth9');
+INSERT INTO `permission` VALUES ('0RK1UXbMMUXK', '2019-03-07 17:31:13', '2019-03-07 17:31:13', 'Bug', 'bug', 1, '');
+INSERT INTO `permission` VALUES ('0RK1Xl9JNUni', '2019-03-07 17:44:00', '2019-03-07 17:44:00', '需求', 'need', 1, '');
+INSERT INTO `permission` VALUES ('0RK1Xo7TIgAX', '2019-03-07 17:44:11', '2019-03-14 13:38:53', '添加需求', 'add:need', 0, '0RK1Xl9JNUni');
+INSERT INTO `permission` VALUES ('0RKaadqsNvuO', '2019-03-13 17:34:59', '2019-03-14 13:39:39', '查看部门', 'select:department', 0, '0RJv9dWcNXGQ');
+INSERT INTO `permission` VALUES ('0RKabB0UJMCe', '2019-03-13 17:37:06', '2019-03-14 13:39:47', '查看用户', 'select:user', 0, '0RK1LmnLOkB1');
+INSERT INTO `permission` VALUES ('0RKabdTBQ0q5', '2019-03-13 17:38:55', '2019-03-14 13:40:04', '查看权限', 'select:permission', 0, '0RK1QSQdR0zI');
+INSERT INTO `permission` VALUES ('0RKabP2qNReH', '2019-03-13 17:38:00', '2019-03-14 13:39:55', '查看角色', 'select:role', 0, '0RK1PsijNB9G');
+INSERT INTO `permission` VALUES ('0RKabvr1PoYA', '2019-03-13 17:40:06', '2019-03-14 13:40:13', '查看产品', 'select:product', 0, '0RJv9CfWO6RM');
+INSERT INTO `permission` VALUES ('0RKac9wIQjDI', '2019-03-13 17:41:00', '2019-03-14 13:40:21', '查看项目', 'select:project', 0, '0RK1TK4OKth9');
+INSERT INTO `permission` VALUES ('0RKacM9ZPVOO', '2019-03-13 17:41:47', '2019-03-14 13:40:28', '查看Bug', 'select:bug', 0, '0RK1UXbMMUXK');
+INSERT INTO `permission` VALUES ('0RKacPAqNO6J', '2019-03-13 17:41:59', '2019-03-14 13:40:36', '查看需求', 'select:need', 0, '0RK1Xl9JNUni');
+INSERT INTO `permission` VALUES ('0RKgRvmRMsZX', '2019-03-14 17:38:00', '2019-03-14 17:38:00', '查看登陆日志', 'loginLog', 0, '0RJv6UEeJsHi');
+INSERT INTO `permission` VALUES ('0RKT0valWPoQ', '2019-03-12 10:29:13', '2019-03-14 13:39:08', '统计', 'statistic', 1, '');
+INSERT INTO `permission` VALUES ('0RKT0zQCZvrn', '2019-03-12 10:29:27', '2019-03-14 13:39:05', '产品统计', 'products:statistic', 0, '0RKT0valWPoQ');
+INSERT INTO `permission` VALUES ('0RKT17OmXwH8', '2019-03-12 10:29:58', '2019-03-14 13:39:17', '开发人员统计', 'developer:statistic', 0, '0RKT0valWPoQ');
+INSERT INTO `permission` VALUES ('0RKT1A9CWBDQ', '2019-03-12 10:30:08', '2019-03-14 13:39:26', '测试人员统计', 'test:statistic', 0, '0RKT0valWPoQ');
+INSERT INTO `permission` VALUES ('0RLDRLZEPdxx', '2019-03-20 09:02:40', '2019-03-20 09:02:40', '删除产品', 'delete:product', 0, '0RJv9CfWO6RM');
+INSERT INTO `permission` VALUES ('0RLDWEC2OqB6', '2019-03-20 09:22:04', '2019-03-20 09:22:04', '删除项目', 'delete:project', 0, '0RK1TK4OKth9');
 
 -- ----------------------------
 -- Table structure for product
@@ -239,37 +194,10 @@ CREATE TABLE `product`  (
 -- ----------------------------
 -- Records of product
 -- ----------------------------
-INSERT INTO `product` VALUES ('0RJFGfY1NxLh', '2019-02-27 11:35:03', '2019-02-27 11:35:03', '产品1', '这是产品1的介绍');
-INSERT INTO `product` VALUES ('0RJFSg4kNuYC', '2019-02-27 12:22:45', '2019-02-27 20:25:01', '产品222', '这是一个产品2这是一个产品2这是一个产品2这是一个产品2这是一个产品2a\n这是一个产品2这是一个产品2这是一个产品2这是一个产品2\n这是一个产品2这是一个产品2这是一个产品2\n这是一个产品2这是一个产品2\n这是一个产品2小臭小子创造性');
-INSERT INTO `product` VALUES ('0RJFSgboNr6v', '2019-02-27 12:22:47', '2019-02-27 12:22:47', '123', '123');
-INSERT INTO `product` VALUES ('0RJFSgLYN6QS', '2019-02-27 12:22:46', '2019-02-28 08:35:37', '产品3', '123');
-INSERT INTO `product` VALUES ('0RJFSgP8G5vx', '2019-02-27 12:22:46', '2019-02-28 08:35:46', '产品4', '123');
-INSERT INTO `product` VALUES ('0RJFSgRrMBEb', '2019-02-27 12:22:46', '2019-02-28 08:35:53', '产品5', '123');
-INSERT INTO `product` VALUES ('0RJFSgUONMuv', '2019-02-27 12:22:46', '2019-02-28 08:36:08', '产品6', '123');
-INSERT INTO `product` VALUES ('0RJFSgWkGCkN', '2019-02-27 12:22:46', '2019-02-28 08:36:18', '产品7', '123');
-INSERT INTO `product` VALUES ('0RJFSgZ0IlJ1', '2019-02-27 12:22:46', '2019-02-27 12:22:46', '123', '123');
-INSERT INTO `product` VALUES ('0RJFShbINJa3', '2019-02-27 12:22:50', '2019-02-27 12:22:50', '123', '123');
-INSERT INTO `product` VALUES ('0RJFShoDIvn0', '2019-02-27 12:22:51', '2019-02-27 12:22:51', '123', '123');
-INSERT INTO `product` VALUES ('0RJFShuqGa2L', '2019-02-27 12:22:52', '2019-02-27 12:22:52', '123', '123');
-INSERT INTO `product` VALUES ('0RJFShxYNbiJ', '2019-02-27 12:22:52', '2019-02-27 12:22:52', '123', '123');
-INSERT INTO `product` VALUES ('0RJFSi0AMPzj', '2019-02-27 12:22:52', '2019-02-27 12:22:52', '123', '123');
-INSERT INTO `product` VALUES ('0RJFSi2cGJ0I', '2019-02-27 12:22:52', '2019-02-27 12:22:52', '123', '123');
-INSERT INTO `product` VALUES ('0RJFSi5BMGMm', '2019-02-27 12:22:52', '2019-02-27 12:22:52', '123', '123');
-INSERT INTO `product` VALUES ('0RJFSi7mIdvY', '2019-02-27 12:22:52', '2019-02-27 12:22:52', '123', '123');
-INSERT INTO `product` VALUES ('0RJFSiABGv0X', '2019-02-27 12:22:53', '2019-02-27 12:22:53', '123', '123');
-INSERT INTO `product` VALUES ('0RJFTPaSMnYY', '2019-02-27 12:25:39', '2019-02-27 12:25:39', 'nh', 'null');
-INSERT INTO `product` VALUES ('0RJFTS9wNyX2', '2019-02-27 12:25:49', '2019-02-27 12:25:49', 'nh', 'huihiuh');
-INSERT INTO `product` VALUES ('0RJFTSbMIAD9', '2019-02-27 12:25:51', '2019-02-27 12:25:51', 'nh', 'huihiuh');
-INSERT INTO `product` VALUES ('0RJFTSINMQYn', '2019-02-27 12:25:50', '2019-02-27 12:25:50', 'nh', 'huihiuh');
-INSERT INTO `product` VALUES ('0RJFTSKkGgKO', '2019-02-27 12:25:50', '2019-02-27 12:25:50', 'nh', 'huihiuh');
-INSERT INTO `product` VALUES ('0RJFTSN6IRPx', '2019-02-27 12:25:50', '2019-02-27 12:25:50', 'nh', 'huihiuh');
-INSERT INTO `product` VALUES ('0RJFTSPNMpxl', '2019-02-27 12:25:50', '2019-02-27 12:25:50', 'nh', 'huihiuh');
-INSERT INTO `product` VALUES ('0RJFTSRuGfLK', '2019-02-27 12:25:50', '2019-02-27 12:25:50', 'nh', 'huihiuh');
-INSERT INTO `product` VALUES ('0RJFTSU7Ia8x', '2019-02-27 12:25:51', '2019-02-27 12:25:51', 'nh', 'huihiuh');
-INSERT INTO `product` VALUES ('0RJFTSWQGwqB', '2019-02-27 12:25:51', '2019-02-27 12:25:51', 'nh', 'huihiuh');
-INSERT INTO `product` VALUES ('0RJFTSZ8NSMH', '2019-02-27 12:25:51', '2019-02-27 12:25:51', 'nh', 'huihiuh');
-INSERT INTO `product` VALUES ('0RJGhsNbI4c0', '2019-02-27 17:29:23', '2019-02-27 17:29:23', '新手考核项目', '一、公共模块\n1.用户系统，需要实现用户，角色，权限自定义功能，权限的控制精确到每个操作。注册用户必须填写，姓名，部门，工号，企业邮箱，以邮箱作为登录名。每个用户登录都需要有登录日志\n2.用户和角色是多对多的对应关系，一个用户可以有多重角色，他的权限为所有角色权限合并叠加。\n\n二、项目管理：需要实现项目管理的关键流程\n1.项目管理过程的数据组织形式： 产品 –> 项目(或者不同版本的需求)->需求(原型和文档) –> 测试(bug)\n2.添加产品（特定权限） ，需要处理产品名称、介绍、参与成员等信息\n3.添加项目（特定权限） ，需要处理所属产品、项目名称、开始结束日期、完成状态等信息（完成状态 由有特定权限人员维护，前提是该项目没有未处理的bug的情况下）');
-INSERT INTO `product` VALUES ('0RK1O9OUMWke', '2019-03-07 17:05:50', '2019-03-07 17:05:50', '项目管理系统', '恶趣味我去恶趣味额');
+INSERT INTO `product` VALUES ('0RKlxLJTLqLn', '2019-03-15 16:14:08', '2019-03-20 08:49:05', '考核产品1号', '这是考核产品1号');
+INSERT INTO `product` VALUES ('0RL7vndSRxnM', '2019-03-19 10:26:00', '2019-03-19 10:26:00', '测试产品', '这是一个测试产');
+INSERT INTO `product` VALUES ('0RLDVH7KP4Gh', '2019-03-20 09:18:17', '2019-03-20 09:18:17', 'qwe', 'qwe');
+INSERT INTO `product` VALUES ('0RLG86MPN0R8', '2019-03-20 20:05:03', '2019-03-20 20:05:12', 'asdf', 'wqeacsff');
 
 -- ----------------------------
 -- Table structure for product_member
@@ -287,71 +215,29 @@ CREATE TABLE `product_member`  (
 -- ----------------------------
 -- Records of product_member
 -- ----------------------------
-INSERT INTO `product_member` VALUES ('0RJFGfYANU1f', '2019-02-27 11:35:03', '2019-02-27 11:35:03', '0RJFGfY1NxLh', 'asdrcxzv1234');
-INSERT INTO `product_member` VALUES ('0RJFShbSNIoq', '2019-02-27 12:22:50', '2019-02-27 12:22:50', '0RJFShbINJa3', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFShoMI1WL', '2019-02-27 12:22:51', '2019-02-27 12:22:51', '0RJFShoDIvn0', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFShv2GBQs', '2019-02-27 12:22:52', '2019-02-27 12:22:52', '0RJFShuqGa2L', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFShxfNUkO', '2019-02-27 12:22:52', '2019-02-27 12:22:52', '0RJFShxYNbiJ', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFSi0HM199', '2019-02-27 12:22:52', '2019-02-27 12:22:52', '0RJFSi0AMPzj', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFSi2jGKgF', '2019-02-27 12:22:52', '2019-02-27 12:22:52', '0RJFSi2cGJ0I', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFSi5IMFkS', '2019-02-27 12:22:52', '2019-02-27 12:22:52', '0RJFSi5BMGMm', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFSi7tIuQO', '2019-02-27 12:22:52', '2019-02-27 12:22:52', '0RJFSi7mIdvY', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFSiAIGDQh', '2019-02-27 12:22:53', '2019-02-27 12:22:53', '0RJFSiABGv0X', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFTPaaMS71', '2019-02-27 12:25:39', '2019-02-27 12:25:39', '0RJFTPaSMnYY', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFTPahMqWc', '2019-02-27 12:25:40', '2019-02-27 12:25:40', '0RJFTPaSMnYY', '0RJA8qMVJNCF');
-INSERT INTO `product_member` VALUES ('0RJFTSA4N2B9', '2019-02-27 12:25:49', '2019-02-27 12:25:49', '0RJFTS9wNyX2', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFTSAANzmi', '2019-02-27 12:25:49', '2019-02-27 12:25:49', '0RJFTS9wNyX2', '0RJA8qMVJNCF');
-INSERT INTO `product_member` VALUES ('0RJFTSbTI2w5', '2019-02-27 12:25:51', '2019-02-27 12:25:51', '0RJFTSbMIAD9', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFTSbYIYMc', '2019-02-27 12:25:51', '2019-02-27 12:25:51', '0RJFTSbMIAD9', '0RJA8qMVJNCF');
-INSERT INTO `product_member` VALUES ('0RJFTSIeMoWE', '2019-02-27 12:25:50', '2019-02-27 12:25:50', '0RJFTSINMQYn', '0RJA8qMVJNCF');
-INSERT INTO `product_member` VALUES ('0RJFTSIXMcsC', '2019-02-27 12:25:50', '2019-02-27 12:25:50', '0RJFTSINMQYn', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFTSKrGzaj', '2019-02-27 12:25:50', '2019-02-27 12:25:50', '0RJFTSKkGgKO', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFTSKwG1ia', '2019-02-27 12:25:50', '2019-02-27 12:25:50', '0RJFTSKkGgKO', '0RJA8qMVJNCF');
-INSERT INTO `product_member` VALUES ('0RJFTSNDImZa', '2019-02-27 12:25:50', '2019-02-27 12:25:50', '0RJFTSN6IRPx', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFTSNKIwbc', '2019-02-27 12:25:50', '2019-02-27 12:25:50', '0RJFTSN6IRPx', '0RJA8qMVJNCF');
-INSERT INTO `product_member` VALUES ('0RJFTSPUM0Vk', '2019-02-27 12:25:50', '2019-02-27 12:25:50', '0RJFTSPNMpxl', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFTSPZMiQ0', '2019-02-27 12:25:50', '2019-02-27 12:25:50', '0RJFTSPNMpxl', '0RJA8qMVJNCF');
-INSERT INTO `product_member` VALUES ('0RJFTSS2GJGF', '2019-02-27 12:25:50', '2019-02-27 12:25:50', '0RJFTSRuGfLK', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFTSS8GxJo', '2019-02-27 12:25:51', '2019-02-27 12:25:51', '0RJFTSRuGfLK', '0RJA8qMVJNCF');
-INSERT INTO `product_member` VALUES ('0RJFTSUDIrKu', '2019-02-27 12:25:51', '2019-02-27 12:25:51', '0RJFTSU7Ia8x', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFTSUII1YM', '2019-02-27 12:25:51', '2019-02-27 12:25:51', '0RJFTSU7Ia8x', '0RJA8qMVJNCF');
-INSERT INTO `product_member` VALUES ('0RJFTSWcGNQK', '2019-02-27 12:25:51', '2019-02-27 12:25:51', '0RJFTSWQGwqB', '0RJA8qMVJNCF');
-INSERT INTO `product_member` VALUES ('0RJFTSWWGOxy', '2019-02-27 12:25:51', '2019-02-27 12:25:51', '0RJFTSWQGwqB', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFTSZENkX9', '2019-02-27 12:25:51', '2019-02-27 12:25:51', '0RJFTSZ8NSMH', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJFTSZJNPCq', '2019-02-27 12:25:51', '2019-02-27 12:25:51', '0RJFTSZ8NSMH', '0RJA8qMVJNCF');
-INSERT INTO `product_member` VALUES ('0RJGhsNlIZOQ', '2019-02-27 17:29:23', '2019-02-27 17:29:23', '0RJGhsNbI4c0', 'asdrcxzv1234');
-INSERT INTO `product_member` VALUES ('0RJGhsNtIRNc', '2019-02-27 17:29:23', '2019-02-27 17:29:23', '0RJGhsNbI4c0', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJGhsNzIDxT', '2019-02-27 17:29:23', '2019-02-27 17:29:23', '0RJGhsNbI4c0', '0RJA8qMVJNCF');
-INSERT INTO `product_member` VALUES ('0RJGhsO6IHO5', '2019-02-27 17:29:23', '2019-02-27 17:29:23', '0RJGhsNbI4c0', '0RJA9gIwGymb');
-INSERT INTO `product_member` VALUES ('0RJGhsOBIeVR', '2019-02-27 17:29:23', '2019-02-27 17:29:23', '0RJGhsNbI4c0', '0RJAh2vRLbN6');
-INSERT INTO `product_member` VALUES ('0RJGhsOHIuwI', '2019-02-27 17:29:23', '2019-02-27 17:29:23', '0RJGhsNbI4c0', '0RJAh8B0ISkV');
-INSERT INTO `product_member` VALUES ('0RJGhsOOIzPg', '2019-02-27 17:29:23', '2019-02-27 17:29:23', '0RJGhsNbI4c0', '0RJAp33LPem8');
-INSERT INTO `product_member` VALUES ('0RJHDqSrIDBc', '2019-02-27 19:36:22', '2019-02-27 19:36:22', '0RJFSgLYN6QS', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJHGPN1Ot1X', '2019-02-27 19:46:33', '2019-02-27 19:46:33', '0RJFSgLYN6QS', '0RJA8qMVJNCF');
-INSERT INTO `product_member` VALUES ('0RJHGPN9OYtI', '2019-02-27 19:46:33', '2019-02-27 19:46:33', '0RJFSgLYN6QS', '0RJA9gIwGymb');
-INSERT INTO `product_member` VALUES ('0RJHHMEeLdMv', '2019-02-27 19:50:19', '2019-02-27 19:50:19', '0RJFGfY1NxLh', '0RJA9gIwGymb');
-INSERT INTO `product_member` VALUES ('0RJHHMEVL285', '2019-02-27 19:50:19', '2019-02-27 19:50:19', '0RJFGfY1NxLh', '0RJA8qMVJNCF');
-INSERT INTO `product_member` VALUES ('0RJHQ8MpL0eq', '2019-02-27 20:25:11', '2019-02-27 20:25:11', '0RJFSg4kNuYC', '0RJA8qMVJNCF');
-INSERT INTO `product_member` VALUES ('0RJHQ8MwLEMV', '2019-02-27 20:25:11', '2019-02-27 20:25:11', '0RJFSg4kNuYC', '0RJA9gIwGymb');
-INSERT INTO `product_member` VALUES ('0RJHQMhbH3Dp', '2019-02-27 20:26:06', '2019-02-27 20:26:06', '0RJFSg4kNuYC', '0RJAh2vRLbN6');
-INSERT INTO `product_member` VALUES ('0RJHQMhhHdng', '2019-02-27 20:26:06', '2019-02-27 20:26:06', '0RJFSg4kNuYC', '0RJAh8B0ISkV');
-INSERT INTO `product_member` VALUES ('0RJHQQPJLFkd', '2019-02-27 20:26:20', '2019-02-27 20:26:20', '0RJFSg4kNuYC', 'asdrcxzv1234');
-INSERT INTO `product_member` VALUES ('0RJHQQPRLTEs', '2019-02-27 20:26:20', '2019-02-27 20:26:20', '0RJFSg4kNuYC', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJHRG5CN0uE', '2019-02-27 20:29:39', '2019-02-27 20:29:39', '0RJFSg4kNuYC', '0RJAp33LPem8');
-INSERT INTO `product_member` VALUES ('0RJKcLVmGoL0', '2019-02-28 09:32:30', '2019-02-28 09:32:30', '0RJFSgP8G5vx', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJKcLVwGS89', '2019-02-28 09:32:30', '2019-02-28 09:32:30', '0RJFSgP8G5vx', '0RJA9gIwGymb');
-INSERT INTO `product_member` VALUES ('0RJM9fwwHYsN', '2019-02-28 15:51:10', '2019-02-28 15:51:10', '0RJFSgWkGCkN', 'null');
-INSERT INTO `product_member` VALUES ('0RJM9geGLGgq', '2019-02-28 15:51:13', '2019-02-28 15:51:13', '0RJFSgWkGCkN', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJM9geNLRgD', '2019-02-28 15:51:13', '2019-02-28 15:51:13', '0RJFSgWkGCkN', '0RJA9gIwGymb');
-INSERT INTO `product_member` VALUES ('0RJST5DLNuu8', '2019-03-01 17:45:54', '2019-03-01 17:45:54', '0RJFGfY1NxLh', 'null');
-INSERT INTO `product_member` VALUES ('0RJST6mbM2KZ', '2019-03-01 17:46:00', '2019-03-01 17:46:00', '0RJFGfY1NxLh', '0RJA8Rh6JjnA');
-INSERT INTO `product_member` VALUES ('0RJST8FrIzXR', '2019-03-01 17:46:05', '2019-03-01 17:46:05', '0RJFGfY1NxLh', '0RJAh2vRLbN6');
-INSERT INTO `product_member` VALUES ('0RJSTA4VIFgC', '2019-03-01 17:46:12', '2019-03-01 17:46:12', '0RJFGfY1NxLh', '0RJAh8B0ISkV');
-INSERT INTO `product_member` VALUES ('0RJSTCQiJ9V2', '2019-03-01 17:46:21', '2019-03-01 17:46:21', '0RJFGfY1NxLh', '0RJAp33LPem8');
-INSERT INTO `product_member` VALUES ('0RK1O9OdMu2a', '2019-03-07 17:05:50', '2019-03-07 17:05:50', '0RK1O9OUMWke', '0RJpq3vXMd0m');
-INSERT INTO `product_member` VALUES ('0RK1OCB7O6H5', '2019-03-07 17:06:00', '2019-03-07 17:06:00', '0RK1O9OUMWke', '0RJtVRByNyjL');
-INSERT INTO `product_member` VALUES ('0RK1UphMRpLW', '2019-03-07 17:32:22', '2019-03-07 17:32:22', '0RJFGfY1NxLh', '0RJpq3vXMd0m');
-INSERT INTO `product_member` VALUES ('0RK1UphWR54t', '2019-03-07 17:32:22', '2019-03-07 17:32:22', '0RJFGfY1NxLh', '0RJtVRByNyjL');
+INSERT INTO `product_member` VALUES ('0RKlxLJUL7zi', '2019-03-15 16:14:08', '2019-03-15 16:14:08', '0RKlxLJTLqLn', '0RKlrP1EOEdT');
+INSERT INTO `product_member` VALUES ('0RKlxLJVLffV', '2019-03-15 16:14:08', '2019-03-15 16:14:08', '0RKlxLJTLqLn', '0RKls0EXLIPj');
+INSERT INTO `product_member` VALUES ('0RKlyZQiLiz1', '2019-03-15 16:19:01', '2019-03-15 16:19:01', '0RKlxLJTLqLn', '0RJpq3vXMd0m');
+INSERT INTO `product_member` VALUES ('0RKnRNIbOryL', '2019-03-15 22:19:42', '2019-03-15 22:19:42', '0RKlxLJTLqLn', '0RKlrdvSLysq');
+INSERT INTO `product_member` VALUES ('0RL7vndTR9SL', '2019-03-19 10:26:00', '2019-03-19 10:26:00', '0RL7vndSRxnM', '0RJpq3vXMd0m');
+INSERT INTO `product_member` VALUES ('0RL7vndTRlbP', '2019-03-19 10:26:00', '2019-03-19 10:26:00', '0RL7vndSRxnM', '0RKlrP1EOEdT');
+INSERT INTO `product_member` VALUES ('0RL7vndURkkA', '2019-03-19 10:26:00', '2019-03-19 10:26:00', '0RL7vndSRxnM', '0RKlrZR4O9SZ');
+INSERT INTO `product_member` VALUES ('0RL7vndURyrR', '2019-03-19 10:26:00', '2019-03-19 10:26:00', '0RL7vndSRxnM', '0RKlrTZ8LsvU');
+INSERT INTO `product_member` VALUES ('0RL7vndVR0E4', '2019-03-19 10:26:00', '2019-03-19 10:26:00', '0RL7vndSRxnM', '0RKlrdvSLysq');
+INSERT INTO `product_member` VALUES ('0RL7vndWRsO9', '2019-03-19 10:26:00', '2019-03-19 10:26:00', '0RL7vndSRxnM', '0RKls0EXLIPj');
+INSERT INTO `product_member` VALUES ('0RL7vndWRU6m', '2019-03-19 10:26:00', '2019-03-19 10:26:00', '0RL7vndSRxnM', '0RKlrlmhOLUz');
+INSERT INTO `product_member` VALUES ('0RL7vndXRPgU', '2019-03-19 10:26:00', '2019-03-19 10:26:00', '0RL7vndSRxnM', '0RL7c6UrNnGD');
+INSERT INTO `product_member` VALUES ('0RL7vqGlJmXc', '2019-03-19 10:26:10', '2019-03-19 10:26:10', '0RL7vndSRxnM', '0RKlrhKFNoCc');
+INSERT INTO `product_member` VALUES ('0RL7wvTcR6W0', '2019-03-19 10:30:29', '2019-03-19 10:30:29', '0RKlxLJTLqLn', '0RKlrhKFNoCc');
+INSERT INTO `product_member` VALUES ('0RLDNs6XPd9T', '2019-03-20 08:48:52', '2019-03-20 08:48:52', '0RKlxLJTLqLn', '0RL7c6UrNnGD');
+INSERT INTO `product_member` VALUES ('0RLDUkIEPHno', '2019-03-20 09:16:10', '2019-03-20 09:16:10', '0RLDUkIDPFfW', 'null');
+INSERT INTO `product_member` VALUES ('0RLDV2KQN1Nf', '2019-03-20 09:17:20', '2019-03-20 09:17:20', '0RLDV2KPNs5D', 'null');
+INSERT INTO `product_member` VALUES ('0RLDVB7KOdIo', '2019-03-20 09:17:54', '2019-03-20 09:17:54', '0RLDVB7JOgM5', 'null');
+INSERT INTO `product_member` VALUES ('0RLEl0p6P2p2', '2019-03-20 14:27:04', '2019-03-20 14:27:04', '0RLDVH7KP4Gh', '0RJpq3vXMd0m');
+INSERT INTO `product_member` VALUES ('0RLEl0p7PLnz', '2019-03-20 14:27:04', '2019-03-20 14:27:04', '0RLDVH7KP4Gh', '0RKlrP1EOEdT');
+INSERT INTO `product_member` VALUES ('0RLEl0p7POl6', '2019-03-20 14:27:04', '2019-03-20 14:27:04', '0RLDVH7KP4Gh', '0RKlrTZ8LsvU');
+INSERT INTO `product_member` VALUES ('0RLG86MQNX0l', '2019-03-20 20:05:03', '2019-03-20 20:05:03', '0RLG86MPN0R8', '0RJpq3vXMd0m');
+INSERT INTO `product_member` VALUES ('0RLG86MRNPAk', '2019-03-20 20:05:03', '2019-03-20 20:05:03', '0RLG86MPN0R8', '0RL7c6UrNnGD');
 
 -- ----------------------------
 -- Table structure for project
@@ -372,27 +258,13 @@ CREATE TABLE `project`  (
 -- ----------------------------
 -- Records of project
 -- ----------------------------
-INSERT INTO `project` VALUES ('0RJKxY2oMnpL', '2019-02-28 10:56:44', '2019-03-06 08:50:00', '2019-02-01', '2019-02-28', '0RJFGfY1NxLh', '项目1', 0);
-INSERT INTO `project` VALUES ('0RJL0jTeL1Rs', '2019-02-28 11:09:22', '2019-02-28 15:51:23', '2019-01-11', '2019-12-11', '0RJFSgWkGCkN', '项目2', 0);
-INSERT INTO `project` VALUES ('0RJL3C3lKgHr', '2019-02-28 11:19:09', '2019-03-02 16:16:37', '2019-02-01', '2019-02-21', '0RJFSg4kNuYC', '项目3', 0);
-INSERT INTO `project` VALUES ('0RJL3CdsMnmX', '2019-02-28 11:19:11', '2019-02-28 15:23:52', '2019-02-01', '2019-02-21', '0RJGhsNbI4c0', '项目4', 0);
-INSERT INTO `project` VALUES ('0RJL3DCkNYIR', '2019-02-28 11:19:13', '2019-02-28 11:19:13', '2019-02-01', '2019-02-21', '0RJFSg4kNuYC', '项目5', 0);
-INSERT INTO `project` VALUES ('0RJL3DjLJasv', '2019-02-28 11:19:15', '2019-02-28 11:19:15', '2019-02-01', '2019-02-21', '0RJFSg4kNuYC', '项目6', 0);
-INSERT INTO `project` VALUES ('0RJL3EIQMa1D', '2019-02-28 11:19:18', '2019-02-28 11:19:18', '2019-02-01', '2019-02-21', '0RJFSg4kNuYC', '项目7', 0);
-INSERT INTO `project` VALUES ('0RJL3EwQJRpB', '2019-02-28 11:19:20', '2019-02-28 11:19:20', '2019-02-01', '2019-02-21', '0RJFSg4kNuYC', '项目8', 0);
-INSERT INTO `project` VALUES ('0RJL3FURK1yl', '2019-02-28 11:19:22', '2019-02-28 11:19:22', '2019-02-01', '2019-02-21', '0RJFSg4kNuYC', '项目9', 0);
-INSERT INTO `project` VALUES ('0RJL3G4JNnj0', '2019-02-28 11:19:24', '2019-02-28 11:19:24', '2019-02-01', '2019-02-21', '0RJFSg4kNuYC', '项目10', 0);
-INSERT INTO `project` VALUES ('0RJL3H0EKXGK', '2019-02-28 11:19:28', '2019-02-28 11:19:28', '2019-02-01', '2019-02-21', '0RJFSg4kNuYC', '项目11', 0);
-INSERT INTO `project` VALUES ('0RJL3IuYKuB3', '2019-02-28 11:19:35', '2019-02-28 11:19:35', '2019-02-01', '2019-02-21', '0RJFSg4kNuYC', '项目12', 0);
-INSERT INTO `project` VALUES ('0RJL3JOpNaTi', '2019-02-28 11:19:37', '2019-02-28 11:19:37', '2019-02-01', '2019-02-21', '0RJFSg4kNuYC', '项目13', 0);
-INSERT INTO `project` VALUES ('0RJL3JtpJZVB', '2019-02-28 11:19:39', '2019-02-28 11:19:39', '2019-02-01', '2019-02-21', '0RJFSg4kNuYC', '项目14', 0);
-INSERT INTO `project` VALUES ('0RJL3KgeMIBO', '2019-02-28 11:19:42', '2019-02-28 11:19:42', '2019-02-01', '2019-02-21', '0RJFSg4kNuYC', '项目16', 0);
-INSERT INTO `project` VALUES ('0RJL3KJRK0xF', '2019-02-28 11:19:41', '2019-02-28 11:19:41', '2019-02-01', '2019-02-21', '0RJFSg4kNuYC', '项目15', 0);
-INSERT INTO `project` VALUES ('0RJL3L74KB8t', '2019-02-28 11:19:44', '2019-02-28 11:19:44', '2019-02-01', '2019-02-21', '0RJFSg4kNuYC', '项目17', 0);
-INSERT INTO `project` VALUES ('0RJL3LZZJKkf', '2019-02-28 11:19:46', '2019-02-28 11:19:46', '2019-02-01', '2019-02-21', '0RJFSg4kNuYC', '项目18', 0);
-INSERT INTO `project` VALUES ('0RJL3M0SNyxW', '2019-02-28 11:19:47', '2019-02-28 11:19:47', '2019-02-01', '2019-02-21', '0RJFSg4kNuYC', '项目19', 0);
-INSERT INTO `project` VALUES ('0RJL3MgKJ4rc', '2019-02-28 11:19:50', '2019-02-28 11:19:50', '2019-02-01', '2019-02-21', '0RJFSg4kNuYC', '项目20', 0);
-INSERT INTO `project` VALUES ('0RJL3vBcL1mt', '2019-02-28 11:22:02', '2019-02-28 11:22:02', '2019-02-01', '2019-11-21', '0RJGhsNbI4c0', '项目21', 0);
+INSERT INTO `project` VALUES ('0RKlxfcDMP9J', '2019-03-15 16:15:27', '2019-03-15 16:15:27', '2019-02-21', '2019-03-31', '0RKlxLJTLqLn', '考核项目1号', 0);
+INSERT INTO `project` VALUES ('0RL1x6coMnxv', '2019-03-18 09:53:33', '2019-03-18 09:53:33', '2019-03-07', '2019-03-24', '0RKlxLJTLqLn', '考核项目1', 0);
+INSERT INTO `project` VALUES ('0RL7w7PeR20t', '2019-03-19 10:27:16', '2019-03-19 10:27:24', '2019-03-01', '2019-03-24', '0RL7vndSRxnM', '测试项目1', 0);
+INSERT INTO `project` VALUES ('0RLDavgXMOzC', '2019-03-20 09:40:44', '2019-03-20 09:41:38', '2019-03-16', '2019-03-30', '0RLDVH7KP4Gh', 'asdv', 0);
+INSERT INTO `project` VALUES ('0RLEiLLPSuuF', '2019-03-20 14:16:27', '2019-03-20 14:16:27', '2019-03-01', '2019-03-31', '0RKlxLJTLqLn', 'qweqweqwe', 0);
+INSERT INTO `project` VALUES ('0RLFNzruP3nV', '2019-03-20 17:01:55', '2019-03-20 17:01:55', '2019-03-01', '2019-03-24', '0RKlxLJTLqLn', 'qwe', 0);
+INSERT INTO `project` VALUES ('0RLG8C4ZNmJF', '2019-03-20 20:05:25', '2019-03-20 20:05:25', '2019-03-30', '2019-03-03', '0RLG86MPN0R8', 'weqfasv', 0);
 
 -- ----------------------------
 -- Table structure for role
@@ -402,8 +274,9 @@ CREATE TABLE `role`  (
   `id` char(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'id',
   `addtime` datetime(0) NOT NULL COMMENT '创建时间',
   `updatetime` datetime(0) NOT NULL COMMENT '更新时间',
-  `role_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci UNIQUE NOT NULL COMMENT '角色名',
-  PRIMARY KEY (`id`) USING BTREE
+  `role_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `role_name`(`role_name`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -416,61 +289,128 @@ INSERT INTO `role` VALUES ('0RJts9c8LcCi', '2019-03-06 10:14:50', '2019-03-12 10
 INSERT INTO `role` VALUES ('0RKT0hvkZ6qr', '2019-03-12 10:28:20', '2019-03-12 10:28:20', '开发人员');
 
 -- ----------------------------
--- Table structure for role_premission
+-- Table structure for role_permission
 -- ----------------------------
-DROP TABLE IF EXISTS `role_premission`;
-CREATE TABLE `role_premission`  (
+DROP TABLE IF EXISTS `role_permission`;
+CREATE TABLE `role_permission`  (
   `id` char(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'id',
   `addtime` datetime(0) NOT NULL COMMENT '创建时间',
   `updatetime` datetime(0) NOT NULL COMMENT '更新时间',
   `role_id` char(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色id',
-  `premission_id` char(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限id',
+  `permission_id` char(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色-权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of role_premission
+-- Records of role_permission
 -- ----------------------------
-INSERT INTO `role_premission` VALUES ('0RK5D33nLW3L', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RJv6UEeJsHi');
-INSERT INTO `role_premission` VALUES ('0RK5D33yLNo3', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RJv9dWcNXGQ');
-INSERT INTO `role_premission` VALUES ('0RK5D345LPVv', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RJvAOEbNZFl');
-INSERT INTO `role_premission` VALUES ('0RK5D34cLgu8', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1PRkRNHPQ');
-INSERT INTO `role_premission` VALUES ('0RK5D34ELUxP', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1LAUiK5wY');
-INSERT INTO `role_premission` VALUES ('0RK5D34iLat2', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1PVPINvYW');
-INSERT INTO `role_premission` VALUES ('0RK5D34LLA2S', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1LMElNDsx');
-INSERT INTO `role_premission` VALUES ('0RK5D34nLu7H', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1PsijNB9G');
-INSERT INTO `role_premission` VALUES ('0RK5D34RL2Ei', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1LmnLOkB1');
-INSERT INTO `role_premission` VALUES ('0RK5D34tLinS', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1Q531Rvcc');
-INSERT INTO `role_premission` VALUES ('0RK5D34WLubR', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1M7PdMKEg');
-INSERT INTO `role_premission` VALUES ('0RK5D34yLfHM', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1Q7V1ON8m');
-INSERT INTO `role_premission` VALUES ('0RK5D354LVao', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1QBmxR7nr');
-INSERT INTO `role_premission` VALUES ('0RK5D359Lpff', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1QSQdR0zI');
-INSERT INTO `role_premission` VALUES ('0RK5D35aLgGv', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1SfCsMpv6');
-INSERT INTO `role_premission` VALUES ('0RK5D35ELUey', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1QaPJMTWJ');
-INSERT INTO `role_premission` VALUES ('0RK5D35gLKJJ', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1SrhOKO6j');
-INSERT INTO `role_premission` VALUES ('0RK5D35KLByM', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1QcxgOBe8');
-INSERT INTO `role_premission` VALUES ('0RK5D35lLa0X', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1SyiBOta0');
-INSERT INTO `role_premission` VALUES ('0RK5D35QLO6R', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1QfsJOKYV');
-INSERT INTO `role_premission` VALUES ('0RK5D35rLGwF', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1Re9pOp0j');
-INSERT INTO `role_premission` VALUES ('0RK5D35VL4bo', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RJv9CfWO6RM');
-INSERT INTO `role_premission` VALUES ('0RK5D35wLhFL', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1RphWKG0f');
-INSERT INTO `role_premission` VALUES ('0RK5D361Lesl', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1SCv7OLEE');
-INSERT INTO `role_premission` VALUES ('0RK5D367LFwc', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1TK4OKth9');
-INSERT INTO `role_premission` VALUES ('0RK5D36CLZXl', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1U5TRO7sN');
-INSERT INTO `role_premission` VALUES ('0RK5D36ILHic', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1UIH5R4tb');
-INSERT INTO `role_premission` VALUES ('0RK5D36NLHdh', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1UXbMMUXK');
-INSERT INTO `role_premission` VALUES ('0RK5D36ULP30', '2019-03-08 08:46:49', '2019-03-08 08:46:49', '0RJtmN5KNO2Z', '0RK1Uf7zOloS');
-INSERT INTO `role_premission` VALUES ('0RK6DMWsMnNF', '2019-03-08 12:54:20', '2019-03-08 12:54:20', '0RJtkZdSNc7i', '0RJv9CfWO6RM');
-INSERT INTO `role_premission` VALUES ('0RK6DMWzMxWG', '2019-03-08 12:54:20', '2019-03-08 12:54:20', '0RJtkZdSNc7i', '0RK1SfCsMpv6');
-INSERT INTO `role_premission` VALUES ('0RK6DMX6MxQ4', '2019-03-08 12:54:20', '2019-03-08 12:54:20', '0RJtkZdSNc7i', '0RK1SrhOKO6j');
-INSERT INTO `role_premission` VALUES ('0RK6DMXBM7ni', '2019-03-08 12:54:20', '2019-03-08 12:54:20', '0RJtkZdSNc7i', '0RK1SyiBOta0');
-INSERT INTO `role_premission` VALUES ('0RK6DMXdMisV', '2019-03-08 12:54:20', '2019-03-08 12:54:20', '0RJtkZdSNc7i', '0RK1Uf7zOloS');
-INSERT INTO `role_premission` VALUES ('0RK6DMXHMOOI', '2019-03-08 12:54:20', '2019-03-08 12:54:20', '0RJtkZdSNc7i', '0RK1TK4OKth9');
-INSERT INTO `role_premission` VALUES ('0RK6DMXjM2G8', '2019-03-08 12:54:20', '2019-03-08 12:54:20', '0RJtkZdSNc7i', '0RK1Xl9JNUni');
-INSERT INTO `role_premission` VALUES ('0RK6DMXNMyI3', '2019-03-08 12:54:20', '2019-03-08 12:54:20', '0RJtkZdSNc7i', '0RK1U5TRO7sN');
-INSERT INTO `role_premission` VALUES ('0RK6DMXpMqgQ', '2019-03-08 12:54:20', '2019-03-08 12:54:20', '0RJtkZdSNc7i', '0RK1Xo7TIgAX');
-INSERT INTO `role_premission` VALUES ('0RK6DMXSMsFE', '2019-03-08 12:54:20', '2019-03-08 12:54:20', '0RJtkZdSNc7i', '0RK1UIH5R4tb');
-INSERT INTO `role_premission` VALUES ('0RK6DMXYMqTL', '2019-03-08 12:54:20', '2019-03-08 12:54:20', '0RJtkZdSNc7i', '0RK1UXbMMUXK');
+INSERT INTO `role_permission` VALUES ('0RKln4NxaBOv', '2019-03-15 15:33:20', '2019-03-15 15:33:20', '0RJts9c8LcCi', '0RJv9CfWO6RM');
+INSERT INTO `role_permission` VALUES ('0RKln4NxaCST', '2019-03-15 15:33:20', '2019-03-15 15:33:20', '0RJts9c8LcCi', '0RKabvr1PoYA');
+INSERT INTO `role_permission` VALUES ('0RKln4NyalJS', '2019-03-15 15:33:20', '2019-03-15 15:33:20', '0RJts9c8LcCi', '0RKac9wIQjDI');
+INSERT INTO `role_permission` VALUES ('0RKln4NyaND4', '2019-03-15 15:33:20', '2019-03-15 15:33:20', '0RJts9c8LcCi', '0RK1UXbMMUXK');
+INSERT INTO `role_permission` VALUES ('0RKln4NyapnX', '2019-03-15 15:33:20', '2019-03-15 15:33:20', '0RJts9c8LcCi', '0RK1TK4OKth9');
+INSERT INTO `role_permission` VALUES ('0RKln4NyaTyc', '2019-03-15 15:33:20', '2019-03-15 15:33:20', '0RJts9c8LcCi', '0RK1Uf7zOloS');
+INSERT INTO `role_permission` VALUES ('0RKln4Nza7xv', '2019-03-15 15:33:20', '2019-03-15 15:33:20', '0RJts9c8LcCi', '0RKacM9ZPVOO');
+INSERT INTO `role_permission` VALUES ('0RKln4NzadBs', '2019-03-15 15:33:20', '2019-03-15 15:33:20', '0RJts9c8LcCi', '0RK1Xo7TIgAX');
+INSERT INTO `role_permission` VALUES ('0RKln4NzaOtD', '2019-03-15 15:33:20', '2019-03-15 15:33:20', '0RJts9c8LcCi', '0RK1Xl9JNUni');
+INSERT INTO `role_permission` VALUES ('0RKln4NzaxXn', '2019-03-15 15:33:20', '2019-03-15 15:33:20', '0RJts9c8LcCi', '0RKacPAqNO6J');
+INSERT INTO `role_permission` VALUES ('0RKln4O0aBNj', '2019-03-15 15:33:20', '2019-03-15 15:33:20', '0RJts9c8LcCi', '0RKT17OmXwH8');
+INSERT INTO `role_permission` VALUES ('0RKln4O0aePf', '2019-03-15 15:33:20', '2019-03-15 15:33:20', '0RJts9c8LcCi', '0RKT0zQCZvrn');
+INSERT INTO `role_permission` VALUES ('0RKln4O0aYyK', '2019-03-15 15:33:20', '2019-03-15 15:33:20', '0RJts9c8LcCi', '0RKT0valWPoQ');
+INSERT INTO `role_permission` VALUES ('0RKln4O1ao3c', '2019-03-15 15:33:20', '2019-03-15 15:33:20', '0RJts9c8LcCi', '0RKT1A9CWBDQ');
+INSERT INTO `role_permission` VALUES ('0RKln6FIclCs', '2019-03-15 15:33:27', '2019-03-15 15:33:27', '0RJtmFzOOPoI', '0RJv9CfWO6RM');
+INSERT INTO `role_permission` VALUES ('0RKln6FIcUwP', '2019-03-15 15:33:27', '2019-03-15 15:33:27', '0RJtmFzOOPoI', '0RKabvr1PoYA');
+INSERT INTO `role_permission` VALUES ('0RKln6FJcfZ8', '2019-03-15 15:33:27', '2019-03-15 15:33:27', '0RJtmFzOOPoI', '0RK1U5TRO7sN');
+INSERT INTO `role_permission` VALUES ('0RKln6FJck3x', '2019-03-15 15:33:27', '2019-03-15 15:33:27', '0RJtmFzOOPoI', '0RKac9wIQjDI');
+INSERT INTO `role_permission` VALUES ('0RKln6FJcLW1', '2019-03-15 15:33:27', '2019-03-15 15:33:27', '0RJtmFzOOPoI', '0RK1TK4OKth9');
+INSERT INTO `role_permission` VALUES ('0RKln6FJcQhp', '2019-03-15 15:33:27', '2019-03-15 15:33:27', '0RJtmFzOOPoI', '0RK1UIH5R4tb');
+INSERT INTO `role_permission` VALUES ('0RKln6FKcbIP', '2019-03-15 15:33:27', '2019-03-15 15:33:27', '0RJtmFzOOPoI', '0RKacM9ZPVOO');
+INSERT INTO `role_permission` VALUES ('0RKln6FKcCBl', '2019-03-15 15:33:27', '2019-03-15 15:33:27', '0RJtmFzOOPoI', '0RK1Xl9JNUni');
+INSERT INTO `role_permission` VALUES ('0RKln6FKcT5q', '2019-03-15 15:33:27', '2019-03-15 15:33:27', '0RJtmFzOOPoI', '0RK1Xo7TIgAX');
+INSERT INTO `role_permission` VALUES ('0RKln6FKcx3M', '2019-03-15 15:33:27', '2019-03-15 15:33:27', '0RJtmFzOOPoI', '0RK1UXbMMUXK');
+INSERT INTO `role_permission` VALUES ('0RKln6FLc5JF', '2019-03-15 15:33:27', '2019-03-15 15:33:27', '0RJtmFzOOPoI', '0RKT0valWPoQ');
+INSERT INTO `role_permission` VALUES ('0RKln6FLcg1w', '2019-03-15 15:33:27', '2019-03-15 15:33:27', '0RJtmFzOOPoI', '0RKacPAqNO6J');
+INSERT INTO `role_permission` VALUES ('0RKln6FLcIgy', '2019-03-15 15:33:27', '2019-03-15 15:33:27', '0RJtmFzOOPoI', '0RKT0zQCZvrn');
+INSERT INTO `role_permission` VALUES ('0RKln6FMckG8', '2019-03-15 15:33:27', '2019-03-15 15:33:27', '0RJtmFzOOPoI', '0RKT17OmXwH8');
+INSERT INTO `role_permission` VALUES ('0RKln6FMcZfT', '2019-03-15 15:33:27', '2019-03-15 15:33:27', '0RJtmFzOOPoI', '0RKT1A9CWBDQ');
+INSERT INTO `role_permission` VALUES ('0RKlnDXbTCaU', '2019-03-15 15:33:55', '2019-03-15 15:33:55', '0RKT0hvkZ6qr', '0RJv9CfWO6RM');
+INSERT INTO `role_permission` VALUES ('0RKlnDXbTcKS', '2019-03-15 15:33:55', '2019-03-15 15:33:55', '0RKT0hvkZ6qr', '0RKabvr1PoYA');
+INSERT INTO `role_permission` VALUES ('0RKlnDXbTpDB', '2019-03-15 15:33:55', '2019-03-15 15:33:55', '0RKT0hvkZ6qr', '0RK1TK4OKth9');
+INSERT INTO `role_permission` VALUES ('0RKlnDXcTc1M', '2019-03-15 15:33:55', '2019-03-15 15:33:55', '0RKT0hvkZ6qr', '0RK1UXbMMUXK');
+INSERT INTO `role_permission` VALUES ('0RKlnDXcTGHm', '2019-03-15 15:33:55', '2019-03-15 15:33:55', '0RKT0hvkZ6qr', '0RK1Xl9JNUni');
+INSERT INTO `role_permission` VALUES ('0RKlnDXcTmPN', '2019-03-15 15:33:55', '2019-03-15 15:33:55', '0RKT0hvkZ6qr', '0RKacM9ZPVOO');
+INSERT INTO `role_permission` VALUES ('0RKlnDXcTXIX', '2019-03-15 15:33:55', '2019-03-15 15:33:55', '0RKT0hvkZ6qr', '0RKac9wIQjDI');
+INSERT INTO `role_permission` VALUES ('0RKlnDXdTbEF', '2019-03-15 15:33:55', '2019-03-15 15:33:55', '0RKT0hvkZ6qr', '0RK1Xo7TIgAX');
+INSERT INTO `role_permission` VALUES ('0RKlnDXdTltU', '2019-03-15 15:33:55', '2019-03-15 15:33:55', '0RKT0hvkZ6qr', '0RKT0valWPoQ');
+INSERT INTO `role_permission` VALUES ('0RKlnDXdTnWf', '2019-03-15 15:33:55', '2019-03-15 15:33:55', '0RKT0hvkZ6qr', '0RKT0zQCZvrn');
+INSERT INTO `role_permission` VALUES ('0RKlnDXdToOA', '2019-03-15 15:33:55', '2019-03-15 15:33:55', '0RKT0hvkZ6qr', '0RKacPAqNO6J');
+INSERT INTO `role_permission` VALUES ('0RKlnDXeTp9x', '2019-03-15 15:33:55', '2019-03-15 15:33:55', '0RKT0hvkZ6qr', '0RKT17OmXwH8');
+INSERT INTO `role_permission` VALUES ('0RKlnDXeTqIR', '2019-03-15 15:33:55', '2019-03-15 15:33:55', '0RKT0hvkZ6qr', '0RKT1A9CWBDQ');
+INSERT INTO `role_permission` VALUES ('0RLDaUnlM8ya', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RJv6UEeJsHi');
+INSERT INTO `role_permission` VALUES ('0RLDaUnmMRYz', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RJv9dWcNXGQ');
+INSERT INTO `role_permission` VALUES ('0RLDaUnnMs6Y', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RJvAOEbNZFl');
+INSERT INTO `role_permission` VALUES ('0RLDaUnoMJLU', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1LAUiK5wY');
+INSERT INTO `role_permission` VALUES ('0RLDaUnoMza2', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1LMElNDsx');
+INSERT INTO `role_permission` VALUES ('0RLDaUnpMdT7', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1LmnLOkB1');
+INSERT INTO `role_permission` VALUES ('0RLDaUnpMxJx', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RKaadqsNvuO');
+INSERT INTO `role_permission` VALUES ('0RLDaUnqMaym', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1PRkRNHPQ');
+INSERT INTO `role_permission` VALUES ('0RLDaUnqMoGu', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1M7PdMKEg');
+INSERT INTO `role_permission` VALUES ('0RLDaUnrM2pW', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RKabB0UJMCe');
+INSERT INTO `role_permission` VALUES ('0RLDaUnrMnfZ', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1PVPINvYW');
+INSERT INTO `role_permission` VALUES ('0RLDaUnsMutq', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1PsijNB9G');
+INSERT INTO `role_permission` VALUES ('0RLDaUnsMWj1', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1Q531Rvcc');
+INSERT INTO `role_permission` VALUES ('0RLDaUntM6nQ', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1QBmxR7nr');
+INSERT INTO `role_permission` VALUES ('0RLDaUntMJ4h', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1Q7V1ON8m');
+INSERT INTO `role_permission` VALUES ('0RLDaUnuMdL4', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RKabP2qNReH');
+INSERT INTO `role_permission` VALUES ('0RLDaUnvMEw4', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1QSQdR0zI');
+INSERT INTO `role_permission` VALUES ('0RLDaUnvMFHJ', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1QcxgOBe8');
+INSERT INTO `role_permission` VALUES ('0RLDaUnvMQ6S', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1QaPJMTWJ');
+INSERT INTO `role_permission` VALUES ('0RLDaUnwMs9V', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RKabdTBQ0q5');
+INSERT INTO `role_permission` VALUES ('0RLDaUnwMYnr', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1QfsJOKYV');
+INSERT INTO `role_permission` VALUES ('0RLDaUnxM6cP', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RJv9CfWO6RM');
+INSERT INTO `role_permission` VALUES ('0RLDaUnxMKbE', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RKgRvmRMsZX');
+INSERT INTO `role_permission` VALUES ('0RLDaUnyM3BO', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1SrhOKO6j');
+INSERT INTO `role_permission` VALUES ('0RLDaUnyMJQv', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1SfCsMpv6');
+INSERT INTO `role_permission` VALUES ('0RLDaUnzMmQC', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RKabvr1PoYA');
+INSERT INTO `role_permission` VALUES ('0RLDaUnzMniA', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1SyiBOta0');
+INSERT INTO `role_permission` VALUES ('0RLDaUo0Mcf8', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1Re9pOp0j');
+INSERT INTO `role_permission` VALUES ('0RLDaUo0MRna', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RLDRLZEPdxx');
+INSERT INTO `role_permission` VALUES ('0RLDaUo1MAlc', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1RphWKG0f');
+INSERT INTO `role_permission` VALUES ('0RLDaUo2MCRx', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1SCv7OLEE');
+INSERT INTO `role_permission` VALUES ('0RLDaUo2MEMJ', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1TK4OKth9');
+INSERT INTO `role_permission` VALUES ('0RLDaUo3M4cv', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1UIH5R4tb');
+INSERT INTO `role_permission` VALUES ('0RLDaUo3Miib', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RKac9wIQjDI');
+INSERT INTO `role_permission` VALUES ('0RLDaUo3MMLk', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1U5TRO7sN');
+INSERT INTO `role_permission` VALUES ('0RLDaUo4M2x9', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1UXbMMUXK');
+INSERT INTO `role_permission` VALUES ('0RLDaUo4Mewt', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1Uf7zOloS');
+INSERT INTO `role_permission` VALUES ('0RLDaUo4MnbW', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RLDWEC2OqB6');
+INSERT INTO `role_permission` VALUES ('0RLDaUo5MG7H', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1Xl9JNUni');
+INSERT INTO `role_permission` VALUES ('0RLDaUo5Msfg', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RKacM9ZPVOO');
+INSERT INTO `role_permission` VALUES ('0RLDaUo6Mfi3', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RK1Xo7TIgAX');
+INSERT INTO `role_permission` VALUES ('0RLDaUo6MMu0', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RKacPAqNO6J');
+INSERT INTO `role_permission` VALUES ('0RLDaUo6Mvy0', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RKT0valWPoQ');
+INSERT INTO `role_permission` VALUES ('0RLDaUo7M9ii', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RKT0zQCZvrn');
+INSERT INTO `role_permission` VALUES ('0RLDaUo7MDHd', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RKT17OmXwH8');
+INSERT INTO `role_permission` VALUES ('0RLDaUo7Mm6W', '2019-03-20 09:39:01', '2019-03-20 09:39:01', '0RJtmN5KNO2Z', '0RKT1A9CWBDQ');
+INSERT INTO `role_permission` VALUES ('0RLDRWNfO71y', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RJv9CfWO6RM');
+INSERT INTO `role_permission` VALUES ('0RLDRWNgOG4A', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RK1SfCsMpv6');
+INSERT INTO `role_permission` VALUES ('0RLDRWNhO37b', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RK1SrhOKO6j');
+INSERT INTO `role_permission` VALUES ('0RLDRWNhOXYl', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RK1SyiBOta0');
+INSERT INTO `role_permission` VALUES ('0RLDRWNiOdr5', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RKabvr1PoYA');
+INSERT INTO `role_permission` VALUES ('0RLDRWNiOQCx', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RLDRLZEPdxx');
+INSERT INTO `role_permission` VALUES ('0RLDRWNjOxvU', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RK1TK4OKth9');
+INSERT INTO `role_permission` VALUES ('0RLDRWNkOaMI', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RK1U5TRO7sN');
+INSERT INTO `role_permission` VALUES ('0RLDRWNlO8kE', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RKac9wIQjDI');
+INSERT INTO `role_permission` VALUES ('0RLDRWNlOKvV', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RK1UIH5R4tb');
+INSERT INTO `role_permission` VALUES ('0RLDRWNmOGqh', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RKacM9ZPVOO');
+INSERT INTO `role_permission` VALUES ('0RLDRWNmOSBH', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RK1UXbMMUXK');
+INSERT INTO `role_permission` VALUES ('0RLDRWNoO08a', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RK1Xl9JNUni');
+INSERT INTO `role_permission` VALUES ('0RLDRWNoOlIS', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RK1Xo7TIgAX');
+INSERT INTO `role_permission` VALUES ('0RLDRWNpO5bS', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RKacPAqNO6J');
+INSERT INTO `role_permission` VALUES ('0RLDRWNpOdNn', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RKT0valWPoQ');
+INSERT INTO `role_permission` VALUES ('0RLDRWNqORTl', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RKT0zQCZvrn');
+INSERT INTO `role_permission` VALUES ('0RLDRWNrOWZh', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RKT17OmXwH8');
+INSERT INTO `role_permission` VALUES ('0RLDRWNrOwZW', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RKT1A9CWBDQ');
 
 -- ----------------------------
 -- Table structure for user
@@ -482,10 +422,10 @@ CREATE TABLE `user`  (
   `updatetime` datetime(0) NOT NULL COMMENT '更新时间',
   `name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户姓名',
   `department_id` char(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '部门id',
-  `job_number` smallint(5) UNSIGNED NULL DEFAULT NULL COMMENT '工号',
-  `email` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
+  `job_number` smallint(5) UNSIGNED NOT NULL COMMENT '工号',
+  `email` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '邮箱',
   `password` char(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
-  `is_stopped` tinyint(3) UNSIGNED NULL DEFAULT 0 COMMENT '是否已停用',
+  `is_stopped` tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否已停用',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `job_number`(`job_number`) USING BTREE,
   UNIQUE INDEX `email`(`email`) USING BTREE
@@ -495,10 +435,15 @@ CREATE TABLE `user`  (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('0RJpq3vXMd0m', '2019-03-05 17:41:26', '2019-03-08 10:46:24', '吴桐', '0RIss2SAVU7n', 1425, 'wut@pvc123.com', '8a2c9f013da41efcd12e54a0c99fb960', 0);
-INSERT INTO `user` VALUES ('0RJtVRByNyjL', '2019-03-06 08:44:36', '2019-03-08 09:17:00', '张三', '0RIss2SAVU7n', 1, '1@qq.com', 'dfea898cad7a8e939e3975b671a90c72', 0);
-INSERT INTO `user` VALUES ('0RK1PBA2KpQt', '2019-03-07 17:09:55', '2019-03-08 09:17:04', '李四', '0RIss2SAVU7n', 2, 'lisi@qq.com', '5b522b6e7904ee1286c46165e4d45867', 0);
-INSERT INTO `user` VALUES ('0RK5hQ4sMF4B', '2019-03-08 10:47:27', '2019-03-08 10:59:12', '赵六', '0RIss2SAVU7n', 6, 'zl@qq.com', '3f2552b20ea4c4ed55456026ac330f27', 1);
-INSERT INTO `user` VALUES ('0RK5LmTAKnnv', '2019-03-08 09:21:30', '2019-03-08 09:21:30', '王五', '0RIss2SAVU7n', 3, 'ww@qq.com', 'b56cf3bcd41a82cb94ee266ffafc6e2a', 0);
+INSERT INTO `user` VALUES ('0RKlrdvSLysq', '2019-03-15 15:51:30', '2019-03-15 15:51:30', '开发1号', '0RIss2SAVU7n', 211, 'dev1@qq.com', '3329e6bdb040567304d741bc397811e0', 0);
+INSERT INTO `user` VALUES ('0RKlrhKFNoCc', '2019-03-15 15:51:43', '2019-03-15 15:51:43', '开发2号', '0RIss2SAVU7n', 212, 'dev2@qq.com', 'aabca7cf0dc507792f2a774eab3c8072', 0);
+INSERT INTO `user` VALUES ('0RKlrlmhOLUz', '2019-03-15 15:52:00', '2019-03-15 15:52:25', '开发3号', '0RIss2SAVU7n', 213, 'dev3@qq.com', '4c5ba2d5dd8a9ef35ff9791a832b0d78', 0);
+INSERT INTO `user` VALUES ('0RKlrP1EOEdT', '2019-03-15 15:50:33', '2019-03-15 15:50:33', '测试1号', '0RKgHWcnOWIx', 111, 'test1@qq.com', '158643ca4c5612128fa27f250155495c', 0);
+INSERT INTO `user` VALUES ('0RKlrTZ8LsvU', '2019-03-15 15:50:50', '2019-03-15 15:50:50', '测试2号', '0RKgHWcnOWIx', 112, 'test2@qq.com', '220f25614836abc05a97cea70183bffd', 0);
+INSERT INTO `user` VALUES ('0RKlrZR4O9SZ', '2019-03-15 15:51:13', '2019-03-15 15:51:13', '测试3号', '0RKgHWcnOWIx', 1113, 'test3@qq.com', '70f3377ccc8763364c328213eef02b28', 0);
+INSERT INTO `user` VALUES ('0RKls0EXLIPj', '2019-03-15 15:52:56', '2019-03-15 15:52:56', '产品经理1号', '0RIss2SAVU7n', 311, 'prod1@qq.com', '3c86bb7b6e082efd0bc46595dafcebf3', 0);
+INSERT INTO `user` VALUES ('0RKls4OyNEHb', '2019-03-15 15:53:12', '2019-03-15 15:53:12', '项目经理1号', '0RIss2SAVU7n', 411, 'proj1@qq.com', 'ada1e3a819b76a45a15d61c1e6deecb9', 0);
+INSERT INTO `user` VALUES ('0RL7c6UrNnGD', '2019-03-19 09:07:46', '2019-03-19 09:07:46', '吴桐小号', '0RIss2SAVU7n', 1426, '806947301@qq.com', 'eb2ba7da19f1439f17fb78a09e2266fd', 0);
 
 -- ----------------------------
 -- Table structure for user_role
@@ -517,8 +462,19 @@ CREATE TABLE `user_role`  (
 -- Records of user_role
 -- ----------------------------
 INSERT INTO `user_role` VALUES ('0RK5D71RNfNM', '2019-03-08 08:47:04', '2019-03-08 08:47:04', '0RJpq3vXMd0m', '0RJtmN5KNO2Z');
-INSERT INTO `user_role` VALUES ('0RK5dEFUNcZg', '2019-03-08 10:30:49', '2019-03-08 10:30:49', '0RJtVRByNyjL', '0RJtkZdSNc7i');
-INSERT INTO `user_role` VALUES ('0RK5Rk0lJTXq', '2019-03-08 09:45:11', '2019-03-08 09:45:11', '0RK1PBA2KpQt', '0RJtkZdSNc7i');
-INSERT INTO `user_role` VALUES ('0RK6xXcyOIJg', '2019-03-08 15:57:46', '2019-03-08 15:57:46', '0RK5hQ4sMF4B', '0RJts9c8LcCi');
+INSERT INTO `user_role` VALUES ('0RKls5UCMCDS', '2019-03-15 15:53:16', '2019-03-15 15:53:16', '0RKls4OyNEHb', '0RJtmFzOOPoI');
+INSERT INTO `user_role` VALUES ('0RKls6L7Nhrm', '2019-03-15 15:53:19', '2019-03-15 15:53:19', '0RKls0EXLIPj', '0RJtkZdSNc7i');
+INSERT INTO `user_role` VALUES ('0RKls7LRMPp2', '2019-03-15 15:53:23', '2019-03-15 15:53:23', '0RKlrlmhOLUz', '0RKT0hvkZ6qr');
+INSERT INTO `user_role` VALUES ('0RKls80BLTLr', '2019-03-15 15:53:26', '2019-03-15 15:53:26', '0RKlrhKFNoCc', '0RKT0hvkZ6qr');
+INSERT INTO `user_role` VALUES ('0RKls95eL5Pe', '2019-03-15 15:53:30', '2019-03-15 15:53:30', '0RKlrdvSLysq', '0RKT0hvkZ6qr');
+INSERT INTO `user_role` VALUES ('0RKls9q9MYBB', '2019-03-15 15:53:33', '2019-03-15 15:53:33', '0RKlrZR4O9SZ', '0RJts9c8LcCi');
+INSERT INTO `user_role` VALUES ('0RKlsAZQLbn5', '2019-03-15 15:53:36', '2019-03-15 15:53:36', '0RKlrTZ8LsvU', '0RJts9c8LcCi');
+INSERT INTO `user_role` VALUES ('0RKlsBIcLHvG', '2019-03-15 15:53:38', '2019-03-15 15:53:38', '0RKlrP1EOEdT', '0RJts9c8LcCi');
+INSERT INTO `user_role` VALUES ('0RKlyevaQOU4', '2019-03-15 16:19:22', '2019-03-15 16:19:22', '0RJpq3vXMd0m', '0RKT0hvkZ6qr');
+INSERT INTO `user_role` VALUES ('0RL7woQ9TkQR', '2019-03-19 10:30:01', '2019-03-19 10:30:01', '0RKlrhKFNoCc', '0RJtkZdSNc7i');
+INSERT INTO `user_role` VALUES ('0RL7woSkRClv', '2019-03-19 10:30:02', '2019-03-19 10:30:02', '0RKlrhKFNoCc', '0RJtmFzOOPoI');
+INSERT INTO `user_role` VALUES ('0RL7woVCWqlR', '2019-03-19 10:30:02', '2019-03-19 10:30:02', '0RKlrhKFNoCc', '0RJtmN5KNO2Z');
+INSERT INTO `user_role` VALUES ('0RL7woXgR6PL', '2019-03-19 10:30:02', '2019-03-19 10:30:02', '0RKlrhKFNoCc', '0RJts9c8LcCi');
+INSERT INTO `user_role` VALUES ('0RLG7XVUNUUO', '2019-03-20 20:02:49', '2019-03-20 20:02:49', '0RL7c6UrNnGD', '0RKT0hvkZ6qr');
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -16,14 +16,19 @@ public class Department extends BaseEntity {
      */
     private String departmentName;
 
-    public String getDepartmentName() {
-        return departmentName;
+    @Override
+    public String toString() {
+        return "Department{" +
+                "departmentName='" + departmentName + '\'' +
+                '}';
     }
 
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
-    }
-
+    /**
+     * 判断等部门是否有空字段
+     * @param department
+     * @param includeId
+     * @return
+     */
     public static boolean hasEmpty(Department department, boolean includeId) {
         if (BaseEntity.hasEmpty(department, includeId)) {
             return true;
@@ -33,4 +38,14 @@ public class Department extends BaseEntity {
         }
         return false;
     }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+
 }
