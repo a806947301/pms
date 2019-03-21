@@ -50,11 +50,11 @@ public class Bug extends BaseEntity {
     /**
      * 是否不予处理
      */
-    private boolean noProcessing;
+    private Boolean noProcessing;
     /**
      * bug状态
      */
-    private int bugStatus;
+    private Integer bugStatus;
     /**
      * bug详情
      */
@@ -76,19 +76,19 @@ public class Bug extends BaseEntity {
      */
     private Project project;
 
-    public boolean isNoProcessing() {
+    public Boolean getNoProcessing() {
         return noProcessing;
     }
 
-    public void setNoProcessing(boolean noProcessing) {
+    public void setNoProcessing(Boolean noProcessing) {
         this.noProcessing = noProcessing;
     }
 
-    public int getBugStatus() {
+    public Integer getBugStatus() {
         return bugStatus;
     }
 
-    public void setBugStatus(int bugStatus) {
+    public void setBugStatus(Integer bugStatus) {
         this.bugStatus = bugStatus;
     }
 

@@ -107,7 +107,7 @@
     <update id="update">
         UPDATE bug
         <set>
-            <if test="-1 != bugStatus">bug_status = #{bugStatus}, </if>
+            <if test="null != bugStatus">bug_status = #{bugStatus}, </if>
             <if test="null != bugProcesser">bug_processer = #{bugProcesser.id}, </if>
             <if test="null != updateTime">updatetime = #{updateTime}, </if>
             <if test="null != bugTitle">bug_title = #{bugTitle}, </if>

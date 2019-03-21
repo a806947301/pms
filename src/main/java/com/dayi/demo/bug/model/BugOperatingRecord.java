@@ -46,13 +46,21 @@ public class BugOperatingRecord extends BaseEntity {
         }
     }
 
-    /** 所属Bug id */
+    /**
+     * 所属Bug id
+     */
     private String bugId;
-    /** 操作人 */
+    /**
+     * 操作人
+     */
     private User user;
-    /** 操作数 */
-    private int operationNumber;
-    /** 操作对象 */
+    /**
+     * 操作数
+     */
+    private Integer operationNumber;
+    /**
+     * 操作对象
+     */
     private User operationUser;
 
     public String getBugId() {
@@ -71,11 +79,11 @@ public class BugOperatingRecord extends BaseEntity {
         this.user = user;
     }
 
-    public int getOperationNumber() {
+    public Integer getOperationNumber() {
         return operationNumber;
     }
 
-    public void setOperationNumber(int operationNumber) {
+    public void setOperationNumber(Integer operationNumber) {
         this.operationNumber = operationNumber;
     }
 
