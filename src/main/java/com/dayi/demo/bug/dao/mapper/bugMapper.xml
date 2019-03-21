@@ -15,6 +15,23 @@
         <association property="bugProcesser" column="bug_processer" select="com.dayi.demo.user.dao.UserDao.get"/>
     </resultMap>
 
+    <!--产品Bug数ResultMap-->
+    <resultMap id="projectBugMap" type="com.dayi.demo.statistic.vo.ProjectBugVo">
+        <result property="projectId" column="projectId"></result>
+        <result property="countAllBug" column="allBug"></result>
+        <result property="countBug" column="bugNumber"></result>
+    </resultMap>
+
+    <!--用户Bug数resultMap-->
+    <resultMap id="userBugResultMap" type="com.dayi.demo.statistic.vo.UserBugVo">
+        <result property="userId" column="user_id"></result>
+        <result property="bugNumber" column="bug_number"></result>
+        <result property="designate" column="designate"></result>
+        <result property="processing" column="processing"></result>
+        <result property="checking" column="checking"></result>
+        <result property="finished" column="finished"></result>
+    </resultMap>
+
     <sql id="selectAllColumnBug">
         SELECT bug.id, bug.addtime, bug.updatetime, project_id, is_noprocessing, bug_title, bug_content,
         bug_status, bug_proposer, bug_processer  FROM
@@ -46,15 +63,15 @@
     </select>
 
     <!--统计项目的Bug总数-->
-    <select id="countBugByProject" resultType="java.util.HashMap">
+    <select id="countBugByProject" resultMap="projectBugMap">
       SELECT project_id AS 'projectId', COUNT(*) AS 'allBug',
           COUNT(bug_status != 3 OR NULL) AS 'bugNumber' FROM bug GROUP BY project_id
     </select>
 
     <!--统计每个处理者的Bug-->
-    <select id="countBugByProcesser" resultType="java.util.HashMap">
-      SELECT bug_processer AS 'processer',
-          COUNT(*) AS 'bugNumber',
+    <select id="countBugByProcesser" resultMap="userBugResultMap">
+      SELECT bug_processer AS 'user_id',
+          COUNT(*) AS 'bug_number',
           COUNT(bug_status = 0 OR NULL) AS 'designate' ,
           COUNT(bug_status = 1 OR NULL) AS 'processing' ,
           COUNT(bug_status = 2 OR NULL) AS 'checking' ,
@@ -62,10 +79,10 @@
           FROM bug GROUP BY bug_processer
     </select>
 
-    <!--统计每个提出者的ug-->
-    <select id="countBugByProposer" resultType="java.util.HashMap">
-      SELECT bug_proposer AS 'proposer',
-          COUNT(*) AS 'bugNumber',
+    <!--统计每个提出者的Bug-->
+    <select id="countBugByProposer" resultMap="userBugResultMap">
+      SELECT bug_proposer AS 'user_id',
+          COUNT(*) AS 'bug_number',
           COUNT(bug_status = 0 OR NULL) AS 'designate' ,
           COUNT(bug_status = 1 OR NULL) AS 'processing' ,
           COUNT(bug_status = 2 OR NULL) AS 'checking' ,

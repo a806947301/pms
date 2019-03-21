@@ -1,9 +1,10 @@
 package com.dayi.demo.statistic.service;
 
-import com.alibaba.fastjson.JSONArray;
+import com.dayi.demo.statistic.dto.ProductBugDto;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 /**
  * 产品统计模块Service层接口
@@ -18,7 +19,7 @@ public interface ProductStatisticService {
      *
      * @return
      */
-    JSONArray doStatistic();
+    List<ProductBugDto> doStatistic();
 
     /**
      * 产品信息导出Excel

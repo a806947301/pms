@@ -1,6 +1,8 @@
 package com.dayi.demo.bug.dao;
 
 import com.dayi.demo.bug.model.Bug;
+import com.dayi.demo.statistic.vo.ProjectBugVo;
+import com.dayi.demo.statistic.vo.UserBugVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -57,19 +59,19 @@ public interface BugDao {
      * 统计每个项目Id对应的Bug数
      * @return
      */
-    List<Map<String, Object>> countBugByProject();
+    List<ProjectBugVo> countBugByProject();
 
     /**
      * 统计每个Bug处理者对应的Bug情况
      * @return
      */
-    List<Map<String,Object>> countBugByProcesser();
+    List<UserBugVo> countBugByProcesser();
 
     /**
      * 统计每个Bug提出者对应的Bug情况
      * @return
      */
-    List<Map<String,Object>> countBugByProposer();
+    List<UserBugVo> countBugByProposer();
 
     /**
      * 统计项目下未完成Bug的数量

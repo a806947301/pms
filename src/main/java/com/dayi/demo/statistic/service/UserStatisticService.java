@@ -1,9 +1,11 @@
 package com.dayi.demo.statistic.service;
 
 import com.alibaba.fastjson.JSONArray;
+import com.dayi.demo.statistic.dto.UserBugDto;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 /**
  * 用户统计模块Service层接口
@@ -17,13 +19,13 @@ public interface UserStatisticService {
      * 统计开发人员，并以Json形式返回
      * @return
      */
-    JSONArray doStatisicDeveloper();
+    List<UserBugDto> doStatisicDeveloper();
 
     /**
      * 统计测试人员，并以Json形式返回
      * @return
      */
-    JSONArray doStatisicTester();
+    List<UserBugDto> doStatisicTester();
 
     /**
      * 开发人员统计Json导出Excel

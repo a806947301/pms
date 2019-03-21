@@ -62,7 +62,7 @@
                                     <tbody>
                                     <tr v-for="(tester,index) in testers">
                                         <td>{{index+1}}</td>
-                                        <td>{{tester.username}}</td>
+                                        <td>{{tester.name}}</td>
                                         <td>{{tester.designate}}</td>
                                         <td>{{tester.processing}}</td>
                                         <td>{{tester.checking}}</td>

@@ -51,7 +51,7 @@
                                     <template v-for="product in products">
                                         <thead>
                                         <tr>
-                                            <th colspan="4"><h4><b style="color: red;">{{product.productName}}</b></h4></th>
+                                            <th colspan="5"><h4><b style="color: red;">{{product.productName}}</b></h4></th>
                                         </tr>
                                         <tr>
                                             <th scope="col">序号</th>
@@ -63,12 +63,12 @@
                                         </thead>
                                         <tbody>
 
-                                        <tr v-if="product.projects.length == 0"><td colspan="4" class="text-center">无项目</td></tr>
+                                        <tr v-if="product.projects.length == 0"><td colspan="5" class="text-center">无项目</td></tr>
                                         <tr v-else v-for="(project,index) in product.projects">
                                             <td>{{index+1}}</td>
                                             <td>{{project.projectName}}</td>
-                                            <td>{{project.bugNumber}}</td>
-                                            <td>{{project.allBug}}</td>
+                                            <td>{{project.countBug}}</td>
+                                            <td>{{project.countAllBug}}</td>
                                             <td>{{project.finished?"已完成":"未完成"}}</td>
                                         </tr>
                                         </tbody>

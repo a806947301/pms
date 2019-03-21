@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.bug.model.Bug;
 import com.dayi.demo.bug.model.BugDescription;
 import com.dayi.demo.common.exception.SystemException;
+import com.dayi.demo.statistic.vo.ProjectBugVo;
+import com.dayi.demo.statistic.vo.UserBugVo;
 import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
@@ -129,21 +131,21 @@ public interface BugService {
      *
      * @return
      */
-    Map<String, JSONObject> countBugByProject();
+    Map<String, ProjectBugVo> countBugByProject();
 
     /**
      * 统计每个开发的Bug量
      *
      * @return
      */
-    Map<String, JSONObject> countBugByProcesser();
+    Map<String, UserBugVo> countBugByProcesser();
 
     /**
      * 统计每个测试的Bug量
      *
      * @return
      */
-    Map<String, JSONObject> countBugByProposer();
+    Map<String, UserBugVo> countBugByProposer();
 
     /**
      * 统计项目下未完成Bug的数量

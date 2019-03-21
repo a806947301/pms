@@ -62,7 +62,7 @@
                                     <tbody>
                                     <tr v-for="(developer,index) in developers">
                                         <td>{{index+1}}</td>
-                                        <td>{{developer.username}}</td>
+                                        <td>{{developer.name}}</td>
                                         <td>{{developer.designate}}</td>
                                         <td>{{developer.processing}}</td>
                                         <td>{{developer.checking}}</td>

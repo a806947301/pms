@@ -1,13 +1,15 @@
 package com.dayi.demo.statistic.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.bug.service.BugService;
 import com.dayi.demo.product.model.Product;
 import com.dayi.demo.product.service.ProductService;
 import com.dayi.demo.project.model.Project;
 import com.dayi.demo.project.service.ProjectService;
+import com.dayi.demo.statistic.dto.ProductBugDto;
+import com.dayi.demo.statistic.dto.ProjectBugDto;
 import com.dayi.demo.statistic.service.ProductStatisticService;
+import com.dayi.demo.statistic.vo.ProjectBugVo;
 import com.dayi.demo.util.ExcelUtil;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -43,68 +45,71 @@ public class ProductStatisticServiceImpl implements ProductStatisticService {
     private BugService bugService;
 
     @Override
-    public JSONArray doStatistic() {
-        JSONArray productJsonArray = new JSONArray();
-        Map<String, JSONObject> productJsonMap = doPackageProductJsonMap();
-        doAppendProject(productJsonMap);
-        Set<Map.Entry<String, JSONObject>> productEntries = productJsonMap.entrySet();
-        for (Map.Entry<String, JSONObject> productEntry : productEntries) {
-            productJsonArray.add(productEntry.getValue());
+    public List<ProductBugDto> doStatistic() {
+        LinkedList<ProductBugDto> products = new LinkedList<>();
+        //获取产品Bug Dto Map
+        Map<String, ProductBugDto> productDtoMap = doPackageProductDtoMap();
+        //把项目加进产品
+        doAppendProject(productDtoMap);
+        //Map转化List
+        Set<Map.Entry<String, ProductBugDto>> entries = productDtoMap.entrySet();
+        for (Map.Entry<String, ProductBugDto> e : entries) {
+            products.add(e.getValue());
         }
-        return productJsonArray;
+        return products;
     }
 
     /**
-     * 打包成map（key :产品id    value：产品json）
-     * 产品json：
-     * productName:String类型    产品的名称
-     * product:JsonArray类型     产品下的项目，此时为空，等待添加
+     * 打包产品dto对象
      *
      * @return
      */
-    private Map<String, JSONObject> doPackageProductJsonMap() {
+    private Map<String, ProductBugDto> doPackageProductDtoMap() {
+        //查找产品
         List<Product> products = productService.findAll();
-        Map<String, JSONObject> productMap = new LinkedHashMap<String, JSONObject>();
-        JSONObject productJson;
+        //新建产品id、产品dto对应Map
+        Map<String, ProductBugDto> productMap = new LinkedHashMap<String, ProductBugDto>();
+        ProductBugDto productBugDto;
         for (Product product : products) {
-            productJson = new JSONObject();
-            productJson.put("productName", product.getProductName());
-            productJson.put("projects", new LinkedList<Object>());
-            productMap.put(product.getId(), productJson);
+            //把产品信息封装到dto
+            productBugDto = new ProductBugDto();
+            productBugDto.setProductName(product.getProductName());
+            productBugDto.setProjects(new LinkedList<ProjectBugDto>());
+            //添加到id、dto对应Map
+            productMap.put(product.getId(), productBugDto);
         }
         return productMap;
     }
 
     /**
-     * 添加项目到产品Json上
+     * 添加项目到产品Map上
      *
-     * @param productJsonMap 商品json对应的map
+     * @param productDtoMap 产品dto对应的map
      */
-    private void doAppendProject(Map<String, JSONObject> productJsonMap) {
-        Map<String, JSONObject> projectBugCountMap = bugService.countBugByProject();
+    private void doAppendProject(Map<String, ProductBugDto> productDtoMap) {
+        //查找项目Bug信息
+        Map<String, ProjectBugVo> projectBugVoMap = bugService.countBugByProject();
+        //查找项目
         List<Project> projects = projectService.findAll();
-        JSONObject projectJson;
-        for (Project project : projects) {
-            // 添加项目信息到json
-            projectJson = projectBugCountMap.get(project.getId());
-            if(null == projectJson) {
-                projectJson = new JSONObject();
-                projectJson.put("bugNumber",0);
-                projectJson.put("allBug",0);
-            }
-            projectJson.put("projectName", project.getProjectName());
-            projectJson.put("finished", project.isFinished());
+        for (Project p : projects) {
+            //把项目Bug Vo 转化为项目Bug Dto
+            ProjectBugVo vo = projectBugVoMap.get(p.getId());
+            ProjectBugDto projectBugDto = new ProjectBugDto(vo);
+            projectBugDto.setProjectName(p.getProjectName());
+            projectBugDto.setProjectId(p.getId());
+            projectBugDto.setFinished(p.isFinished());
 
-            // 添加项目json到产品json
-            JSONObject productJson = productJsonMap.get(project.getProduct().getId());
-            LinkedList<Object> projectList = (LinkedList<Object>) productJson.get("projects");
-            projectList.add(projectJson);
+            //把项目Bug Dto添加到产品
+            List<ProjectBugDto> productChildren = productDtoMap.get(p.getProduct().getId()).getProjects();
+            productChildren.add(projectBugDto);
+
         }
+
     }
 
     @Override
     public void exportExcelProduct(OutputStream out) throws IOException {
-        JSONArray jsonArray = doStatistic();
+        List<ProductBugDto> products = doStatistic();
         final int maxCellNumber = 4;
         // 创建工作薄
         XSSFWorkbook workBook = new XSSFWorkbook();
@@ -121,15 +126,14 @@ public class ProductStatisticServiceImpl implements ProductStatisticService {
         XSSFSheet sheet = workBook.createSheet();
 
         int rowNumber = 0;
-        for (Object jsonObj : jsonArray) {
-            JSONObject json = (JSONObject) jsonObj;
+        for (ProductBugDto product : products) {
             // 插入产品名
             XSSFRow productRow = sheet.createRow(rowNumber++);
             productRow.setHeightInPoints(20);
             XSSFCell productCell = productRow.createCell(0);
             productCell.setCellType(XSSFCell.CELL_TYPE_STRING);
             productCell.setCellStyle(productStyle);
-            productCell.setCellValue((String) json.get("productName"));
+            productCell.setCellValue(product.getProductName());
             CellRangeAddress region = new CellRangeAddress(productRow.getRowNum(),
                     productRow.getRowNum(), 0, maxCellNumber);
             sheet.addMergedRegion(region);
@@ -143,18 +147,18 @@ public class ProductStatisticServiceImpl implements ProductStatisticService {
             titleCells[3].setCellValue("Bug总量");
             titleCells[4].setCellValue("完成状态");
             // 表体，循环插入项目
-            List<JSONObject> projects = (List<JSONObject>) json.get("projects");
+            List<ProjectBugDto> projects = product.getProjects();
             for (int i = 0; i < projects.size(); i++) {
-                JSONObject project = projects.get(i);
+                ProjectBugDto project = projects.get(i);
                 // 创建一行以及所需单元格
                 XSSFRow bodyRow = sheet.createRow(rowNumber++);
                 XSSFCell[] bodyCells = ExcelUtil.createCells(bodyRow, maxCellNumber, bodyStyle);
                 //插入数据到单元格
                 bodyCells[0].setCellValue(i);
-                bodyCells[1].setCellValue((String) project.get("projectName"));
-                bodyCells[2].setCellValue((int) project.get("bugNumber"));
-                bodyCells[3].setCellValue((int) project.get("allBug"));
-                String finished = (boolean) project.get("finished") ? "已完成" : "未完成";
+                bodyCells[1].setCellValue(project.getProjectName());
+                bodyCells[2].setCellValue(project.getCountBug());
+                bodyCells[3].setCellValue(project.getCountAllBug());
+                String finished = project.isFinished() ? "已完成" : "未完成";
                 bodyCells[4].setCellValue(finished);
 
             }

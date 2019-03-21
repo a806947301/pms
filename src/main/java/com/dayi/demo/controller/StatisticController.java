@@ -2,6 +2,8 @@ package com.dayi.demo.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.dayi.demo.common.controller.BaseController;
+import com.dayi.demo.statistic.dto.ProductBugDto;
+import com.dayi.demo.statistic.dto.UserBugDto;
 import com.dayi.demo.statistic.service.UserStatisticService;
 import com.dayi.demo.statistic.service.ProductStatisticService;
 import com.dayi.demo.util.ExcelUtil;
@@ -16,6 +18,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * 统计模块控制器
@@ -69,7 +72,7 @@ public class StatisticController extends BaseController {
     @RequestMapping("/productStatistic")
     @ResponseBody
     @RequiresPermissions("products:statistic")
-    public JSONArray productStatistic(HttpServletRequest request) {
+    public List<ProductBugDto> productStatistic(HttpServletRequest request) {
         String realPath = request.getSession().getServletContext().getRealPath("/");
         return productStatisticService.doStatistic();
     }
@@ -113,7 +116,7 @@ public class StatisticController extends BaseController {
     @RequestMapping("/developerStatistic")
     @ResponseBody
     @RequiresPermissions("developer:statistic")
-    public JSONArray developerStatistic() {
+    public List<UserBugDto> developerStatistic() {
         return userStatisticService.doStatisicDeveloper();
     }
 
@@ -129,6 +132,7 @@ public class StatisticController extends BaseController {
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
         response.setHeader("Content-Disposition", "attachment;fileName=" + DEVELOPER_EXCEL_NAME);
+
         //返回Excel
         try {
             userStatisticService.exportExcelDeveloper(response.getOutputStream());
@@ -155,7 +159,7 @@ public class StatisticController extends BaseController {
     @RequestMapping("/testerStatistic")
     @ResponseBody
     @RequiresPermissions("test:statistic")
-    public JSONArray testerStatistic() {
+    public List<UserBugDto> testerStatistic() {
         return userStatisticService.doStatisicTester();
     }
 
@@ -171,6 +175,7 @@ public class StatisticController extends BaseController {
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
         response.setHeader("Content-Disposition", "attachment;fileName=" + TESTER_EXCEL_NAME);
+
         //返回Excel
         try {
             userStatisticService.exportExcelTester(response.getOutputStream());

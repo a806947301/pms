@@ -3,7 +3,9 @@ package com.dayi.demo.statistic.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.bug.service.BugService;
+import com.dayi.demo.statistic.dto.UserBugDto;
 import com.dayi.demo.statistic.service.UserStatisticService;
+import com.dayi.demo.statistic.vo.UserBugVo;
 import com.dayi.demo.user.model.Role;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.RoleService;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -48,77 +51,70 @@ public class UserStatisticServiceImpl implements UserStatisticService {
     private static final String TESTER_NAME = "测试人员";
 
     @Override
-    public JSONArray doStatisicDeveloper() {
+    public List<UserBugDto> doStatisicDeveloper() {
         //获取开发人员角色
         Role role = roleService.getRoleByRoleName(DEVELOPER_NAME);
         //获取所有开发人员
         List<User> users = userService.findByUserRole(null, role.getId());
         //获取开发人员id对应的bug量
-        Map<String, JSONObject> processerBugMap = bugService.countBugByProcesser();
-        JSONArray userJsonArray = doPackageUserBugJsonArray(users, processerBugMap);
-        return userJsonArray;
+        Map<String, UserBugVo> developerVoMap = bugService.countBugByProcesser();
+        return doPackageUser(users, developerVoMap);
     }
 
     @Override
-    public JSONArray doStatisicTester() {
+    public List<UserBugDto> doStatisicTester() {
         //获取测试人员角色
         Role role = roleService.getRoleByRoleName(TESTER_NAME);
         //获取所有测试人员
         List<User> users = userService.findByUserRole(null, role.getId());
         //获取测试人员id对应的bug量
-        Map<String, JSONObject> processerBugMap = bugService.countBugByProposer();
-        JSONArray userJsonArray = doPackageUserBugJsonArray(users, processerBugMap);
-        return userJsonArray;
+        Map<String, UserBugVo> testerVoMap = bugService.countBugByProposer();
+        return doPackageUser(users, testerVoMap);
     }
 
 
     @Override
     public void exportExcelDeveloper(OutputStream out) throws IOException {
-        JSONArray developers = doStatisicDeveloper();
+        List<UserBugDto> developers = doStatisicDeveloper();
         doExportExcelUser(developers, out);
     }
 
     @Override
     public void exportExcelTester(OutputStream out) throws IOException {
-        JSONArray testers = doStatisicTester();
+        List<UserBugDto> testers = doStatisicTester();
         doExportExcelUser(testers,out);
     }
 
     /**
-     * 把人员和用户bug统计Map封装成JSONArrary
+     * 封装成用户Bug Dto的List
      *
      * @param users
      * @param bugMap
      * @return
      */
-    public JSONArray doPackageUserBugJsonArray(List<User> users, Map<String, JSONObject> bugMap) {
-        JSONArray userJsonArray = new JSONArray();
-        JSONObject userJson;
+    private List<UserBugDto> doPackageUser(List<User> users, Map<String, UserBugVo> bugMap) {
+        List<UserBugDto> userBugDtos = new LinkedList<UserBugDto>();
+        UserBugDto userDto;
         for (User user : users) {
-            userJson = bugMap.get(user.getId());
-            // 如果没有记录，即所有bug数都为空
-            if (null == userJson) {
-                userJson = new JSONObject();
-                userJson.put("bugNumber", 0);
-                userJson.put("designate", 0);
-                userJson.put("processing", 0);
-                userJson.put("checking", 0);
-                userJson.put("finished", 0);
-            }
-            userJson.put("username", user.getName());
-            userJsonArray.add(userJson);
+            //封装成Dto
+            userDto = new UserBugDto(bugMap.get(user.getId()));
+            userDto.setUserId(user.getId());
+            userDto.setName(user.getName());
+
+            //添加到list
+            userBugDtos.add(userDto);
         }
-        return userJsonArray;
+        return userBugDtos;
     }
 
     /**
-     * 把用户JSONArray封装成Excel，并用输出流输出
+     * 把用户Dto List封装成Excel，并用输出流输出
      *
-     * @param jsonArray
+     * @param list
      * @param out
      * @throws IOException
      */
-    public void doExportExcelUser(JSONArray jsonArray, OutputStream out) throws IOException {
+    public void doExportExcelUser(List<UserBugDto> list, OutputStream out) throws IOException {
         final int maxCellNumber = 6;
         // 创建工作薄
         XSSFWorkbook workBook = new XSSFWorkbook();
@@ -145,19 +141,18 @@ public class UserStatisticServiceImpl implements UserStatisticService {
         titleCells[5].setCellValue("已完成Bug");
         titleCells[6].setCellValue("Bug总数");
         int bodyLength = 0;
-        for (Object developerObj : jsonArray) {
-            JSONObject developer = (JSONObject) developerObj;
+        for (UserBugDto user : list) {
             // 创建标题一行及单元格
             XSSFRow bodyRow = sheet.createRow(rowNumber++);
             XSSFCell[] bodyCells = ExcelUtil.createCells(bodyRow, maxCellNumber, bodyStyle);
             //插入数据到单元格
             bodyCells[0].setCellValue(bodyLength++);
-            bodyCells[1].setCellValue((String) developer.get("username"));
-            bodyCells[2].setCellValue((int) developer.get("designate"));
-            bodyCells[3].setCellValue((int) developer.get("processing"));
-            bodyCells[4].setCellValue((int) developer.get("checking"));
-            bodyCells[5].setCellValue((int) developer.get("finished"));
-            bodyCells[6].setCellValue((int) developer.get("bugNumber"));
+            bodyCells[1].setCellValue(user.getName());
+            bodyCells[2].setCellValue(user.getDesignate());
+            bodyCells[3].setCellValue(user.getProcessing());
+            bodyCells[4].setCellValue(user.getChecking());
+            bodyCells[5].setCellValue(user.getFinished());
+            bodyCells[6].setCellValue(user.getBugNumber());
 
         }
         ExcelUtil.setSizeColumn(sheet, rowNumber, maxCellNumber);

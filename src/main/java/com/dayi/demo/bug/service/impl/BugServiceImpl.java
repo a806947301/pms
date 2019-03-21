@@ -8,6 +8,8 @@ import com.dayi.demo.bug.model.BugDescription;
 import com.dayi.demo.bug.service.BugOperatingRecordService;
 import com.dayi.demo.bug.service.BugService;
 import com.dayi.demo.common.exception.SystemException;
+import com.dayi.demo.statistic.vo.ProjectBugVo;
+import com.dayi.demo.statistic.vo.UserBugVo;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.UserService;
 import com.dayi.demo.util.IdUtil;
@@ -284,53 +286,34 @@ public class BugServiceImpl implements BugService {
 
 
     @Override
-    public Map<String, JSONObject> countBugByProject() {
-        HashMap<String, JSONObject> result = new LinkedHashMap<String, JSONObject>(32);
+    public Map<String, ProjectBugVo> countBugByProject() {
+        HashMap<String, ProjectBugVo> result = new LinkedHashMap<String, ProjectBugVo>(32);
         // 多个产品Map封装成一个map
-        List<Map<String, Object>> maps = bugDao.countBugByProject();
-        for (Map<String, Object> map : maps) {
-            JSONObject project = new JSONObject();
-            project.put("bugNumber", ((Long) map.get("bugNumber")).intValue());
-            project.put("allBug", ((Long) map.get("allBug")).intValue());
-            result.put((String) map.get("projectId"), project);
+        List<ProjectBugVo> list = bugDao.countBugByProject();
+        for (ProjectBugVo vo : list) {
+            result.put(vo.getProjectId(), vo);
         }
         return result;
     }
 
     @Override
-    public Map<String, JSONObject> countBugByProcesser() {
-        HashMap<String, JSONObject> result = new LinkedHashMap<String, JSONObject>(32);
-        // 多个开发人员bugMap
-        List<Map<String, Object>> maps = bugDao.countBugByProcesser();
-        for (Map<String, Object> map : maps) {
-            // 把开发人员Bug数据存入Json
-            JSONObject json = new JSONObject();
-            json.put("bugNumber", ((Long) map.get("bugNumber")).intValue());
-            json.put("designate", ((Long) map.get("designate")).intValue());
-            json.put("processing", ((Long) map.get("processing")).intValue());
-            json.put("checking", ((Long) map.get("checking")).intValue());
-            json.put("finished", ((Long) map.get("finished")).intValue());
-            //测试人员Json存进队列
-            result.put((String) map.get("processer"), json);
+    public Map<String, UserBugVo> countBugByProcesser() {
+        HashMap<String, UserBugVo> result = new LinkedHashMap<String, UserBugVo>(32);
+        // 把id、vo封装到hashMap上
+        List<UserBugVo> userBugVos = bugDao.countBugByProcesser();
+        for (UserBugVo user : userBugVos) {
+            result.put(user.getUserId(), user);
         }
         return result;
     }
 
     @Override
-    public Map<String, JSONObject> countBugByProposer() {
-        HashMap<String, JSONObject> result = new LinkedHashMap<String, JSONObject>(32);
-        // 多个测试人员bugMap
-        List<Map<String, Object>> maps = bugDao.countBugByProposer();
-        for (Map<String, Object> map : maps) {
-            // 把测试人员Bug数据封装Json
-            JSONObject json = new JSONObject();
-            json.put("bugNumber", ((Long) map.get("bugNumber")).intValue());
-            json.put("designate", ((Long) map.get("designate")).intValue());
-            json.put("processing", ((Long) map.get("processing")).intValue());
-            json.put("checking", ((Long) map.get("checking")).intValue());
-            json.put("finished", ((Long) map.get("finished")).intValue());
-            //测试人员Json存进队列
-            result.put((String) map.get("proposer"), json);
+    public Map<String, UserBugVo> countBugByProposer() {
+        HashMap<String, UserBugVo> result = new LinkedHashMap<String, UserBugVo>(32);
+        // 把id、vo封装到hashMap上
+        List<UserBugVo> userBugVos = bugDao.countBugByProposer();
+        for (UserBugVo user : userBugVos) {
+            result.put(user.getUserId(), user);
         }
         return result;
     }
