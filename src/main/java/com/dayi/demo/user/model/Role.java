@@ -10,7 +10,9 @@ import com.dayi.demo.common.entity.BaseEntity;
  * @date 2019-3-10
  */
 public class Role extends BaseEntity {
-    /** 角色名 */
+    /**
+     * 角色名
+     */
     private String roleName;
 
     public String getRoleName() {
@@ -22,10 +24,10 @@ public class Role extends BaseEntity {
     }
 
     public static boolean hasEmpty(Role role, boolean includingId) {
-        if(BaseEntity.hasEmpty(role, includingId)) {
+        if (BaseEntity.hasEmpty(role, includingId)) {
             return true;
         }
-        if(null == role || "".equals(role)) {
+        if (null == role || "".equals(role)) {
             return true;
         }
         return false;

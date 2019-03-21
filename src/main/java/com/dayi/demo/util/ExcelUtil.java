@@ -70,7 +70,7 @@ public class ExcelUtil {
             for (int rowNum = 0; rowNum < sheet.getLastRowNum(); rowNum++) {
                 XSSFRow currentRow;
                 //当前行未被使用过
-                if (sheet.getRow(rowNum) == null) {
+                if (null == sheet.getRow(rowNum)) {
                     currentRow = sheet.createRow(rowNum);
                 } else {
                     currentRow = sheet.getRow(rowNum);

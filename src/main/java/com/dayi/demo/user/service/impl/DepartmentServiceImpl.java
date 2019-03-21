@@ -39,7 +39,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public void delete(String id) throws SystemException {
         //判断该部门下是否有用户
         int countUser = userService.countDepartmentId(id);
-        if(0 != countUser) {
+        if (0 != countUser) {
             throw new SystemException("部门人数不为0");
         }
 
@@ -72,8 +72,8 @@ public class DepartmentServiceImpl implements DepartmentService {
      */
     @Override
     public void add(Department department) throws SystemException {
-        int countAdd =  departmentDao.add(department);
-        if(0 == countAdd) {
+        int countAdd = departmentDao.add(department);
+        if (0 == countAdd) {
             throw new SystemException("添加失败");
         }
     }
@@ -102,11 +102,5 @@ public class DepartmentServiceImpl implements DepartmentService {
         List<Department> list = departmentDao.findAll();
         PageInfo<Department> pageInfo = new PageInfo<>(list);
         return pageInfo;
-    }
-
-    public JSONObject listToJson(List<Department> list) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("list", list);
-        return jsonObject;
     }
 }

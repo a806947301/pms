@@ -416,7 +416,7 @@
                 if(currentPage<=0) {
                     return ;
                 }
-                if(currentPage > this.descriptions.pages) {
+                if(currentPage != 0 && currentPage > this.descriptions.pages) {
                     return ;
                 }
                 params = new URLSearchParams();
@@ -546,6 +546,7 @@
                     .then(function (response) {
                         alert(response.data.msg);
                         vm.reloadBug();
+                        bugDescriptionVm.getPage(0);
                     })
             }
         }

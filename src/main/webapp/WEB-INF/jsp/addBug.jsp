@@ -150,7 +150,7 @@
                     .post("/bug/addBug",params)
                     .then(function (response) {
                         result = response.data;
-                        if(result.success) {
+                        if (result.success) {
                             alert("添加成功");
                             window.location.href = "/bug/getBugPage/" + result.msg;
                         } else {

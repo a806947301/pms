@@ -133,10 +133,7 @@ public class ProjectServiceImpl implements ProjectService {
         File file = new File(realPath);
         System.out.println(file.exists());
         //删除项目文件
-        try {
-            FileUtils.deleteDirectory(new File(realPath));
-        } catch (Exception e) {
-            logger.error(ProjectServiceImpl.class.toString() + "_" + e.getMessage(), e);
-        }
+        FileUtils.deleteQuietly(new File(realPath));
+
     }
 }

@@ -102,7 +102,7 @@ public class User extends BaseEntity{
         if (BaseEntity.hasEmpty(user, includeId)) {
             return true;
         }
-        if (user.getName() == null || "".equals(user.getName())) {
+        if (null == user.getName() || "".equals(user.getName())) {
             return true;
         }
         if (null == user.getPassword() || "".equals(user.getPassword())) {
@@ -114,7 +114,7 @@ public class User extends BaseEntity{
         if (null == user.getDepartment()) {
             return true;
         }
-        if (user.getDepartment().getId() == null || "".equals(user.getDepartment().getId())) {
+        if (null == user.getDepartment().getId() || "".equals(user.getDepartment().getId())) {
             return true;
         }
         return false;

@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     private LoginLogService loginLogService;
 
     @Override
-    public void update(User user)  throws SystemException {
+    public void update(User user) throws SystemException {
         //判断用户是否存在
         User oldUser = get(user.getId());
         if (null == oldUser) {
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void add(User user)  throws SystemException{
+    public void add(User user) throws SystemException {
         user.setPassword(encryptMd5(user));
         int countAdd = userDao.add(user);
         if (0 == countAdd) {
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PageInfo<User> findByPage(int currentPage, int pageSize) {
-        PageHelper.startPage(currentPage,pageSize);
+        PageHelper.startPage(currentPage, pageSize);
         List<User> list = userDao.findAllIncludeStopped();
         PageInfo<User> pageInfo = new PageInfo<>(list);
         return pageInfo;
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findByUserRole(String userId, String roleId) {
-        return userDao.findUserByUserRole(userId,roleId);
+        return userDao.findUserByUserRole(userId, roleId);
     }
 
     @Override
@@ -101,26 +101,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean doLogin(String email, String password,String ip) {
+    public boolean doLogin(String email, String password, String ip) {
         Subject subject = SecurityUtils.getSubject();
-        subject.login(new UsernamePasswordToken(email,password));
+        subject.login(new UsernamePasswordToken(email, password));
         Session session = SecurityUtils.getSubject().getSession();
         User currentUser = getByEmail(email);
-        session.setAttribute("user",currentUser);
+        session.setAttribute("user", currentUser);
         return true;
     }
 
     private String encryptMd5(User user) {
         ByteSource source = ByteSource.Util.bytes(user.getId());
-        String result = new SimpleHash("MD5",user.getPassword(),source,2).toHex();
+        String result = new SimpleHash("MD5", user.getPassword(), source, 2).toHex();
         return result;
     }
 
     @Override
-    public void updateStopped(String id,boolean stopped) throws SystemException{
+    public void updateStopped(String id, boolean stopped) throws SystemException {
         //判断是否存在用户
         User oldUser = get(id);
-        if(null == oldUser) {
+        if (null == oldUser) {
             throw new SystemException("用户不存在");
         }
 
@@ -139,7 +139,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findByproductIdRole(String productId, String roleId) {
-        return userDao.findUserByproductIdRole(productId,roleId);
+        return userDao.findUserByproductIdRole(productId, roleId);
     }
 
     @Override
@@ -156,7 +156,7 @@ public class UserServiceImpl implements UserService {
             logger.error(MailUtil.class.toString() + "_" + e.getMessage(), e);
             throw new SystemException("邮件发送失败");
         }
-        return varificationCode+"";
+        return varificationCode + "";
     }
 
     @Override

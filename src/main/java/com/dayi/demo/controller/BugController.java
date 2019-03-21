@@ -90,7 +90,7 @@ public class BugController extends BaseController {
     @ResponseBody
     public Map<String, String> bugImgUpload(MultipartFile file, String projectId, HttpServletRequest request) {
         // 校验
-        if (file == null) {
+        if (null == file) {
             Map<String, String> map = new HashMap<String, String>(16);
             map.put("success", "false");
             map.put("msg", "图片上传失败");
