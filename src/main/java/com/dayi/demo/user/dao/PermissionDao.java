@@ -1,7 +1,7 @@
 package com.dayi.demo.user.dao;
 
 
-import com.dayi.demo.user.model.Premission;
+import com.dayi.demo.user.model.Permission;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -13,41 +13,41 @@ import java.util.List;
  * @author WuTong<wut@pvc123.com>
  * @date 2019-3-6
  */
-public interface PremissionDao {
+public interface PermissionDao {
 
     /**
      * 添加权限
-     * @param premission
+     * @param permission
      * @return
      */
-    int add(Premission premission);
+    int add(Permission permission);
 
     /**
      * 查找权限
      * @return
      */
-    List<Premission> findPremission();
+    List<Permission> findPermission();
 
     /**
      * 根据是否菜单查找权限
      * @param isMenu
      * @return
      */
-    List<Premission> findByIsMenu(boolean isMenu);
+    List<Permission> findByIsMenu(boolean isMenu);
 
     /**
      * 更新权限
-     * @param premission
+     * @param permission
      * @return
      */
-    int update(Premission premission);
+    int update(Permission permission);
 
     /**
      * 查找指定角色下的所有权限
      * @param roleId
      * @return
      */
-    List<Premission> findByRoleId(String roleId);
+    List<Permission> findByRoleId(String roleId);
 
     /**
      * 给角色授权
@@ -55,19 +55,19 @@ public interface PremissionDao {
      * @param addTime   添加时间
      * @param updateTime    修改时间
      * @param roleId    角色Id
-     * @param premissionId  权限Id
+     * @param permissionId  权限Id
      * @return
      */
-    int addRolePremission(@Param("id") String id, @Param("addTime") Date addTime, @Param("updateTime") Date updateTime,
-                          @Param("roleId") String roleId, @Param("premissionId") String premissionId);
+    int addRolePermission(@Param("id") String id, @Param("addTime") Date addTime, @Param("updateTime") Date updateTime,
+                          @Param("roleId") String roleId, @Param("permissionId") String permissionId);
 
     /**
      * 取消角色权限
      * @param roleId    角色Id
-     * @param premissionId  权限Id
+     * @param permissionId  权限Id
      * @return
      */
-    int deleteRolePremission(@Param("roleId") String roleId, @Param("premissionId") String premissionId);
+    int deleteRolePermission(@Param("roleId") String roleId, @Param("permissionId") String permissionId);
 
     /**
      * 删除权限

@@ -390,15 +390,15 @@
         methods:{
             authorization:function () {
                 var result = document.getElementById('authc').contentWindow.result;
-                var premissions = new Array();
+                var permissions = new Array();
                 for ( var i = 0; i <result.length; i++){
-                    premissions[i] = result[i].id;
+                    permissions[i] = result[i].id;
                 }
                 params = new URLSearchParams();
                 params.append("roleId",this.roleId);
-                params.append("premissions",premissions);
+                params.append("permissions",permissions);
                 axios
-                    .post("/premission/authorization",params)
+                    .post("/permission/authorization",params)
                     .then(function (response) {
                             alert(response.data.msg);
                     })

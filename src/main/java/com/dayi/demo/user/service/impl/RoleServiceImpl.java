@@ -3,11 +3,10 @@ package com.dayi.demo.user.service.impl;
 import com.dayi.demo.common.entity.BaseEntity;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.dao.RoleDao;
-import com.dayi.demo.user.model.Premission;
+import com.dayi.demo.user.model.Permission;
 import com.dayi.demo.user.model.Role;
-import com.dayi.demo.user.service.PremissionService;
+import com.dayi.demo.user.service.PermissionService;
 import com.dayi.demo.user.service.RoleService;
-import com.dayi.demo.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.aop.framework.AopContext;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,7 +30,7 @@ public class RoleServiceImpl implements RoleService {
     private RoleDao roleDao;
 
     @Resource
-    private PremissionService premissionService;
+    private PermissionService permissionService;
 
     @Override
     public void add(Role role) throws SystemException {
@@ -110,8 +108,8 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void delete(String id) throws SystemException {
         // 判断是否改角色是否还有权限
-        List<Premission> premissions = premissionService.findByRoleId(id);
-        if (0 != premissions.size()) {
+        List<Permission> permissions = permissionService.findByRoleId(id);
+        if (0 != permissions.size()) {
             throw new SystemException("角色下还有权限");
         }
         // 判断是否有用户有此角色

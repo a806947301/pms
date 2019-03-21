@@ -1,9 +1,9 @@
 package com.dayi.demo.common.shiro.realm;
 
-import com.dayi.demo.user.model.Premission;
+import com.dayi.demo.user.model.Permission;
 import com.dayi.demo.user.model.Role;
 import com.dayi.demo.user.model.User;
-import com.dayi.demo.user.service.PremissionService;
+import com.dayi.demo.user.service.PermissionService;
 import com.dayi.demo.user.service.RoleService;
 import com.dayi.demo.user.service.UserService;
 import org.apache.shiro.authc.*;
@@ -32,7 +32,7 @@ public class AuthRealm extends AuthorizingRealm {
     private RoleService roleService;
 
     @Resource
-    private PremissionService premissionService;
+    private PermissionService permissionService;
 
     /**
      * 授权
@@ -46,15 +46,15 @@ public class AuthRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         User user = userService.getByEmail(email);
         List<Role> roles = roleService.findRoleByUserId(user.getId());
-        LinkedHashSet<String> premissions = new LinkedHashSet<String>();
+        LinkedHashSet<String> permissions = new LinkedHashSet<String>();
         for (Role role : roles) {
             info.addRole(role.getRoleName());
-            List<Premission> rolePremissions = premissionService.findByRoleId(role.getId());
-            for (Premission premission : rolePremissions) {
-                premissions.add(premission.getField());
+            List<Permission> rolePermissions = permissionService.findByRoleId(role.getId());
+            for (Permission permission : rolePermissions) {
+                permissions.add(permission.getField());
             }
         }
-        info.addStringPermissions(premissions);
+        info.addStringPermissions(permissions);
 
         return info;
     }

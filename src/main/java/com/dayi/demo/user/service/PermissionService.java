@@ -3,7 +3,7 @@ package com.dayi.demo.user.service;
 import com.alibaba.fastjson.JSONArray;
 import com.dayi.demo.common.entity.BaseEntity;
 import com.dayi.demo.common.exception.SystemException;
-import com.dayi.demo.user.model.Premission;
+import com.dayi.demo.user.model.Permission;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
@@ -14,15 +14,15 @@ import java.util.List;
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-06
  */
-public interface PremissionService {
+public interface PermissionService {
 
     /**
      * 添加权限
      *
-     * @param premission
+     * @param permission
      * @throws SystemException
      */
-    void add(Premission premission) throws SystemException;
+    void add(Permission permission) throws SystemException;
 
     /**
      * 分页查找权限
@@ -31,29 +31,29 @@ public interface PremissionService {
      * @param pageSize
      * @return
      */
-    PageInfo<Premission> findByPage(int currentPage, int pageSize);
+    PageInfo<Permission> findByPage(int currentPage, int pageSize);
 
     /**
      * 查找所有权限
      *
      * @return
      */
-    List<Premission> findAll();
+    List<Permission> findAll();
 
     /**
      * 查找所有是菜单的权限
      *
      * @return
      */
-    List<Premission> findPremissionMenu();
+    List<Permission> findPermissionMenu();
 
     /**
      * 修改权限
      *
-     * @param premission
+     * @param permission
      * @throws SystemException
      */
-    void update(Premission premission) throws SystemException;
+    void update(Permission permission) throws SystemException;
 
     /**
      * 封装成权限树数据
@@ -61,7 +61,7 @@ public interface PremissionService {
      * @param roleId
      * @return
      */
-    JSONArray doPremissionTree(String roleId);
+    JSONArray doPermissionTree(String roleId);
 
     /**
      * 查找角色拥有的权限
@@ -69,26 +69,26 @@ public interface PremissionService {
      * @param roleId
      * @return
      */
-    List<Premission> findByRoleId(String roleId);
+    List<Permission> findByRoleId(String roleId);
 
     /**
      * 给角色授权
      *
      * @param roleId
-     * @param premissionsId
+     * @param permissionsId
      * @return
      */
-    int doAuthorization(String roleId, String[] premissionsId);
+    int doAuthorization(String roleId, String[] permissionsId);
 
     /**
      * 给角色授权
      *
      * @param entity
      * @param roleId
-     * @param premissionId
+     * @param permissionId
      * @return
      */
-    public int addRolePremission(BaseEntity entity, String roleId, String premissionId);
+    public int addRolePermission(BaseEntity entity, String roleId, String permissionId);
 
     /**
      * 删除权限
@@ -101,8 +101,8 @@ public interface PremissionService {
     /**
      * 删除角色权限表（中间表）
      * @param roleId
-     * @param premissionId
+     * @param permissionId
      * @throws SystemException
      */
-    void deleteRolePremission(String roleId, String premissionId) throws SystemException;
+    void deleteRolePermission(String roleId, String permissionId) throws SystemException;
 }

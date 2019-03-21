@@ -29,7 +29,7 @@ public class GlobalExceptionResolver{
      */
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseBody
-    public JSONObject haveNotPremission(Exception e) {
+    public JSONObject haveNotPermission(Exception e) {
         return JsonUtil.packageJson(false, "", "你没有权限");
     }
 

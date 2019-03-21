@@ -117,7 +117,7 @@
     params = new URLSearchParams();
     params.append("roleId",getQueryString("roleId"));
     axios
-        .post("/premission/premissionTree",params)
+        .post("/permission/permissionTree",params)
         .then(function (response) {
             data = response.data;
             $('#treeview1').treeview({

@@ -70,7 +70,7 @@
                                 权限管理
                             </div>
 
-                            <div class="card-body p-0"  id="premissionTable">
+                            <div class="card-body p-0"  id="permissionTable">
                                 <%--<div class="p-4">
                                     <canvas id="line-chart" width="100%" height="20"></canvas>
                                 </div>--%>
@@ -85,7 +85,7 @@
                                             <th>创建时间</th>
                                             <th>更新时间</th>
                                             <th>
-                                                <button class="btn btn-outline-success" data-toggle="modal" data-target="#addPremissionModal" onclick="addPremissionVm.initModal()">
+                                                <button class="btn btn-outline-success" data-toggle="modal" data-target="#addPermissionModal" onclick="addPermissionVm.initModal()">
                                                     <i class="fa fa-align-center"></i> &nbsp; 添加权限
                                                 </button>
                                             </th>
@@ -93,20 +93,20 @@
                                         </thead>
                                         <tbody>
 
-                                        <tr v-for="p in premissions.list" key="p.id">
+                                        <tr v-for="p in permissions.list" key="p.id">
                                             <td>{{p.id}}</td>
-                                            <td>{{p.premissionName}}</td>
+                                            <td>{{p.permissionName}}</td>
                                             <td>{{p.field}}</td>
                                             <td>{{p.menu}}</td>
                                             <td>{{p.parentId==""?"无":p.parentId}}</td>
                                             <td>{{crtTimeFtt(p.addTime)}}</td>
                                             <td>{{crtTimeFtt(p.updateTime)}}</td>
                                             <td>
-                                                <button class="btn btn-outline-warning" data-toggle="modal" data-target="#updatePremissionModal"
-                                                        v-on:click="updatePremissionVm.initModal(p.id,p.premissionName,p.field,p.menu,p.parentId)">
+                                                <button class="btn btn-outline-warning" data-toggle="modal" data-target="#updatePermissionModal"
+                                                        v-on:click="updatePermissionVm.initModal(p.id,p.permissionName,p.field,p.menu,p.parentId)">
                                                     <i class="fa fa-clipboard"></i> &nbsp; 修改
                                                 </button>
-                                                <button class="btn btn-outline-danger" v-on:click="deletePremission(p.id)">
+                                                <button class="btn btn-outline-danger" v-on:click="deletePermission(p.id)">
                                                     <i class="fa fa-trash"></i>&nbsp; 删除
                                                 </button>
                                             </td>
@@ -116,23 +116,23 @@
 
 
                                 <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
-                                    <ul class="pagination pagination-lg" v-if="premissions.pageNum <= premissions.pages && premissions.pageNum >= 3">
-                                        <li><a v-on:Click="getPage(premissions.pageNum-1)" href="javascript:void(0);">&laquo;</a></li>
-                                        <li><a v-on:Click="getPage(premissions.pageNum-2)" href="javascript:void(0);" v-show="premissions.pages>=premissions.pageNum-2"  v-bind:class="{'active':(premissions.pageNum==2)}">{{premissions.pageNum-2}}</a></li>
-                                        <li><a v-on:Click="getPage(premissions.pageNum-1)" href="javascript:void(0);" v-show="premissions.pages>=premissions.pageNum-1"  v-bind:class="{'active':(premissions.pageNum==2)}">{{premissions.pageNum-1}}</a></li>
-                                        <li><a v-on:Click="getPage(premissions.pageNum)" href="javascript:void(0);"   v-bind:class="{'active':true}">{{premissions.pageNum}}</a></li>
-                                        <li><a v-on:Click="getPage(premissions.pageNum+1)" href="javascript:void(0);" v-show="premissions.pages>=premissions.pageNum+1" >{{premissions.pageNum+1}}</a></li>
-                                        <li><a v-on:Click="getPage(premissions.pageNum+2)" href="javascript:void(0);" v-show="premissions.pages>=premissions.pageNum+2" >{{premissions.pageNum+2}}</a></li>
-                                        <li><a v-on:Click="getPage(premissions.pageNum+1)" href="javascript:void(0);">&raquo;</a></li>
+                                    <ul class="pagination pagination-lg" v-if="permissions.pageNum <= permissions.pages && permissions.pageNum >= 3">
+                                        <li><a v-on:Click="getPage(permissions.pageNum-1)" href="javascript:void(0);">&laquo;</a></li>
+                                        <li><a v-on:Click="getPage(permissions.pageNum-2)" href="javascript:void(0);" v-show="permissions.pages>=permissions.pageNum-2"  v-bind:class="{'active':(permissions.pageNum==2)}">{{permissions.pageNum-2}}</a></li>
+                                        <li><a v-on:Click="getPage(permissions.pageNum-1)" href="javascript:void(0);" v-show="permissions.pages>=permissions.pageNum-1"  v-bind:class="{'active':(permissions.pageNum==2)}">{{permissions.pageNum-1}}</a></li>
+                                        <li><a v-on:Click="getPage(permissions.pageNum)" href="javascript:void(0);"   v-bind:class="{'active':true}">{{permissions.pageNum}}</a></li>
+                                        <li><a v-on:Click="getPage(permissions.pageNum+1)" href="javascript:void(0);" v-show="permissions.pages>=permissions.pageNum+1" >{{permissions.pageNum+1}}</a></li>
+                                        <li><a v-on:Click="getPage(permissions.pageNum+2)" href="javascript:void(0);" v-show="permissions.pages>=permissions.pageNum+2" >{{permissions.pageNum+2}}</a></li>
+                                        <li><a v-on:Click="getPage(permissions.pageNum+1)" href="javascript:void(0);">&raquo;</a></li>
                                     </ul>
                                     <ul class="pagination pagination-lg" v-else>
-                                        <li><a v-on:Click="getPage(premissions.pageNum-1)" href="javascript:void(0);">&laquo;</a></li>
-                                        <li><a v-on:Click="getPage(1)" href="javascript:void(0);" v-bind:class="{'active':(premissions.pageNum==1)}">1</a></li>
-                                        <li><a v-on:Click="getPage(2)" href="javascript:void(0);" v-show="premissions.pages>=2"  v-bind:class="{'active':(premissions.pageNum==2)}">2</a></li>
-                                        <li><a v-on:Click="getPage(3)" href="javascript:void(0);" v-show="premissions.pages>=3"  v-bind:class="{'active':(premissions.pageNum==3)}">3</a></li>
-                                        <li><a v-on:Click="getPage(4)" href="javascript:void(0);" v-show="premissions.pages>=4"  v-bind:class="{'active':(premissions.pageNum==4)}">4</a></li>
-                                        <li><a v-on:Click="getPage(5)" href="javascript:void(0);" v-show="premissions.pages>=5"  v-bind:class="{'active':(premissions.pageNum==5)}">5</a></li>
-                                        <li><a v-on:Click="getPage(premissions.pageNum+1)" href="javascript:void(0);">&raquo;</a></li>
+                                        <li><a v-on:Click="getPage(permissions.pageNum-1)" href="javascript:void(0);">&laquo;</a></li>
+                                        <li><a v-on:Click="getPage(1)" href="javascript:void(0);" v-bind:class="{'active':(permissions.pageNum==1)}">1</a></li>
+                                        <li><a v-on:Click="getPage(2)" href="javascript:void(0);" v-show="permissions.pages>=2"  v-bind:class="{'active':(permissions.pageNum==2)}">2</a></li>
+                                        <li><a v-on:Click="getPage(3)" href="javascript:void(0);" v-show="permissions.pages>=3"  v-bind:class="{'active':(permissions.pageNum==3)}">3</a></li>
+                                        <li><a v-on:Click="getPage(4)" href="javascript:void(0);" v-show="permissions.pages>=4"  v-bind:class="{'active':(permissions.pageNum==4)}">4</a></li>
+                                        <li><a v-on:Click="getPage(5)" href="javascript:void(0);" v-show="permissions.pages>=5"  v-bind:class="{'active':(permissions.pageNum==5)}">5</a></li>
+                                        <li><a v-on:Click="getPage(permissions.pageNum+1)" href="javascript:void(0);">&raquo;</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -154,7 +154,7 @@
 </div>
 <!-- 模拟框 -->
 <%-- 添加权限模拟框 --%>
-<div class="modal fade" id="addPremissionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="addPermissionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -165,7 +165,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label class="control-label">权限名</label>
-                    <input type="text" class="form-control" v-model="premissionName"
+                    <input type="text" class="form-control" v-model="permissionName"
                            placeholder="请输入权限名称"><br>
                 </div>
                 <div class="form-group">
@@ -184,14 +184,14 @@
                     <label class="control-label">父级菜单</label>
                     <select class="form-control" v-model="parentId">
                         <option value="">无</option>
-                        <option v-for="m in menus" v-bind:value="m.id">{{m.premissionName}}</option>
+                        <option v-for="m in menus" v-bind:value="m.id">{{m.permissionName}}</option>
                     </select><br>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                 </button>
-                <button type="button" class="btn btn-primary" v-on:click="addPremission()"  data-dismiss="modal">
+                <button type="button" class="btn btn-primary" v-on:click="addPermission()"  data-dismiss="modal">
                     添加权限
                 </button>
             </div>
@@ -200,7 +200,7 @@
     </div><!-- /.modal -->
 </div>
 <%-- 更新权限模拟框 --%>
-<div class="modal fade" id="updatePremissionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="updatePermissionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -216,7 +216,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">权限名</label>
-                    <input type="text" class="form-control" v-model="premissionName"
+                    <input type="text" class="form-control" v-model="permissionName"
                            placeholder="请输入权限名称"><br>
                 </div>
                 <div class="form-group">
@@ -235,14 +235,14 @@
                     <label class="control-label">父级菜单</label>
                     <select class="form-control" v-model="parentId">
                         <option value="">无</option>
-                        <option v-for="m in menus" v-bind:value="m.id">{{m.premissionName}}</option>
+                        <option v-for="m in menus" v-bind:value="m.id">{{m.permissionName}}</option>
                     </select><br>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                 </button>
-                <button type="button" class="btn btn-primary" v-on:click="updatePremission()"  data-dismiss="modal">
+                <button type="button" class="btn btn-primary" v-on:click="updatePermission()"  data-dismiss="modal">
                     更新权限
                 </button>
             </div>
@@ -260,28 +260,28 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     /** 更新权限模拟框vm */
-    var updatePremissionVm = new Vue({
-        el:"#updatePremissionModal",
+    var updatePermissionVm = new Vue({
+        el:"#updatePermissionModal",
         data:{
             id:null,
             field:null,
             menu:null,
-            premissionName:null,
+            permissionName:null,
             parentId:null,
             menus:{}
         },
         methods:{
-            updatePremission:function () {
+            updatePermission:function () {
                 params = new URLSearchParams();
                 params.append("id",this.id);
                 params.append("field",this.field);
                 params.append("menu",this.menu);
-                params.append("premissionName",this.premissionName);
+                params.append("permissionName",this.permissionName);
                 params.append("parentId",this.parentId);
                 axios
-                    .post("/premission/updatePremission",params)
+                    .post("/permission/updatePermission",params)
                     .then(function (response) {
-                        vm.getPage(vm.premissions.pageNum);
+                        vm.getPage(vm.permissions.pageNum);
                         if("true" == response.data.success) {
                             alert("更新成功");
                         } else {
@@ -289,43 +289,43 @@
                         }
                     })
             },
-            initModal:function (id,premissionName,field,menu,parentId) {
+            initModal:function (id,permissionName,field,menu,parentId) {
                 this.id = id;
-                this.premissionName = premissionName;
+                this.permissionName = permissionName;
                 this.field = field;
                 this.menu = menu;
                 this.parentId = parentId;
                 axios
-                    .post("/premission/findPremissionMenu")
+                    .post("/permission/findPermissionMenu")
                     .then(function (response) {
-                        updatePremissionVm.menus = response.data;
+                        updatePermissionVm.menus = response.data;
                     })
                 }
 
         }
     })
     /** 添加权限模拟框vm */
-    var addPremissionVm = new Vue({
-        el:"#addPremissionModal",
+    var addPermissionVm = new Vue({
+        el:"#addPermissionModal",
         data:{
             field:null,
             menu:null,
-            premissionName:null,
+            permissionName:null,
             parentId:null,
             menus:{}
         },
         methods:{
-            addPremission:function ( ) {
+            addPermission:function ( ) {
                 params = new URLSearchParams();
-                params.append("premissionName",this.premissionName);
+                params.append("permissionName",this.permissionName);
                 params.append("field",this.field);
                 params.append("menu",this.menu);
                 params.append("parentId",this.parentId);
 
                 axios
-                    .post("/premission/addPremission",params)
+                    .post("/permission/addPermission",params)
                     .then(function (response) {
-                        vm.getPage(vm.premissions.pageNum);
+                        vm.getPage(vm.permissions.pageNum);
                         if("true" == response.data.success) {
                             alert("添加成功");
                         } else {
@@ -336,26 +336,26 @@
             },
             initModal:function () {
                 axios
-                    .post("/premission/findPremissionMenu")
+                    .post("/permission/findPermissionMenu")
                     .then(function (response) {
-                        addPremissionVm.menus = response.data;
+                        addPermissionVm.menus = response.data;
                     })
             }
         }
     })
     /** 显示权限 */
     var vm = new Vue({
-        el:"#premissionTable" ,
+        el:"#permissionTable" ,
         data:{
-            premissions:{}
+            permissions:{}
         },
         created:function (){
             params = new URLSearchParams();
             params.append("currentPage",1);
             axios
-                .post("/premission/findPremission",params)
+                .post("/permission/findPermission",params)
                 .then(function (response) {
-                   vm.premissions = response.data;
+                   vm.permissions = response.data;
                 })
         },
         methods:{
@@ -364,7 +364,7 @@
                 {
                     return;
                 }
-                if(currentPage>vm.premissions.pages)
+                if(currentPage>vm.permissions.pages)
                 {
                     return;
                 }
@@ -372,9 +372,9 @@
                 params = new URLSearchParams();
                 params.append("currentPage",currentPage);
                 axios
-                    .post("/premission/findPremission",params)
+                    .post("/permission/findPermission",params)
                     .then(function (response) {
-                        vm.premissions = response.data;
+                        vm.permissions = response.data;
                     })
             },
             beforeUpdate:function(id,roleName)
@@ -382,14 +382,14 @@
                 updateRoleVm.id = id;
                 updateRoleVm.roleName = roleName;
             },
-            deletePremission:function(id) {
+            deletePermission:function(id) {
                 params = new URLSearchParams();
                 params.append("id",id);
                 axios
-                    .post("/premission/deletePremission",params)
+                    .post("/permission/deletePermission",params)
                     .then(function (response) {
                         alert(response.data.msg);
-                        vm.getPage(vm.premissions.pageNum);
+                        vm.getPage(vm.permissions.pageNum);
                     })
             }
         }

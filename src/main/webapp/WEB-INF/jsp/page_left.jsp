@@ -51,9 +51,9 @@
                         </a>
                     </li>
                     </shiro:hasPermission>
-                    <shiro:hasPermission name="premission">
+                    <shiro:hasPermission name="permission">
                     <li class="nav-item">
-                        <a href="/premission/premissionManger" class="nav-link">
+                        <a href="/permission/permissionManger" class="nav-link">
                             <i class="icon icon-energy"></i> 权限管理
                         </a>
                     </li>

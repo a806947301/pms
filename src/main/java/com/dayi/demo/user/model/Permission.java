@@ -9,11 +9,11 @@ import com.dayi.demo.common.entity.BaseEntity;
  * @author WuTong<wut@pvc123.com>
  * @date 2019-3-6
  */
-public class Premission extends BaseEntity {
+public class Permission extends BaseEntity {
     /**
      * 权限名
      */
-    private String premissionName;
+    private String permissionName;
     /**
      * 权限字段
      */
@@ -27,12 +27,12 @@ public class Premission extends BaseEntity {
      */
     private String parentId;
 
-    public String getPremissionName() {
-        return premissionName;
+    public String getPermissionName() {
+        return permissionName;
     }
 
-    public void setPremissionName(String premissionName) {
-        this.premissionName = premissionName;
+    public void setPermissionName(String permissionName) {
+        this.permissionName = permissionName;
     }
 
     public String getField() {
@@ -66,11 +66,11 @@ public class Premission extends BaseEntity {
      * @param includeId
      * @return
      */
-    public static boolean hasEmpty(Premission p, boolean includeId) {
+    public static boolean hasEmpty(Permission p, boolean includeId) {
         if (BaseEntity.hasEmpty(p, includeId)) {
             return true;
         }
-        if (null == p.getPremissionName() || "".equals(p.getPremissionName())) {
+        if (null == p.getPermissionName() || "".equals(p.getPermissionName())) {
             return true;
         }
         if (null == p.getField() || "".equals(p.getField())) {

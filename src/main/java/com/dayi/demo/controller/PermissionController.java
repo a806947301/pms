@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.common.controller.BaseController;
 import com.dayi.demo.common.exception.SystemException;
-import com.dayi.demo.user.model.Premission;
-import com.dayi.demo.user.service.PremissionService;
+import com.dayi.demo.user.model.Permission;
+import com.dayi.demo.user.service.PermissionService;
 import com.dayi.demo.util.JsonUtil;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
@@ -24,40 +24,40 @@ import java.util.List;
  * @date 2019-03-06
  */
 @Controller
-@RequestMapping("/premission")
-public class PremissionController extends BaseController {
+@RequestMapping("/permission")
+public class PermissionController extends BaseController {
 
     @Resource
-    private PremissionService premissionService;
+    private PermissionService permissionService;
 
     /**
      * 跳转权限管理页面
      *
      * @return
      */
-    @RequestMapping("/premissionManger")
-    public String premissionManager() {
-        return "premissionManager";
+    @RequestMapping("/permissionManger")
+    public String permissionManager() {
+        return "permissionManager";
     }
 
     /**
      * 添加权限
      *
-     * @param premission
+     * @param permission
      * @return
      */
-    @RequestMapping("/addPremission")
+    @RequestMapping("/addPermission")
     @ResponseBody
-    @RequiresPermissions("add:premission")
-    public JSONObject addPremission(Premission premission) {
+    @RequiresPermissions("add:permission")
+    public JSONObject addPermission(Permission permission) {
         //判断是否有空字段
-        if (Premission.hasEmpty(premission, false)) {
+        if (Permission.hasEmpty(permission, false)) {
             return JsonUtil.packageJson(false, "", "有字段为空");
         }
 
         //添加权限
         try {
-            premissionService.add(premission);
+            permissionService.add(permission);
         } catch (SystemException e) {
             return JsonUtil.packageJson(false, "", e.getMessage());
         }
@@ -70,11 +70,11 @@ public class PremissionController extends BaseController {
      * @param currentPage
      * @return
      */
-    @RequestMapping("/findPremission")
+    @RequestMapping("/findPermission")
     @ResponseBody
-    @RequiresPermissions("select:premission")
-    public PageInfo<Premission> findPremission(int currentPage) {
-        return premissionService.findByPage(currentPage, 5);
+    @RequiresPermissions("select:permission")
+    public PageInfo<Permission> findPermission(int currentPage) {
+        return permissionService.findByPage(currentPage, 5);
     }
 
     /**
@@ -82,31 +82,31 @@ public class PremissionController extends BaseController {
      *
      * @return
      */
-    @RequestMapping("/findPremissionMenu")
+    @RequestMapping("/findPermissionMenu")
     @ResponseBody
-    public List<Premission> findPremissionMenu() {
-        List<Premission> list = premissionService.findPremissionMenu();
+    public List<Permission> findPermissionMenu() {
+        List<Permission> list = permissionService.findPermissionMenu();
         return list;
     }
 
     /**
      * 更新权限
      *
-     * @param premission
+     * @param permission
      * @return
      */
-    @RequestMapping("/updatePremission")
+    @RequestMapping("/updatePermission")
     @ResponseBody
-    @RequiresPermissions("update:premission")
-    public JSONObject updatePremission(Premission premission) {
+    @RequiresPermissions("update:permission")
+    public JSONObject updatePermission(Permission permission) {
         //判断非空
-        if (Premission.hasEmpty(premission, true)) {
+        if (Permission.hasEmpty(permission, true)) {
             return JsonUtil.packageJson(false, "", "有字段为空");
         }
 
         //更新权限
         try {
-            premissionService.update(premission);
+            permissionService.update(permission);
         } catch (SystemException e) {
             return JsonUtil.packageJson(false, "", e.getMessage());
         }
@@ -119,30 +119,30 @@ public class PremissionController extends BaseController {
      * @param roleId
      * @return
      */
-    @RequestMapping("/premissionTree")
+    @RequestMapping("/permissionTree")
     @ResponseBody
-    public JSONArray premissionTree(String roleId) {
-        return premissionService.doPremissionTree(roleId);
+    public JSONArray permissionTree(String roleId) {
+        return permissionService.doPermissionTree(roleId);
     }
 
     /**
      * 给角色授权
      *
      * @param roleId
-     * @param premissions
+     * @param permissions
      * @return
      */
     @RequestMapping("/authorization")
     @ResponseBody
-    @RequiresPermissions("grant:premission")
-    public JSONObject authorization(String roleId, String[] premissions) {
+    @RequiresPermissions("grant:permission")
+    public JSONObject authorization(String roleId, String[] permissions) {
         //判断非空
         if (null == roleId || "".equals(roleId)) {
             return JsonUtil.packageJson(false, "", "授权失败");
         }
 
         //授权
-        premissionService.doAuthorization(roleId, premissions);
+        permissionService.doAuthorization(roleId, permissions);
         return JsonUtil.packageJson(true, "授权成功", "");
     }
 
@@ -152,10 +152,10 @@ public class PremissionController extends BaseController {
      * @param id
      * @return
      */
-    @RequestMapping("/deletePremission")
+    @RequestMapping("/deletePermission")
     @ResponseBody
-    @RequiresPermissions("delete:premission")
-    public JSONObject deletePremission(String id) {
+    @RequiresPermissions("delete:permission")
+    public JSONObject deletePermission(String id) {
         //判断非空
         if (null == id || "".equals(id)) {
             return JsonUtil.packageJson(false, "", "id不能为空");
@@ -163,7 +163,7 @@ public class PremissionController extends BaseController {
 
         //删除权限
         try {
-            premissionService.delete(id);
+            permissionService.delete(id);
         } catch (SystemException e) {
             return JsonUtil.packageJson(false, "", e.getMessage());
         }
@@ -173,13 +173,13 @@ public class PremissionController extends BaseController {
     /**
      * 查询当前用户是否拥有权限
      *
-     * @param premission
+     * @param permission
      * @return
      */
-    @RequestMapping("/hasPremission")
+    @RequestMapping("/hasPermission")
     @ResponseBody
-    public boolean hasPremission(String premission) {
-        return SecurityUtils.getSubject().isPermitted(premission);
+    public boolean hasPermission(String permission) {
+        return SecurityUtils.getSubject().isPermitted(permission);
     }
 
 }
