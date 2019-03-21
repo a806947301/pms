@@ -18,7 +18,7 @@ SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for bug
+-- Bug表
 -- ----------------------------
 DROP TABLE IF EXISTS `bug`;
 CREATE TABLE `bug`  (
@@ -36,7 +36,7 @@ CREATE TABLE `bug`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'bug表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for bug_description
+-- Bug说明表
 -- ----------------------------
 DROP TABLE IF EXISTS `bug_description`;
 CREATE TABLE `bug_description`  (
@@ -49,7 +49,7 @@ CREATE TABLE `bug_description`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'bug说明表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for bug_operating_record
+-- Bug操作记录表
 -- ----------------------------
 DROP TABLE IF EXISTS `bug_operating_record`;
 CREATE TABLE `bug_operating_record`  (
@@ -64,7 +64,7 @@ CREATE TABLE `bug_operating_record`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'bug操作记录表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for department
+-- 部门表
 -- ----------------------------
 DROP TABLE IF EXISTS `department`;
 CREATE TABLE `department`  (
@@ -82,7 +82,7 @@ INSERT INTO `department` VALUES ('0RIss2SAVU7n', '2019-02-23 15:39:13', '2019-02
 INSERT INTO `department` VALUES ('0RKgHWcnOWIx', '2019-03-14 16:56:41', '2019-03-14 16:56:41', '测试部');
 
 -- ----------------------------
--- Table structure for login_log
+-- 登陆日志表
 -- ----------------------------
 DROP TABLE IF EXISTS `login_log`;
 CREATE TABLE `login_log`  (
@@ -95,7 +95,7 @@ CREATE TABLE `login_log`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for need
+-- 需求表
 -- ----------------------------
 DROP TABLE IF EXISTS `need`;
 CREATE TABLE `need`  (
@@ -114,7 +114,7 @@ CREATE TABLE `need`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '需求表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for permission
+-- 权限表
 -- ----------------------------
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission`  (
@@ -179,7 +179,7 @@ INSERT INTO `permission` VALUES ('0RLDRLZEPdxx', '2019-03-20 09:02:40', '2019-03
 INSERT INTO `permission` VALUES ('0RLDWEC2OqB6', '2019-03-20 09:22:04', '2019-03-20 09:22:04', '删除项目', 'delete:project', 0, '0RK1TK4OKth9');
 
 -- ----------------------------
--- Table structure for product
+-- 产品表
 -- ----------------------------
 DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product`  (
@@ -200,7 +200,7 @@ INSERT INTO `product` VALUES ('0RLDVH7KP4Gh', '2019-03-20 09:18:17', '2019-03-20
 INSERT INTO `product` VALUES ('0RLG86MPN0R8', '2019-03-20 20:05:03', '2019-03-20 20:05:12', 'asdf', 'wqeacsff');
 
 -- ----------------------------
--- Table structure for product_member
+-- 产品成员表
 -- ----------------------------
 DROP TABLE IF EXISTS `product_member`;
 CREATE TABLE `product_member`  (
@@ -240,7 +240,7 @@ INSERT INTO `product_member` VALUES ('0RLG86MQNX0l', '2019-03-20 20:05:03', '201
 INSERT INTO `product_member` VALUES ('0RLG86MRNPAk', '2019-03-20 20:05:03', '2019-03-20 20:05:03', '0RLG86MPN0R8', '0RL7c6UrNnGD');
 
 -- ----------------------------
--- Table structure for project
+-- 项目表
 -- ----------------------------
 DROP TABLE IF EXISTS `project`;
 CREATE TABLE `project`  (
@@ -267,7 +267,7 @@ INSERT INTO `project` VALUES ('0RLFNzruP3nV', '2019-03-20 17:01:55', '2019-03-20
 INSERT INTO `project` VALUES ('0RLG8C4ZNmJF', '2019-03-20 20:05:25', '2019-03-20 20:05:25', '2019-03-30', '2019-03-03', '0RLG86MPN0R8', 'weqfasv', 0);
 
 -- ----------------------------
--- Table structure for role
+-- 角色表
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role`  (
@@ -289,7 +289,7 @@ INSERT INTO `role` VALUES ('0RJts9c8LcCi', '2019-03-06 10:14:50', '2019-03-12 10
 INSERT INTO `role` VALUES ('0RKT0hvkZ6qr', '2019-03-12 10:28:20', '2019-03-12 10:28:20', '开发人员');
 
 -- ----------------------------
--- Table structure for role_permission
+-- 角色权限表
 -- ----------------------------
 DROP TABLE IF EXISTS `role_permission`;
 CREATE TABLE `role_permission`  (
@@ -413,7 +413,7 @@ INSERT INTO `role_permission` VALUES ('0RLDRWNrOWZh', '2019-03-20 09:03:22', '20
 INSERT INTO `role_permission` VALUES ('0RLDRWNrOwZW', '2019-03-20 09:03:22', '2019-03-20 09:03:22', '0RJtkZdSNc7i', '0RKT1A9CWBDQ');
 
 -- ----------------------------
--- Table structure for user
+-- 用户表
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
@@ -446,7 +446,7 @@ INSERT INTO `user` VALUES ('0RKls4OyNEHb', '2019-03-15 15:53:12', '2019-03-15 15
 INSERT INTO `user` VALUES ('0RL7c6UrNnGD', '2019-03-19 09:07:46', '2019-03-19 09:07:46', '吴桐小号', '0RIss2SAVU7n', 1426, '806947301@qq.com', 'eb2ba7da19f1439f17fb78a09e2266fd', 0);
 
 -- ----------------------------
--- Table structure for user_role
+-- 用户角色表
 -- ----------------------------
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role`  (
