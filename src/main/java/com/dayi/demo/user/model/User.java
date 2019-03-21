@@ -18,7 +18,7 @@ public class User extends BaseEntity{
     /**
      * 工号
      */
-    private int jobNumber;
+    private Integer jobNumber;
     /**
      * 邮箱
      */
@@ -34,7 +34,7 @@ public class User extends BaseEntity{
     /**
      * 已停用
      */
-    private boolean stopped;
+    private Boolean stopped;
 
     public String getName() {
         return name;
@@ -44,19 +44,11 @@ public class User extends BaseEntity{
         this.name = name;
     }
 
-    public boolean isStopped() {
-        return stopped;
-    }
-
-    public void setStopped(boolean stopped) {
-        this.stopped = stopped;
-    }
-
-    public int getJobNumber() {
+    public Integer getJobNumber() {
         return jobNumber;
     }
 
-    public void setJobNumber(int jobNumber) {
+    public void setJobNumber(Integer jobNumber) {
         this.jobNumber = jobNumber;
     }
 
@@ -84,28 +76,38 @@ public class User extends BaseEntity{
         this.department = department;
     }
 
+    public Boolean getStopped() {
+        return stopped;
+    }
+
+    public void setStopped(Boolean stopped) {
+        this.stopped = stopped;
+    }
+
+    public User() { }
+
     public User(String id) {
         this.setId(id);
     }
 
-    public User() {
-    }
 
     /**
      * 判断User表是否有字段为空
      *
      * @param user
      * @param includeId 是否包含查询id为空
+     * @pram includePassword 是否包含查询密码为空
      * @return
      */
-    public static boolean hasEmpty(User user, boolean includeId) {
+    public static boolean hasEmpty(User user, boolean includeId, boolean includePassword) {
         if (BaseEntity.hasEmpty(user, includeId)) {
             return true;
         }
         if (null == user.getName() || "".equals(user.getName())) {
             return true;
         }
-        if (null == user.getPassword() || "".equals(user.getPassword())) {
+        boolean errPassword = (includePassword && null == user.getPassword() || "".equals(user.getPassword()));
+        if (errPassword) {
             return true;
         }
         if (null == user.getEmail() || "".equals(user.getEmail())) {

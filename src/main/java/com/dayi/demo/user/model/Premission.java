@@ -21,7 +21,7 @@ public class Premission extends BaseEntity {
     /**
      * 是否菜单
      */
-    private boolean menu;
+    private Boolean menu;
     /**
      * 父级菜单id
      */
@@ -43,11 +43,11 @@ public class Premission extends BaseEntity {
         this.field = field;
     }
 
-    public boolean isMenu() {
+    public Boolean getMenu() {
         return menu;
     }
 
-    public void setMenu(boolean menu) {
+    public void setMenu(Boolean menu) {
         this.menu = menu;
     }
 

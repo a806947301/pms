@@ -73,7 +73,7 @@ public class PremissionServiceImpl implements PremissionService {
         for (Premission p : list) {
             JSONObject node = new JSONObject();
             // 如果是菜单，需要加一个数组
-            if (p.isMenu()) {
+            if (p.getMenu()) {
                 node.put("nodes", new JSONArray());
             }
             node.put("id", p.getId());

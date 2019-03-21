@@ -85,12 +85,12 @@
     <update id="update">
         UPDATE user
         <set>
-            updatetime = #{updateTime},
-            name = #{name},
-            department_id = #{department.id},
-            job_number = #{jobNumber},
-            email = #{email},
-            is_stopped = #{stopped}
+            <if test="null != stopped">is_stopped = #{stopped},</if>
+            <if test="null != name">name = #{name},</if>
+            <if test="null != department.id">department_id = #{department.id},</if>
+            <if test="null != jobNumber">job_number = #{jobNumber},</if>
+            <if test="null != email">email = #{email},</if>
+            <if test="null != updateTime">updatetime = #{updateTime}</if>
         </set>
         WHERE id = #{id}
     </update>

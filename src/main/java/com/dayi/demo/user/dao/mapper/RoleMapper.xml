@@ -52,16 +52,16 @@
     <update id="update">
         UPDATE role
         <set>
-            updatetime = #{updateTime},
-            role_name = #{roleName}
+            <if test="null != updateTime">updatetime = #{updateTime},</if>
+            <if test="null != roleName">role_name = #{roleName}</if>
         </set>
         WHERE id = #{id}
     </update>
 
     <delete id="deleteUserRole">
         DELETE FROM user_role WHERE TRUE
-        <if test="userId != null">and user_id = #{userId}</if>
-        <if test="roleId != null">and role_id = #{roleId}</if>
+        <if test="null != userId">and user_id = #{userId}</if>
+        <if test="null != roleId">and role_id = #{roleId}</if>
     </delete>
 
     <delete id="delete">

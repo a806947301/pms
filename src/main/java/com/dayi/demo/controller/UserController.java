@@ -150,7 +150,7 @@ public class UserController extends BaseController {
     @RequiresPermissions("add:user")
     public JSONObject addUser(User user) {
         //判断非空
-        if (User.hasEmpty(user, false)) {
+        if (User.hasEmpty(user, false, true)) {
             return JsonUtil.packageJson(false, "", "有字段为空！");
         }
 
@@ -174,7 +174,7 @@ public class UserController extends BaseController {
     @RequiresPermissions("update:user")
     public JSONObject updateUser(User user) {
         //判断非空
-        if (User.hasEmpty(user, true)) {
+        if (User.hasEmpty(user, true, false)) {
             return JsonUtil.packageJson(false, "", "有字段为空！");
         }
 
@@ -322,7 +322,7 @@ public class UserController extends BaseController {
     @ResponseBody
     public JSONObject register(User user) {
         //判断非空
-        if (User.hasEmpty(user, false)) {
+        if (User.hasEmpty(user, false, true)) {
             return JsonUtil.packageJson(false, "", "有字段为空！");
         }
 
