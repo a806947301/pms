@@ -55,4 +55,14 @@ public interface NeedService {
      * @return
      */
     JSONObject doPreview(String id, String realpath);
+
+    /**
+     * 删除需求
+     *
+     * @param id
+     * @param realpath
+     * @param currentUser
+     * @throws SystemException
+     */
+    void delete(String id, String realpath, User currentUser) throws SystemException;
 }

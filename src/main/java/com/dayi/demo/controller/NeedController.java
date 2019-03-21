@@ -117,4 +117,29 @@ public class NeedController extends BaseController {
         String realPath = request.getSession().getServletContext().getRealPath("/");
         return needService.doPreview(needId, realPath);
     }
+
+    /**
+     * 删除需求
+     *
+     * @param needId
+     * @param request
+     * @return
+     */
+    @RequestMapping("/deleteNeed")
+    @ResponseBody
+    public JSONObject deleteNeed(String needId, HttpServletRequest request) {
+        //判断非空
+        if (null == needId || "".equals(needId)) {
+            return JsonUtil.packageJson(false, "", "需求Id不能为空");
+        }
+
+        //删除需求
+        String realPath = request.getSession().getServletContext().getRealPath("/needFile");
+        try {
+            needService.delete(needId, realPath, getCurrentUser());
+        } catch (SystemException e) {
+            return JsonUtil.packageJson(false, "", e.getMessage());
+        }
+        return JsonUtil.packageJson(true, "删除需求成功", "");
+    }
 }

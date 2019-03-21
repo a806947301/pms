@@ -40,5 +40,8 @@
         #{descriptionFilename}, #{needFilepath}, #{needFilename}, #{user.id}, #{project.id})
     </insert>
 
+    <delete id="delete">
+        DELETE FROM need WHERE id = #{0}
+    </delete>
 
 </mapper>

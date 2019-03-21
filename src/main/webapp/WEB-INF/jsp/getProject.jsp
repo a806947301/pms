@@ -405,6 +405,7 @@
                     .post("/project/updateProjectFinished",params)
                     .then(function (response) {
                         alert(response.data.msg);
+                        vm.updateProjects();
                     })
             }
 
@@ -480,7 +481,7 @@
                     .then(function (response) {
                         alert(response.data.msg);
                         if(response.data.success) {
-                            window.location.href = "project/findProjectPage"
+                            window.location.href = "/project/findProjectPage"
                         }
                     });
             },

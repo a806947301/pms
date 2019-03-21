@@ -67,14 +67,20 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header border border-top-0 border-right-0 border-left-0">
-                                    <div class="col-md-8">
-                                        <h4>需求说明文档</h4>
-                                    </div>
+                                <div class="row">
                                     <div class="col-md-4">
+                                        <h4>需求</h4>
+                                    </div>
+                                    <div class="col-md-6">
                                         创建时间：{{crtTimeFtt(need.addTime)}}
                                     </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-outline-danger" v-on:click="deleteNeed()">
+                                            <i class="fa fa-trash"></i>&nbsp; 删除
+                                        </button>
+                                    </div>
                                 </div>
-
+                            </div>
                             <div class="card-body">
                                 {{need.needDescription}}
                             </div>
@@ -105,10 +111,16 @@
                                 <div class="row">
                                     <div class="col-md-2"></div>
                                     <div class="col-md-4">
-                                        <button class="btn btn-outline-success" type="button" v-on:click="download(need.descriptionFilepath+'.html')">在线预览</button>
+                                        <button class="btn btn-outline-success" type="button"
+                                                v-on:click="download(need.descriptionFilepath+'.html')">
+                                            在线预览
+                                        </button>
                                     </div>
                                     <div class="col-md-4">
-                                        <button class="btn btn-outline-primary" type="button" v-on:click="download(need.descriptionFilepath)">立即下载</button>
+                                        <button class="btn btn-outline-primary" type="button"
+                                                v-on:click="download(need.descriptionFilepath)">
+                                            立即下载
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -262,6 +274,19 @@
                 })
         },
         methods:{
+            deleteNeed:function() {
+                params = new URLSearchParams();
+                params.append("needId",this.needId);
+                axios
+                    .post("/need/deleteNeed",params)
+                    .then(function (response) {
+                        alert(response.data.msg);
+                        if (response.data.success) {
+                            window.location.href = "/project/getProjectPage/" + vm.need.project.id;
+                        }
+
+                    })
+            },
             preview:function() {
                 params = new URLSearchParams();
                 params.append("needId",this.needId);

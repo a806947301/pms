@@ -32,4 +32,12 @@ public interface NeedDao {
      * @return
      */
     Need get(String id);
+
+    /**
+     * 删除需求
+     *
+     * @param id
+     * @return
+     */
+    int delete(String id);
 }

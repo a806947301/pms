@@ -11,6 +11,7 @@ import com.dayi.demo.util.WordUtil;
 import com.dayi.demo.util.ZipUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -128,6 +129,29 @@ public class NeedServiceImpl implements NeedService {
     @Override
     public Need get(String id) {
         return needDao.get(id);
+    }
+
+    @Override
+    public void delete(String id, String realPath, User currentUser) throws SystemException {
+        //判断非空
+        Need need = get(id);
+        if (null == need) {
+            throw new SystemException("需求不存在");
+        }
+        //判断是否本人
+        boolean isProposer = currentUser.getId().equals(need.getUser().getId());
+        if(!isProposer) {
+            throw new SystemException("您不是需求提出者");
+        }
+
+        //删除需求文件
+        String needFilePath = realPath + "/" + id;
+        FileUtils.deleteQuietly(new File(needFilePath));
+        //删除需求
+        int countDelete = needDao.delete(id);
+        if (0 == countDelete) {
+            throw new SystemException("操作失败");
+        }
     }
 
     @Override
