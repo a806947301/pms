@@ -3,7 +3,7 @@ package com.dayi.demo.statistic.vo;
 /**
  * 用户Bug Vo
  *
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-03-21
  */
 public class UserBugVo {

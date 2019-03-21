@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * 产品 Dto
  *
- * @author WuTong<wut @ pvc123.com>
+ * @author WuTong<wut@pvc123.com>
  * @date 2019-03-21
  */
 public class ProductBugDto {
