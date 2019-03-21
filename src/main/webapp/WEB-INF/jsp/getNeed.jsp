@@ -4,6 +4,7 @@
 <%@ page import="com.github.pagehelper.PageInfo" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
 <!DOCTYPE html>
 <html>
 
@@ -74,7 +75,7 @@
                                     <div class="col-md-6">
                                         创建时间：{{crtTimeFtt(need.addTime)}}
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2" v-if="need.user.email == '<shiro:principal/>'">
                                         <button class="btn btn-outline-danger" v-on:click="deleteNeed()">
                                             <i class="fa fa-trash"></i>&nbsp; 删除
                                         </button>

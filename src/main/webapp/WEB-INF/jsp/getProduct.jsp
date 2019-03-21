@@ -19,8 +19,6 @@
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/bootstrap-select.min.css">
     <!-- simditor -->
-    <%--<link rel="stylesheet" href="/simditor/styles/app.css">
-    <link rel="stylesheet" href="/simditor/styles/mobile.css">--%>
     <link rel="stylesheet" href="/simditor/styles/simditor.css">
     <style>
         ul.pagination {

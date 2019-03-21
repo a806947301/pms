@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
 
 <html>
 <head>
@@ -102,15 +103,14 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-md-1">
+                                    <div class="col-md-1" v-if="bug.bugProcesser.email == '<shiro:principal/>'">
                                         <button class="btn btn-outline-primary" type="button" v-on:click="beforeUpdate()"
                                                 data-toggle="modal" data-target="#updateBug">修改</button>
                                     </div>
-                                    <div class="col-md-1">
+                                    <div class="col-md-1" v-if="bug.bugProcesser.email == '<shiro:principal/>'">
                                         <button class="btn btn-outline-dark" type="button" v-on:click="deleteBug()"
                                             >删除</button>
                                     </div>
-
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
