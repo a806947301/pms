@@ -15,12 +15,12 @@ public class ProjectBugVo {
     /**
      * Bug总数
      */
-    int countAllBug;
+    Integer countAllBug;
 
     /**
      * 未完成Bug数
      */
-    int countBug;
+    Integer countBug;
 
     public String getProjectId() {
         return projectId;
@@ -30,19 +30,19 @@ public class ProjectBugVo {
         this.projectId = projectId;
     }
 
-    public int getCountAllBug() {
+    public Integer getCountAllBug() {
         return countAllBug;
     }
 
-    public void setCountAllBug(int countAllBug) {
+    public void setCountAllBug(Integer countAllBug) {
         this.countAllBug = countAllBug;
     }
 
-    public int getCountBug() {
+    public Integer getCountBug() {
         return countBug;
     }
 
-    public void setCountBug(int countBug) {
+    public void setCountBug(Integer countBug) {
         this.countBug = countBug;
     }
 }

@@ -20,13 +20,20 @@ public class UserBugDto extends UserBugVo {
     public UserBugDto(UserBugVo vo) {
         //如果vo不为空，则复制vo属性
         if (null != vo) {
-            this.setUserId(vo.getUserId());
             this.setBugNumber(vo.getBugNumber());
             this.setChecking(vo.getChecking());
             this.setDesignate(vo.getDesignate());
             this.setFinished(vo.getFinished());
             this.setProcessing(vo.getProcessing());
+            return;
         }
+
+        //如果为空，则全部设置为0
+        this.setBugNumber(0);
+        this.setChecking(0);
+        this.setDesignate(0);
+        this.setFinished(0);
+        this.setProcessing(0);
     }
 
     public String getName() {

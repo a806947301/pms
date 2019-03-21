@@ -15,27 +15,27 @@ public class UserBugVo {
     /**
      * Bug总数
      */
-    private int bugNumber;
+    private Integer bugNumber;
 
     /**
      * 指派中数量
      */
-    private int designate;
+    private Integer designate;
 
     /**
      * 处理中数量
      */
-    private int processing;
+    private Integer processing;
 
     /**
      * 验收中数量
      */
-    private int checking;
+    private Integer checking;
 
     /**
      * 已完成数量
      */
-    private int finished;
+    private Integer finished;
 
     public String getUserId() {
         return userId;
@@ -45,43 +45,43 @@ public class UserBugVo {
         this.userId = userId;
     }
 
-    public int getBugNumber() {
+    public Integer getBugNumber() {
         return bugNumber;
     }
 
-    public void setBugNumber(int bugNumber) {
+    public void setBugNumber(Integer bugNumber) {
         this.bugNumber = bugNumber;
     }
 
-    public int getDesignate() {
+    public Integer getDesignate() {
         return designate;
     }
 
-    public void setDesignate(int designate) {
+    public void setDesignate(Integer designate) {
         this.designate = designate;
     }
 
-    public int getProcessing() {
+    public Integer getProcessing() {
         return processing;
     }
 
-    public void setProcessing(int processing) {
+    public void setProcessing(Integer processing) {
         this.processing = processing;
     }
 
-    public int getChecking() {
+    public Integer getChecking() {
         return checking;
     }
 
-    public void setChecking(int checking) {
+    public void setChecking(Integer checking) {
         this.checking = checking;
     }
 
-    public int getFinished() {
+    public Integer getFinished() {
         return finished;
     }
 
-    public void setFinished(int finished) {
+    public void setFinished(Integer finished) {
         this.finished = finished;
     }
 }
