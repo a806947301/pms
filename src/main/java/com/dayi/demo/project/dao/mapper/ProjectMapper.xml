@@ -46,11 +46,11 @@
     <update id="update">
         UPDATE project
         <set>
-            updatetime = #{updateTime},
-            begindate = #{beginDate},
-            enddate = #{endDate},
-            project_name = #{projectName},
-            product_id = #{product.id}
+            <if test="null != updateTime">updatetime = #{updateTime},</if>
+            <if test="null != beginDate">begindate = #{beginDate},</if>
+            <if test="null != endDate">enddate = #{endDate},</if>
+            <if test="null != projectName">project_name = #{projectName},</if>
+            <if test="null != product.id">product_id = #{product.id}</if>
         </set>
         WHERE id = #{id}
     </update>
@@ -59,7 +59,7 @@
     <update id="updateIsFinished">
         UPDATE project
         <set>
-            is_finished = #{finished}
+            <if test="null != finished">is_finished = #{finished}</if>
         </set>
         WHERE id = #{id}
     </update>

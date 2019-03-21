@@ -34,7 +34,7 @@ public class Project extends BaseEntity {
     /**
      * 项目是否结束
      */
-    private boolean finished;
+    private Boolean finished;
 
     public Date getBeginDate() {
         return beginDate;
@@ -68,11 +68,11 @@ public class Project extends BaseEntity {
         this.projectName = projectName;
     }
 
-    public boolean isFinished() {
+    public Boolean getFinished() {
         return finished;
     }
 
-    public void setFinished(boolean finished) {
+    public void setFinished(Boolean finished) {
         this.finished = finished;
     }
 

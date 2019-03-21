@@ -97,7 +97,7 @@ public class ProductStatisticServiceImpl implements ProductStatisticService {
             ProjectBugDto projectBugDto = new ProjectBugDto(vo);
             projectBugDto.setProjectName(p.getProjectName());
             projectBugDto.setProjectId(p.getId());
-            projectBugDto.setFinished(p.isFinished());
+            projectBugDto.setFinished(p.getFinished());
 
             //把项目Bug Dto添加到产品
             List<ProjectBugDto> productChildren = productDtoMap.get(p.getProduct().getId()).getProjects();
