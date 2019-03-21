@@ -13,21 +13,37 @@ import com.dayi.demo.user.model.User;
  */
 public class Need extends BaseEntity {
 
-    /** 需求名 */
+    /**
+     * 需求名
+     */
     private String needName;
-    /** 需求描述 */
+    /**
+     * 需求描述
+     */
     private String needDescription;
-    /** 说明文件地址 */
+    /**
+     * 说明文件地址
+     */
     private String descriptionFilepath;
-    /** 需求文件地址 */
+    /**
+     * 需求文件地址
+     */
     private String needFilepath;
-    /** 需求提出者 */
+    /**
+     * 需求提出者
+     */
     private User user;
-    /** 需求所属项目 */
+    /**
+     * 需求所属项目
+     */
     private Project project;
-    /** 说明文件文件名 */
+    /**
+     * 说明文件文件名
+     */
     private String descriptionFilename;
-    /** 需求文件文件名 */
+    /**
+     * 需求文件文件名
+     */
     private String needFilename;
 
     public String getNeedName() {
