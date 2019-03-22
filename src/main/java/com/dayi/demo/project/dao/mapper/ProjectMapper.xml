@@ -46,20 +46,12 @@
     <update id="update">
         UPDATE project
         <set>
-            <if test="null != updateTime">updatetime = #{updateTime},</if>
+            <if test="null != finished">is_finished = #{finished},</if>
             <if test="null != beginDate">begindate = #{beginDate},</if>
             <if test="null != endDate">enddate = #{endDate},</if>
             <if test="null != projectName">project_name = #{projectName},</if>
-            <if test="null != product.id">product_id = #{product.id}</if>
-        </set>
-        WHERE id = #{id}
-    </update>
-
-    <!--更新完成状态-->
-    <update id="updateIsFinished">
-        UPDATE project
-        <set>
-            <if test="null != finished">is_finished = #{finished}</if>
+            <if test="null != product and null != product.id">product_id = #{product.id},</if>
+            <if test="null != updateTime">updatetime = #{updateTime}</if>
         </set>
         WHERE id = #{id}
     </update>

@@ -101,28 +101,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean doLogin(String email, String password, String ip) {
+        //获取Subject
         Subject subject = SecurityUtils.getSubject();
+        //登陆
         subject.login(new UsernamePasswordToken(email, password));
+        //把当前用户存进Session
         Session session = SecurityUtils.getSubject().getSession();
         User currentUser = getByEmail(email);
         session.setAttribute("user", currentUser);
         return true;
-    }
-
-    @Override
-    public void updateStopped(String id, boolean stopped) throws SystemException {
-        //判断是否存在用户
-        User oldUser = get(id);
-        if (null == oldUser) {
-            throw new SystemException("用户不存在");
-        }
-
-        //更新用户
-        oldUser.setStopped(stopped);
-        int countUpdate = userDao.update(oldUser);
-        if (0 == countUpdate) {
-            throw new SystemException("操作失败");
-        }
     }
 
     @Override

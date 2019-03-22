@@ -13,7 +13,6 @@ import com.github.pagehelper.PageInfo;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,15 +30,13 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class ProjectServiceImpl implements ProjectService {
 
-    private final static Logger logger = LoggerFactory.getLogger(ProjectServiceImpl.class);
-
     @Resource
     private ProjectDao projectDao;
 
-    @Autowired
+    @Resource
     private BugService bugService;
 
-    @Autowired
+    @Resource
     private NeedService needService;
 
     @Override
@@ -94,21 +91,14 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void updateProjectFinished(String projectId, boolean finished) throws SystemException {
-        //判断是否存在产品
-        Project oldProject = get(projectId);
-        if (null == oldProject) {
-            throw new SystemException("无此产品");
-        }
+    public void updateProjectFinished(Project project) throws SystemException {
         //是否有Bug没完成
-        if (0 != bugService.countBugByProjectNoFinished(projectId)) {
+        if (0 != bugService.countBugByProjectNoFinished(project.getId())) {
             throw new SystemException("项目还有Bug未完成");
         }
         //更新
-        int countUpdate = projectDao.updateIsFinished(projectId, finished);
-        if (0 == countUpdate) {
-            throw new SystemException("操作失败");
-        }
+        update(project);
+
     }
 
     @Override

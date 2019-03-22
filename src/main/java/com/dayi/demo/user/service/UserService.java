@@ -90,16 +90,6 @@ public interface UserService {
     User getByEmail(String email);
 
     /**
-     * 修改用户停用状态
-     *
-     * @param id
-     * @param stopped
-     * @return
-     * @throws SystemException
-     */
-    void updateStopped(String id, boolean stopped) throws SystemException;
-
-    /**
      * 退出登陆
      *
      * @return

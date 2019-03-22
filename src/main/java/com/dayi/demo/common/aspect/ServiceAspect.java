@@ -38,7 +38,7 @@ public class ServiceAspect {
      *
      * @param point
      */
-    @Before("execution(* com.dayi.demo.*.service.impl.*Impl.update(com.dayi.demo.common.entity.BaseEntity+,..))")
+    @Before("execution(* com.dayi.demo.*.service.impl.*Impl.update*(com.dayi.demo.common.entity.BaseEntity+,..))")
     public void beforeUpdate(JoinPoint point) {
         //给entity添加updateTime
         BaseEntity entity = (BaseEntity) point.getArgs()[0];

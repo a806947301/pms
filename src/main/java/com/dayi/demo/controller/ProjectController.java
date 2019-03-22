@@ -152,22 +152,21 @@ public class ProjectController extends BaseController {
     /**
      * 设置项目完成状态
      *
-     * @param projectId
-     * @param finished
+     * @param project
      * @return
      */
     @RequestMapping("/updateProjectFinished")
     @ResponseBody
     @RequiresPermissions("update:project")
-    public JSONObject updateProjectFinished(String projectId, boolean finished) {
+    public JSONObject updateProjectFinished(Project project) {
         //判断非空
-        if (null == projectId || "".equals(projectId)) {
+        if (null == project.getId() || "".equals(project.getId())) {
             return JsonUtil.packageJson(false, "", "字段必须非空");
         }
 
         //更新项目状态
         try {
-            projectService.updateProjectFinished(projectId, finished);
+            projectService.updateProjectFinished(project);
         } catch (SystemException e) {
             return JsonUtil.packageJson(false, "", e.getMessage());
         }

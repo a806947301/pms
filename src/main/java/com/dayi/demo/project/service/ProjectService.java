@@ -67,12 +67,11 @@ public interface ProjectService {
     /**
      * 更新项目完成状态
      *
-     * @param projectId
-     * @param finished
+     * @param project
      * @return
      * @throws SystemException
      */
-    void updateProjectFinished(String projectId, boolean finished) throws SystemException;
+    void updateProjectFinished(Project project) throws SystemException;
 
     /**
      * 删除项目

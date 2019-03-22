@@ -399,7 +399,7 @@
             },
             update:function() {
                 params = new URLSearchParams();
-                params.append("projectId",this.id);
+                params.append("id",this.id);
                 params.append("finished",this.finished);
                 axios
                     .post("/project/updateProjectFinished",params)

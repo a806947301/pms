@@ -174,7 +174,7 @@ public class UserController extends BaseController {
     @RequiresPermissions("update:user")
     public JSONObject updateUser(User user) {
         //判断非空
-        if (User.hasEmpty(user, true, false)) {
+        if (null == user || null == user.getId() || "".equals(user.getId())) {
             return JsonUtil.packageJson(false, "", "有字段为空！");
         }
 
@@ -239,31 +239,6 @@ public class UserController extends BaseController {
         //退出登陆
         userService.doLogout();
         return JsonUtil.packageJson(true, "退出登陆", "");
-    }
-
-    /**
-     * 启用/停用用户
-     *
-     * @param id
-     * @param stopped
-     * @return
-     */
-    @RequestMapping("/updateStopped")
-    @ResponseBody
-    @RequiresPermissions("delete:user")
-    public JSONObject updateStopped(String id, boolean stopped) {
-        //判断非空
-        if (null == id || "".equals(id)) {
-            return JsonUtil.packageJson(false, "", "id为空");
-        }
-
-        //更新账号状态
-        try {
-            userService.updateStopped(id, stopped);
-        } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
-        }
-        return JsonUtil.packageJson(true, "停用/启用成功", "");
     }
 
     /**

@@ -454,7 +454,7 @@
                 params.append("id",id);
                 params.append("stopped",stopped)
                 axios
-                    .post("/user/updateStopped",params)
+                    .post("/user/updateUser",params)
                     .then(function (response) {
                         alert(response.data.msg)
                         vm.getPage(vm.users.pageNum);
