@@ -41,7 +41,7 @@ public class ExcelUtil {
      * 指定行创建多个单元格
      *
      * @param row       行号
-     * @param countCell
+     * @param countCell 列数
      * @param style     单元格样式
      * @return
      */
@@ -56,9 +56,9 @@ public class ExcelUtil {
 
     /**
      * 自适应宽度(中文支持)
-     *
      * @param sheet
-     * @param size
+     * @param size 行数
+     * @param cellSize 列数
      */
     public static void setSizeColumn(XSSFSheet sheet, int size, int cellSize) {
         // 设置宽度自动

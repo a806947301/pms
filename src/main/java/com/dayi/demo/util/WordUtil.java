@@ -31,7 +31,14 @@ public class WordUtil {
 
     private final static Logger logger = LoggerFactory.getLogger(WordUtil.class);
 
+    /**
+     * Word doc 后缀
+     */
     private static final String DOC = ".doc";
+
+    /**
+     * Word docx 后缀
+     */
     private static final String DOCX = ".docx";
 
     /**
@@ -124,6 +131,7 @@ public class WordUtil {
      * @throws Exception
      */
     private static String docxToHtml(String filepath, String imagePath, String sourceFileName) throws IOException {
+        // 把路径进行拼接，确定转换后的各个路径
         File path = new File(filepath);
         String imagePathStr = path.getAbsolutePath() + "\\" + imagePath + "\\";
         sourceFileName = path.getAbsolutePath() + "\\" + sourceFileName;
