@@ -7,18 +7,18 @@ import com.dayi.demo.bug.model.Bug;
 import com.dayi.demo.bug.model.BugDescription;
 import com.dayi.demo.bug.service.BugOperatingRecordService;
 import com.dayi.demo.bug.service.BugService;
+import com.dayi.demo.bug.strategy.BugStatusStrategy;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.statistic.vo.ProjectBugVo;
 import com.dayi.demo.statistic.vo.UserBugVo;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.UserService;
-import com.dayi.demo.util.IdUtil;
 import com.dayi.demo.util.MailUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,8 +48,11 @@ public class BugServiceImpl implements BugService {
     @Resource
     private UserService userService;
 
-    @Autowired
+    @Resource
     private BugOperatingRecordService recordService;
+
+    @Resource
+    private List<BugStatusStrategy> bugStatusStrategies;
 
     @Override
     public String add(Bug bug, User currentUser) throws SystemException {
@@ -61,12 +64,9 @@ public class BugServiceImpl implements BugService {
         int countAdd = bugDao.add(bug);
         //添加成功
         if (countAdd != 0) {
-            //发送邮件
-            User processer = userService.get(bug.getBugProcesser().getId());
-            String email = processer.getEmail();
-            String title = "您被指派一个Bug";
-            String content = "请您登陆主页查看自己被指派的Bug，Bug Id为：" + bug.getId();
-            sendMail(email, title, content);
+            // 更新Bug状态
+            BugService currentProxy = (BugService)AopContext.currentProxy();
+            currentProxy.updateStatus(bug, currentUser);
             return bug.getId();
         }
         throw new SystemException("添加失败");
@@ -109,135 +109,54 @@ public class BugServiceImpl implements BugService {
     }
 
     @Override
-    public int doRedesignate(String bugId, String userId, User currentUser) throws SystemException {
-        Bug bug = get(bugId);
-        // 是否合法处理者 （Bug状态为指派中，且Bug的处理者为当前用户）
-        boolean isLegalProcesser = bug.getBugStatus() == Bug.Status.DESIGNATE.getValue() &&
-                bug.getBugProcesser().getId().equals(currentUser.getId());
-        // 是否合法提出者 （Bug状态为验收中，且Bug提出者为当年用户）
-        boolean isLegalProposer = bug.getBugStatus() == Bug.Status.CHECKING.getValue() &&
-                bug.getBugProposer().getId().equals(currentUser.getId());
-        if (!(isLegalProcesser || isLegalProposer)) {
-            throw new SystemException("违法操作");
+    public Bug updateStatus(Bug bug, User currentUser) throws SystemException {
+        //判断非空
+        Integer status = bug.getBugStatus();
+        if (null == status) {
+            throw new SystemException("状态为空");
         }
 
-        //更新Bug状态
-        bug.setBugStatus(Bug.Status.DESIGNATE.getValue());
-        bug.setBugProcesser(userService.get(userId));
-        bug.setNoProcessing(false);
-        int countAdd = update(bug, null);
-
-        //更新成功
-        if (countAdd != 0) {
-            //发送邮件
-            User processer = userService.get(userId);
-            String email = processer.getEmail();
-            String title = "您被指派一个Bug";
-            String content = "请您登陆主页查看自己被指派的Bug，Bug Id为：" + bugId;
-            sendMail(email, title, content);
-            return countAdd;
+        //获取状态对应策略
+        BugStatusStrategy strategy = bugStatusStrategies.get(status);
+        //判断策略是否存在
+        if(null == strategy) {
+            throw new SystemException("更新失败，没有该策略");
         }
-        throw new SystemException("重新指派失败");
+        //获取更新的Bug
+        Bug oldBug = get(bug.getId());
+        Bug updateBug = strategy.update(bug, oldBug, currentUser);
+        //如果获取到为空
+        if (null == updateBug) {
+            throw new SystemException("更新失败");
+        }
+        int countUpdate = update(updateBug, null);
+        if (0 == countUpdate) {
+            throw new SystemException("更新失败");
+        }
+        return get(bug.getId());
     }
 
     @Override
-    public int doProcessSelf(String bugId, User currentUser) throws SystemException {
-        Bug bug = get(bugId);
-        // 是否合法处理者 （Bug状态为指派中，且Bug的处理者为当前用户）
-        boolean isLegalProcesser = bug.getBugStatus() == Bug.Status.DESIGNATE.getValue() &&
-                bug.getBugProcesser().getId().equals(currentUser.getId());
-        if (!isLegalProcesser) {
-            throw new SystemException("非法操作");
-        }
-
-        //更新Bug状态
-        bug.setBugStatus(Bug.Status.PROCESSER.getValue());
-        int countAdd = update(bug, null);
-        if (countAdd != 0) {
-            return countAdd;
-        }
-        throw new SystemException("操作失败");
-    }
-
-    @Override
-    public int doNoProcessing(String bugId, User currentUser) throws SystemException {
-        Bug bug = get(bugId);
-        // 是否合法处理者 （Bug状态为处理中，且Bug的处理者为当前用户）
-        boolean isLegalProcesser = bug.getBugStatus() == Bug.Status.PROCESSER.getValue() &&
-                bug.getBugProcesser().getId().equals(currentUser.getId());
-        if (!isLegalProcesser) {
-            throw new SystemException("非法操作");
-        }
-
-        //修改Bug状态
-        Date updateTime = new Date();
+    public void addBugDescription(BugDescription bugDescription, User currentUser) throws SystemException {
+        Bug bug = new Bug();
+        bug.setId(bugDescription.getBugId());
         bug.setBugStatus(Bug.Status.CHECKING.getValue());
-        bug.setNoProcessing(true);
-        int countAdd = update(bug, null);
 
-        if (countAdd != 0) {
-            //发送邮箱
-            String title = "您的Bug已处理完毕";
-            String content = "您好，您的Bug Id：" + bugId + "，被设置不予处理，请您查收。";
-            sendMail(bug.getBugProposer().getEmail(), title, content);
-            return countAdd;
-        }
-        throw new SystemException("操作失败");
-    }
-
-    @Override
-    public int doCloseBug(String bugId, User currentUser) throws SystemException {
-        Bug bug = get(bugId);
-        //判断是合法用户（Bug当前状态为验收中，且提出者为当前用户）
-        boolean isLegalProposer = Bug.Status.CHECKING.getValue() == bug.getBugStatus() &&
-                bug.getBugProposer().getId().equals(currentUser.getId());
-        if (!isLegalProposer) {
-            throw new SystemException("非法操作");
-        }
-
-        //修改Bug状态
-        bug.setBugStatus(Bug.Status.FINISHED.getValue());
-        int countAdd = update(bug, null);
-
-        if (countAdd != 0) {
-            //发送邮件
-            String email = bug.getBugProcesser().getEmail();
-            String title = "您的Bug已完成";
-            String content = "您的Bug已完成，bug id：" + bugId;
-            sendMail(email, title, content);
-            return countAdd;
-        }
-        throw new SystemException("操作失败");
-    }
-
-    @Override
-    public int addBugDescription(BugDescription bugDescription, User currentUser) throws SystemException {
-        Bug bug = get(bugDescription.getBugId());
-        // 判断是否合法处理者（Bug当前状态为处理中，且处理者为当前用户）
-        boolean isLegalProcesser = bug.getBugStatus() == Bug.Status.PROCESSER.getValue() &&
-                bug.getBugProcesser().getId().equals(currentUser.getId());
-        if (!isLegalProcesser) {
-            throw new SystemException("非法操作");
-        }
+        //更新Bug状态
+        BugService currentProxy = (BugService)AopContext.currentProxy();
+        currentProxy.updateStatus(bug, currentUser);
 
         // 添加Bug说明
         int countAdd = bugDescriptionDao.add(bugDescription);
-        if (countAdd != 0) {
-            //更新Bug状态
-            bug.setBugStatus(Bug.Status.CHECKING.getValue());
-            int countUpdate = update(bug, null);
-            if (0 == countUpdate) {
-                throw new SystemException("操作失败");
-            }
-
-            //发送邮件
-            String email = bug.getBugProposer().getEmail();
+        if (countAdd == 0) {
+            throw new SystemException("操作失败");
+        }
+        //发送邮件
+           /* String email = bug.getBugProposer().getEmail();
             String title = "您的Bug已处理完毕";
             String content = "您的Bug已经被处理，请查收。";
             sendMail(email, title, content);
-            return countAdd;
-        }
-        throw new SystemException("操作失败");
+            return countAdd;*/
     }
 
     @Override

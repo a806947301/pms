@@ -144,104 +144,15 @@ public class BugController extends BaseController {
         return bugService.get(id);
     }
 
-    /**
-     * 重新指派
-     *
-     * @param bugId
-     * @param userId
-     * @return
-     */
-    @RequestMapping("/redesignate")
+    @RequestMapping("/updateBugStatus")
     @ResponseBody
-    public JSONObject redesignate(String bugId, String userId) {
-        //判断是否为空
-        if (null == bugId || "".equals(bugId)) {
-            return JsonUtil.packageJson(false, "", "Bug Id不能为空");
-        }
-        if (null == userId || "".equals(userId)) {
-            return JsonUtil.packageJson(false, "", "被指派人不能为空");
-        }
-
-        //执行重新指派
-        User user = getCurrentUser();
+    public JSONObject updateBugStatus(Bug bug) {
         try {
-            bugService.doRedesignate(bugId, userId, user);
+            bugService.updateStatus(bug, getCurrentUser());
         } catch (SystemException e) {
             return JsonUtil.packageJson(false, "", e.getMessage());
         }
-        return JsonUtil.packageJson(true, "重新指派成功", "");
-    }
-
-    /**
-     * 设置自己处理Bug
-     *
-     * @param bugId
-     * @return
-     */
-    @RequestMapping("/processSelf")
-    @ResponseBody
-    public JSONObject processSelf(String bugId) {
-        //判断是否为空
-        if (null == bugId || "".equals(bugId)) {
-            return JsonUtil.packageJson(false, "", "Bug Id不能为空");
-        }
-
-        //执行自己处理Bug
-        User user = getCurrentUser();
-        try {
-            bugService.doProcessSelf(bugId, user);
-        } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
-        }
-        return JsonUtil.packageJson(true, "设置自己处理", "");
-    }
-
-    /**
-     * 设置不予处理Bug
-     *
-     * @param bugId
-     * @return
-     */
-    @RequestMapping("/noProcessing")
-    @ResponseBody
-    public JSONObject noProcessing(String bugId) {
-        //判断非空
-        if (null == bugId || "".equals(bugId)) {
-            return JsonUtil.packageJson(false, "", "Bug Id不能为空");
-        }
-
-        //设置不予处理
-        User user = getCurrentUser();
-        try {
-            bugService.doNoProcessing(bugId, user);
-        } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
-        }
-        return JsonUtil.packageJson(true, "不予处理Bug", "");
-    }
-
-    /**
-     * 设置关闭Bug
-     *
-     * @param bugId
-     * @return
-     */
-    @RequestMapping("/closeBug")
-    @ResponseBody
-    public JSONObject closeBug(String bugId) {
-        //判断非空
-        if (null == bugId || "".equals(bugId)) {
-            return JsonUtil.packageJson(false, "", "Bug Id不能为空");
-        }
-
-        //关闭Bug
-        User user = getCurrentUser();
-        try {
-            bugService.doCloseBug(bugId, user);
-        } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
-        }
-        return JsonUtil.packageJson(true, "关闭Bug成功", "");
+        return JsonUtil.packageJson(true, "成功！", "");
     }
 
     /**

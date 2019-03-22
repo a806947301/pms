@@ -66,45 +66,14 @@ public interface BugService {
     Bug get(String id);
 
     /**
-     * 重新指派Bug
+     * 更新Bug状态
      *
-     * @param bugId
-     * @param userId
+     * @param bug
      * @param currentUser
      * @return
      * @throws SystemException
      */
-    int doRedesignate(String bugId, String userId, User currentUser) throws SystemException;
-
-    /**
-     * 设置自己处理Bug
-     *
-     * @param bugId
-     * @param currentUser
-     * @return
-     * @throws SystemException
-     */
-    int doProcessSelf(String bugId, User currentUser) throws SystemException;
-
-    /**
-     * 设置不予处理Bug
-     *
-     * @param bugId
-     * @param currentUser
-     * @return
-     * @throws SystemException
-     */
-    int doNoProcessing(String bugId, User currentUser) throws SystemException;
-
-    /**
-     * 设置关闭Bug
-     *
-     * @param bugId
-     * @param currentUser
-     * @return
-     * @throws SystemException
-     */
-    int doCloseBug(String bugId, User currentUser) throws SystemException;
+    Bug updateStatus(Bug bug, User currentUser) throws SystemException;
 
     /**
      * 添加Bug说明
@@ -114,7 +83,7 @@ public interface BugService {
      * @return
      * @throws SystemException
      */
-    int addBugDescription(BugDescription bugDescription, User currentUser) throws SystemException;
+    void addBugDescription(BugDescription bugDescription, User currentUser) throws SystemException;
 
     /**
      * 分页查找Bug说明

@@ -112,8 +112,8 @@
             <if test="null != updateTime">updatetime = #{updateTime}, </if>
             <if test="null != bugTitle">bug_title = #{bugTitle}, </if>
             <if test="null != bugContent">bug_content = #{bugContent}, </if>
-            is_noprocessing = #{noProcessing},
-            updatetime = #{updateTime}
+            <if test="null != noProcessing">is_noprocessing = #{noProcessing},</if>
+            <if test="null != updateTime">updatetime = #{updateTime}</if>
         </set>
         WHERE id = #{id}
     </update>

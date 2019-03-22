@@ -103,11 +103,11 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-md-1" v-if="bug.bugProcesser.email == '<shiro:principal/>'">
+                                    <div class="col-md-1" v-if="bug.bugProposer.email == '<shiro:principal/>'">
                                         <button class="btn btn-outline-primary" type="button" v-on:click="beforeUpdate()"
                                                 data-toggle="modal" data-target="#updateBug">修改</button>
                                     </div>
-                                    <div class="col-md-1" v-if="bug.bugProcesser.email == '<shiro:principal/>'">
+                                    <div class="col-md-1" v-if="bug.bugProposer.email == '<shiro:principal/>'">
                                         <button class="btn btn-outline-dark" type="button" v-on:click="deleteBug()"
                                             >删除</button>
                                     </div>
@@ -128,7 +128,7 @@
                             </div>
                             <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
                                 <button class="btn btn-outline-danger" type="button"
-                                        v-if="(bug.bugStatus==0&&bug.bugProcesser.id=='<%=user.getId()%>') || (bug.bugStatus==2&&bug.bugProposer.id=='<%=user.getId()%>')"
+                                        v-if="(bug.bugStatus==0&&bug.bugProcesser.id=='<%=user.getId()%>') || ((bug.bugStatus==2 || bug.bugStatus==0)&&bug.bugProposer.id=='<%=user.getId()%>')"
                                         data-toggle="modal" data-target="#redesignate">
                                     重新指派
                                 </button>
@@ -497,9 +497,10 @@
             },
             processSelf:function() {
                 params = new URLSearchParams();
-                params.append("bugId",this.bugId);
+                params.append("id", this.bugId);
+                params.append("bugStatus", 1);
                 axios
-                    .post("/bug/processSelf",params)
+                    .post("/bug/updateBugStatus",params)
                     .then(function (response) {
                         alert(response.data.msg);
                         vm.reloadBug();
@@ -508,9 +509,11 @@
             },
             noProcessing:function () {
                 params = new URLSearchParams();
-                params.append("bugId",this.bugId);
+                params.append("id", this.bugId);
+                params.append("bugStatus", 2);
+                params.append("noProcessing", true);
                 axios
-                    .post("/bug/noProcessing",params)
+                    .post("/bug/updateBugStatus",params)
                     .then(function (response) {
                         alert(response.data.msg);
                         vm.reloadBug();
@@ -518,9 +521,10 @@
             },
             closeBug:function() {
                 params = new URLSearchParams();
-                params.append("bugId",this.bugId);
+                params.append("id", this.bugId);
+                params.append("bugStatus", 3);
                 axios
-                    .post("/bug/closeBug",params)
+                    .post("/bug/updateBugStatus",params)
                     .then(function (response) {
                         alert(response.data.msg);
                         vm.reloadBug();
@@ -588,10 +592,11 @@
             },
             redesignate:function () {
                 params = new URLSearchParams();
-                params.append("bugId",this.bugId);
-                params.append("userId",this.processer)
+                params.append("id",this.bugId);
+                params.append("bugProcesser.id",this.processer);
+                params.append("bugStatus", 0);
                 axios
-                    .post("/bug/redesignate",params)
+                    .post("/bug/updateBugStatus",params)
                     .then(function (response) {
                         alert(response.data.msg);
                         vm.reloadBug();
