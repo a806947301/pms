@@ -7,6 +7,9 @@ import com.dayi.demo.user.model.User;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -21,8 +24,13 @@ import java.util.List;
 @Aspect
 public class BugRecordAspect {
 
+    private final static Logger logger = LoggerFactory.getLogger(BugRecordAspect.class);
+
     @Resource
     private List<BugStatusStrategy> bugStatusStrategies;
+
+    @Resource
+    TaskExecutor taskExecutor;
 
     /**
      * Bug状态更新后
@@ -32,15 +40,25 @@ public class BugRecordAspect {
      */
     @AfterReturning(returning = "bug",
             value = "execution(* com.dayi.demo.bug.service.impl.BugServiceImpl.updateStatus(..))")
-    public void afterUpdateStatus(JoinPoint point, Bug bug) throws SystemException {
+    public void afterUpdateStatus(JoinPoint point, final Bug bug) throws SystemException {
         //获取当前用户
         User currentUser = (User) point.getArgs()[1];
         //获取状态处理策略
         int status = bug.getBugStatus();
-        BugStatusStrategy statusStrategy = bugStatusStrategies.get(status);
+        final BugStatusStrategy statusStrategy = bugStatusStrategies.get(status);
         //添加Bug记录
         statusStrategy.addRecord(bug, currentUser);
         //发送邮件
-        statusStrategy.sendEmail(bug);
+        taskExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    statusStrategy.sendEmail(bug);
+                } catch (Exception e) {
+                    logger.error(BugRecordAspect.class.toString() + "_" + e.getMessage(), e);
+                }
+            }
+        });
+
     }
 }

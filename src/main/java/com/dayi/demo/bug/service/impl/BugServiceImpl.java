@@ -117,9 +117,11 @@ public class BugServiceImpl implements BugService {
         if(null == strategy) {
             throw new SystemException("更新失败，没有该策略");
         }
+
         //获取更新的Bug
         Bug oldBug = get(bug.getId());
         Bug updateBug = strategy.update(bug, oldBug, currentUser);
+
         //如果获取到为空
         if (null == updateBug) {
             throw new SystemException("更新失败");
@@ -146,12 +148,6 @@ public class BugServiceImpl implements BugService {
         if (countAdd == 0) {
             throw new SystemException("操作失败");
         }
-        //发送邮件
-           /* String email = bug.getBugProposer().getEmail();
-            String title = "您的Bug已处理完毕";
-            String content = "您的Bug已经被处理，请查收。";
-            sendMail(email, title, content);
-            return countAdd;*/
     }
 
     @Override
@@ -251,21 +247,4 @@ public class BugServiceImpl implements BugService {
         }
     }
 
-    /**
-     * 发送邮件
-     *
-     * @param email   邮箱号
-     * @param title   邮件标题
-     * @param content 邮件内容
-     * @return
-     */
-    private boolean sendMail(String email, String title, String content) {
-        try {
-            MailUtil.sendMail(email, title, content);
-            return true;
-        } catch (Exception e) {
-            logger.error(MailUtil.class.toString() + "_" + e.getMessage(), e);
-            return false;
-        }
-    }
 }

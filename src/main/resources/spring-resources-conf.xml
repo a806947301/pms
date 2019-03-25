@@ -17,4 +17,17 @@
 	</context:component-scan>
 	<!--开启aop注解-->
 	<aop:aspectj-autoproxy expose-proxy="true"/>
+
+	<!-- Spring 线程池 -->
+	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<!-- 线程池维护线程的最少数量 -->
+		<property name="corePoolSize" value="6" />
+		<!-- 允许的空闲时间 -->
+		<property name="keepAliveSeconds" value="200" />
+		<!-- 线程池维护线程的最大数量 -->
+		<property name="maxPoolSize" value="10" />
+		<!-- 缓存队列 -->
+		<property name="queueCapacity" value="20" />
+	</bean>
+
 </beans>
