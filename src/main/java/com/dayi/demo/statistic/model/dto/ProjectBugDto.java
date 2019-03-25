@@ -1,6 +1,6 @@
-package com.dayi.demo.statistic.dto;
+package com.dayi.demo.statistic.model.dto;
 
-import com.dayi.demo.statistic.vo.ProjectBugVo;
+import com.dayi.demo.statistic.model.vo.ProjectBugVo;
 
 /**
  * 项目Bug Dto

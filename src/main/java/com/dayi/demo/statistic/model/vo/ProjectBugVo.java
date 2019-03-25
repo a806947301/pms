@@ -1,4 +1,4 @@
-package com.dayi.demo.statistic.vo;
+package com.dayi.demo.statistic.model.vo;
 
 /**
  *项目Bug Vo

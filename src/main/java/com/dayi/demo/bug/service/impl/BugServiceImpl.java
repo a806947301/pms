@@ -1,6 +1,5 @@
 package com.dayi.demo.bug.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.bug.dao.BugDao;
 import com.dayi.demo.bug.dao.BugDescriptionDao;
 import com.dayi.demo.bug.model.Bug;
@@ -9,10 +8,9 @@ import com.dayi.demo.bug.service.BugOperatingRecordService;
 import com.dayi.demo.bug.service.BugService;
 import com.dayi.demo.bug.strategy.BugStatusStrategy;
 import com.dayi.demo.common.exception.SystemException;
-import com.dayi.demo.statistic.vo.ProjectBugVo;
-import com.dayi.demo.statistic.vo.UserBugVo;
+import com.dayi.demo.statistic.model.vo.ProjectBugVo;
+import com.dayi.demo.statistic.model.vo.UserBugVo;
 import com.dayi.demo.user.model.User;
-import com.dayi.demo.user.service.UserService;
 import com.dayi.demo.util.MailUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -44,9 +42,6 @@ public class BugServiceImpl implements BugService {
 
     @Resource
     private BugDescriptionDao bugDescriptionDao;
-
-    @Resource
-    private UserService userService;
 
     @Resource
     private BugOperatingRecordService recordService;

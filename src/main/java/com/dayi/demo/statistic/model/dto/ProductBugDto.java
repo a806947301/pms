@@ -1,4 +1,4 @@
-package com.dayi.demo.statistic.dto;
+package com.dayi.demo.statistic.model.dto;
 
 import java.util.List;
 

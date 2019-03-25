@@ -1,6 +1,6 @@
 package com.dayi.demo.statistic.service;
 
-import com.dayi.demo.statistic.dto.ProductBugDto;
+import com.dayi.demo.statistic.model.dto.ProductBugDto;
 
 import java.io.IOException;
 import java.io.OutputStream;

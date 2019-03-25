@@ -9,11 +9,9 @@ import com.dayi.demo.project.model.Project;
 import com.dayi.demo.project.service.ProjectService;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.UserService;
-import com.dayi.demo.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.aop.framework.AopContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,10 +32,10 @@ public class ProductServiceImpl implements ProductService {
     @Resource
     ProductDao productDao;
 
-    @Autowired
+    @Resource
     UserService userService;
 
-    @Autowired
+    @Resource
     ProjectService projectService;
 
     @Override

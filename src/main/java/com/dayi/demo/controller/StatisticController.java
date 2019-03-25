@@ -1,9 +1,8 @@
 package com.dayi.demo.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.dayi.demo.common.controller.BaseController;
-import com.dayi.demo.statistic.dto.ProductBugDto;
-import com.dayi.demo.statistic.dto.UserBugDto;
+import com.dayi.demo.statistic.model.dto.ProductBugDto;
+import com.dayi.demo.statistic.model.dto.UserBugDto;
 import com.dayi.demo.statistic.service.UserStatisticService;
 import com.dayi.demo.statistic.service.ProductStatisticService;
 import com.dayi.demo.util.ExcelUtil;

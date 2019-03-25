@@ -1,7 +1,6 @@
 package com.dayi.demo.statistic.service;
 
-import com.alibaba.fastjson.JSONArray;
-import com.dayi.demo.statistic.dto.UserBugDto;
+import com.dayi.demo.statistic.model.dto.UserBugDto;
 
 import java.io.IOException;
 import java.io.OutputStream;

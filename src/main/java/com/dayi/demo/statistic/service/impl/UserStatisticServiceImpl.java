@@ -1,11 +1,9 @@
 package com.dayi.demo.statistic.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.bug.service.BugService;
-import com.dayi.demo.statistic.dto.UserBugDto;
+import com.dayi.demo.statistic.model.dto.UserBugDto;
 import com.dayi.demo.statistic.service.UserStatisticService;
-import com.dayi.demo.statistic.vo.UserBugVo;
+import com.dayi.demo.statistic.model.vo.UserBugVo;
 import com.dayi.demo.user.model.Role;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.RoleService;

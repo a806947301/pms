@@ -109,6 +109,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (0 != bugs.getSize()) {
             throw new SystemException("该项目还有Bug");
         }
+
         //判断项目是否有需求
         PageInfo<Need> needs = needService.findByProjectId(id, 1, 1);
         if (0 != needs.getSize()) {
@@ -120,8 +121,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (0 == countDelete) {
             throw new SystemException("删除失败");
         }
-        File file = new File(realPath);
-        System.out.println(file.exists());
+
         //删除项目文件
         FileUtils.deleteQuietly(new File(realPath));
 

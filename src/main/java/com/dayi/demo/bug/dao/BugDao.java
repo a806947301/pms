@@ -1,13 +1,12 @@
 package com.dayi.demo.bug.dao;
 
 import com.dayi.demo.bug.model.Bug;
-import com.dayi.demo.statistic.vo.ProjectBugVo;
-import com.dayi.demo.statistic.vo.UserBugVo;
+import com.dayi.demo.statistic.model.vo.ProjectBugVo;
+import com.dayi.demo.statistic.model.vo.UserBugVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Bug dao层接口

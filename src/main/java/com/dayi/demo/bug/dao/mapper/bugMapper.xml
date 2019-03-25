@@ -16,14 +16,14 @@
     </resultMap>
 
     <!--产品Bug数ResultMap-->
-    <resultMap id="projectBugMap" type="com.dayi.demo.statistic.vo.ProjectBugVo">
+    <resultMap id="projectBugMap" type="com.dayi.demo.statistic.model.vo.ProjectBugVo">
         <result property="projectId" column="projectId"></result>
         <result property="countAllBug" column="allBug"></result>
         <result property="countBug" column="bugNumber"></result>
     </resultMap>
 
     <!--用户Bug数resultMap-->
-    <resultMap id="userBugResultMap" type="com.dayi.demo.statistic.vo.UserBugVo">
+    <resultMap id="userBugResultMap" type="com.dayi.demo.statistic.model.vo.UserBugVo">
         <result property="userId" column="user_id"></result>
         <result property="bugNumber" column="bug_number"></result>
         <result property="designate" column="designate"></result>

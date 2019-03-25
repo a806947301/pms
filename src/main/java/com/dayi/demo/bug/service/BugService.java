@@ -1,11 +1,10 @@
 package com.dayi.demo.bug.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.bug.model.Bug;
 import com.dayi.demo.bug.model.BugDescription;
 import com.dayi.demo.common.exception.SystemException;
-import com.dayi.demo.statistic.vo.ProjectBugVo;
-import com.dayi.demo.statistic.vo.UserBugVo;
+import com.dayi.demo.statistic.model.vo.ProjectBugVo;
+import com.dayi.demo.statistic.model.vo.UserBugVo;
 import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;

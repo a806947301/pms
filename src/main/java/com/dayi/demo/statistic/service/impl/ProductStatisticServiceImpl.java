@@ -1,15 +1,14 @@
 package com.dayi.demo.statistic.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.bug.service.BugService;
 import com.dayi.demo.product.model.Product;
 import com.dayi.demo.product.service.ProductService;
 import com.dayi.demo.project.model.Project;
 import com.dayi.demo.project.service.ProjectService;
-import com.dayi.demo.statistic.dto.ProductBugDto;
-import com.dayi.demo.statistic.dto.ProjectBugDto;
+import com.dayi.demo.statistic.model.dto.ProductBugDto;
+import com.dayi.demo.statistic.model.dto.ProjectBugDto;
 import com.dayi.demo.statistic.service.ProductStatisticService;
-import com.dayi.demo.statistic.vo.ProjectBugVo;
+import com.dayi.demo.statistic.model.vo.ProjectBugVo;
 import com.dayi.demo.util.ExcelUtil;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.util.CellRangeAddress;
