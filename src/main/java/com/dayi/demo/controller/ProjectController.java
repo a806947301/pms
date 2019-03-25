@@ -9,6 +9,7 @@ import com.dayi.demo.util.JsonUtil;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -108,7 +109,7 @@ public class ProjectController extends BaseController {
      * @return
      */
     @RequestMapping("/getProjectPage/{id}")
-    public String gerProductPage(String id) {
+    public String gerProductPage(@PathVariable("id") String id) {
         return "getProject";
     }
 

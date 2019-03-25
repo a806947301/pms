@@ -9,6 +9,7 @@ import com.dayi.demo.util.JsonUtil;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,7 +37,7 @@ public class NeedController extends BaseController {
      * @return
      */
     @RequestMapping("/addNeedPage/{projectId}")
-    public String addNeedPage(String projectId) {
+    public String addNeedPage(@PathVariable("projectId") String projectId) {
         return "addNeed";
     }
 
@@ -87,7 +88,7 @@ public class NeedController extends BaseController {
      * @return
      */
     @RequestMapping("/getNeedPage/{id}")
-    public String getNeedPage(String id) {
+    public String getNeedPage(@PathVariable("id") String id) {
         return "getNeed";
     }
 

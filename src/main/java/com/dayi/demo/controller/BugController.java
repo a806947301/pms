@@ -14,6 +14,7 @@ import com.dayi.demo.util.JsonUtil;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -74,7 +75,7 @@ public class BugController extends BaseController {
      * @return
      */
     @RequestMapping("/addBugPage/{productId}/{projectId}")
-    public String addBugPage(String productId, String projectId) {
+    public String addBugPage(@PathVariable("productId") String productId, @PathVariable("projectId") String projectId) {
         return "addBug";
     }
 
@@ -127,7 +128,7 @@ public class BugController extends BaseController {
      * @return
      */
     @RequestMapping("/getBugPage/{id}")
-    public String getBugPage(String id) {
+    public String getBugPage(@PathVariable("id") String id) {
         return "getBug";
     }
 
