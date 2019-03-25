@@ -78,7 +78,7 @@ public class Bug extends BaseEntity {
 
     @Override
     public String toString() {
-        return  "Bug{" +
+        return "Bug{" +
                 "noProcessing=" + noProcessing +
                 ", bugStatus=" + bugStatus +
                 ", bugTitle='" + bugTitle + '\'' +
@@ -86,6 +86,9 @@ public class Bug extends BaseEntity {
                 ", bugProposer=" + bugProposer +
                 ", bugProcesser=" + bugProcesser +
                 ", project=" + project +
+                ", id='" + id + '\'' +
+                ", addTime=" + addTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 

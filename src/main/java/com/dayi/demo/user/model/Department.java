@@ -20,6 +20,9 @@ public class Department extends BaseEntity {
     public String toString() {
         return "Department{" +
                 "departmentName='" + departmentName + '\'' +
+                ", id='" + id + '\'' +
+                ", addTime=" + addTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 

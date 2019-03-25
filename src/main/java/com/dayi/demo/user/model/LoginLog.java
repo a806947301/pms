@@ -20,6 +20,9 @@ public class LoginLog extends BaseEntity {
         return "LoginLog{" +
                 "ip='" + ip + '\'' +
                 ", user=" + user +
+                ", id='" + id + '\'' +
+                ", addTime=" + addTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 

@@ -19,6 +19,9 @@ public class Role extends BaseEntity {
     public String toString() {
         return "Role{" +
                 "roleName='" + roleName + '\'' +
+                ", id='" + id + '\'' +
+                ", addTime=" + addTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 

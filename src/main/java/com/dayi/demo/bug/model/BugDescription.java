@@ -42,6 +42,9 @@ public class BugDescription extends BaseEntity {
         return "BugDescription{" +
                 "bugId='" + bugId + '\'' +
                 ", content='" + content + '\'' +
+                ", id='" + id + '\'' +
+                ", addTime=" + addTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 

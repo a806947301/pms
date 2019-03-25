@@ -12,15 +12,15 @@ public class BaseEntity {
     /**
      * id
      */
-    private String id;
+    protected String id;
     /**
      * 添加时间
      */
-    private Date addTime;
+    protected Date addTime;
     /**
      * 更新时间
      */
-    private Date updateTime;
+    protected Date updateTime;
 
     /**
      * 判断字段是否有空

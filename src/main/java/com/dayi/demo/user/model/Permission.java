@@ -34,6 +34,9 @@ public class Permission extends BaseEntity {
                 ", field='" + field + '\'' +
                 ", menu=" + menu +
                 ", parentId='" + parentId + '\'' +
+                ", id='" + id + '\'' +
+                ", addTime=" + addTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 

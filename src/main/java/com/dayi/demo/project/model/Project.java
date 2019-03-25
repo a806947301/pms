@@ -44,6 +44,9 @@ public class Project extends BaseEntity {
                 ", product=" + product +
                 ", projectName='" + projectName + '\'' +
                 ", finished=" + finished +
+                ", id='" + id + '\'' +
+                ", addTime=" + addTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 

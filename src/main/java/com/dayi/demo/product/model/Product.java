@@ -22,6 +22,9 @@ public class Product extends BaseEntity {
         return "Product{" +
                 "productName='" + productName + '\'' +
                 ", productPresentation='" + productPresentation + '\'' +
+                ", id='" + id + '\'' +
+                ", addTime=" + addTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 

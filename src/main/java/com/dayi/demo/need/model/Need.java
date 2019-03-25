@@ -57,6 +57,9 @@ public class Need extends BaseEntity {
                 ", project=" + project +
                 ", descriptionFilename='" + descriptionFilename + '\'' +
                 ", needFilename='" + needFilename + '\'' +
+                ", id='" + id + '\'' +
+                ", addTime=" + addTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 

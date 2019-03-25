@@ -70,6 +70,9 @@ public class BugOperatingRecord extends BaseEntity {
                 ", user=" + user +
                 ", operationNumber=" + operationNumber +
                 ", operationUser=" + operationUser +
+                ", id='" + id + '\'' +
+                ", addTime=" + addTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 
