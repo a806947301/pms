@@ -11,6 +11,8 @@ import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.UserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,8 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class ProductServiceImpl implements ProductService {
 
+    private final  static Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
     @Resource
     ProductDao productDao;
 
@@ -41,6 +45,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public String add(Product product, String[] participators) throws SystemException{
         // 添加产品
+        logger.info("添加产品，产品ID：{}", product.getId());
         int countAdd = productDao.add(product);
 
         // 判断产品是否添加成功
@@ -145,6 +150,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         //删除产品
+        logger.info("删除产品，产品Id：{}", id);
         int countDelete = productDao.delete(id);
         if (0 == countDelete) {
             throw new SystemException("删除失败");

@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService {
         if (0 == countAdd) {
             throw new SystemException("操作失败");
         }
+        logger.info("用户注册，注册Email：{}", user.getEmail());
     }
 
     @Override
@@ -109,6 +110,7 @@ public class UserServiceImpl implements UserService {
         Session session = SecurityUtils.getSubject().getSession();
         User currentUser = getByEmail(email);
         session.setAttribute("user", currentUser);
+        logger.info("Email：{} 登陆了系统，登陆IP为：{}", email, ip);
         return true;
     }
 

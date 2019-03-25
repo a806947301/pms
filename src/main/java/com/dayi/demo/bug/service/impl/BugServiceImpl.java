@@ -51,6 +51,7 @@ public class BugServiceImpl implements BugService {
 
     @Override
     public String add(Bug bug, User currentUser) throws SystemException {
+        logger.info("添加Bug，Bug Id：{}", bug.getId());
         //设置Bug
         bug.setBugStatus(Bug.Status.DESIGNATE.getValue());
         bug.setNoProcessing(false);
@@ -119,6 +120,7 @@ public class BugServiceImpl implements BugService {
         }
 
         //获取更新的Bug
+        logger.debug("更新Bug状态，获取到更新策略：{}", strategy.getClass().getName());
         Bug oldBug = get(bug.getId());
         Bug updateBug = strategy.update(bug, oldBug, currentUser);
 
@@ -236,6 +238,7 @@ public class BugServiceImpl implements BugService {
             throw new SystemException("您不是Bug提出者");
         }
 
+        logger.info("删除Bug，Bug ID：{}", bugId);
         //删除Bug说明
         bugDescriptionDao.deleteByBugId(bugId);
         //删除Bug记录

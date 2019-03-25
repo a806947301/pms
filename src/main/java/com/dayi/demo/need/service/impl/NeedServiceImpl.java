@@ -54,6 +54,7 @@ public class NeedServiceImpl implements NeedService {
         need.setUser(currentUser);
 
         // 处理需求说明文件
+        logger.debug("保存需求所需文件");
         String descriptionFilepath = "";
         String descriptionFilename = "";
         if (null != needDescriptionFile) {
@@ -74,6 +75,7 @@ public class NeedServiceImpl implements NeedService {
         need.setNeedFilename(needFilename);
 
         //保存需求
+        logger.debug("保存需求到数据库");
         int countAdd = needDao.add(need);
         if (0 != countAdd) {
             return need.getId();
@@ -145,6 +147,7 @@ public class NeedServiceImpl implements NeedService {
         }
 
         //删除需求文件
+        logger.debug("删除需求，id：{}", id);
         String needFilePath = realPath + "/" + id;
         FileUtils.deleteQuietly(new File(needFilePath));
         //删除需求

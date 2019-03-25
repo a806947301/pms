@@ -30,6 +30,8 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class ProjectServiceImpl implements ProjectService {
 
+    private final static Logger logger = LoggerFactory.getLogger(ProjectServiceImpl.class);
+
     @Resource
     private ProjectDao projectDao;
 
@@ -41,6 +43,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public String add(Project project) throws SystemException {
+        logger.info("添加项目，项目Id:{}", project.getId());
         project.setFinished(false);
         int countAdd = projectDao.add(project);
         if (countAdd != 0) {
@@ -117,6 +120,7 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         //删除项目
+        logger.info("删除项目，项目Id：{}", id);
         int countDelete = projectDao.delete(id);
         if (0 == countDelete) {
             throw new SystemException("删除失败");
