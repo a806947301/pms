@@ -1,4 +1,4 @@
-﻿/*
+﻿<br><br>/*
  Navicat Premium Data Transfer
 
  Source Server         : mysql
@@ -27,7 +27,7 @@ CREATE TABLE `bug`  (
   `updatetime` datetime(0) NOT NULL COMMENT '更新时间',
   `project_id` char(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '项目id',
   `is_noprocessing` tinyint(3) UNSIGNED NOT NULL COMMENT '是否不予处理',
-  `bug_status` tinyint(3) UNSIGNED NOT NULL COMMENT 'bug状态',
+  `bug_status` tinyint(3) UNSIGNED NOT NULL COMMENT 'bug状态：0为指派中，1为验收中，2为完成',
   `bug_title` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'bug详情',
   `bug_content` varchar(4500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'bug描述',
   `bug_proposer` char(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '提出bug用户的id',

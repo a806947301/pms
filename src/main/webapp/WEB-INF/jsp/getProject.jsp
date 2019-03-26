@@ -185,14 +185,11 @@
                                     <div class="col-md-8">
                                         <a v-bind:href="['/bug/getBugPage/' + bug.id]">{{bug.bugTitle}}</a>
                                     </div>
-                                    <div class="col-md-4" v-if="bug.bugStatus==3">
+                                    <div class="col-md-4" v-if="bug.bugStatus==2">
                                         <button class="btn btn-success">已完成</button>
                                     </div>
-                                    <div class="col-md-4" v-else-if="bug.bugStatus==2">
-                                        <button class="btn btn-warning">验收中</button>
-                                    </div>
                                     <div class="col-md-4" v-else-if="bug.bugStatus==1">
-                                        <button class="btn btn-info">处理中</button>
+                                        <button class="btn btn-warning">验收中</button>
                                     </div>
                                     <div class="col-md-4" v-else>
                                         <button class="btn btn-danger">指派中</button>
@@ -313,9 +310,8 @@
                     <label>状态</label>
                     <select class="form-control" v-model="status">
                         <option value="0">指派中</option>
-                        <option value="1">处理中</option>
-                        <option value="2">验收中</option>
-                        <option value="3">已完成</option>
+                        <option value="1">验收中</option>
+                        <option value="2">已完成</option>
                     </select>
                 </div>
                 <div class="form-group">

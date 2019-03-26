@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-22
  */
-@Order(3)
+@Order(2)
 @Component
 public class CheckingStrategy implements BugStatusStrategy {
 
@@ -30,9 +30,13 @@ public class CheckingStrategy implements BugStatusStrategy {
 
     @Override
     public Bug update(Bug bug, Bug oldBug, User currentUser) throws SystemException {
+        //提取Bug状态、处理者Id、当前用户Id
+        int status = oldBug.getBugStatus();
+        String processerId = oldBug.getBugProcesser().getId();
+        String currentUserId = currentUser.getId();
+
         // 是否合法处理者 （Bug状态为处理中，且Bug的处理者为当前用户）
-        boolean isLegalProcesser = oldBug.getBugStatus() == Bug.Status.PROCESSER.getValue() &&
-                oldBug.getBugProcesser().getId().equals(currentUser.getId());
+        boolean isLegalProcesser = (status == Bug.Status.DESIGNATE.getValue() && currentUserId.equals(processerId));
         if (!isLegalProcesser) {
             throw new SystemException("非法操作");
         }

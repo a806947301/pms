@@ -102,14 +102,11 @@
                                     <div class="col-md-8">
                                         <a v-bind:href="['/bug/getBugPage/'+ bug.id]">{{bug.bugTitle}}</a>
                                     </div>
-                                    <div class="col-md-4" v-if="bug.bugStatus==3">
+                                    <div class="col-md-4" v-if="bug.bugStatus==2">
                                         <button class="btn btn-success">已完成</button>
                                     </div>
-                                    <div class="col-md-4" v-else-if="bug.bugStatus==2">
-                                        <button class="btn btn-warning">验收中</button>
-                                    </div>
                                     <div class="col-md-4" v-else-if="bug.bugStatus==1">
-                                        <button class="btn btn-info">处理中</button>
+                                        <button class="btn btn-warning">验收中</button>
                                     </div>
                                     <div class="col-md-4" v-else>
                                         <button class="btn btn-danger">指派中</button>

@@ -53,7 +53,6 @@
                                         <th scope="col">序号</th>
                                         <th scope="col">姓名</th>
                                         <th scope="col">指派中Bug</th>
-                                        <th scope="col">处理中Bug</th>
                                         <th scope="col">验收中Bug</th>
                                         <th scope="col">已完成Bug</th>
                                         <th scope="col">Bug总数</th>
@@ -64,7 +63,6 @@
                                         <td>{{index+1}}</td>
                                         <td>{{tester.name}}</td>
                                         <td>{{tester.designate}}</td>
-                                        <td>{{tester.processing}}</td>
                                         <td>{{tester.checking}}</td>
                                         <td>{{tester.finished}}</td>
                                         <td>{{tester.bugNumber}}</td>

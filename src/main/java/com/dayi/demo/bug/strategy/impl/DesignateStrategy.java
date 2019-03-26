@@ -32,18 +32,26 @@ public class DesignateStrategy implements BugStatusStrategy {
 
     @Override
     public Bug update(Bug bug, Bug oldBug, User currentUser) throws SystemException {
+        //提取Bug状态、Bug提出者Id、Bug处理者Id、当前用户Id
+        int status = oldBug.getBugStatus();
+        String processerId = oldBug.getBugProcesser().getId();
+        String proposerId = oldBug.getBugProposer().getId();
+        String currentUserId = currentUser.getId();
         // 是否合法处理者 （Bug状态为指派中，且Bug的处理者为当前用户）
-        boolean isLegalProcesser = oldBug.getBugStatus() == Bug.Status.DESIGNATE.getValue() &&
-                oldBug.getBugProcesser().getId().equals(currentUser.getId());
+        boolean isLegalProcesser = (status == Bug.Status.DESIGNATE.getValue() && currentUserId.equals(processerId));
+
         // 是否第一种合法提出者 （Bug状态为验收中，且Bug提出者为当前用户）
-        boolean isLegalProposer1 = oldBug.getBugStatus() == Bug.Status.CHECKING.getValue() &&
-                oldBug.getBugProposer().getId().equals(currentUser.getId());
+        boolean isLegalProposer1 = (status == Bug.Status.CHECKING.getValue() && currentUserId.equals(proposerId));
+
         // 是否是第二种合法提出者 （Bug状态为指派中，且Bug提出者为当前用户）
-        boolean isLegalProposer2 = oldBug.getBugStatus() == Bug.Status.DESIGNATE.getValue() &&
-                oldBug.getBugProposer().getId().equals(currentUser.getId());
+        boolean isLegalProposer2 = (status == Bug.Status.DESIGNATE.getValue() && currentUserId.equals(proposerId));
+
+        //如果以上合法人员都不是，则为不合法人员
         if (!(isLegalProcesser || isLegalProposer1 || isLegalProposer2)) {
             throw new SystemException("违法操作");
         }
+
+        //改变Bug不予处理状态
         bug.setNoProcessing(false);
         return bug;
     }

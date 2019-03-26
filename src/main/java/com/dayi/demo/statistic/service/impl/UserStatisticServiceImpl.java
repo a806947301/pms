@@ -91,7 +91,7 @@ public class UserStatisticServiceImpl implements UserStatisticService {
      * @throws IOException
      */
     public void doExportExcelUser(List<UserBugDto> list, OutputStream out) throws IOException {
-        final int maxCellNumber = 6;
+        final int maxCellNumber = 5;
         // 创建工作薄
         XSSFWorkbook workBook = new XSSFWorkbook();
         // 设置body样式
@@ -112,10 +112,9 @@ public class UserStatisticServiceImpl implements UserStatisticService {
         titleCells[0].setCellValue("序号");
         titleCells[1].setCellValue("姓名");
         titleCells[2].setCellValue("指派中Bug");
-        titleCells[3].setCellValue("处理中Bug");
-        titleCells[4].setCellValue("验收中Bug");
-        titleCells[5].setCellValue("已完成Bug");
-        titleCells[6].setCellValue("Bug总数");
+        titleCells[3].setCellValue("验收中Bug");
+        titleCells[4].setCellValue("已完成Bug");
+        titleCells[5].setCellValue("Bug总数");
         int bodyLength = 0;
         for (UserBugDto user : list) {
             // 创建标题一行及单元格
@@ -125,10 +124,9 @@ public class UserStatisticServiceImpl implements UserStatisticService {
             bodyCells[0].setCellValue(bodyLength++);
             bodyCells[1].setCellValue(user.getName());
             bodyCells[2].setCellValue(user.getDesignate());
-            bodyCells[3].setCellValue(user.getProcessing());
-            bodyCells[4].setCellValue(user.getChecking());
-            bodyCells[5].setCellValue(user.getFinished());
-            bodyCells[6].setCellValue(user.getBugNumber());
+            bodyCells[3].setCellValue(user.getChecking());
+            bodyCells[4].setCellValue(user.getFinished());
+            bodyCells[5].setCellValue(user.getBugNumber());
 
         }
         ExcelUtil.setSizeColumn(sheet, rowNumber, maxCellNumber);

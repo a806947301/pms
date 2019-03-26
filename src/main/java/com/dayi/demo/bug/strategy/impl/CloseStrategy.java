@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-22
  */
-@Order(4)
+@Order(3)
 @Component
 public class CloseStrategy implements BugStatusStrategy {
 
@@ -30,8 +30,13 @@ public class CloseStrategy implements BugStatusStrategy {
 
     @Override
     public Bug update(Bug bug, Bug oldBug, User currentUser) throws SystemException {
-        boolean isLegalProposer = Bug.Status.CHECKING.getValue() == oldBug.getBugStatus() &&
-                oldBug.getBugProposer().getId().equals(currentUser.getId());
+        //提取Bug状态、Bug提出者Id、当前用户Id
+        int status = oldBug.getBugStatus();
+        String proposerId = oldBug.getBugProposer().getId();
+        String currentUserId = currentUser.getId();
+
+        //是否合法Bug提出者 （Bug状态为验收中，且Bug提出者为当前用户）
+        boolean isLegalProposer = (Bug.Status.CHECKING.getValue() == status && currentUserId.equals(proposerId));
         if (!isLegalProposer) {
             throw new SystemException("非法操作");
         }

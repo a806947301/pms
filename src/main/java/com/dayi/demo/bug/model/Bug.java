@@ -24,17 +24,13 @@ public class Bug extends BaseEntity {
          */
         DESIGNATE(0),
         /**
-         * 处理中
-         */
-        PROCESSER(1),
-        /**
          * 验收中
          */
-        CHECKING(2),
+        CHECKING(1),
         /**
          * 已完成
          */
-        FINISHED(3);
+        FINISHED(2);
 
         private final int value;
 

@@ -23,11 +23,6 @@ public class UserBugVo {
     private Integer designate;
 
     /**
-     * 处理中数量
-     */
-    private Integer processing;
-
-    /**
      * 验收中数量
      */
     private Integer checking;
@@ -43,7 +38,6 @@ public class UserBugVo {
                 "userId='" + userId + '\'' +
                 ", bugNumber=" + bugNumber +
                 ", designate=" + designate +
-                ", processing=" + processing +
                 ", checking=" + checking +
                 ", finished=" + finished +
                 '}';
@@ -71,14 +65,6 @@ public class UserBugVo {
 
     public void setDesignate(Integer designate) {
         this.designate = designate;
-    }
-
-    public Integer getProcessing() {
-        return processing;
-    }
-
-    public void setProcessing(Integer processing) {
-        this.processing = processing;
     }
 
     public Integer getChecking() {

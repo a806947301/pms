@@ -88,15 +88,12 @@
                                         </div>
                                     </div>
                                     <div class="col-md-1">
-                                        <div  v-if="bug.bugStatus==3">
+                                        <div  v-if="bug.bugStatus==2">
                                             <button class="btn btn-success">已完成</button>
                                         </div>
-                                        <div  v-else-if="bug.bugStatus==2">
+                                        <div  v-else-if="bug.bugStatus==1">
                                             <button class="btn btn-warning" v-if="!bug.noProcessing">验收中</button>
                                             <button class="btn btn-secondary" v-else>不予处理</button>
-                                        </div>
-                                        <div  v-else-if="bug.bugStatus==1">
-                                            <button class="btn btn-info">处理中</button>
                                         </div>
                                         <div  v-else>
                                             <button class="btn btn-danger">指派中</button>
@@ -128,23 +125,18 @@
                             </div>
                             <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
                                 <button class="btn btn-outline-danger" type="button"
-                                        v-if="(bug.bugStatus==0&&bug.bugProcesser.id=='<%=user.getId()%>') || ((bug.bugStatus==2 || bug.bugStatus==0)&&bug.bugProposer.id=='<%=user.getId()%>')"
+                                        v-if="(bug.bugStatus==0&&bug.bugProcesser.id=='<%=user.getId()%>') || (bug.bugStatus==1 &&bug.bugProposer.id=='<%=user.getId()%>')"
                                         data-toggle="modal" data-target="#redesignate">
                                     重新指派
                                 </button>
-                                <button class="btn btn-outline-warning" type="button"
-                                        v-if="bug.bugStatus==1 && bug.bugProcesser.id=='<%=user.getId()%>'"
-                                    v-on:click="noProcessing()">设置不予处理</button>
-                                <button class="btn btn-outline-primary" type="button"
-                                        v-if="bug.bugStatus==1 && bug.bugProcesser.id=='<%=user.getId()%>'"
-                                        data-toggle="modal" data-target="#addDescription">添加说明</button>
                                 <button class="btn btn-outline-info" type="button"
                                         v-if="bug.bugStatus==0 && bug.bugProcesser.id=='<%=user.getId()%>'"
-                                        v-on:click="processSelf()">
+                                        data-toggle="modal" data-target="#processSelf"
+                                        v-on:click="">
                                     自己处理
                                 </button>
                                 <button class="btn btn-outline-success" type="button"
-                                        v-if="bug.bugStatus==2 && bug.bugProposer.id=='<%=user.getId()%>'"
+                                        v-if="bug.bugStatus==1 && bug.bugProposer.id=='<%=user.getId()%>'"
                                     v-on:click="closeBug()">关闭Bug</button>
                             </div>
                         </div>
@@ -244,6 +236,26 @@
             </div>
         </div>
     </div>
+</div>
+<%--自己处理选项模拟框--%>
+<div class="modal fade" id="processSelf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" >自己处理Bug</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <button class="btn btn-block btn-outline-warning" type="button"
+                        onClick="vm.noProcessing()">设置不予处理</button>
+                <button class="btn btn-block btn-outline-primary" type="button"
+                        data-toggle="modal" data-target="#addDescription">添加说明</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
 </div>
 <%--重新指派模拟框--%>
 <div class="modal fade" id="redesignate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -510,7 +522,7 @@
             noProcessing:function () {
                 params = new URLSearchParams();
                 params.append("id", this.bugId);
-                params.append("bugStatus", 2);
+                params.append("bugStatus", 1);
                 params.append("noProcessing", true);
                 axios
                     .post("/bug/updateBugStatus",params)
@@ -522,7 +534,7 @@
             closeBug:function() {
                 params = new URLSearchParams();
                 params.append("id", this.bugId);
-                params.append("bugStatus", 3);
+                params.append("bugStatus", 2);
                 axios
                     .post("/bug/updateBugStatus",params)
                     .then(function (response) {

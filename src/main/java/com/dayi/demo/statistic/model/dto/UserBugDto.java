@@ -24,7 +24,6 @@ public class UserBugDto extends UserBugVo {
             this.setChecking(vo.getChecking());
             this.setDesignate(vo.getDesignate());
             this.setFinished(vo.getFinished());
-            this.setProcessing(vo.getProcessing());
             return;
         }
 
@@ -33,7 +32,6 @@ public class UserBugDto extends UserBugVo {
         this.setChecking(0);
         this.setDesignate(0);
         this.setFinished(0);
-        this.setProcessing(0);
     }
 
     public String getName() {

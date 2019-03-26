@@ -27,7 +27,6 @@
         <result property="userId" column="user_id"></result>
         <result property="bugNumber" column="bug_number"></result>
         <result property="designate" column="designate"></result>
-        <result property="processing" column="processing"></result>
         <result property="checking" column="checking"></result>
         <result property="finished" column="finished"></result>
     </resultMap>
@@ -52,9 +51,9 @@
     <select id="findByUserDesignee" resultMap="bugResultMap">
         SELECT id, bug_title, bug_status, bug_proposer, addtime, bug_processer FROM bug
             bug WHERE
-            (bug_proposer = #{0} AND bug_status = 2)
+            (bug_proposer = #{0} AND bug_status = 1)
             OR
-            (bug_processer = #{0} AND 2 > bug_status)
+            (bug_processer = #{0} AND 0 = bug_status)
     </select>
 
     <select id="get" resultMap="bugResultMap">
@@ -65,7 +64,7 @@
     <!--统计项目的Bug总数-->
     <select id="countBugByProject" resultMap="projectBugMap">
       SELECT project_id AS 'projectId', COUNT(*) AS 'allBug',
-          COUNT(bug_status != 3 OR NULL) AS 'bugNumber' FROM bug GROUP BY project_id
+          COUNT(bug_status != 2 OR NULL) AS 'bugNumber' FROM bug GROUP BY project_id
     </select>
 
     <!--统计每个处理者的Bug-->
@@ -73,9 +72,8 @@
       SELECT bug_processer AS 'user_id',
           COUNT(*) AS 'bug_number',
           COUNT(bug_status = 0 OR NULL) AS 'designate' ,
-          COUNT(bug_status = 1 OR NULL) AS 'processing' ,
-          COUNT(bug_status = 2 OR NULL) AS 'checking' ,
-          COUNT(bug_status = 3 OR NULL) AS 'finished'
+          COUNT(bug_status = 1 OR NULL) AS 'checking' ,
+          COUNT(bug_status = 2 OR NULL) AS 'finished'
           FROM bug GROUP BY bug_processer
     </select>
 
@@ -84,15 +82,14 @@
       SELECT bug_proposer AS 'user_id',
           COUNT(*) AS 'bug_number',
           COUNT(bug_status = 0 OR NULL) AS 'designate' ,
-          COUNT(bug_status = 1 OR NULL) AS 'processing' ,
-          COUNT(bug_status = 2 OR NULL) AS 'checking' ,
-          COUNT(bug_status = 3 OR NULL) AS 'finished'
+          COUNT(bug_status = 1 OR NULL) AS 'checking' ,
+          COUNT(bug_status = 2 OR NULL) AS 'finished'
           FROM bug GROUP BY bug_proposer
     </select>
 
     <!--统计项目下未完成的Bug量-->
     <select id="countBugByProjectNoFinished" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM bug WHERE project_id = #{0} AND bug_status != 3
+        SELECT COUNT(*) FROM bug WHERE project_id = #{0} AND bug_status != 2
     </select>
 
     <!--添加Bug-->
