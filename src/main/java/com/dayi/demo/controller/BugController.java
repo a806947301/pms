@@ -95,7 +95,6 @@ public class BugController extends BaseController {
             Map<String, String> map = new HashMap<String, String>(16);
             map.put("success", "false");
             map.put("msg", "图片上传失败");
-            System.out.println("file is null");
             return map;
         }
         //获取真实路径

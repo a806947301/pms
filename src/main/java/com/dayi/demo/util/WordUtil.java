@@ -140,7 +140,6 @@ public class WordUtil {
         OutputStreamWriter outputStreamWriter = null;
         try {
             XWPFDocument document = new XWPFDocument(new FileInputStream(sourceFileName));
-            System.out.println(document.toString());
             XHTMLOptions options = XHTMLOptions.create();
             // 存放图片的文件夹
             options.setExtractor(new FileImageExtractor(new File(imagePathStr)));
