@@ -12,6 +12,7 @@ import com.dayi.demo.util.JsonUtil;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AccountException;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -220,7 +221,7 @@ public class UserController extends BaseController {
         //登陆
         try {
             userService.doLogin(email, password, IpUtil.getIpAddress(request));
-        } catch (AccountException e) {
+        } catch (AuthenticationException e) {
             return JsonUtil.packageJson(false, "", "用户名或密码不正确");
         }
         return JsonUtil.packageJson(true, INDEX_PAGE, "");
