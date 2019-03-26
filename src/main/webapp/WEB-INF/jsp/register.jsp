@@ -138,6 +138,8 @@
                 if(this.isValification) {
                     return;
                 }
+                vm.isValification = true;
+                vm.valificationButton = "正在发送...";
                 params = new URLSearchParams();
                 params.append("email",this.email);
                 axios
@@ -154,7 +156,9 @@
             },
             validationCodeFunction:function() {
                 if(this.inputCode != this.valificationCode) {
-                    this.valificationTrue =false;
+                    this.valificationTrue = false;
+                } else {
+                    this.valificationTrue = true;
                 }
 
             },
