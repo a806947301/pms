@@ -6,7 +6,10 @@ import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.need.dao.NeedDao;
 import com.dayi.demo.need.model.Need;
 import com.dayi.demo.need.service.NeedService;
+import com.dayi.demo.project.model.Project;
+import com.dayi.demo.project.service.ProjectService;
 import com.dayi.demo.user.model.User;
+import com.dayi.demo.user.service.UserService;
 import com.dayi.demo.util.WordUtil;
 import com.dayi.demo.util.ZipUtil;
 import com.github.pagehelper.PageHelper;
@@ -37,6 +40,10 @@ public class NeedServiceImpl implements NeedService {
     @Resource
     private NeedDao needDao;
 
+    @Resource
+    private UserService userService;
+
+
     /**
      * 保存转换后html文件所需的图片保存的相对路径
      */
@@ -45,18 +52,30 @@ public class NeedServiceImpl implements NeedService {
     @Override
     public String add(Need need, MultipartFile needDescriptionFile, MultipartFile needFile,
                       String realPath, User currentUser) throws SystemException {
+        //判断用户是否参与此产品
+        String productId = need.getProject().getProduct().getId();
+        String userId = currentUser.getId();
+        if (!userService.isInProduct(userId, productId)) {
+            throw new SystemException("当前用户没参与此产品");
+        }
+
+        //判断需求说明文件是否为空
         if (null == needDescriptionFile) {
             throw new SystemException("需求说明文件不能为空");
         }
+
+        //判断需求文件是否为空
         if (null == needFile) {
             throw new SystemException("需求文件不能为空");
         }
+        //添加需求提出者为当前用户
         need.setUser(currentUser);
 
         //添加Debug日志
         if (logger.isDebugEnabled()) {
             logger.debug("保存需求所需文件");
         }
+
         // 处理需求说明文件
         String descriptionFilepath = "";
         String descriptionFilename = "";

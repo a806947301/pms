@@ -11,6 +11,7 @@ import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.statistic.model.vo.ProjectBugVo;
 import com.dayi.demo.statistic.model.vo.UserBugVo;
 import com.dayi.demo.user.model.User;
+import com.dayi.demo.user.service.UserService;
 import com.dayi.demo.util.MailUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -49,8 +50,17 @@ public class BugServiceImpl implements BugService {
     @Resource
     private List<BugStatusStrategy> bugStatusStrategies;
 
+    @Resource
+    private UserService userService;
+
     @Override
     public String add(Bug bug, User currentUser) throws SystemException {
+        //判断当前用户是否参与此产品
+        String productId = bug.getProject().getProduct().getId();
+        String userId = currentUser.getId();
+        if (!userService.isInProduct(userId, productId)) {
+            throw new SystemException("您没参与此产品");
+        }
         //设置Bug
         bug.setBugStatus(Bug.Status.DESIGNATE.getValue());
         bug.setNoProcessing(false);

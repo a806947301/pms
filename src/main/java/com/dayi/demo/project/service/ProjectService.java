@@ -2,6 +2,7 @@ package com.dayi.demo.project.service;
 
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.project.model.Project;
+import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
@@ -17,10 +18,11 @@ public interface ProjectService {
      * 添加项目
      *
      * @param project
+     * @param currentUser
      * @return
      * @throws SystemException
      */
-    String add(Project project) throws SystemException;
+    String add(Project project, User currentUser) throws SystemException;
 
     /**
      * 分页查找项目
@@ -60,26 +62,29 @@ public interface ProjectService {
      * 更新项目
      *
      * @param project
+     * @param currentUser
      * @throws SystemException
      */
-    void update(Project project) throws SystemException;
+    void update(Project project, User currentUser) throws SystemException;
 
     /**
      * 更新项目完成状态
      *
      * @param project
+     * @param currentUser
      * @return
      * @throws SystemException
      */
-    void updateProjectFinished(Project project) throws SystemException;
+    void updateProjectFinished(Project project, User currentUser) throws SystemException;
 
     /**
      * 删除项目
      *
      * @param id
      * @param realPath
+     * @param currentUser
      * @throws SystemException
      */
-    void delete(String id, String realPath) throws SystemException;
+    void delete(String id, String realPath, User currentUser) throws SystemException;
 
 }

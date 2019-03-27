@@ -96,17 +96,26 @@ var vm = new Vue({
         projectId:null,
         needName:null,
         needDescription:null,
-        needName:null
+        needName:null,
+        project:null
     },
     created:function(){
         this.projectId = window.location.href.split('/')[window.location.href.split('/').length-1];
+        params = new URLSearchParams();
+        params.append("id", this.projectId);
+        axios
+            .post("/project/getProject", params)
+            .then(function (response) {
+                vm.project = response.data.obj;
+            })
     },
     methods:{
         addNeed:function () {
             var params = new window.FormData();
             params.append("needDescriptionFile",document.querySelector('#needDescriptionFile').files[0]);
             params.append("needFile",document.querySelector("#needFile").files[0]);
-            params.append("project.id",this.projectId);
+            params.append("project.id",this.project.id);
+            params.append("project.product.id",this.project.product.id);
             params.append("needDescription",this.needDescription);
             params.append("needName",this.needName);
             var options = {  // 设置axios的参数

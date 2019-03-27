@@ -135,6 +135,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> findAllByUser(String userId) {
+        return productDao.findByUser(userId);
+    }
+
+    @Override
     public void delete(String id) throws SystemException {
         //判断产品参与者是否为空
         List<User> participant = userService.findByProductId(id);
@@ -158,4 +163,5 @@ public class ProductServiceImpl implements ProductService {
             logger.info("删除产品，产品Id：{}", id);
         }
     }
+
 }

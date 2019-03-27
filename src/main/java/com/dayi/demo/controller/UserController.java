@@ -313,4 +313,17 @@ public class UserController extends BaseController {
         }
         return new Result(true, "注册成功");
     }
+
+    /**
+     * 当前用户是否参与产品
+     *
+     * @param productId
+     * @return
+     */
+    @RequestMapping("/isInProduct")
+    @ResponseBody
+    public Result isInProduct(String productId) {
+        boolean inProduct = userService.isInProduct(getCurrentUser().getId(), productId);
+        return new Result(true, "", inProduct);
+    }
 }

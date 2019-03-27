@@ -99,10 +99,19 @@ public interface ProductService {
     PageInfo<Product> findByUser(String userId, int currentPage, int pageSize);
 
     /**
+     * 查找用户参与的所有产品
+     *
+     * @param userId
+     * @return
+     */
+    List<Product> findAllByUser(String userId);
+
+    /**
      * 删除产品
      *
      * @param id
      * @throws SystemException
      */
     void delete(String id) throws SystemException;
+
 }

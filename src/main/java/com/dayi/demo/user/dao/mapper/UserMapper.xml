@@ -73,6 +73,12 @@
         user WHERE email = #{0} AND is_stopped = 0
     </select>
 
+    <!--用户是否在参与产品-->
+    <select id="isInProduct" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM product_member WHERE user_id = #{userId} AND product_id = #{productId}
+    </select>
+
+    <!--统计部门人数-->
     <select id="countDepartmentId" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM user WHERE department_id = #{0}
     </select>

@@ -144,6 +144,7 @@
                 params.append("bugTitle",vm.title);
                 params.append("bugContent",vm.content);
                 params.append("project.id",vm.projectId);
+                params.append("project.product.id",vm.productId);
                 params.append("bugProcesser.id",vm.processer);
                // window.location.href = "/bug/getBugPage/" + vm.productId + "/" + vm.projectId + "/" + "aaaa";
                 axios

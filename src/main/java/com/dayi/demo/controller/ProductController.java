@@ -195,15 +195,15 @@ public class ProductController extends BaseController {
      *
      * @return
      */
-    @RequestMapping("/findAllProduct")
+    @RequestMapping("/findAllProductByUser")
     @ResponseBody
     public Result findAllProduct() {
-        List<Product> list = productService.findAll();
+        List<Product> list = productService.findAllByUser(getCurrentUser().getId());
         return new Result(true, "", list);
     }
 
     /**
-     * 查找当前用户参与的产品
+     * 分页查找当前用户参与的产品
      *
      * @param currentPage
      * @param pageSize

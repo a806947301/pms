@@ -129,4 +129,13 @@ public interface UserService {
      * @return
      */
     int countDepartmentId(String departmentId);
+
+    /**
+     * 判断用户是否参与产品
+     *
+     * @param userId
+     * @param productId
+     * @return
+     */
+    boolean isInProduct(String userId, String productId);
 }

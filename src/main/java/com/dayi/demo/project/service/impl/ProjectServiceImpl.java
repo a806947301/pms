@@ -8,6 +8,8 @@ import com.dayi.demo.need.service.NeedService;
 import com.dayi.demo.project.service.ProjectService;
 import com.dayi.demo.project.dao.ProjectDao;
 import com.dayi.demo.project.model.Project;
+import com.dayi.demo.user.model.User;
+import com.dayi.demo.user.service.UserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.io.FileUtils;
@@ -41,8 +43,18 @@ public class ProjectServiceImpl implements ProjectService {
     @Resource
     private NeedService needService;
 
+    @Resource
+    private UserService userService;
+
     @Override
-    public String add(Project project) throws SystemException {
+    public String add(Project project, User currentUser) throws SystemException {
+        //判断当前用户是否参与产品
+        String userId = currentUser.getId();
+        String productId = project.getProduct().getId();
+        if (!userService.isInProduct(userId, productId)) {
+            throw new SystemException("当前用户没有参与此产品");
+        }
+
         //设置为未完成
         project.setFinished(false);
         //添加项目
@@ -72,11 +84,19 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void update(Project project) throws SystemException {
-        //判断是否存在产品
+    public void update(Project project, User currentUser) throws SystemException {
+        //获取老项目
         Project oldProject = get(project.getId());
+
+        //判断用户是否参与产品
+        String productId = oldProject.getProduct().getId();
+        String userId = currentUser.getId();
+        if (!userService.isInProduct(userId, productId)) {
+            throw new SystemException("当前用户没有参与此产品");
+        }
+        //判断是否存在项目
         if (null == oldProject) {
-            throw new SystemException("无此产品");
+            throw new SystemException("无此项目");
         }
 
         //更新产品
@@ -100,18 +120,28 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void updateProjectFinished(Project project) throws SystemException {
+    public void updateProjectFinished(Project project, User currentUser) throws SystemException {
         //是否有Bug没完成
         if (0 != bugService.countBugByProjectNoFinished(project.getId())) {
             throw new SystemException("项目还有Bug未完成");
         }
         //更新
-        update(project);
+        update(project, currentUser);
 
     }
 
     @Override
-    public void delete(String id, String realPath) throws SystemException {
+    public void delete(String id, String realPath, User currentUser) throws SystemException {
+        //获取老项目
+        Project oldProject = get(id);
+
+        //判断当前用户是否参与产品
+        String productId = oldProject.getProduct().getId();
+        String userId = currentUser.getId();
+        if (!userService.isInProduct(userId, productId)) {
+            throw new SystemException("您没有参与此产品");
+        }
+
         //判断项目是否有Bug
         PageInfo<Bug> bugs = bugService.findByProject(1, 1, id, null,
                 null, -1, null, null);

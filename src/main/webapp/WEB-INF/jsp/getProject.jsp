@@ -80,7 +80,7 @@
                                     <div class="col-md-2">
                                         <shiro:hasPermission name="update:project">
                                         <button class="btn btn-block btn-outline-warning" type="button"
-                                                data-toggle="modal" data-target="#updateProjectModal"
+                                                data-toggle="modal" data-target="#updateProjectModal" v-if="isInProduct"
                                                 v-on:click="beforeUpdate()">更新项目信息</button>
                                         </shiro:hasPermission>
                                     </div>
@@ -98,7 +98,7 @@
                                     </div>
                                     <div class="col-md-1">
                                         <shiro:hasPermission name="delete:project">
-                                            <button class="btn btn-block btn-outline-danger" type="button"
+                                            <button class="btn btn-block btn-outline-danger" type="button" v-if="isInProduct"
                                                     v-on:click="deleteProject()">删除项目</button>
                                         </shiro:hasPermission>
                                     </div>
@@ -121,7 +121,7 @@
                                     <div class="col-md-6"></div>
                                     <div class="col-md-4">
                                         <shiro:hasPermission name="add:need">
-                                        <button class="btn btn-outline-primary" type="button"
+                                        <button class="btn btn-outline-primary" type="button" v-if="vm.isInProduct"
                                                 v-on:click="addNeed()">
                                             添加需求
                                         </button>
@@ -172,7 +172,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <shiro:hasPermission name="add:bug">
-                                        <button class="btn btn-outline-primary" type="button"
+                                        <button class="btn btn-outline-primary" type="button" v-if="vm.isInProduct"
                                             v-on:click="addBug()">
                                             添加Bug
                                         </button>
@@ -436,6 +436,7 @@
         el:"#getProduct",
         data:{
             projectId:null,
+            isInProduct:null,
             project:{
                 product:{productName:null}
             },
@@ -456,9 +457,16 @@
                 .then(function (response) {
                     vm.project = response.data.obj;
                     bugVm.productId = vm.productId;
+                    params = new URLSearchParams();
+                    params.append("productId",vm.project.product.id)
+                    axios
+                        .post("/user/isInProduct", params)
+                        .then(function (response) {
+                            vm.isInProduct = response.data.obj;
+                        })
                 });
             axios
-                .post("/product/findAllProduct")
+                .post("/product/findAllProductByUser")
                 .then(function (response) {
                     vm.products = response.data.obj;
                     vm.productId = vm.products[0].id;

@@ -116,7 +116,7 @@
         },
         created:function(){
             axios
-                .post("/product/findAllProduct")
+                .post("/product/findAllProductByUser")
                 .then(function (response) {
                     vm.products = response.data.obj;
                     vm.productId = vm.products[0].id;

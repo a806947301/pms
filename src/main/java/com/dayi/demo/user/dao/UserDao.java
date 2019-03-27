@@ -102,4 +102,12 @@ public interface UserDao {
      */
     int countDepartmentId(String departmentId);
 
+    /**
+     * 用户是否参与产品
+     *
+     * @param userId
+     * @param productId
+     * @return
+     */
+    boolean isInProduct(@Param("userId") String userId, @Param("productId") String productId);
 }

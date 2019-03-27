@@ -57,7 +57,7 @@ public class ProjectController extends BaseController {
         //添加项目
         String projectId = null;
         try {
-            projectId = projectService.add(project);
+            projectId = projectService.add(project, getCurrentUser());
         } catch (SystemException e) {
             return new Result(false, e.getMessage());
         }
@@ -146,7 +146,7 @@ public class ProjectController extends BaseController {
 
         // 更新项目
         try {
-            projectService.update(project);
+            projectService.update(project, getCurrentUser());
         } catch (SystemException e) {
             return new Result(false, e.getMessage());
         }
@@ -170,7 +170,7 @@ public class ProjectController extends BaseController {
 
         //更新项目状态
         try {
-            projectService.updateProjectFinished(project);
+            projectService.updateProjectFinished(project, getCurrentUser());
         } catch (SystemException e) {
             return new Result(false, e.getMessage());
         }
@@ -179,7 +179,7 @@ public class ProjectController extends BaseController {
 
     /**
      * 删除项目
-     * 
+     *
      * @param projectId
      * @param request
      * @return
@@ -196,7 +196,7 @@ public class ProjectController extends BaseController {
         //删除项目
         String realPath = request.getSession().getServletContext().getRealPath("/imgs/" + projectId);
         try {
-            projectService.delete(projectId, realPath);
+            projectService.delete(projectId, realPath, getCurrentUser());
         } catch (SystemException e) {
             return new Result(false, e.getMessage());
         }

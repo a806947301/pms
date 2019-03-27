@@ -175,4 +175,9 @@ public class UserServiceImpl implements UserService {
         String result = new SimpleHash("MD5", user.getPassword(), source, 2).toHex();
         return result;
     }
+
+    @Override
+    public boolean isInProduct(String userId, String productId) {
+        return userDao.isInProduct(userId, productId);
+    }
 }
