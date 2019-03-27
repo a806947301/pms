@@ -56,7 +56,10 @@ public class BugRecordAspect {
                 try {
                     statusStrategy.sendEmail(bug);
                 } catch (MessagingException e) {
-                    logger.error(bug.toString() + "_" + e.getMessage(), e);
+                    //添加错误日志
+                    if (logger.isErrorEnabled()) {
+                        logger.error(bug.toString() + "_" + e.getMessage(), e);
+                    }
                 }
             }
         });

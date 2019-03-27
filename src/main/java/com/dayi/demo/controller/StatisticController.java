@@ -94,7 +94,10 @@ public class StatisticController extends BaseController {
         try {
             productStatisticService.exportExcelProduct(response.getOutputStream());
         } catch (IOException e) {
-            logger.error(response.toString() + "_" + e.getMessage(), e);
+            //添加错误日志
+            if (logger.isErrorEnabled()) {
+                logger.error(response.toString() + "_" + e.getMessage(), e);
+            }
         }
 
     }
@@ -139,7 +142,10 @@ public class StatisticController extends BaseController {
         try {
             userStatisticService.exportExcelDeveloper(response.getOutputStream());
         } catch (IOException e) {
-            logger.error(response + "_" + e.getMessage(), e);
+            //添加错误日志
+            if (logger.isErrorEnabled()) {
+                logger.error(response + "_" + e.getMessage(), e);
+            }
         }
     }
 
@@ -183,7 +189,10 @@ public class StatisticController extends BaseController {
         try {
             userStatisticService.exportExcelTester(response.getOutputStream());
         } catch (IOException e) {
-            logger.error(response + "_" + e.getMessage(), e);
+            //添加错误日志
+            if (logger.isErrorEnabled()) {
+                logger.error(response + "_" + e.getMessage(), e);
+            }
         }
     }
 }

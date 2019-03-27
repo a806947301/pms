@@ -51,7 +51,6 @@ public class BugServiceImpl implements BugService {
 
     @Override
     public String add(Bug bug, User currentUser) throws SystemException {
-        logger.info("添加Bug，Bug Id：{}", bug.getId());
         //设置Bug
         bug.setBugStatus(Bug.Status.DESIGNATE.getValue());
         bug.setNoProcessing(false);
@@ -60,6 +59,11 @@ public class BugServiceImpl implements BugService {
         int countAdd = bugDao.add(bug);
         //添加成功
         if (countAdd != 0) {
+            //添加日志
+            if (logger.isInfoEnabled()) {
+                logger.info("添加Bug，Bug Id：{}", bug.getId());
+            }
+
             // 更新Bug状态
             BugService currentProxy = (BugService)AopContext.currentProxy();
             currentProxy.updateStatus(bug, currentUser);
@@ -86,7 +90,11 @@ public class BugServiceImpl implements BugService {
            String imgSrc = "/imgs/" + projectId + "/" + filename;
             result.put("file_path", imgSrc);
         } catch (Exception e) {
-            logger.error(imgFile + "_" + e.getMessage(), e);
+            //添加错误日志
+            if (logger.isErrorEnabled()) {
+                logger.error(imgFile + "_" + e.getMessage(), e);
+            }
+
             result.put("success", "false");
         }
         return result;
@@ -121,8 +129,11 @@ public class BugServiceImpl implements BugService {
             throw new SystemException("更新失败，没有该策略");
         }
 
+        //添加Debug日志
+        if (logger.isDebugEnabled()) {
+            logger.debug("更新Bug状态，获取到更新策略：{}", strategy.getClass().getName());
+        }
         //获取更新的Bug
-        logger.debug("更新Bug状态，获取到更新策略：{}", strategy.getClass().getName());
         Bug oldBug = get(bug.getId());
         Bug updateBug = strategy.update(bug, oldBug, currentUser);
 
@@ -239,8 +250,6 @@ public class BugServiceImpl implements BugService {
         if (!isProposer) {
             throw new SystemException("您不是Bug提出者");
         }
-
-        logger.info("删除Bug，Bug ID：{}", bugId);
         //删除Bug说明
         bugDescriptionDao.deleteByBugId(bugId);
         //删除Bug记录
@@ -249,6 +258,11 @@ public class BugServiceImpl implements BugService {
         int countDelete = bugDao.delete(bugId);
         if (0 == countDelete) {
             throw new SystemException("操作失败");
+        }
+
+        //添加日志
+        if (logger.isInfoEnabled()) {
+            logger.info("删除Bug，Bug ID：{}", bugId);
         }
     }
 

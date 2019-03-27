@@ -43,10 +43,16 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public String add(Project project) throws SystemException {
-        logger.info("添加项目，项目Id:{}", project.getId());
+        //设置为未完成
         project.setFinished(false);
+        //添加项目
         int countAdd = projectDao.add(project);
         if (countAdd != 0) {
+            //添加日志
+            if (logger.isInfoEnabled()) {
+                logger.info("添加项目，项目Id:{}", project.getId());
+            }
+
             return project.getId();
         }
         throw new SystemException("操作失败");
@@ -120,7 +126,6 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         //删除项目
-        logger.info("删除项目，项目Id：{}", id);
         int countDelete = projectDao.delete(id);
         if (0 == countDelete) {
             throw new SystemException("删除失败");
@@ -129,5 +134,9 @@ public class ProjectServiceImpl implements ProjectService {
         //删除项目文件
         FileUtils.deleteQuietly(new File(realPath));
 
+        //添加日志
+        if (logger.isInfoEnabled()) {
+            logger.info("删除项目，项目Id：{}", id);
+        }
     }
 }

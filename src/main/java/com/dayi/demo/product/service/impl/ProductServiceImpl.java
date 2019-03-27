@@ -45,13 +45,17 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public String add(Product product, String[] participators) throws SystemException{
         // 添加产品
-        logger.info("添加产品，产品ID：{}", product.getId());
         int countAdd = productDao.add(product);
 
         // 判断产品是否添加成功
         if (countAdd != 0) {
             //  添加产品成员
             addParticipator(product.getId(), participators);
+
+            //添加日志
+            if (logger.isInfoEnabled()) {
+                logger.info("添加产品，产品ID：{}", product.getId());
+            }
             return product.getId();
         }
         throw new SystemException("操作失败");
@@ -144,10 +148,14 @@ public class ProductServiceImpl implements ProductService {
         }
 
         //删除产品
-        logger.info("删除产品，产品Id：{}", id);
         int countDelete = productDao.delete(id);
         if (0 == countDelete) {
             throw new SystemException("删除失败");
+        }
+
+        //添加日志
+        if (logger.isInfoEnabled()) {
+            logger.info("删除产品，产品Id：{}", id);
         }
     }
 }

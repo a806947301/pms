@@ -41,7 +41,11 @@ public class GlobalExceptionResolver{
     @ExceptionHandler(DataAccessException.class)
     @ResponseBody
     public Result sqlException(Exception e) {
-        logger.error(e.getMessage(), e);
+        //添加错误日志
+        if (logger.isErrorEnabled()) {
+            logger.error(e.getMessage(), e);
+        }
+
         return new Result(false, "数据库出现异常");
     }
 
@@ -63,7 +67,11 @@ public class GlobalExceptionResolver{
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public Result otherException(Exception e) {
-        logger.error(e.getMessage(), e);
+        //添加错误日志
+        if (logger.isErrorEnabled()) {
+            logger.error(e.getMessage(), e);
+        }
+
         return new Result(false, "系统出现异常");
     }
 }

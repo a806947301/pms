@@ -53,8 +53,11 @@ public class NeedServiceImpl implements NeedService {
         }
         need.setUser(currentUser);
 
+        //添加Debug日志
+        if (logger.isDebugEnabled()) {
+            logger.debug("保存需求所需文件");
+        }
         // 处理需求说明文件
-        logger.debug("保存需求所需文件");
         String descriptionFilepath = "";
         String descriptionFilename = "";
         if (null != needDescriptionFile) {
@@ -74,8 +77,11 @@ public class NeedServiceImpl implements NeedService {
         need.setNeedFilepath(needFilepath);
         need.setNeedFilename(needFilename);
 
+        //添加Debug日志
+        if (logger.isDebugEnabled()) {
+            logger.debug("保存需求到数据库");
+        }
         //保存需求
-        logger.debug("保存需求到数据库");
         int countAdd = needDao.add(need);
         if (0 != countAdd) {
             return need.getId();
@@ -105,7 +111,11 @@ public class NeedServiceImpl implements NeedService {
         try {
             file.transferTo(saveFile);
         } catch (Exception e) {
-            logger.error(saveFile.toString() + "_" + e.getMessage(), e);
+            //添加错误日志
+            if (logger.isErrorEnabled()) {
+                logger.error(saveFile.toString() + "_" + e.getMessage(), e);
+            }
+
             throw new SystemException("文件保存失败");
         }
         if (isNeedFile) {
@@ -146,8 +156,11 @@ public class NeedServiceImpl implements NeedService {
             throw new SystemException("您不是需求提出者");
         }
 
+        //添加Debug日志
+        if (logger.isDebugEnabled()) {
+            logger.debug("删除需求，id：{}", id);
+        }
         //删除需求文件
-        logger.debug("删除需求，id：{}", id);
         String needFilePath = realPath + "/" + id;
         FileUtils.deleteQuietly(new File(needFilePath));
         //删除需求
