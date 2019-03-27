@@ -46,8 +46,8 @@ public interface ProductService {
     /**
      * 添加产品组成员
      *
-     * @param id
-     * @param newParticipator
+     * @param id    产品id
+     * @param newParticipator   产品成员id数组
      * @return
      * @throws SystemException
      */
@@ -66,9 +66,9 @@ public interface ProductService {
     /**
      * 添加产品参与者
      *
-     * @param entity
+     * @param entity    BaseEntity实例，用于AOP注入id、addTime、updateTime
      * @param productId
-     * @param participatorId
+     * @param participatorId    用户id
      * @return
      */
     public int addParticipator(BaseEntity entity, String productId, String participatorId);
