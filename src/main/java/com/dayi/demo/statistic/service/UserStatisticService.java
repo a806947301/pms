@@ -18,13 +18,13 @@ public interface UserStatisticService {
      * 统计开发人员，并以Json形式返回
      * @return
      */
-    List<UserBugDto> doStatisicDeveloper();
+    List<UserBugDto> doStatisticDeveloper();
 
     /**
      * 统计测试人员，并以Json形式返回
      * @return
      */
-    List<UserBugDto> doStatisicTester();
+    List<UserBugDto> doStatisticTester();
 
     /**
      * 开发人员统计Json导出Excel

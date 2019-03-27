@@ -121,7 +121,7 @@ public class StatisticController extends BaseController {
     @ResponseBody
     @RequiresPermissions("developer:statistic")
     public Result developerStatistic() {
-        List<UserBugDto> list = userStatisticService.doStatisicDeveloper();
+        List<UserBugDto> list = userStatisticService.doStatisticDeveloper();
         return new Result(true, "", list);
     }
 
@@ -168,7 +168,7 @@ public class StatisticController extends BaseController {
     @ResponseBody
     @RequiresPermissions("test:statistic")
     public Result testerStatistic() {
-        List<UserBugDto> list = userStatisticService.doStatisicTester();
+        List<UserBugDto> list = userStatisticService.doStatisticTester();
         return new Result(true, "", list);
     }
 

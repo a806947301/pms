@@ -49,7 +49,7 @@ public class UserStatisticServiceImpl implements UserStatisticService {
     private static final String TESTER_NAME = "测试人员";
 
     @Override
-    public List<UserBugDto> doStatisicDeveloper() {
+    public List<UserBugDto> doStatisticDeveloper() {
         //获取开发人员角色
         Role role = roleService.getRoleByRoleName(DEVELOPER_NAME);
         //获取所有开发人员
@@ -60,7 +60,7 @@ public class UserStatisticServiceImpl implements UserStatisticService {
     }
 
     @Override
-    public List<UserBugDto> doStatisicTester() {
+    public List<UserBugDto> doStatisticTester() {
         //获取测试人员角色
         Role role = roleService.getRoleByRoleName(TESTER_NAME);
         //获取所有测试人员
@@ -73,13 +73,13 @@ public class UserStatisticServiceImpl implements UserStatisticService {
 
     @Override
     public void exportExcelDeveloper(OutputStream out) throws IOException {
-        List<UserBugDto> developers = doStatisicDeveloper();
+        List<UserBugDto> developers = doStatisticDeveloper();
         doExportExcelUser(developers, out);
     }
 
     @Override
     public void exportExcelTester(OutputStream out) throws IOException {
-        List<UserBugDto> testers = doStatisicTester();
+        List<UserBugDto> testers = doStatisticTester();
         doExportExcelUser(testers,out);
     }
 
