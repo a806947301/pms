@@ -14,6 +14,7 @@ public interface BugDescriptionDao {
 
     /**
      * 添加Bug说明
+     *
      * @param bugDescription
      * @return
      */
@@ -21,6 +22,7 @@ public interface BugDescriptionDao {
 
     /**
      * 查找指定Bug的Bug说明
+     *
      * @param bugId
      * @return
      */

@@ -16,11 +16,13 @@
         SELECT id, addtime, updatetime, bug_id, operation_number, operation_user_id, operation_user_id, user_id FROM
     </sql>
 
+    <!--根据Bug Id查找Bug记录-->
     <select id="findBugOperatingRecordByBugId" resultMap="bugOperatingRecordResultMap">
         <include refid="selectAllColumnBugOperatingRecord"/>
         bug_operating_record WHERE bug_id = #{bugId} ORDER BY addtime
     </select>
 
+    <!--添加Bug记录-->
     <insert id="addBugOperatingRecord">
         INSERT INTO bug_operating_record (id, addtime, updatetime, user_id, operation_number, bug_id, operation_user_id)
         VALUES (#{id}, #{addTime}, #{updateTime}, #{user.id}, #{operationNumber}, #{bugId}, #{operationUser.id})

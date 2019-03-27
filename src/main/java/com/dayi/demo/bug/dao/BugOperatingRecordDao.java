@@ -14,6 +14,7 @@ public interface BugOperatingRecordDao {
 
     /**
      * 添加Bug操作记录
+     *
      * @param record
      * @return
      */
@@ -21,6 +22,7 @@ public interface BugOperatingRecordDao {
 
     /**
      * 查找指定Bug的Bug操作记录
+     *
      * @param bugId
      * @return
      */

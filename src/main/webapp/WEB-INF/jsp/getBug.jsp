@@ -586,7 +586,7 @@
                 this.projectId = vm.projectId;
                 this.productId = vm.productId;
                 params = new URLSearchParams();
-                params.append("rolename","开发人员");
+                params.append("roleName","开发人员");
                 axios
                     .post("/role/getRoleByRoleName",params)
                     .then(function (response) {

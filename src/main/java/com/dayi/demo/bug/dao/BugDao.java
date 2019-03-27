@@ -17,6 +17,7 @@ import java.util.List;
 public interface BugDao {
     /**
      * 添加Bug
+     *
      * @param bug
      * @return
      */
@@ -24,24 +25,26 @@ public interface BugDao {
 
     /**
      * 根据条件查找Bug
-     * @param projectId 项目id，null为不筛选
-     * @param begin 开始时间，null为不筛选
-     * @param end   结束时间，null为不筛选
-     * @param status    状态，-1为不筛选
-     * @param processerId   Bug处理者，null为不筛选
-     * @param proposerId    Bug提出者，null为不筛选
+     *
+     * @param projectId   项目id，null为不筛选
+     * @param begin       开始时间，null为不筛选
+     * @param end         结束时间，null为不筛选
+     * @param status      状态，-1为不筛选
+     * @param processerId Bug处理者，null为不筛选
+     * @param proposerId  Bug提出者，null为不筛选
      * @return
      */
     List<Bug> findByProject(@Param("projectId") String projectId,
-                               @Param("begin") Date begin,
-                               @Param("end") Date end,
-                               @Param("status") int status,
-                               @Param("processerId") String processerId,
-                               @Param("proposerId") String proposerId);
+                            @Param("begin") Date begin,
+                            @Param("end") Date end,
+                            @Param("status") int status,
+                            @Param("processerId") String processerId,
+                            @Param("proposerId") String proposerId);
 
     /**
      * 获取指定Bug
-     * @param id    Bug Id
+     *
+     * @param id Bug Id
      * @return
      */
     Bug get(String id);
@@ -56,24 +59,28 @@ public interface BugDao {
 
     /**
      * 统计每个项目Id对应的Bug数
+     *
      * @return
      */
     List<ProjectBugVo> countBugByProject();
 
     /**
      * 统计每个Bug处理者对应的Bug情况
+     *
      * @return
      */
     List<UserBugVo> countBugByProcesser();
 
     /**
      * 统计每个Bug提出者对应的Bug情况
+     *
      * @return
      */
     List<UserBugVo> countBugByProposer();
 
     /**
      * 统计项目下未完成Bug的数量
+     *
      * @param projectId
      * @return
      */

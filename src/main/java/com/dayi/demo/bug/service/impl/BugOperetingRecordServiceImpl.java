@@ -26,9 +26,6 @@ public class BugOperetingRecordServiceImpl implements BugOperatingRecordService 
     @Resource
     private BugOperatingRecordDao bugOperatingRecordDao;
 
-    @Resource
-    private UserService userService;
-
     @Override
     public PageInfo<BugOperatingRecord> findByBugId(String bugId, int currentPage, int pageSize) {
         PageHelper.startPage(currentPage, pageSize);

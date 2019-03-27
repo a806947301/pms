@@ -69,7 +69,7 @@ public interface BugService {
      *
      * @param bug
      * @param currentUser
-     * @return
+     * @return  返回更新后的Bug
      * @throws SystemException
      */
     Bug updateStatus(Bug bug, User currentUser) throws SystemException;
@@ -79,7 +79,6 @@ public interface BugService {
      *
      * @param bugDescription
      * @param currentUser
-     * @return
      * @throws SystemException
      */
     void addBugDescription(BugDescription bugDescription, User currentUser) throws SystemException;
@@ -97,14 +96,14 @@ public interface BugService {
     /**
      * 统计所有项目下的Bug量
      *
-     * @return
+     * @return  返回<项目Id：项目Bug Vo>对应map
      */
     Map<String, ProjectBugVo> countBugByProject();
 
     /**
      * 统计每个开发的Bug量
      *
-     * @return
+     * @return  返回<用户Id：用户Bug Vo>对应map
      */
     Map<String, UserBugVo> countBugByProcesser();
 
@@ -119,7 +118,7 @@ public interface BugService {
      * 统计项目下未完成Bug的数量
      *
      * @param projectId
-     * @return
+     * @return  返回没完成的Bug数
      */
     int countBugByProjectNoFinished(String projectId);
 
@@ -138,7 +137,7 @@ public interface BugService {
      *
      * @param bug
      * @param currentUser
-     * @return
+     * @return  返回更新行数
      * @throws SystemException
      */
     int update(Bug bug, User currentUser) throws SystemException;

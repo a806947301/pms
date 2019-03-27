@@ -116,7 +116,7 @@
             this.projectId = window.location.href.split('/')[window.location.href.split('/').length-1];
             this.productId = window.location.href.split('/')[window.location.href.split('/').length-2];
             params1 = new URLSearchParams();
-            params1.append("rolename","开发人员");
+            params1.append("roleName","开发人员");
             axios
                 .post("/role/getRoleByRoleName",params1)
                 .then(function (response) {

@@ -61,13 +61,15 @@ public class BugServiceImpl implements BugService {
         if (!userService.isInProduct(userId, productId)) {
             throw new SystemException("您没参与此产品");
         }
+
         //设置Bug
         bug.setBugStatus(Bug.Status.DESIGNATE.getValue());
         bug.setNoProcessing(false);
         bug.setBugProposer(currentUser);
+
         //添加Bug
         int countAdd = bugDao.add(bug);
-        //添加成功
+        //如果添加成功
         if (countAdd != 0) {
             //添加日志
             if (logger.isInfoEnabled()) {
@@ -90,9 +92,11 @@ public class BugServiceImpl implements BugService {
         if (!imgFilePath.exists()) {
             imgFilePath.mkdirs();
         }
+        //重命名文件名
         String filename = UUID.randomUUID().toString() + file.getOriginalFilename();
         File imgFile = null;
         try {
+            //保存图片
             imgFile = new File(imgFilePath, filename);
             file.transferTo(imgFile);
             result.put("success", "true");
@@ -104,7 +108,6 @@ public class BugServiceImpl implements BugService {
             if (logger.isErrorEnabled()) {
                 logger.error(imgFile + "_" + e.getMessage(), e);
             }
-
             result.put("success", "false");
         }
         return result;
@@ -160,12 +163,15 @@ public class BugServiceImpl implements BugService {
 
     @Override
     public void addBugDescription(BugDescription bugDescription, User currentUser) throws SystemException {
+        //拼接Bug表要更新字段
         Bug bug = new Bug();
+        //设置Bug id 为添加说明的Bugid
         bug.setId(bugDescription.getBugId());
+        //设置Bug状态为验收
         bug.setBugStatus(Bug.Status.CHECKING.getValue());
 
         //更新Bug状态
-        BugService currentProxy = (BugService)AopContext.currentProxy();
+        BugService currentProxy = (BugService) AopContext.currentProxy();
         currentProxy.updateStatus(bug, currentUser);
 
         // 添加Bug说明
@@ -205,7 +211,7 @@ public class BugServiceImpl implements BugService {
     @Override
     public Map<String, ProjectBugVo> countBugByProject() {
         HashMap<String, ProjectBugVo> result = new LinkedHashMap<String, ProjectBugVo>(32);
-        // 多个产品Map封装成一个map
+        // 把项目Vo List 封装成 <项目Id：项目 Vo>对应的HashMap
         List<ProjectBugVo> list = bugDao.countBugByProject();
         for (ProjectBugVo vo : list) {
             result.put(vo.getProjectId(), vo);
@@ -216,7 +222,7 @@ public class BugServiceImpl implements BugService {
     @Override
     public Map<String, UserBugVo> countBugByProcesser() {
         HashMap<String, UserBugVo> result = new LinkedHashMap<String, UserBugVo>(32);
-        // 把id、vo封装到hashMap上
+        // 把用户Vo List 封装成 <用户Id：用户Bug Vo>对应的HashMap
         List<UserBugVo> userBugVos = bugDao.countBugByProcesser();
         for (UserBugVo user : userBugVos) {
             result.put(user.getUserId(), user);
@@ -227,7 +233,7 @@ public class BugServiceImpl implements BugService {
     @Override
     public Map<String, UserBugVo> countBugByProposer() {
         HashMap<String, UserBugVo> result = new LinkedHashMap<String, UserBugVo>(32);
-        // 把id、vo封装到hashMap上
+        // 把用户Vo List 封装成 <用户Id：用户Bug Vo>对应的HashMap
         List<UserBugVo> userBugVos = bugDao.countBugByProposer();
         for (UserBugVo user : userBugVos) {
             result.put(user.getUserId(), user);
@@ -255,11 +261,13 @@ public class BugServiceImpl implements BugService {
         if (null == bug) {
             throw new SystemException("不存在Bug");
         }
-        boolean isProposer = currentUser.getId().equals(bug.getBugProposer().getId());
+
         //判断是否本人
+        boolean isProposer = currentUser.getId().equals(bug.getBugProposer().getId());
         if (!isProposer) {
             throw new SystemException("您不是Bug提出者");
         }
+
         //删除Bug说明
         bugDescriptionDao.deleteByBugId(bugId);
         //删除Bug记录
