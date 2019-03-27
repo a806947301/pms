@@ -147,7 +147,7 @@
             axios
                 .post("/user/loginLogByUser",params)
                 .then(function (response) {
-                    vm.logs =  response.data ;
+                    vm.logs =  response.data.obj;
 
                 })
         },
@@ -170,7 +170,7 @@
                 axios
                     .post("/user/loginLogByUser",params)
                     .then(function (response) {
-                        vm.logs =  response.data ;
+                        vm.logs =  response.data.obj ;
                     })
             },
 

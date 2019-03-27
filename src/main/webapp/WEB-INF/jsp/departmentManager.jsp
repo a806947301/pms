@@ -323,7 +323,7 @@
             axios
                 .post("/department/findDepartment",params)
                 .then(function (response) {
-                   vm.departments = response.data;
+                   vm.departments = response.data.obj;
 
                 })
         },
@@ -342,7 +342,7 @@
                 axios
                     .post("/department/findDepartment",params)
                     .then(function (response) {
-                        vm.departments = response.data;
+                        vm.departments = response.data.obj;
                     })
             },
             beforeUpdate:function(id,departmentName)

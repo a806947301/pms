@@ -6,7 +6,7 @@ import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.product.service.ProductService;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.product.model.Product;
-import com.dayi.demo.util.JsonUtil;
+import com.dayi.demo.util.Result;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
@@ -48,10 +48,10 @@ public class ProductController extends BaseController {
     @RequestMapping("/addProduct")
     @ResponseBody
     @RequiresPermissions("add:product")
-    public JSONObject addProduct(Product product, String[] participator) {
+    public Result addProduct(Product product, String[] participator) {
         //判断是否有空
         if (Product.hasEmpty(product, false)) {
-            return JsonUtil.packageJson(false, "", "字段必须非空");
+            return new Result(false, "字段必须不为空");
         }
 
         //添加产品
@@ -59,9 +59,9 @@ public class ProductController extends BaseController {
         try {
             productId = productService.add(product, participator);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, productId, "");
+        return new Result(true, productId);
     }
 
     /**
@@ -83,8 +83,9 @@ public class ProductController extends BaseController {
     @RequestMapping("/findProduct")
     @ResponseBody
     @RequiresPermissions("select:product")
-    public PageInfo<Product> findProduct(int currentPage, int pageSize) {
-        return productService.findByPage(currentPage, pageSize);
+    public Result findProduct(int currentPage, int pageSize) {
+        PageInfo<Product> pageInfo = productService.findByPage(currentPage, pageSize);
+        return new Result(true, "", pageInfo);
     }
 
     /**
@@ -99,18 +100,6 @@ public class ProductController extends BaseController {
     }
 
     /**
-     * 获取产品组成员
-     *
-     * @param id 产品id
-     * @return
-     */
-    @RequestMapping("/getProductParticipator")
-    @ResponseBody
-    public List<User> getProductParticipator(String id) {
-        return productService.getParticipator(id);
-    }
-
-    /**
      * 获取产品信息
      *
      * @param id
@@ -119,8 +108,9 @@ public class ProductController extends BaseController {
     @RequestMapping("/getProduct")
     @ResponseBody
     @RequiresPermissions("select:product")
-    public Product getProduct(String id) {
-        return productService.get(id);
+    public Result getProduct(String id) {
+        Product product = productService.get(id);
+        return new Result(true, "", product);
     }
 
     /**
@@ -133,19 +123,19 @@ public class ProductController extends BaseController {
     @RequestMapping("/addProductParticipator")
     @ResponseBody
     @RequiresPermissions("addUser:product")
-    public JSONObject addProductParticipator(String id, String[] newParticipator) {
+    public Result addProductParticipator(String id, String[] newParticipator) {
         //判断非空
         if (null == id || "".equals(id)) {
-            return JsonUtil.packageJson(false, "", "id不能为空");
+            return new Result(false, "字段必须不为空");
         }
 
         //添加参与者
         try {
             productService.addParticipator(id, newParticipator);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "添加成功", "");
+        return new Result(true, "添加成功");
     }
 
     /**
@@ -158,22 +148,22 @@ public class ProductController extends BaseController {
     @RequestMapping("/deleteProductParticipator")
     @ResponseBody
     @RequiresPermissions("addUser:product")
-    public JSONObject deleteProductParticipator(String productId, String userId) {
+    public Result deleteProductParticipator(String productId, String userId) {
         //判断非空
         if (null == productId || "".equals(productId)) {
-            return JsonUtil.packageJson(false, "", "产品不能为空");
+            return new Result(false, "产品不能为空");
         }
         if (null == userId || "".equals(userId)) {
-            return JsonUtil.packageJson(false, "", "用户不能为空");
+            return new Result(false, "用户不能为空");
         }
 
         //删除产品成员
         try {
             productService.deleteParticipator(productId, userId);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "删除成员成功", "");
+        return new Result(true, "删除成员成功");
     }
 
     /**
@@ -185,19 +175,19 @@ public class ProductController extends BaseController {
     @RequestMapping("/updateProduct")
     @ResponseBody
     @RequiresPermissions("update:product")
-    public JSONObject updateProduct(Product product) {
+    public Result updateProduct(Product product) {
         //判断非空
         if (Product.hasEmpty(product, true)) {
-            return JsonUtil.packageJson(false, "", "字段必须非空");
+            return new Result(false, "字段必须不为空");
         }
 
         //更新产品
         try {
             productService.update(product);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "更新产品成功", "");
+        return new Result(true, "更新产品成功");
     }
 
     /**
@@ -207,8 +197,9 @@ public class ProductController extends BaseController {
      */
     @RequestMapping("/findAllProduct")
     @ResponseBody
-    public List<Product> findAllProduct() {
-        return productService.findAll();
+    public Result findAllProduct() {
+        List<Product> list = productService.findAll();
+        return new Result(true, "", list);
     }
 
     /**
@@ -220,9 +211,10 @@ public class ProductController extends BaseController {
      */
     @RequestMapping("/findProductByCurrentUser")
     @ResponseBody
-    public PageInfo<Product> findProductByCurrentUser(int currentPage, int pageSize) {
+    public Result findProductByCurrentUser(int currentPage, int pageSize) {
         User user = getCurrentUser();
-        return productService.findByUser(user.getId(), currentPage, pageSize);
+        PageInfo<Product> pageInfo = productService.findByUser(user.getId(), currentPage, pageSize);
+        return new Result(true, "", pageInfo);
     }
 
     /**
@@ -234,18 +226,18 @@ public class ProductController extends BaseController {
     @RequestMapping("/deleteProduct")
     @ResponseBody
     @RequiresPermissions("delete:product")
-    public JSONObject deleteProduct(String productId) {
+    public Result deleteProduct(String productId) {
         //判断非空
         if (null == productId || "".equals(productId)) {
-            return JsonUtil.packageJson(false, "", "产品Id不能为空");
+            return new Result(false, "产品Id不能为空");
         }
 
         //删除产品
         try {
             productService.delete(productId);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "删除产品成功", "");
+        return new Result(true, "删除产品成功");
     }
 }

@@ -6,7 +6,7 @@ import com.dayi.demo.common.controller.BaseController;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.Permission;
 import com.dayi.demo.user.service.PermissionService;
-import com.dayi.demo.util.JsonUtil;
+import com.dayi.demo.util.Result;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -49,19 +49,19 @@ public class PermissionController extends BaseController {
     @RequestMapping("/addPermission")
     @ResponseBody
     @RequiresPermissions("add:permission")
-    public JSONObject addPermission(Permission permission) {
+    public Result addPermission(Permission permission) {
         //判断是否有空字段
         if (Permission.hasEmpty(permission, false)) {
-            return JsonUtil.packageJson(false, "", "有字段为空");
+            return new Result(false, "字段不能为空");
         }
 
         //添加权限
         try {
             permissionService.add(permission);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "添加权限成功", "");
+        return new Result(true, "添加权限成功");
     }
 
     /**
@@ -73,8 +73,9 @@ public class PermissionController extends BaseController {
     @RequestMapping("/findPermission")
     @ResponseBody
     @RequiresPermissions("select:permission")
-    public PageInfo<Permission> findPermission(int currentPage) {
-        return permissionService.findByPage(currentPage, 5);
+    public Result findPermission(int currentPage, int pageSize) {
+        PageInfo<Permission> pageInfo = permissionService.findByPage(currentPage, pageSize);
+        return new Result(true, "", pageInfo);
     }
 
     /**
@@ -84,9 +85,9 @@ public class PermissionController extends BaseController {
      */
     @RequestMapping("/findPermissionMenu")
     @ResponseBody
-    public List<Permission> findPermissionMenu() {
+    public Result findPermissionMenu() {
         List<Permission> list = permissionService.findPermissionMenu();
-        return list;
+        return new Result(true, "", list);
     }
 
     /**
@@ -98,19 +99,19 @@ public class PermissionController extends BaseController {
     @RequestMapping("/updatePermission")
     @ResponseBody
     @RequiresPermissions("update:permission")
-    public JSONObject updatePermission(Permission permission) {
+    public Result updatePermission(Permission permission) {
         //判断非空
         if (Permission.hasEmpty(permission, true)) {
-            return JsonUtil.packageJson(false, "", "有字段为空");
+            return new Result(false, "字段不能为空");
         }
 
         //更新权限
         try {
             permissionService.update(permission);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "更新权限成功", "");
+        return new Result(true, "更新权限成功");
     }
 
     /**
@@ -121,8 +122,9 @@ public class PermissionController extends BaseController {
      */
     @RequestMapping("/permissionTree")
     @ResponseBody
-    public JSONArray permissionTree(String roleId) {
-        return permissionService.doPermissionTree(roleId);
+    public Result permissionTree(String roleId) {
+        JSONArray tree = permissionService.doPermissionTree(roleId);
+        return new Result(true, "", tree);
     }
 
     /**
@@ -135,15 +137,15 @@ public class PermissionController extends BaseController {
     @RequestMapping("/authorization")
     @ResponseBody
     @RequiresPermissions("grant:permission")
-    public JSONObject authorization(String roleId, String[] permissions) {
+    public Result authorization(String roleId, String[] permissions) {
         //判断非空
         if (null == roleId || "".equals(roleId)) {
-            return JsonUtil.packageJson(false, "", "授权失败");
+            return new Result(false, "授权失败");
         }
 
         //授权
         permissionService.doAuthorization(roleId, permissions);
-        return JsonUtil.packageJson(true, "授权成功", "");
+        return new Result(true, "授权成功");
     }
 
     /**
@@ -155,31 +157,19 @@ public class PermissionController extends BaseController {
     @RequestMapping("/deletePermission")
     @ResponseBody
     @RequiresPermissions("delete:permission")
-    public JSONObject deletePermission(String id) {
+    public Result deletePermission(String id) {
         //判断非空
         if (null == id || "".equals(id)) {
-            return JsonUtil.packageJson(false, "", "id不能为空");
+            return new Result(false, "id不能为空");
         }
 
         //删除权限
         try {
             permissionService.delete(id);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "删除权限成功", "");
-    }
-
-    /**
-     * 查询当前用户是否拥有权限
-     *
-     * @param permission
-     * @return
-     */
-    @RequestMapping("/hasPermission")
-    @ResponseBody
-    public boolean hasPermission(String permission) {
-        return SecurityUtils.getSubject().isPermitted(permission);
+        return new Result(true, "删除权限成功");
     }
 
 }

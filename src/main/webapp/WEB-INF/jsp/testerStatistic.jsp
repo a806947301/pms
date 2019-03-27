@@ -107,7 +107,7 @@
             axios
                 .post("/statistic/testerStatistic")
                 .then(function (response) {
-                    vm.testers = response.data;
+                    vm.testers = response.data.obj;
                 });
 
 

@@ -246,9 +246,9 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
-                <button class="btn btn-block btn-outline-warning" type="button"
+                <button class="btn btn-block btn-outline-warning" type="button" data-dismiss="modal"
                         onClick="vm.noProcessing()">设置不予处理</button>
-                <button class="btn btn-block btn-outline-primary" type="button"
+                <button class="btn btn-block btn-outline-primary" type="button" data-dismiss="modal"
                         data-toggle="modal" data-target="#addDescription">添加说明</button>
             </div>
             <div class="modal-footer">
@@ -380,7 +380,7 @@
             axios
                 .post("/bug/findBugOperatingRecord",params)
                 .then(function (response) {
-                    bugOperatingRecordVm.records = response.data;
+                    bugOperatingRecordVm.records = response.data.obj;
                 });
         },
         methods:{
@@ -398,7 +398,7 @@
                 axios
                     .post("/bug/findBugOperatingRecord",params)
                     .then(function (response) {
-                        bugOperatingRecordVm.records = response.data;
+                        bugOperatingRecordVm.records = response.data.obj;
                     });
             }
         }
@@ -420,7 +420,7 @@
             axios
                 .post("/bug/findDescription",params)
                 .then(function (response) {
-                    bugDescriptionVm.descriptions = response.data;
+                    bugDescriptionVm.descriptions = response.data.obj;
                 });
         },
         methods:{
@@ -438,7 +438,7 @@
                 axios
                     .post("/bug/findDescription",params)
                     .then(function (response) {
-                        bugDescriptionVm.descriptions = response.data;
+                        bugDescriptionVm.descriptions = response.data.obj;
                     });
             }
         }
@@ -484,7 +484,7 @@
                 axios
                     .post("/bug/getBug",params)
                     .then(function (response) {
-                        vm.bug = response.data;
+                        vm.bug = response.data.obj;
                         vm.projectId = vm.bug.project.id;
                         vm.productId = vm.bug.project.product.id;
                         redesignateVm.loadPerson();
@@ -502,7 +502,7 @@
                 axios
                     .post("/bug/getBug",params)
                     .then(function (response) {
-                        vm.bug = response.data;
+                        vm.bug = response.data.obj;
                         bugOperatingRecordVm.getPage(bugOperatingRecordVm.records.pageNum);
                         bugDescriptionVm.getPage(bugDescriptionVm.descriptions.pageNum);
                     });
@@ -590,15 +590,14 @@
                 axios
                     .post("/role/getRoleByRoleName",params)
                     .then(function (response) {
-                        redesignateVm.roleId = response.data.id;
+                        redesignateVm.roleId = response.data.obj.id;
                         params = new URLSearchParams();
                         params.append("productId",redesignateVm.productId);
                         params.append("roleId",redesignateVm.roleId);
                         axios
                             .post("/user/findUserByproductIdRole",params)
                             .then(function (response) {
-                                console.log(response.data)
-                                redesignateVm.users = response.data;
+                                redesignateVm.users = response.data.obj;
                             })
                     })
             },

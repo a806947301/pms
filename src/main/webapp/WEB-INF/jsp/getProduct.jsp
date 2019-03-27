@@ -349,17 +349,17 @@
             axios
                 .post("/product/getProduct", params)
                 .then(function (response) {
-                    vm.product = response.data;
+                    vm.product = response.data.obj;
                 });
             axios
-                .post("/product/getProductParticipator", params)
+                .post("/user/findUserByProductId", params)
                 .then(function (response) {
-                    vm.participators = response.data;
+                    vm.participators = response.data.obj;
                 })
             axios
                 .post("/user/findAllUser")
                 .then(function (response) {
-                    vm.users = response.data;
+                    vm.users = response.data.obj;
                     outer:for (i in vm.users) {
                         for (j in vm.participators) {
                             if (vm.participators[j].id == vm.users[i].id) {
@@ -376,7 +376,7 @@
             axios
                 .post("/project/findByProductId", projectParams)
                 .then(function (response) {
-                    vm.projects = response.data;
+                    vm.projects = response.data.obj;
                 })
         },
         methods: {
@@ -394,7 +394,7 @@
                 axios
                     .post("/project/findByProductId", projectParams)
                     .then(function (response) {
-                        vm.projects = response.data;
+                        vm.projects = response.data.obj;
                     })
             },
             deleteproduct:function() {
@@ -415,7 +415,7 @@
                 axios
                     .post("/product/getProduct", params)
                     .then(function (response) {
-                        vm.product = response.data;
+                        vm.product = response.data.obj;
                     });
             },
             addParticipators: function () {
@@ -448,9 +448,9 @@
                 params = new URLSearchParams();
                 params.append("id", this.productId);
                 axios
-                    .post("/product/getProductParticipator", params)
+                    .post("/user/findUserByProductId", params)
                     .then(function (response) {
-                        vm.participators = response.data;
+                        vm.participators = response.data.obj;
                         reImportSelectData();
                     })
             },

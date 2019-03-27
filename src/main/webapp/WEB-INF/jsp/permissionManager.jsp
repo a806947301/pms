@@ -298,7 +298,7 @@
                 axios
                     .post("/permission/findPermissionMenu")
                     .then(function (response) {
-                        updatePermissionVm.menus = response.data;
+                        updatePermissionVm.menus = response.data.obj;
                     })
                 }
 
@@ -338,7 +338,7 @@
                 axios
                     .post("/permission/findPermissionMenu")
                     .then(function (response) {
-                        addPermissionVm.menus = response.data;
+                        addPermissionVm.menus = response.data.obj;
                     })
             }
         }
@@ -352,10 +352,11 @@
         created:function (){
             params = new URLSearchParams();
             params.append("currentPage",1);
+            params.append("pageSize",5);
             axios
                 .post("/permission/findPermission",params)
                 .then(function (response) {
-                   vm.permissions = response.data;
+                   vm.permissions = response.data.obj;
                 })
         },
         methods:{
@@ -371,10 +372,11 @@
 
                 params = new URLSearchParams();
                 params.append("currentPage",currentPage);
+                params.append("pageSize",5);
                 axios
                     .post("/permission/findPermission",params)
                     .then(function (response) {
-                        vm.permissions = response.data;
+                        vm.permissions = response.data.obj;
                     })
             },
             beforeUpdate:function(id,roleName)

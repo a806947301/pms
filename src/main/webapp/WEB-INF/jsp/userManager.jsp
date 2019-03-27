@@ -344,7 +344,7 @@
         axios
                 .post("/department/finfAllDepartment")
                 .then(function (response) {
-                    updateUser.departmentList = response.data;
+                    updateUser.departmentList = response.data.obj;
                 })
         },
         methods:{
@@ -379,7 +379,7 @@
             axios
                 .post("/department/finfAllDepartment")
                 .then(function (response) {
-                    addUser.departmentList = response.data;
+                    addUser.departmentList = response.data.obj;
                 })
         },
         methods:{
@@ -418,7 +418,7 @@
             axios
                 .post("/user/findUser",params)
                 .then(function (response) {
-                    vm.users =  response.data ;
+                    vm.users =  response.data.obj ;
 
                 })
         },
@@ -439,7 +439,7 @@
                 axios
                     .post("/user/findUser",params)
                     .then(function (response) {
-                        vm.users =  response.data ;
+                        vm.users =  response.data.obj ;
                     })
             },
             beforeUpdate:function(id,name,jobNumber,departmentId,email) {
@@ -516,7 +516,7 @@
             axios
                 .post("/role/findAllRole")
                 .then(function (response) {
-                    ascribedRoleModalVm.roles = response.data;
+                    ascribedRoleModalVm.roles = response.data.obj;
                 })
         },
         methods:{
@@ -527,7 +527,7 @@
                 axios
                     .post("/role/findRoleByUserId",params)
                     .then(function (response) {
-                        ascribedRoleModalVm.hasRoles = response.data;
+                        ascribedRoleModalVm.hasRoles = response.data.obj;
                         ascribedRoleModalVm.havnRoles = array_difference(ascribedRoleModalVm.roles,ascribedRoleModalVm.hasRoles);
                     })
             },

@@ -161,7 +161,7 @@
             axios
                 .post("/project/findProject",params)
                 .then(function (response) {
-                    vm.projects =  response.data ;
+                    vm.projects =  response.data.obj ;
 
                 })
         },
@@ -182,7 +182,7 @@
                 axios
                     .post("/project/findProject",params)
                     .then(function (response) {
-                        vm.projects =  response.data ;
+                        vm.projects =  response.data.obj ;
                     })
             },
 

@@ -448,19 +448,19 @@
             axios
                 .post("/bug/countBugByProjectNoFinished",params)
                 .then(function (response) {
-                    vm.countBugNofinished = response.data;
+                    vm.countBugNofinished = response.data.obj;
                     console.log(vm.countBugNofinished)
                 });
             axios
                 .post("/project/getProject",params)
                 .then(function (response) {
-                    vm.project = response.data;
+                    vm.project = response.data.obj;
                     bugVm.productId = vm.productId;
                 });
             axios
                 .post("/product/findAllProduct")
                 .then(function (response) {
-                    vm.products = response.data;
+                    vm.products = response.data.obj;
                     vm.productId = vm.products[0].id;
                     for( i in vm.products)
                     {
@@ -494,7 +494,7 @@
                axios
                    .post("/project/getProject",params)
                    .then(function (response) {
-                       vm.project = response.data;
+                       vm.project = response.data.obj;
                    });
             }
         }
@@ -516,7 +516,7 @@
             axios
                 .post("/need/findNeedByProjectId",params)
                 .then(function (response) {
-                    needVm.needs = response.data;
+                    needVm.needs = response.data.obj;
                 });
         },
         methods:{
@@ -539,7 +539,7 @@
                 axios
                     .post("/need/findNeedByProjectId",params)
                     .then(function (response) {
-                        needVm.needs = response.data;
+                        needVm.needs = response.data.obj;
                     });
             }
         }
@@ -570,7 +570,7 @@
             axios
                 .post("/bug/findBugByProject",this.params)
                 .then(function (response) {
-                    bugVm.bugs = response.data;
+                    bugVm.bugs = response.data.obj;
                     filtrateVm.processers=[];
                     filtrateVm.proposers=[];
                     for(bug in bugVm.bugs.list) {
@@ -633,7 +633,7 @@
                 axios
                     .post("/bug/findBugByProject",this.params)
                     .then(function (response) {
-                        bugVm.bugs = response.data;
+                        bugVm.bugs = response.data.obj;
                         filtrateVm.processers=[];
                         filtrateVm.proposers=[];
                         for(bug in bugVm.bugs.list) {

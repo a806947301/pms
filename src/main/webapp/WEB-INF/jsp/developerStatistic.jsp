@@ -107,7 +107,7 @@
             axios
                 .post("/statistic/developerStatistic")
                 .then(function (response) {
-                    vm.developers = response.data;
+                    vm.developers = response.data.obj;
                 });
 
 

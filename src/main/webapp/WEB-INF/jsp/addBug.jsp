@@ -120,14 +120,14 @@
             axios
                 .post("/role/getRoleByRoleName",params1)
                 .then(function (response) {
-                    vm.roleId = response.data.id;
+                    vm.roleId = response.data.obj.id;
                     params1 = new URLSearchParams();
                     params1.append("productId",vm.productId);
                     params1.append("roleId",vm.roleId);
                     axios
                         .post("/user/findUserByproductIdRole",params1)
                         .then(function (response) {
-                            vm.users = response.data;
+                            vm.users = response.data.obj;
                             vm.processer = vm.users[0].id;
                             for( i in vm.users)
                             {

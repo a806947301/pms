@@ -5,7 +5,7 @@ import com.dayi.demo.common.controller.BaseController;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.Department;
 import com.dayi.demo.user.service.DepartmentService;
-import com.dayi.demo.util.JsonUtil;
+import com.dayi.demo.util.Result;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
@@ -38,19 +38,19 @@ public class DepartmentController extends BaseController {
     @RequestMapping("/deleteDepartment")
     @ResponseBody
     @RequiresPermissions("delete:department")
-    public JSONObject deleteDepartment(String id) {
+    public Result deleteDepartment(String id) {
         //判断非空
         if (null == id || "".equals(id)) {
-            return JsonUtil.packageJson(false, "", "删除失败，id不能为空");
+            return new Result(false, "删除失败，id不能为空");
         }
 
         //删除部门
         try {
             departmentService.delete(id);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "删除成功", "");
+        return new Result(true, "删除成功");
     }
 
     /**
@@ -62,19 +62,19 @@ public class DepartmentController extends BaseController {
     @RequestMapping("/updateDepartment")
     @ResponseBody
     @RequiresPermissions("update:department")
-    public JSONObject updateDepartment(Department department) {
+    public Result updateDepartment(Department department) {
         //判断非空
         if (Department.hasEmpty(department, true)) {
-            return JsonUtil.packageJson(false, "", "有字段为空");
+            return new Result(false, "字段不能为空");
         }
 
         //更新部门
         try {
             departmentService.update(department);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "更新成功", "");
+        return new Result(true, "更新成功");
     }
 
     /**
@@ -85,19 +85,19 @@ public class DepartmentController extends BaseController {
     @RequestMapping("/addDepartment")
     @ResponseBody
     @RequiresPermissions("add:department")
-    public JSONObject addDepartment(Department department) {
+    public Result addDepartment(Department department) {
         //判断非空
         if (Department.hasEmpty(department, false)) {
-            return JsonUtil.packageJson(false, "", "部门名不能为空");
+            return new Result(false, "部门名不能为空");
         }
 
         //添加部门
         try {
             departmentService.add(department);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "添加成功", "");
+        return new Result(true, "添加成功");
     }
 
     /**
@@ -120,9 +120,9 @@ public class DepartmentController extends BaseController {
     @RequestMapping("/findDepartment")
     @ResponseBody
     @RequiresPermissions("select:department")
-    public PageInfo<Department> findByPage(int currentPage, int pageSize) {
-        PageInfo<Department> departments = departmentService.findByPage(currentPage, pageSize);
-        return departments;
+    public Result findByPage(int currentPage, int pageSize) {
+        PageInfo<Department> pageInfo = departmentService.findByPage(currentPage, pageSize);
+        return new Result(true, "", pageInfo);
     }
 
     /**
@@ -132,8 +132,9 @@ public class DepartmentController extends BaseController {
      */
     @RequestMapping("/finfAllDepartment")
     @ResponseBody
-    public List<Department> findAll() {
-        return departmentService.findAll();
+    public Result findAll() {
+        List<Department> list = departmentService.findAll();
+        return new Result(true, "", list);
     }
 
 }

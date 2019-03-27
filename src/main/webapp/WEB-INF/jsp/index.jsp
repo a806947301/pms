@@ -179,7 +179,7 @@
             axios
                 .post("/product/findProductByCurrentUser",params)
                 .then(function (response) {
-                    vm.products =  response.data ;
+                    vm.products =  response.data.obj ;
 
                 })
         },
@@ -200,7 +200,7 @@
                 axios
                     .post("/product/findProductByCurrentUser",params)
                     .then(function (response) {
-                        vm.products =  response.data ;
+                        vm.products =  response.data.obj ;
                     })
             },
 
@@ -221,7 +221,7 @@
             axios
                 .post("/bug/findBugByCurrentUserDesignee",params)
                 .then(function (response) {
-                    bugVm.bugs = response.data;
+                    bugVm.bugs = response.data.obj;
                 });
         },
         methods:{
@@ -238,7 +238,7 @@
                 axios
                     .post("/bug/findBugByCurrentUserDesignee",params)
                     .then(function (response) {
-                        bugVm.bugs = response.data;
+                        bugVm.bugs = response.data.obj;
                     });
 
             }

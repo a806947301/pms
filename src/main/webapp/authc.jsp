@@ -119,7 +119,7 @@
     axios
         .post("/permission/permissionTree",params)
         .then(function (response) {
-            data = response.data;
+            data = response.data.obj;
             $('#treeview1').treeview({
                 data: data,
                 showIcon: false,

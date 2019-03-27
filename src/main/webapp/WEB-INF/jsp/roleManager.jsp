@@ -262,11 +262,7 @@
                     .post("/role/updateRole",params)
                     .then(function (response) {
                         vm.getPage(vm.roles.pageNum);
-                        if(true == response.data.success) {
-                            alert("更新成功");
-                        } else {
-                            alert(response.data.msg);
-                        }
+                        alert(response.data.msg);
                     })
             }
         }
@@ -284,13 +280,8 @@
                 axios
                     .post("/role/addRole",params)
                     .then(function (response) {
+                        alert(response.data.msg);
                         vm.getPage(vm.roles.pageNum);
-                        if(true == response.data.success) {
-                            alert("添加成功");
-                        } else {
-                            alert(response.data.msg);
-                        }
-
                     })
             }
         }
@@ -304,10 +295,11 @@
         created:function (){
             params = new URLSearchParams();
             params.append("currentPage",1);
+            params.append("pageSize",5);
             axios
                 .post("/role/findRole",params)
                 .then(function (response) {
-                   vm.roles = response.data;
+                   vm.roles = response.data.obj;
                 })
         },
         methods:{
@@ -327,10 +319,11 @@
 
                 params = new URLSearchParams();
                 params.append("currentPage",currentPage);
+                params.append("pageSize",5);
                 axios
                     .post("/role/findRole",params)
                     .then(function (response) {
-                        vm.roles = response.data;
+                        vm.roles = response.data.obj;
                     })
             },
             beforeUpdate:function(id,roleName)

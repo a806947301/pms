@@ -6,6 +6,7 @@ import com.dayi.demo.statistic.model.dto.UserBugDto;
 import com.dayi.demo.statistic.service.UserStatisticService;
 import com.dayi.demo.statistic.service.ProductStatisticService;
 import com.dayi.demo.util.ExcelUtil;
+import com.dayi.demo.util.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,9 +72,10 @@ public class StatisticController extends BaseController {
     @RequestMapping("/productStatistic")
     @ResponseBody
     @RequiresPermissions("products:statistic")
-    public List<ProductBugDto> productStatistic(HttpServletRequest request) {
+    public Result productStatistic(HttpServletRequest request) {
         String realPath = request.getSession().getServletContext().getRealPath("/");
-        return productStatisticService.doStatistic();
+        List<ProductBugDto> list = productStatisticService.doStatistic();
+        return new Result(true, "", list);
     }
 
     /**
@@ -92,7 +94,7 @@ public class StatisticController extends BaseController {
         try {
             productStatisticService.exportExcelProduct(response.getOutputStream());
         } catch (IOException e) {
-            logger.error(ExcelUtil.class.toString() + "_" + e.getMessage(), e);
+            logger.error(response.toString() + "_" + e.getMessage(), e);
         }
 
     }
@@ -115,8 +117,9 @@ public class StatisticController extends BaseController {
     @RequestMapping("/developerStatistic")
     @ResponseBody
     @RequiresPermissions("developer:statistic")
-    public List<UserBugDto> developerStatistic() {
-        return userStatisticService.doStatisicDeveloper();
+    public Result developerStatistic() {
+        List<UserBugDto> list = userStatisticService.doStatisicDeveloper();
+        return new Result(true, "", list);
     }
 
     /**
@@ -136,7 +139,7 @@ public class StatisticController extends BaseController {
         try {
             userStatisticService.exportExcelDeveloper(response.getOutputStream());
         } catch (IOException e) {
-            logger.error(ExcelUtil.class.toString() + "_" + e.getMessage(), e);
+            logger.error(response + "_" + e.getMessage(), e);
         }
     }
 
@@ -158,8 +161,9 @@ public class StatisticController extends BaseController {
     @RequestMapping("/testerStatistic")
     @ResponseBody
     @RequiresPermissions("test:statistic")
-    public List<UserBugDto> testerStatistic() {
-        return userStatisticService.doStatisicTester();
+    public Result testerStatistic() {
+        List<UserBugDto> list = userStatisticService.doStatisicTester();
+        return new Result(true, "", list);
     }
 
     /**
@@ -179,7 +183,7 @@ public class StatisticController extends BaseController {
         try {
             userStatisticService.exportExcelTester(response.getOutputStream());
         } catch (IOException e) {
-            logger.error(ExcelUtil.class.toString() + "_" + e.getMessage(), e);
+            logger.error(response + "_" + e.getMessage(), e);
         }
     }
 }

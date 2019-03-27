@@ -86,7 +86,7 @@
                         if(result.success == false) {
                             alert(result.msg);
                         } else {
-                            window.location.href=result.msg;
+                           window.location.href=result.msg;
                         }
                     })
             }

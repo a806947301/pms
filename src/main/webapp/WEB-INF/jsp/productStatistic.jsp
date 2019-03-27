@@ -111,7 +111,7 @@
             axios
                 .post("/statistic/productStatistic")
                 .then(function (response) {
-                    vm.products = response.data;
+                    vm.products = response.data.obj;
                 });
 
 

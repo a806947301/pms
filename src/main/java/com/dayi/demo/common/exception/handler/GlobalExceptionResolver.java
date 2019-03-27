@@ -1,7 +1,7 @@
 package com.dayi.demo.common.exception.handler;
 
 import com.alibaba.fastjson.JSONObject;
-import com.dayi.demo.util.JsonUtil;
+import com.dayi.demo.util.Result;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +29,8 @@ public class GlobalExceptionResolver{
      */
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseBody
-    public JSONObject haveNotPermission(Exception e) {
-        return JsonUtil.packageJson(false, "", "你没有权限");
+    public Result haveNotPermission(Exception e) {
+        return new Result(false, "你没有权限");
     }
 
     /**
@@ -40,9 +40,9 @@ public class GlobalExceptionResolver{
      */
     @ExceptionHandler(DataAccessException.class)
     @ResponseBody
-    public JSONObject sqlException(Exception e) {
-        logger.error(GlobalExceptionResolver.class.toString() + "_" + e.getMessage(), e);
-        return JsonUtil.packageJson(false, "", "数据库出现异常");
+    public Result sqlException(Exception e) {
+        logger.error(e.getMessage(), e);
+        return new Result(false, "数据库出现异常");
     }
 
     /**
@@ -52,8 +52,8 @@ public class GlobalExceptionResolver{
      */
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     @ResponseBody
-    public JSONObject maxUploadException() {
-        return JsonUtil.packageJson(false, "", "文件过大");
+    public Result maxUploadException() {
+        return new Result(false, "文件过大");
     }
 
     /**
@@ -62,8 +62,8 @@ public class GlobalExceptionResolver{
      */
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public JSONObject otherException(Exception e) {
-        logger.error(GlobalExceptionResolver.class.toString() + "_" + e.getMessage(), e);
-        return JsonUtil.packageJson(false, "", "其他异常");
+    public Result otherException(Exception e) {
+        logger.error(e.getMessage(), e);
+        return new Result(false, "系统出现异常");
     }
 }

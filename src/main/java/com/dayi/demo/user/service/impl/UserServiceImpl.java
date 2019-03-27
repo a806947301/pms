@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
         try {
             MailUtil.sendMail(email, title, content);
         } catch (Exception e) {
-            logger.error(MailUtil.class.toString() + "_" + e.getMessage(), e);
+            logger.error(email + "_" + e.getMessage(), e);
             throw new SystemException("邮件发送失败");
         }
         return varificationCode + "";

@@ -110,7 +110,7 @@
             axios
                 .post("/user/findAllUser")
                 .then(function (response) {
-                    vm.users = response.data;
+                    vm.users = response.data.obj;
                     for( i in vm.users)
                     {
                         setParticipator(vm.users[i].id,vm.users[i].department.departmentName + "-"+vm.users[i].name)
@@ -123,8 +123,12 @@
                 console.log("productPresentation:"+vm.productPresentation)
                 console.log("participator:"+vm.participator)*/
                 params = new URLSearchParams();
-                params.append("productName",vm.productName);
-                params.append("productPresentation",vm.productPresentation);
+                if (vm.productName != null) {
+                    params.append("productName",vm.productName);
+                }
+                if (vm.productPresentation != null) {
+                    params.append("productPresentation",vm.productPresentation);
+                }
                 params.append("participator",vm.participator);
                 axios
                     .post("/product/addProduct",params)

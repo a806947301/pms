@@ -126,8 +126,8 @@
             axios
                 .post("/department/finfAllDepartment")
                 .then(function (response) {
-                    vm.departments = response.data;
-                    vm.departmentId = response.data[0].id;
+                    vm.departments = response.data.obj;
+                    vm.departmentId = response.data.obj[0].id;
                 })
         },
         methods:{
@@ -149,7 +149,7 @@
                             alert(value.msg);
                             return;
                         }
-                        vm.valificationCode = value.data.msg;
+                        vm.valificationCode = value.data.obj;
                         vm.valificationButton = "验证码已发送";
                         vm.isValification = true;
                     })
@@ -176,7 +176,7 @@
                     .post("/user/existEmail",params)
                     .then(function (value) {
                         if(value.data.success == true) {
-                            vm.existEmail = value.data.msg;
+                            vm.existEmail = value.data.obj;
                         } else {
                             alert(value.data.msg);
                         }

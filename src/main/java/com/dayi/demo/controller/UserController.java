@@ -8,10 +8,9 @@ import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.LoginLogService;
 import com.dayi.demo.user.service.UserService;
 import com.dayi.demo.util.IpUtil;
-import com.dayi.demo.util.JsonUtil;
+import com.dayi.demo.util.Result;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
@@ -102,19 +101,19 @@ public class UserController extends BaseController {
      */
     @RequestMapping("/getVarification")
     @ResponseBody
-    public JSONObject getVarification(String email) throws MessagingException {
+    public Result getVarification(String email) throws MessagingException {
         //判断邮箱非空
         if (null == email || "".equals(email)) {
-            return JsonUtil.packageJson(false, "", "邮箱不能为空");
+            return new Result(false, "邮箱不能为空");
         }
         //生成验证码
         String varificationCode = null;
         try {
             varificationCode = userService.doRandomVarificationCodeToEmail(email);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, varificationCode, "");
+        return new Result(true, "", varificationCode);
     }
 
     /**
@@ -125,8 +124,9 @@ public class UserController extends BaseController {
     @RequestMapping("/findUser")
     @ResponseBody
     @RequiresPermissions("select:user")
-    public PageInfo<User> findUser(int currentPage, int pageSize) {
-        return userService.findByPage(currentPage, pageSize);
+    public Result findUser(int currentPage, int pageSize) {
+        PageInfo<User> pageInfo = userService.findByPage(currentPage, pageSize);
+        return new Result(true, "", pageInfo);
     }
 
     /**
@@ -136,8 +136,9 @@ public class UserController extends BaseController {
      */
     @RequestMapping("/findAllUser")
     @ResponseBody
-    public List<User> findAllUser() {
-        return userService.findAll();
+    public Result findAllUser() {
+        List<User> list = userService.findAll();
+        return new Result(true, "", list);
     }
 
     /**
@@ -149,19 +150,19 @@ public class UserController extends BaseController {
     @RequestMapping("/addUser")
     @ResponseBody
     @RequiresPermissions("add:user")
-    public JSONObject addUser(User user) {
+    public Result addUser(User user) {
         //判断非空
         if (User.hasEmpty(user, false, true)) {
-            return JsonUtil.packageJson(false, "", "有字段为空！");
+            return new Result(false, "有字段为空");
         }
 
         //添加用户
         try {
             userService.add(user);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "添加用户成功", "");
+        return new Result(true, "添加用户成功");
     }
 
     /**
@@ -173,19 +174,19 @@ public class UserController extends BaseController {
     @RequestMapping("/updateUser")
     @ResponseBody
     @RequiresPermissions("update:user")
-    public JSONObject updateUser(User user) {
+    public Result updateUser(User user) {
         //判断非空
         if (null == user || null == user.getId() || "".equals(user.getId())) {
-            return JsonUtil.packageJson(false, "", "有字段为空！");
+            return new Result(false, "有字段为空");
         }
 
         //更新用户
         try {
             userService.update(user);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "更新用户成功", "");
+        return new Result(true, "更新用户成功");
     }
 
     /**
@@ -196,8 +197,9 @@ public class UserController extends BaseController {
      */
     @RequestMapping("/findUserByProductId")
     @ResponseBody
-    public List<User> findUserByProductId(String id) {
-        return userService.findByProductId(id);
+    public Result findUserByProductId(String id) {
+        List<User> list = userService.findByProductId(id);
+        return new Result(true, "", list);
     }
 
     /**
@@ -209,22 +211,22 @@ public class UserController extends BaseController {
      */
     @RequestMapping("/login")
     @ResponseBody
-    public JSONObject login(String email, String password, HttpServletRequest request) {
+    public Result login(String email, String password, HttpServletRequest request) {
         //判断非空
         if (null == email || "".equals(email)) {
-            return JsonUtil.packageJson(false, "", "邮箱不能为空");
+            return new Result(false, "邮箱不能为空");
         }
         if (null == password || "".equals(password)) {
-            return JsonUtil.packageJson(false, "", "密码不能为空");
+            return new Result(false, "密码不能为空");
         }
 
         //登陆
         try {
             userService.doLogin(email, password, IpUtil.getIpAddress(request));
         } catch (AuthenticationException e) {
-            return JsonUtil.packageJson(false, "", "用户名或密码不正确");
+            return new Result(false, "用户名或密码不正确");
         }
-        return JsonUtil.packageJson(true, INDEX_PAGE, "");
+        return new Result(true, INDEX_PAGE);
     }
 
     /**
@@ -234,12 +236,12 @@ public class UserController extends BaseController {
      */
     @RequestMapping("/logout")
     @ResponseBody
-    public JSONObject logout() {
+    public Result logout() {
         //取消session数据
         SecurityUtils.getSubject().getSession().removeAttribute("user");
         //退出登陆
         userService.doLogout();
-        return JsonUtil.packageJson(true, "退出登陆", "");
+        return new Result(true, "退出登陆");
     }
 
     /**
@@ -252,14 +254,14 @@ public class UserController extends BaseController {
     @RequestMapping("/loginLogByUser")
     @ResponseBody
     @RequiresPermissions("loginLog")
-    public PageInfo<LoginLog> findLoginLogByUserId(String id, int currentPage, int pageSize) {
+    public Result findLoginLogByUserId(String id, int currentPage, int pageSize) {
         //如果Id为空，则设置为当前用户id
         if (null == id) {
             User user = getCurrentUser();
             id = user.getId();
         }
         PageInfo<LoginLog> logs = loginLogService.findLoginLogByUserId(id, currentPage, pageSize);
-        return logs;
+        return new Result(true, "", logs);
     }
 
     /**
@@ -271,8 +273,9 @@ public class UserController extends BaseController {
      */
     @RequestMapping("/findUserByproductIdRole")
     @ResponseBody
-    public List<User> findUserByproductIdRole(String productId, String roleId) {
-        return userService.findByproductIdRole(productId, roleId);
+    public Result findUserByproductIdRole(String productId, String roleId) {
+        List<User> list = userService.findByproductIdRole(productId, roleId);
+        return new Result(true, "", list);
     }
 
     /**
@@ -283,9 +286,9 @@ public class UserController extends BaseController {
      */
     @RequestMapping("/existEmail")
     @ResponseBody
-    public JSONObject existEmail(String email) {
+    public Result existEmail(String email) {
         boolean existEmail = userService.doExistEmail(email);
-        return JsonUtil.packageJson(true, existEmail, "");
+        return new Result(true, "", existEmail);
     }
 
     /**
@@ -296,18 +299,18 @@ public class UserController extends BaseController {
      */
     @RequestMapping("/register")
     @ResponseBody
-    public JSONObject register(User user) {
+    public Result register(User user) {
         //判断非空
         if (User.hasEmpty(user, false, true)) {
-            return JsonUtil.packageJson(false, "", "有字段为空！");
+            return new Result(false, "有字段为空");
         }
 
         //注册
         try {
             userService.add(user);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "注册成功", "");
+        return new Result(true, "注册成功");
     }
 }

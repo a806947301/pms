@@ -5,7 +5,7 @@ import com.dayi.demo.common.controller.BaseController;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.project.service.ProjectService;
 import com.dayi.demo.project.model.Project;
-import com.dayi.demo.util.JsonUtil;
+import com.dayi.demo.util.Result;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
@@ -48,10 +48,10 @@ public class ProjectController extends BaseController {
     @RequestMapping("/addProject")
     @ResponseBody
     @RequiresPermissions("add:project")
-    public JSONObject addProject(Project project) {
+    public Result addProject(Project project) {
         //判断非空
         if (Project.hasEmpty(project, false)) {
-            return JsonUtil.packageJson(false, "", "字段必须不为空");
+            return new Result(false, "字段必须不为空");
         }
 
         //添加项目
@@ -59,9 +59,9 @@ public class ProjectController extends BaseController {
         try {
             projectId = projectService.add(project);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, projectId, "");
+        return new Result(true, projectId);
     }
 
     /**
@@ -73,8 +73,9 @@ public class ProjectController extends BaseController {
     @RequestMapping("/findProject")
     @ResponseBody
     @RequiresPermissions("select:project")
-    public PageInfo<Project> findProject(int currentPage, int pageSize) {
-        return projectService.findByPage(currentPage, pageSize);
+    public Result findProject(int currentPage, int pageSize) {
+        PageInfo<Project> pageInfo = projectService.findByPage(currentPage, pageSize);
+        return new Result(true, "", pageInfo);
     }
 
     /**
@@ -88,8 +89,9 @@ public class ProjectController extends BaseController {
     @RequestMapping("/findByProductId")
     @ResponseBody
     @RequiresPermissions("select:project")
-    public PageInfo<Project> findByProductId(String productId, int currentPage, int pageSize) {
-        return projectService.findByProductIdPage(productId, currentPage, pageSize);
+    public Result findByProductId(String productId, int currentPage, int pageSize) {
+        PageInfo<Project> pageInfo = projectService.findByProductIdPage(productId, currentPage, pageSize);
+        return new Result(true, "", pageInfo);
     }
 
     /**
@@ -122,8 +124,9 @@ public class ProjectController extends BaseController {
     @RequestMapping("/getProject")
     @ResponseBody
     @RequiresPermissions("select:project")
-    public Project getProject(String id) {
-        return projectService.get(id);
+    public Result getProject(String id) {
+        Project project = projectService.get(id);
+        return new Result(true, "", project);
     }
 
     /**
@@ -135,19 +138,19 @@ public class ProjectController extends BaseController {
     @RequestMapping("/updateProject")
     @ResponseBody
     @RequiresPermissions("update:project")
-    public JSONObject updateProject(Project project) {
+    public Result updateProject(Project project) {
         // 判断非空
         if (Project.hasEmpty(project, true)) {
-            return JsonUtil.packageJson(false, "", "字段必须非空");
+            return new Result(false, "字段必须不为空");
         }
 
         // 更新项目
         try {
             projectService.update(project);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "更新项目成功", "");
+        return new Result(true, "更新项目成功");
     }
 
     /**
@@ -159,28 +162,35 @@ public class ProjectController extends BaseController {
     @RequestMapping("/updateProjectFinished")
     @ResponseBody
     @RequiresPermissions("update:project")
-    public JSONObject updateProjectFinished(Project project) {
+    public Result updateProjectFinished(Project project) {
         //判断非空
         if (null == project.getId() || "".equals(project.getId())) {
-            return JsonUtil.packageJson(false, "", "字段必须非空");
+            return new Result(false, "字段必须不为空");
         }
 
         //更新项目状态
         try {
             projectService.updateProjectFinished(project);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "更新成功", "");
+        return new Result(true, "更新成功");
     }
 
+    /**
+     * 删除项目
+     * 
+     * @param projectId
+     * @param request
+     * @return
+     */
     @RequestMapping("/deleteProject")
     @ResponseBody
     @RequiresPermissions("delete:project")
-    public JSONObject deleteProject(String projectId, HttpServletRequest request) {
+    public Result deleteProject(String projectId, HttpServletRequest request) {
         //判断非空
         if (null == projectId || "".equals(projectId)) {
-            return JsonUtil.packageJson(false, "", "字段必须非空");
+            return new Result(false, "字段必须不为空");
         }
 
         //删除项目
@@ -188,8 +198,8 @@ public class ProjectController extends BaseController {
         try {
             projectService.delete(projectId, realPath);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "删除项目成功", "");
+        return new Result(true, "删除项目成功");
     }
 }

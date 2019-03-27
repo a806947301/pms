@@ -71,12 +71,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<User> getParticipator(String id) {
-        List<User> paticipator = userService.findByProductId(id);
-        return paticipator;
-    }
-
-    @Override
     public int addParticipator(String id, String[] newParticipator) throws SystemException{
         //判断是否存在产品
         Product product = get(id);

@@ -134,7 +134,7 @@
             axios
                 .post("/product/findProduct",params)
                 .then(function (response) {
-                    vm.products =  response.data ;
+                    vm.products =  response.data.obj ;
 
                 })
         },
@@ -155,7 +155,7 @@
                 axios
                     .post("/product/findProduct",params)
                     .then(function (response) {
-                        vm.products =  response.data ;
+                        vm.products =  response.data.obj ;
                     })
             },
 

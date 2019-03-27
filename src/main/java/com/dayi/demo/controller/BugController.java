@@ -10,7 +10,7 @@ import com.dayi.demo.common.controller.BaseController;
 import com.dayi.demo.common.entity.BaseEntity;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.user.model.User;
-import com.dayi.demo.util.JsonUtil;
+import com.dayi.demo.util.Result;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
@@ -50,10 +50,10 @@ public class BugController extends BaseController {
     @RequestMapping("/addBug")
     @ResponseBody
     @RequiresPermissions("add:bug")
-    public JSONObject addBug(Bug bug) {
+    public Result addBug(Bug bug) {
         //判断是否有属性为空
         if (Bug.hasEmpty(bug, false, false)) {
-            return JsonUtil.packageJson(false, "", "有字段为空");
+            return new Result(false, "字段不能为空");
         }
 
         //添加Bug
@@ -63,10 +63,10 @@ public class BugController extends BaseController {
         try {
             bugId = bugService.add(bug, user);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
         boolean addSuccess = (null != bugId && (!"".equals(bugId)));
-        return JsonUtil.packageJson(addSuccess, bugId, "添加失败");
+        return new Result(addSuccess, bugId, "添加失败", "");
     }
 
     /**
@@ -114,10 +114,11 @@ public class BugController extends BaseController {
     @RequestMapping("/findBugByProject")
     @ResponseBody
     @RequiresPermissions("select:bug")
-    public PageInfo<Bug> findBugByProject(int currentPage, int pageSize, String projectId, Date begin,
+    public Result findBugByProject(int currentPage, int pageSize, String projectId, Date begin,
                                           Date end, int status, String processerId, String proposerId) {
-        return bugService.findByProject(currentPage, pageSize, projectId,
+        PageInfo<Bug> pageInfo = bugService.findByProject(currentPage, pageSize, projectId,
                 begin, end, status, processerId, proposerId);
+        return new Result(true, "", pageInfo);
     }
 
     /**
@@ -140,19 +141,26 @@ public class BugController extends BaseController {
     @RequestMapping("/getBug")
     @ResponseBody
     @RequiresPermissions("select:bug")
-    public Bug getBug(String id) {
-        return bugService.get(id);
+    public Result getBug(String id) {
+        Bug bug = bugService.get(id);
+        return new Result(true, "", bug);
     }
 
+    /**
+     * 更新Bug状态
+     *
+     * @param bug
+     * @return
+     */
     @RequestMapping("/updateBugStatus")
     @ResponseBody
-    public JSONObject updateBugStatus(Bug bug) {
+    public Result updateBugStatus(Bug bug) {
         try {
             bugService.updateStatus(bug, getCurrentUser());
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "成功！", "");
+        return new Result(true, "成功！");
     }
 
     /**
@@ -163,10 +171,10 @@ public class BugController extends BaseController {
      */
     @RequestMapping("/addBugDescription")
     @ResponseBody
-    public JSONObject addBugDescription(BugDescription bugDescription) {
+    public Result addBugDescription(BugDescription bugDescription) {
         //判断非空
         if (BugDescription.hasEmpty(bugDescription, false)) {
-            return JsonUtil.packageJson(false, "", "有字段为空，添加失败");
+            return new Result(false, "字段不能为空");
         }
 
         //添加说明
@@ -174,9 +182,9 @@ public class BugController extends BaseController {
         try {
             bugService.addBugDescription(bugDescription, user);
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "添加说明成功", "");
+        return new Result(true, "添加说明成功");
     }
 
     /**
@@ -188,8 +196,9 @@ public class BugController extends BaseController {
      */
     @RequestMapping("/findDescription")
     @ResponseBody
-    public PageInfo<BugDescription> findDescription(String bugId, int currentPage, int pageSize) {
-        return bugService.findDescriptionByBugId(bugId, currentPage, pageSize);
+    public Result findDescription(String bugId, int currentPage, int pageSize) {
+        PageInfo<BugDescription> pageInfo = bugService.findDescriptionByBugId(bugId, currentPage, pageSize);
+        return new Result(true, "", pageInfo);
     }
 
     /**
@@ -201,8 +210,9 @@ public class BugController extends BaseController {
      */
     @RequestMapping("/findBugOperatingRecord")
     @ResponseBody
-    public PageInfo<BugOperatingRecord> findBugOperatingRecord(String bugId, int currentPage, int pageSize) {
-        return bugOperatingRecordService.findByBugId(bugId, currentPage, pageSize);
+    public Result findBugOperatingRecord(String bugId, int currentPage, int pageSize) {
+        PageInfo<BugOperatingRecord> pageInfo = bugOperatingRecordService.findByBugId(bugId, currentPage, pageSize);
+        return new Result(true, "", pageInfo);
     }
 
     /**
@@ -213,8 +223,9 @@ public class BugController extends BaseController {
      */
     @RequestMapping("/countBugByProjectNoFinished")
     @ResponseBody
-    public int countBugByProjectNoFinished(String id) {
-        return bugService.countBugByProjectNoFinished(id);
+    public Result countBugByProjectNoFinished(String id) {
+        int countBug = bugService.countBugByProjectNoFinished(id);
+        return new Result(true, "", countBug);
     }
 
     /**
@@ -226,49 +237,62 @@ public class BugController extends BaseController {
      */
     @RequestMapping("/findBugByCurrentUserDesignee")
     @ResponseBody
-    public PageInfo<Bug> findBugByCurrentUserDesignee(int currentPage, int pageSize) {
+    public Result findBugByCurrentUserDesignee(int currentPage, int pageSize) {
         User user = getCurrentUser();
-        return bugService.findByUserDesignee(user.getId(), currentPage, pageSize);
+        PageInfo<Bug> pageInfo = bugService.findByUserDesignee(user.getId(), currentPage, pageSize);
+        return new Result(true, "", pageInfo);
     }
 
+    /**
+     * 更新Bug信息
+     *
+     * @param bug
+     * @return
+     */
     @RequestMapping("/updateBug")
     @ResponseBody
-    public JSONObject updateBug(Bug bug) {
+    public Result updateBug(Bug bug) {
         //判断非空
         if (BaseEntity.hasEmpty(bug, true)) {
-            return JsonUtil.packageJson(false, "", "id不能为空");
+            return new Result(false, "id不能为空");
         }
         String title = bug.getBugTitle();
         if (null == title || "".equals(title)) {
-            return JsonUtil.packageJson(false, "", "标题不能为空");
+            return new Result(false, "标题不能为空");
         }
         String content = bug.getBugContent();
         if (null == content || "".equals(content)) {
-            return JsonUtil.packageJson(false, "", "内容不能为空");
+            return new Result(false, "内容不能为空");
         }
 
         //更新Bug
         try {
             bugService.update(bug, getCurrentUser());
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true,"更新Bug成功", "");
+        return new Result(true, "更新Bug成功");
     }
 
+    /**
+     * 删除Bug
+     *
+     * @param bugId
+     * @return
+     */
     @RequestMapping("/deleteBug")
     @ResponseBody
-    public JSONObject deleteBug(String bugId) {
+    public Result deleteBug(String bugId) {
         //判断非空
         if (null == bugId || "".equals(bugId)) {
-            return JsonUtil.packageJson(false,"","Bug id不能为空");
+            return new Result(false, "Bug id不能为空");
         }
 
         try {
             bugService.delete(bugId, getCurrentUser());
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false,"",e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true,"删除Bug成功","");
+        return new Result(true, "删除Bug成功");
     }
 }

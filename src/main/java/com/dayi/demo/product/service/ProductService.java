@@ -44,14 +44,6 @@ public interface ProductService {
     Product get(String id);
 
     /**
-     * 获取产品参与者
-     *
-     * @param id
-     * @return
-     */
-    List<User> getParticipator(String id);
-
-    /**
      * 添加产品组成员
      *
      * @param id

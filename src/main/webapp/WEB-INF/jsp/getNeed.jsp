@@ -270,7 +270,7 @@
             axios
                 .post("/need/getNeed",params)
                 .then(function (response) {
-                    vm.need =  response.data ;
+                    vm.need =  response.data.obj ;
 
                 })
         },
@@ -294,8 +294,8 @@
                 axios
                     .post("/need/previewNeedFile",params)
                     .then(function (response) {
-                        treeVm.tree = response.data;
-                        treeVm.baseTree = response.data;
+                        treeVm.tree = response.data.obj;
+                        treeVm.baseTree = response.data.obj;
                         /*console.log(response.data)*/
 
                     })

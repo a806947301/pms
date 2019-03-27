@@ -5,7 +5,7 @@ import com.dayi.demo.common.controller.BaseController;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.need.model.Need;
 import com.dayi.demo.need.service.NeedService;
-import com.dayi.demo.util.JsonUtil;
+import com.dayi.demo.util.Result;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
@@ -53,7 +53,7 @@ public class NeedController extends BaseController {
     @RequestMapping("/addNeed")
     @ResponseBody
     @RequiresPermissions("add:need")
-    public JSONObject addNeed(MultipartFile needDescriptionFile, MultipartFile needFile,
+    public Result addNeed(MultipartFile needDescriptionFile, MultipartFile needFile,
                               Need need, HttpServletRequest request) {
         //获取真实地址
         String realPath = request.getSession().getServletContext().getRealPath("/");
@@ -62,9 +62,9 @@ public class NeedController extends BaseController {
             //保存需求
             needId = needService.add(need, needDescriptionFile, needFile, realPath, getCurrentUser());
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, needId, "");
+        return new Result(true, needId);
     }
 
     /**
@@ -77,8 +77,9 @@ public class NeedController extends BaseController {
     @RequestMapping("/findNeedByProjectId")
     @ResponseBody
     @RequiresPermissions("select:need")
-    public PageInfo<Need> findNeedByProjectId(String projectId, int currentPage, int pageSize) {
-        return needService.findByProjectId(projectId, currentPage, pageSize);
+    public Result findNeedByProjectId(String projectId, int currentPage, int pageSize) {
+        PageInfo<Need> pageInfo = needService.findByProjectId(projectId, currentPage, pageSize);
+        return new Result(true, "", pageInfo);
     }
 
     /**
@@ -93,7 +94,7 @@ public class NeedController extends BaseController {
     }
 
     /**
-     * 查找需求数据
+     * 获取需求
      *
      * @param id
      * @return
@@ -101,8 +102,9 @@ public class NeedController extends BaseController {
     @RequestMapping("/getNeed")
     @ResponseBody
     @RequiresPermissions("select:need")
-    public Need getNeed(String id) {
-        return needService.get(id);
+    public Result getNeed(String id) {
+        Need need = needService.get(id);
+        return new Result(true, "", need);
     }
 
     /**
@@ -114,9 +116,10 @@ public class NeedController extends BaseController {
      */
     @RequestMapping("/previewNeedFile")
     @ResponseBody
-    public JSONObject previewNeedFile(String needId, HttpServletRequest request) {
+    public Result previewNeedFile(String needId, HttpServletRequest request) {
         String realPath = request.getSession().getServletContext().getRealPath("/");
-        return needService.doPreview(needId, realPath);
+        JSONObject jsonObject = needService.doPreview(needId, realPath);
+        return new Result(true, "", jsonObject);
     }
 
     /**
@@ -128,10 +131,10 @@ public class NeedController extends BaseController {
      */
     @RequestMapping("/deleteNeed")
     @ResponseBody
-    public JSONObject deleteNeed(String needId, HttpServletRequest request) {
+    public Result deleteNeed(String needId, HttpServletRequest request) {
         //判断非空
         if (null == needId || "".equals(needId)) {
-            return JsonUtil.packageJson(false, "", "需求Id不能为空");
+            return new Result(false, "需求Id不能为空");
         }
 
         //删除需求
@@ -139,8 +142,8 @@ public class NeedController extends BaseController {
         try {
             needService.delete(needId, realPath, getCurrentUser());
         } catch (SystemException e) {
-            return JsonUtil.packageJson(false, "", e.getMessage());
+            return new Result(false, e.getMessage());
         }
-        return JsonUtil.packageJson(true, "删除需求成功", "");
+        return new Result(true, "删除需求成功");
     }
 }
