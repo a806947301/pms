@@ -29,12 +29,6 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Resource
     private UserService userService;
 
-    /**
-     * 删除部门
-     *
-     * @param id 部门id
-     * @return
-     */
     @Override
     public void delete(String id) throws SystemException {
         //判断该部门下是否有用户
@@ -50,52 +44,30 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
     }
 
-    /**
-     * 更新部门信息
-     *
-     * @param department
-     * @return
-     */
     @Override
     public void update(Department department) throws SystemException {
         int countUpdate = departmentDao.update(department);
+        //如果更新行数为0
         if (0 == countUpdate) {
             throw new SystemException("更新失败");
         }
     }
 
-    /**
-     * 添加部门
-     *
-     * @param department
-     * @return
-     */
     @Override
     public void add(Department department) throws SystemException {
         int countAdd = departmentDao.add(department);
+        //如果添加行数为0
         if (0 == countAdd) {
             throw new SystemException("添加失败");
         }
     }
 
-    /**
-     * 查看所有部门
-     *
-     * @return
-     */
     @Override
     public List<Department> findAll() {
         return departmentDao.findAll();
 
     }
 
-    /**
-     * 分页查看部门
-     *
-     * @param currentPage 页号
-     * @param pageSize    页面大小
-     * @return
-     */
     @Override
     public PageInfo<Department> findByPage(int currentPage, int pageSize) {
         PageHelper.startPage(currentPage, pageSize);

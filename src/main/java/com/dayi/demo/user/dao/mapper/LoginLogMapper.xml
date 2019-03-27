@@ -14,6 +14,7 @@
         SELECT id, addtime, updatetime, user_id, ip FROM
     </sql>
 
+    <!--根据用户id 查询用户的登陆记录-->
     <select id="findLoginLogByUserId" resultMap="loginLogResultMap">
         <include refid="selectAllColumnDepartment"/>
         login_log WHERE user_id = #{0} ORDER BY addtime DESC

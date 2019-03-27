@@ -17,6 +17,7 @@ public interface PermissionDao {
 
     /**
      * 添加权限
+     *
      * @param permission
      * @return
      */
@@ -24,12 +25,14 @@ public interface PermissionDao {
 
     /**
      * 查找权限
+     *
      * @return
      */
     List<Permission> findPermission();
 
     /**
      * 根据是否菜单查找权限
+     *
      * @param isMenu
      * @return
      */
@@ -37,6 +40,7 @@ public interface PermissionDao {
 
     /**
      * 更新权限
+     *
      * @param permission
      * @return
      */
@@ -44,6 +48,7 @@ public interface PermissionDao {
 
     /**
      * 查找指定角色下的所有权限
+     *
      * @param roleId
      * @return
      */
@@ -51,11 +56,12 @@ public interface PermissionDao {
 
     /**
      * 给角色授权
-     * @param id    角色权限表Id，从IdUtil获取
-     * @param addTime   添加时间
-     * @param updateTime    修改时间
-     * @param roleId    角色Id
-     * @param permissionId  权限Id
+     *
+     * @param id           角色权限表Id，从IdUtil获取
+     * @param addTime      添加时间
+     * @param updateTime   修改时间
+     * @param roleId       角色Id
+     * @param permissionId 权限Id
      * @return
      */
     int addRolePermission(@Param("id") String id, @Param("addTime") Date addTime, @Param("updateTime") Date updateTime,
@@ -63,14 +69,16 @@ public interface PermissionDao {
 
     /**
      * 取消角色权限
-     * @param roleId    角色Id
-     * @param permissionId  权限Id
+     *
+     * @param roleId       角色Id
+     * @param permissionId 权限Id
      * @return
      */
     int deleteRolePermission(@Param("roleId") String roleId, @Param("permissionId") String permissionId);
 
     /**
      * 删除权限
+     *
      * @param id
      * @return
      */

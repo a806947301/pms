@@ -133,13 +133,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String doRandomVarificationCodeToEmail(String email) throws SystemException {
+    public String doRandomVerificationCodeToEmail(String email) throws SystemException {
         //随机生成四位数验证码
         Random random = new Random();
-        int varificationCode = random.nextInt(9000) + 1000;
+        int verificationCode = random.nextInt(9000) + 1000;
+
         //发送邮件
         String title = "您的验证码";
-        String content = "您的验证码为：" + varificationCode;
+        String content = "您的验证码为：" + verificationCode;
         try {
             MailUtil.sendMail(email, title, content);
         } catch (Exception e) {
@@ -150,7 +151,7 @@ public class UserServiceImpl implements UserService {
 
             throw new SystemException("邮件发送失败");
         }
-        return varificationCode + "";
+        return verificationCode + "";
     }
 
     @Override
@@ -171,7 +172,9 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     private String encryptMd5(User user) {
+        //获取盐值
         ByteSource source = ByteSource.Util.bytes(user.getId());
+        //加密
         String result = new SimpleHash("MD5", user.getPassword(), source, 2).toHex();
         return result;
     }

@@ -28,6 +28,7 @@ public class Department extends BaseEntity {
 
     /**
      * 判断等部门是否有空字段
+     *
      * @param department
      * @param includeId
      * @return

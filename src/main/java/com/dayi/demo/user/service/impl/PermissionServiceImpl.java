@@ -32,6 +32,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public void add(Permission permission) throws SystemException {
         int countAdd = permissionDao.add(permission);
+        //如果数据库添加行数为0
         if (0 == countAdd) {
             throw new SystemException("操作失败");
         }
@@ -58,6 +59,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public void update(Permission permission) throws SystemException {
         int countUpdate = permissionDao.update(permission);
+        //如果数据库更新行数为0
         if (0 == countUpdate) {
             throw new SystemException("操作失败");
         }
@@ -121,7 +123,10 @@ public class PermissionServiceImpl implements PermissionService {
         //授权
         int countAdd = 0;
         BaseEntity entity;
+        //获取代理对象
         PermissionService proxyService = (PermissionService) AopContext.currentProxy();
+
+        //循环添加每一个权限
         for (String permissionId : permissionsId) {
             entity = new BaseEntity();
             countAdd += proxyService.addRolePermission(entity, roleId, permissionId);
@@ -139,16 +144,10 @@ public class PermissionServiceImpl implements PermissionService {
     public void delete(String id) throws SystemException {
         int countDelete = permissionDao.delete(id);
         permissionDao.deleteRolePermission(null, id);
+        //如果删除行数为0
         if (0 == countDelete) {
             throw new SystemException("操作失败");
         }
     }
 
-    @Override
-    public void deleteRolePermission(String roleId, String permissionId) throws SystemException {
-        int countDelete = permissionDao.deleteRolePermission(roleId, permissionId);
-        if (0 == countDelete) {
-            throw new SystemException("操作失败");
-        }
-    }
 }

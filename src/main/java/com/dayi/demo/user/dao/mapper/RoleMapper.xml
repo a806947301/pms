@@ -33,7 +33,7 @@
         <if test="null != roleId">AND role.id = #{roleId}</if>
     </select>
 
-    <!---->
+    <!--根据角色名获取角色-->
     <select id="getByRoleName" resultMap="roleResultMap">
         <include refid="selectAllColumnRole"/>
         role  WHERE role_name = #{0}
@@ -44,6 +44,7 @@
         VALUES (#{id}, #{addTime}, #{updateTime}, #{roleName})
     </insert>
 
+    <!--赋予用户角色-->
     <insert id="addUserRole">
         INSERT INTO user_role (id, addtime, updatetime, user_id, role_id)
         VALUES (#{id}, #{addTime}, #{updateTime}, #{userId}, #{roleId})
@@ -58,6 +59,7 @@
         WHERE id = #{id}
     </update>
 
+    <!--删除用户的角色-->
     <delete id="deleteUserRole">
         DELETE FROM user_role WHERE TRUE
         <if test="null != userId">and user_id = #{userId}</if>

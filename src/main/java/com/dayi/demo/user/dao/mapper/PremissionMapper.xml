@@ -33,6 +33,7 @@
         permission p join role_permission rp on p.id = rp.permission_id WHERE role_id = #{id}
     </select>
 
+    <!--给角色授权-->
     <insert id="addRolePermission">
         INSERT INTO role_permission (id, addtime, updatetime, role_id, permission_id)
         VALUES (#{id}, #{addTime}, #{updateTime}, #{roleId}, #{permissionId})
@@ -55,6 +56,7 @@
         WHERE id = #{id}
     </update>
 
+    <!--取消角色权限-->
     <delete id="deleteRolePermission">
         DELETE FROM role_permission WHERE TRUE
         <if test="null != roleId">and role_id = #{roleId}</if>

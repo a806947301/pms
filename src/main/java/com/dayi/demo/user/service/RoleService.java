@@ -17,6 +17,7 @@ public interface RoleService {
 
     /**
      * 添加角色
+     *
      * @param role
      * @throws SystemException
      */
@@ -29,7 +30,7 @@ public interface RoleService {
      * @return
      * @throws SystemException
      */
-    void update(Role role) throws SystemException ;
+    void update(Role role) throws SystemException;
 
     /**
      * 分页查询角色
@@ -60,7 +61,6 @@ public interface RoleService {
      *
      * @param userId
      * @param roleId
-     * @return
      * @throws SystemException
      */
     void doAscribedRole(String userId, String roleId) throws SystemException;
@@ -70,15 +70,14 @@ public interface RoleService {
      *
      * @param userId
      * @param roleId
-     * @return
      * @throws SystemException
      */
-    void doCancelRole(String userId, String roleId) throws SystemException ;
+    void doCancelRole(String userId, String roleId) throws SystemException;
 
     /**
      * 添加指定用户的角色
      *
-     * @param entity
+     * @param entity BaseEntity实体，用于AOP注入id、addTime、updateTime
      * @param userId
      * @param roleId
      * @return
@@ -89,13 +88,13 @@ public interface RoleService {
      * 删除角色
      *
      * @param id
-     * @return
      * @throws SystemException
      */
-    void delete(String id) throws SystemException ;
+    void delete(String id) throws SystemException;
 
     /**
      * 获取指定角色名的角色
+     *
      * @param roleName
      * @return
      */
@@ -103,6 +102,7 @@ public interface RoleService {
 
     /**
      * 获取指定角色
+     *
      * @param id
      * @return
      */

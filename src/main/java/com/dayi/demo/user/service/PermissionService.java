@@ -83,7 +83,7 @@ public interface PermissionService {
     /**
      * 给角色授权
      *
-     * @param entity
+     * @param entity    BaseEntity实体，用于AOP注入id、addTime、updateTime
      * @param roleId
      * @param permissionId
      * @return
@@ -98,11 +98,4 @@ public interface PermissionService {
      */
     void delete(String id) throws SystemException;
 
-    /**
-     * 删除角色权限表（中间表）
-     * @param roleId
-     * @param permissionId
-     * @throws SystemException
-     */
-    void deleteRolePermission(String roleId, String permissionId) throws SystemException;
 }

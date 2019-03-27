@@ -108,7 +108,7 @@ public class UserController extends BaseController {
         //生成验证码
         String varificationCode = null;
         try {
-            varificationCode = userService.doRandomVarificationCodeToEmail(email);
+            varificationCode = userService.doRandomVerificationCodeToEmail(email);
         } catch (SystemException e) {
             return new Result(false, e.getMessage());
         }

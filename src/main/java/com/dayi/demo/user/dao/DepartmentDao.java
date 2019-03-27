@@ -14,6 +14,7 @@ public interface DepartmentDao {
 
     /**
      * 添加部门
+     *
      * @param department
      * @return
      */
@@ -21,6 +22,7 @@ public interface DepartmentDao {
 
     /**
      * 更新部门
+     *
      * @param department
      * @return
      */
@@ -28,6 +30,7 @@ public interface DepartmentDao {
 
     /**
      * 删除部门
+     *
      * @param id
      * @return
      */
@@ -35,6 +38,7 @@ public interface DepartmentDao {
 
     /**
      * 获取指定部门
+     *
      * @param id
      * @return
      */
@@ -42,6 +46,7 @@ public interface DepartmentDao {
 
     /**
      * 查找所有部门
+     *
      * @return
      */
     List<Department> findAll();

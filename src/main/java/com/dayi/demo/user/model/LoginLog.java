@@ -10,9 +10,13 @@ import com.dayi.demo.common.entity.BaseEntity;
  * @date 2019-03-08
  */
 public class LoginLog extends BaseEntity {
-    /** 登陆ip地址 */
+    /**
+     * 登陆ip地址
+     */
     private String ip;
-    /** 登陆用户 */
+    /**
+     * 登陆用户
+     */
     private User user;
 
     @Override

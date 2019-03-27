@@ -25,7 +25,6 @@ public interface UserService {
      * 添加用户
      *
      * @param user
-     * @return
      * @throws SystemException
      */
     void add(User user) throws SystemException;
@@ -34,7 +33,6 @@ public interface UserService {
      * 更新用户数据
      *
      * @param user
-     * @return
      * @throws SystemException
      */
     void update(User user) throws SystemException;
@@ -76,7 +74,7 @@ public interface UserService {
      *
      * @param email
      * @param password
-     * @param ip
+     * @param ip    登陆的ip地址
      * @return
      */
     boolean doLogin(String email, String password, String ip);
@@ -91,8 +89,6 @@ public interface UserService {
 
     /**
      * 退出登陆
-     *
-     * @return
      */
     void doLogout();
 
@@ -112,7 +108,7 @@ public interface UserService {
      * @return
      * @throws SystemException
      */
-    String doRandomVarificationCodeToEmail(String email) throws SystemException;
+    String doRandomVerificationCodeToEmail(String email) throws SystemException;
 
     /**
      * 验证邮箱是否已存在

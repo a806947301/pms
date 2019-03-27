@@ -14,6 +14,7 @@ public interface LoginLogDao {
 
     /**
      * 添加登陆日志
+     *
      * @param loginLog
      * @return
      */
@@ -21,6 +22,7 @@ public interface LoginLogDao {
 
     /**
      * 查找指定用户的登陆日志
+     *
      * @param userId
      * @return
      */

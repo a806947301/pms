@@ -35,6 +35,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void add(Role role) throws SystemException {
         int countAdd = roleDao.add(role);
+        //如果数据库影响行数为0
         if (0 == countAdd) {
             throw new SystemException("操作失败");
         }
@@ -50,6 +51,7 @@ public class RoleServiceImpl implements RoleService {
 
         //更新角色
         int countUpdate = roleDao.update(role);
+        //如果数据库更新行数为0
         if (0 == countUpdate) {
             throw new SystemException("操作失败");
         }
@@ -76,8 +78,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void doAscribedRole(String userId, String roleId) throws SystemException{
         BaseEntity entity = new BaseEntity();
+        //获取代理对象
         RoleService serviceProxy = (RoleService) AopContext.currentProxy();
+        //授权
         int countAdd = serviceProxy.addUserRole(entity, userId, roleId);
+        //如果数据库添加行数为0
         if (0 == countAdd) {
             throw new SystemException("操作失败");
         }
@@ -100,6 +105,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void doCancelRole(String userId, String roleId) throws SystemException{
         int countDelete = roleDao.deleteUserRole(userId, roleId);
+        //如果数据库删除行数为0
         if (0 == countDelete) {
             throw new SystemException("操作失败");
         }
@@ -118,6 +124,7 @@ public class RoleServiceImpl implements RoleService {
             throw new SystemException("还有用户拥有此角色");
         }
         int countDelete = roleDao.delete(id);
+        //如果数据库删除行数为0
         if (0 == countDelete) {
             throw new SystemException("操作失败");
         }
