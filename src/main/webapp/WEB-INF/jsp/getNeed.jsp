@@ -75,7 +75,7 @@
                                     <div class="col-md-6">
                                         创建时间：{{crtTimeFtt(need.addTime)}}
                                     </div>
-                                    <div class="col-md-2" v-if="need.user.email == '<shiro:principal/>'">
+                                    <div class="col-md-2" v-if="need.user != null && need.user.email == '<shiro:principal/>'">
                                         <button class="btn btn-outline-danger" v-on:click="deleteNeed()">
                                             <i class="fa fa-trash"></i>&nbsp; 删除
                                         </button>
@@ -186,12 +186,12 @@
                                 <td v-on:click="click(0,'',true,true)" style="cursor: pointer;">...</td>
                             </tr>
                             <tr v-for="(file,index) in tree.children"
-                                v-on:click="click(index,file.filename,file.isDirection,false)"
+                                v-on:click="click(index,file.filename,file.direction,false)"
                                 style="cursor: pointer;">
                                 <td>
-                                    <i class="fa fa-align-center" v-if="file.isDirection"></i>
+                                    <i class="fa fa-align-center" v-if="file.direction"></i>
                                     <i class="fa fa-clipboard" v-else></i>
-                                    {{file.filename}}
+                                    {{file.fileName}}
                                 </td>
                             </tr>
                         </tbody>
@@ -238,8 +238,8 @@
             baseTree:null
         },
         methods:{
-            click:function(index,name,isDirection,isGoParent){
-                if(!isDirection) {
+            click:function(index,name,direction,isGoParent){
+                if(!direction) {
                     window.open(this.tree.children[index].file);
                     return;
                 }

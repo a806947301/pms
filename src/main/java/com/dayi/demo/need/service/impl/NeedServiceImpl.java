@@ -1,13 +1,10 @@
 package com.dayi.demo.need.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.need.dao.NeedDao;
 import com.dayi.demo.need.model.Need;
+import com.dayi.demo.util.NeedFileNode;
 import com.dayi.demo.need.service.NeedService;
-import com.dayi.demo.project.model.Project;
-import com.dayi.demo.project.service.ProjectService;
 import com.dayi.demo.user.model.User;
 import com.dayi.demo.user.service.UserService;
 import com.dayi.demo.util.WordUtil;
@@ -152,7 +149,7 @@ public class NeedServiceImpl implements NeedService {
     @Override
     public PageInfo<Need> findByProjectId(String projectId, int currentPage, int pageSize) {
         PageHelper.startPage(currentPage, pageSize);
-        List<Need> list = needDao.findByprojectId(projectId);
+        List<Need> list = needDao.findByProjectId(projectId);
         PageInfo<Need> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
@@ -190,7 +187,7 @@ public class NeedServiceImpl implements NeedService {
     }
 
     @Override
-    public JSONObject doPreview(String id, String realpath) {
+    public NeedFileNode doPreview(String id, String realpath) {
         String descriptionFilepath = get(id).getNeedFilepath();
         String unZipPath = descriptionFilepath.substring(0, descriptionFilepath.lastIndexOf('.'));
         return doPackageTreeFile(unZipPath, realpath);
@@ -203,49 +200,52 @@ public class NeedServiceImpl implements NeedService {
      * @param realPath
      * @return
      */
-    public JSONObject doPackageTreeFile(String base, String realPath) {
-        //封装最外层文件
+    public NeedFileNode doPackageTreeFile(String base, String realPath) {
+        //获取最外层文件
         File file = new File(realPath + "\\" + base);
-        JSONObject baseFileJson = new JSONObject();
-        Stack<JSONObject> stack = new Stack<JSONObject>();
-        baseFileJson.put("file", file);
-        baseFileJson.put("filename", file.getName());
-        baseFileJson.put("isDirection", true);
-        baseFileJson.put("children", new JSONArray());
-        stack.push(baseFileJson);
+        //创建用于遍历文件的栈
+        Stack<NeedFileNode> stack = new Stack<NeedFileNode>();
+        //创建最外层文件节点
+        NeedFileNode baseFileTree = new NeedFileNode(file.getAbsolutePath(), file.getName(),
+                true, new LinkedList<NeedFileNode>());
+        //最外层文件入栈
+        stack.push(baseFileTree);
+
         //循环封装里层文件夹
         do {
             //取出一个文件夹
-            JSONObject direction = stack.pop();
-            File derectionFile = (File) direction.get("file");
-            //把Json文件修改为网络访问路径
-            String absolutePath = file.getAbsolutePath();
-            String filePath = absolutePath.substring(realPath.length(), absolutePath.length());
-            direction.put("file", filePath);
-            JSONArray childrenArray = (JSONArray) direction.get("children");
+            NeedFileNode direction = stack.pop();
+            File directionFile = new File(direction.getFile());
+
+            //把目录节点文件路径修改为网络访问路径
+            String absolutePath = directionFile.getAbsolutePath();
+            String filePath = absolutePath.substring(realPath.length());
+            direction.setFile(filePath);
+            List<NeedFileNode> children = direction.getChildren();
+
             //处理的子文件
-            for (File childrenFile : derectionFile.listFiles()) {
-                JSONObject childrenJson = new JSONObject();
-                childrenJson.put("file", childrenFile);
-                childrenJson.put("filename", childrenFile.getName());
+            for (File childrenFile : directionFile.listFiles()) {
+                NeedFileNode node = new NeedFileNode();
+                node.setFile(childrenFile.getAbsolutePath());
+                node.setFileName(childrenFile.getName());
+
                 //如果子文件为一个文件夹，把子文件入栈
                 if (childrenFile.isDirectory()) {
-                    childrenJson.put("children", new JSONArray());
-                    childrenJson.put("isDirection", true);
-                    stack.push(childrenJson);
+                    node.setChildren(new LinkedList<NeedFileNode>());
+                    node.setDirection(true);
+                    stack.push(node);
                 } else {
-                    //把文件地址改为网络访问地址
+                    //把文件节点文件路径修改为网络访问路径
                     String childrenAbsolutePath = childrenFile.getAbsolutePath();
-                    String childFilePath = childrenAbsolutePath
-                            .substring(realPath.length(), childrenAbsolutePath.length());
-                    childrenJson.put("file", childFilePath);
-                    childrenJson.put("isDirection", false);
+                    String childFilePath = childrenAbsolutePath.substring(realPath.length());
+                    node.setFile(childFilePath);
+                    node.setDirection(false);
                 }
-                //把子文件添加进父文件Json的childrenArray中
-                childrenArray.add(childrenJson);
+                //把子文件添加进父文件children中
+                children.add(node);
             }
 
         } while (!stack.isEmpty());
-        return baseFileJson;
+        return baseFileTree;
     }
 }

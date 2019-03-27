@@ -1,9 +1,9 @@
 package com.dayi.demo.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.common.controller.BaseController;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.need.model.Need;
+import com.dayi.demo.util.NeedFileNode;
 import com.dayi.demo.need.service.NeedService;
 import com.dayi.demo.util.Result;
 import com.github.pagehelper.PageInfo;
@@ -119,8 +119,8 @@ public class NeedController extends BaseController {
     @ResponseBody
     public Result previewNeedFile(String needId, HttpServletRequest request) {
         String realPath = request.getSession().getServletContext().getRealPath("/");
-        JSONObject jsonObject = needService.doPreview(needId, realPath);
-        return new Result(true, "", jsonObject);
+        NeedFileNode needFileNode = needService.doPreview(needId, realPath);
+        return new Result(true, "", needFileNode);
     }
 
     /**

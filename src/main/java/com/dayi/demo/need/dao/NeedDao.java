@@ -14,6 +14,7 @@ public interface NeedDao {
 
     /**
      * 添加需求
+     *
      * @param need
      * @return
      */
@@ -21,13 +22,15 @@ public interface NeedDao {
 
     /**
      * 查找指定项目下的Bug需求
+     *
      * @param projectId
      * @return
      */
-    List<Need> findByprojectId(String projectId);
+    List<Need> findByProjectId(String projectId);
 
     /**
      * 获取指定的Bug需求
+     *
      * @param id
      * @return
      */

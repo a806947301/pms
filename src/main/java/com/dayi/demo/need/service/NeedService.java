@@ -1,8 +1,8 @@
 package com.dayi.demo.need.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.dayi.demo.common.exception.SystemException;
 import com.dayi.demo.need.model.Need;
+import com.dayi.demo.util.NeedFileNode;
 import com.dayi.demo.user.model.User;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,7 +54,7 @@ public interface NeedService {
      * @param realpath
      * @return
      */
-    JSONObject doPreview(String id, String realpath);
+    NeedFileNode doPreview(String id, String realpath);
 
     /**
      * 删除需求

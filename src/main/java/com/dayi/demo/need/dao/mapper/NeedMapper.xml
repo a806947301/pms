@@ -22,7 +22,7 @@
     </sql>
 
     <!--查找项目下的所有需求-->
-    <select id="findByprojectId" resultMap="NeedResultMap">
+    <select id="findByProjectId" resultMap="NeedResultMap">
         <include refid="selectAllColumnNeed"/>
         need WHERE project_id = #{0} ORDER BY addtime
     </select>
