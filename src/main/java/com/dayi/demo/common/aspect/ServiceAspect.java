@@ -5,6 +5,7 @@ import com.dayi.demo.util.IdUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -20,11 +21,23 @@ import java.util.Date;
 public class ServiceAspect {
 
     /**
-     * 在所有Service实现类add开头的方法前执行
+     * 添加切入点，所有Service上的add*(BaseEntity...)方法切入点
+     */
+    @Pointcut("execution(* com.dayi.demo.*.service.impl.*Impl.add*(com.dayi.demo.common.entity.BaseEntity+,..))")
+    public void addPointCut() { }
+
+    /**
+     * 更新切入点，所有Service上的update*(BaseEntity...)方法切入点
+     */
+    @Pointcut("execution(* com.dayi.demo.*.service.impl.*Impl.update*(com.dayi.demo.common.entity.BaseEntity+,..))")
+    public void updatePointCut() { }
+
+    /**
+     * 在添加切入点前增强：给entity添加id、addTime、updateTime
      *
      * @param point
      */
-    @Before("execution(* com.dayi.demo.*.service.impl.*Impl.add*(com.dayi.demo.common.entity.BaseEntity+,..))")
+    @Before("addPointCut()")
     public void beforeAdd(JoinPoint point) {
         //给entity添加Id、addTime、updateTime
         BaseEntity entity = (BaseEntity) point.getArgs()[0];
@@ -34,11 +47,11 @@ public class ServiceAspect {
     }
 
     /**
-     * 在所有service实现类Update方法前执行
+     * 在更新切入点前增强：给entity增加updateTime
      *
      * @param point
      */
-    @Before("execution(* com.dayi.demo.*.service.impl.*Impl.update*(com.dayi.demo.common.entity.BaseEntity+,..))")
+    @Before("updatePointCut()")
     public void beforeUpdate(JoinPoint point) {
         //给entity添加updateTime
         BaseEntity entity = (BaseEntity) point.getArgs()[0];

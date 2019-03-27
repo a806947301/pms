@@ -7,6 +7,7 @@ import com.dayi.demo.user.model.User;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.task.TaskExecutor;
@@ -34,13 +35,19 @@ public class BugRecordAspect {
     TaskExecutor taskExecutor;
 
     /**
-     * Bug状态更新后
+     * Bug记录修改切入点
+     */
+    @Pointcut("execution(* com.dayi.demo.bug.service.impl.BugServiceImpl.updateStatus(..))")
+    public void updateStatusPointCut() {}
+
+    /**
+     * 在Bug记录修改切入点返回后增强：添加Bug记录、发送邮件
+     *
      * @param point
-     * @param bug
+     * @param bug   更新状态方法返回的Bug
      * @throws SystemException
      */
-    @AfterReturning(returning = "bug",
-            value = "execution(* com.dayi.demo.bug.service.impl.BugServiceImpl.updateStatus(..))")
+    @AfterReturning(returning = "bug", value = "updateStatusPointCut()")
     public void afterUpdateStatus(JoinPoint point, final Bug bug) throws SystemException {
         //获取当前用户
         User currentUser = (User) point.getArgs()[1];

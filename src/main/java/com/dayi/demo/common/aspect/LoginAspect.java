@@ -27,12 +27,19 @@ public class LoginAspect {
     private UserService userService;
 
     /**
-     * 登陆后保存登陆日志
+     * 登陆切入点
+     */
+    @Pointcut("execution(* com.dayi.demo.user.service.impl.UserServiceImpl.doLogin(..))")
+    public void loginPointCut() { }
+
+    /**
+     * 登陆方法执行后，保存登陆日志
      *
      * @param point
      */
-    @AfterReturning("execution(* com.dayi.demo.user.service.impl.UserServiceImpl.doLogin(..))")
+    @AfterReturning("loginPointCut()")
     public void afterLogin(JoinPoint point) {
+        //获取邮箱
         String email = (String) point.getArgs()[0];
         String ip = (String) point.getArgs()[2];
         User user = userService.getByEmail(email);
