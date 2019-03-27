@@ -77,14 +77,16 @@ public class BugServiceImpl implements BugService {
             imgFilePath.mkdirs();
         }
         String filename = UUID.randomUUID().toString() + file.getOriginalFilename();
+        File imgFile = null;
         try {
-            file.transferTo(new File(imgFilePath, filename));
+            imgFile = new File(imgFilePath, filename);
+            file.transferTo(imgFile);
             result.put("success", "true");
             // 拼接图片src
            String imgSrc = "/imgs/" + projectId + "/" + filename;
             result.put("file_path", imgSrc);
         } catch (Exception e) {
-            logger.error(BugServiceImpl.class.toString() + "_" + e.getMessage(), e);
+            logger.error(imgFile + "_" + e.getMessage(), e);
             result.put("success", "false");
         }
         return result;

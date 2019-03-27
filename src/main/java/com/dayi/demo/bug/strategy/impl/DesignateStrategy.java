@@ -14,9 +14,10 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
 
 /**
- * Bug状态改变策略之：指派策略
+ * Bug状态改变：指派策略
  *
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-22
@@ -24,8 +25,6 @@ import javax.annotation.Resource;
 @Order(1)
 @Component
 public class DesignateStrategy implements BugStatusStrategy {
-
-    private final static Logger logger = LoggerFactory.getLogger(DesignateStrategy.class);
 
     @Resource
     private BugOperatingRecordService recordService;
@@ -69,19 +68,14 @@ public class DesignateStrategy implements BugStatusStrategy {
     }
 
     @Override
-    public boolean sendEmail(Bug bug) throws SystemException {
+    public void sendEmail(Bug bug) throws MessagingException  {
         //获取邮件发送的对象邮箱
         User processer = bug.getBugProcesser();
         String email = processer.getEmail();
         String title = "您被指派一个Bug";
         String content = "请您登陆主页查看自己被指派的Bug，Bug Id为：" + bug.getId() +
                 "\nbug标题为：" + bug.getBugTitle();
-        try {
-            MailUtil.sendMail(email, title, content);
-        } catch (Exception e) {
-            logger.error(DesignateStrategy.class.toString() + "_" + e.getMessage(), e);
-            return false;
-        }
-        return true;
+
+        MailUtil.sendMail(email, title, content);
     }
 }

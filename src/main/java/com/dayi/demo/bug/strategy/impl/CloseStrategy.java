@@ -13,17 +13,16 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
 
 /**
- * Bug状态改变策略之：关闭策略
+ * Bug状态改变：关闭策略
  * @author WuTong<wut@pvc123.com>
  * @date 2019-03-22
  */
 @Order(3)
 @Component
 public class CloseStrategy implements BugStatusStrategy {
-
-    private final static Logger logger = LoggerFactory.getLogger(CloseStrategy.class);
 
     @Resource
     private BugOperatingRecordService recordService;
@@ -56,19 +55,15 @@ public class CloseStrategy implements BugStatusStrategy {
     }
 
     @Override
-    public boolean sendEmail(Bug bug) throws SystemException {
+    public void sendEmail(Bug bug) throws MessagingException {
         //获取邮件发送的对象邮箱
         String email = bug.getBugProcesser().getEmail();
+
         String title = "您的Bug已完成";
         String content = "您的Bug已完成。" +
                 "\nBug为id：" + bug.getId() +
                 "\nBug标题为：" + bug.getBugTitle();
-        try {
-            MailUtil.sendMail(email, title, content);
-        } catch (Exception e) {
-            logger.error(CloseStrategy.class.toString() + "_" + e.getMessage(), e);
-            return false;
-        }
-        return true;
+        MailUtil.sendMail(email, title, content);
+
     }
 }

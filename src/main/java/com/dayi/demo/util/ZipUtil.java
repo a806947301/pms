@@ -32,7 +32,7 @@ public class ZipUtil {
             zipFile.setFileNameCharset(getEncoding(zipFile));
             zipFile.extractAll(path);
         } catch (Exception e) {
-            logger.error(ZipUtil.class.toString() + "_" + e.getMessage(), e);
+            logger.error(sourceFile.toString() + "_" + e.getMessage(), e);
         }
     }
 

@@ -105,7 +105,7 @@ public class NeedServiceImpl implements NeedService {
         try {
             file.transferTo(saveFile);
         } catch (Exception e) {
-            logger.error(MultipartFile.class.toString() + "_" + e.getMessage(), e);
+            logger.error(saveFile.toString() + "_" + e.getMessage(), e);
             throw new SystemException("文件保存失败");
         }
         if (isNeedFile) {

@@ -60,7 +60,7 @@ public class WordUtil {
                 throw new SystemException("需求文件格式不正确");
             }
         } catch (Exception e) {
-            logger.error(WordUtil.class.toString() + "_" + e.getMessage(), e);
+            logger.error(sourceFileName + "_" + e.getMessage(), e);
             throw new SystemException("文件转换失败");
         }
     }
@@ -99,7 +99,7 @@ public class WordUtil {
                     out = new FileOutputStream(imagePathStr + "\\" + s);
                     out.write(bytes);
                 } catch (Exception e) {
-                    logger.error(WordUtil.class.toString() + "_" + e.getMessage(),e);
+                    logger.error(out.toString() + "_" + e.getMessage(),e);
                     try {
                         out.close();
                     } catch (Exception ex) {}

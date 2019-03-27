@@ -13,6 +13,7 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
 import java.util.List;
 
 /**
@@ -54,8 +55,8 @@ public class BugRecordAspect {
             public void run() {
                 try {
                     statusStrategy.sendEmail(bug);
-                } catch (Exception e) {
-                    logger.error(BugRecordAspect.class.toString() + "_" + e.getMessage(), e);
+                } catch (MessagingException e) {
+                    logger.error(bug.toString() + "_" + e.getMessage(), e);
                 }
             }
         });
