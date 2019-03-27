@@ -59,12 +59,13 @@ public class BugController extends BaseController {
         //添加Bug
         User user = getCurrentUser();
         String bugId = null;
-        boolean success = true;
         try {
+            //添加Bug，并返回Bug的ID
             bugId = bugService.add(bug, user);
         } catch (SystemException e) {
             return new Result(false, e.getMessage());
         }
+        //如果添加成功，则返回Bug Id
         boolean addSuccess = (null != bugId && (!"".equals(bugId)));
         return new Result(addSuccess, bugId, "添加失败", "");
     }
@@ -107,8 +108,14 @@ public class BugController extends BaseController {
     /**
      * 分页查找项目下的bug
      *
-     * @param currentPage
-     * @param projectId
+     * @param currentPage   当前页数
+     * @param pageSize  每页记录数
+     * @param projectId 项目id，如不筛选则为null
+     * @param begin 开始时间，如不筛选则为null
+     * @param end   结束时间，如不筛选则为null
+     * @param status    Bug状态，如不筛选则为-1
+     * @param processerId   Bug处理者Id，如不筛选则为null
+     * @param proposerId    Bug提出者Id，如不筛选则为null
      * @return
      */
     @RequestMapping("/findBugByProject")
@@ -188,10 +195,11 @@ public class BugController extends BaseController {
     }
 
     /**
-     * 分页查找Bug说明
+     * 分页查找指定Bug的说明
      *
      * @param bugId
      * @param currentPage
+     * @param pageSize
      * @return
      */
     @RequestMapping("/findDescription")
@@ -206,6 +214,7 @@ public class BugController extends BaseController {
      *
      * @param bugId
      * @param currentPage
+     * @param pageSize
      * @return
      */
     @RequestMapping("/findBugOperatingRecord")
@@ -288,6 +297,7 @@ public class BugController extends BaseController {
             return new Result(false, "Bug id不能为空");
         }
 
+        //删除Bug
         try {
             bugService.delete(bugId, getCurrentUser());
         } catch (SystemException e) {

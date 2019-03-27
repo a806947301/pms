@@ -88,6 +88,7 @@ public class RoleController extends BaseController {
      * 分页查找角色
      *
      * @param currentPage
+     * @param pageSize
      * @return
      */
     @RequestMapping("/findRole")
@@ -126,13 +127,13 @@ public class RoleController extends BaseController {
     /**
      * 获取指定角色名的角色
      *
-     * @param rolename
+     * @param roleName
      * @return
      */
     @RequestMapping("/getRoleByRoleName")
     @ResponseBody
-    public Result getRoleByRoleName(String rolename) {
-        Role role = roleService.getRoleByRoleName(rolename);
+    public Result getRoleByRoleName(String roleName) {
+        Role role = roleService.getRoleByRoleName(roleName);
         return new Result(true, "", role);
     }
 

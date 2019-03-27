@@ -68,6 +68,7 @@ public class ProjectController extends BaseController {
      * 分页查找项目
      *
      * @param currentPage
+     * @param pageSize
      * @return
      */
     @RequestMapping("/findProject")

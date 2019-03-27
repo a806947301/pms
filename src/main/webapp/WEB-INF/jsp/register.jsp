@@ -143,7 +143,7 @@
                 params = new URLSearchParams();
                 params.append("email",this.email);
                 axios
-                    .post("/user/getVarification",params)
+                    .post("/user/getVerification",params)
                     .then(function (value) {
                         if(value.data.success == false) {
                             alert(value.msg);

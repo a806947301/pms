@@ -95,13 +95,12 @@ public class UserController extends BaseController {
     /**
      * 获取验证码
      *
-     * @param email
+     * @param email 验证码发送到的邮箱
      * @return
-     * @throws MessagingException
      */
-    @RequestMapping("/getVarification")
+    @RequestMapping("/getVerification")
     @ResponseBody
-    public Result getVarification(String email) throws MessagingException {
+    public Result getVerification(String email) {
         //判断邮箱非空
         if (null == email || "".equals(email)) {
             return new Result(false, "邮箱不能为空");
@@ -119,6 +118,8 @@ public class UserController extends BaseController {
     /**
      * 分页查找
      *
+     * @param currentPage
+     * @param pageSize
      * @return
      */
     @RequestMapping("/findUser")
@@ -207,6 +208,7 @@ public class UserController extends BaseController {
      *
      * @param email
      * @param password
+     * @param request
      * @return
      */
     @RequestMapping("/login")
@@ -245,10 +247,11 @@ public class UserController extends BaseController {
     }
 
     /**
-     * 获取用户的登陆日志
+     * 分页获取当前用户的登陆日志
      *
      * @param id
      * @param currentPage
+     * @param pageSize
      * @return
      */
     @RequestMapping("/loginLogByUser")

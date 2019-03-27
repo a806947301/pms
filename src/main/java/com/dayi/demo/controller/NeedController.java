@@ -72,6 +72,7 @@ public class NeedController extends BaseController {
      *
      * @param projectId
      * @param currentPage
+     * @param pageSize
      * @return
      */
     @RequestMapping("/findNeedByProjectId")
@@ -96,7 +97,7 @@ public class NeedController extends BaseController {
     /**
      * 获取需求
      *
-     * @param id
+     * @param id    需求Id
      * @return
      */
     @RequestMapping("/getNeed")

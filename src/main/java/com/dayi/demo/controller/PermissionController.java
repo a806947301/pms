@@ -68,6 +68,7 @@ public class PermissionController extends BaseController {
      * 分页查找权限
      *
      * @param currentPage
+     * @param pageSize
      * @return
      */
     @RequestMapping("/findPermission")
@@ -115,9 +116,9 @@ public class PermissionController extends BaseController {
     }
 
     /**
-     * 返回所有权限（树状）
+     * 返回所有权限（树状）,并给角色已有权限打上标注
      *
-     * @param roleId
+     * @param roleId    角色Id
      * @return
      */
     @RequestMapping("/permissionTree")
@@ -131,7 +132,7 @@ public class PermissionController extends BaseController {
      * 给角色授权
      *
      * @param roleId
-     * @param permissions
+     * @param permissions   权限Id数组
      * @return
      */
     @RequestMapping("/authorization")
@@ -151,7 +152,7 @@ public class PermissionController extends BaseController {
     /**
      * 删除权限
      *
-     * @param id
+     * @param id    权限Id
      * @return
      */
     @RequestMapping("/deletePermission")

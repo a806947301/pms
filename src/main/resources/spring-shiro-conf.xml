@@ -24,7 +24,7 @@
 				/user/registerPage = anon
 				#不拦截注册页面所需url
 				/department/finfAllDepartment = anon
-				/user/getVarification = anon
+				/user/getVerification = anon
 				/user/existEmail = anon
 				/user/register = anon
 				#不拦截异常

@@ -80,6 +80,7 @@ public class DepartmentController extends BaseController {
     /**
      * 添加部门
      *
+     * @param department
      * @return
      */
     @RequestMapping("/addDepartment")
@@ -103,6 +104,7 @@ public class DepartmentController extends BaseController {
     /**
      * 跳转部门管理页面
      *
+     * @param request
      * @return
      */
     @RequestMapping("/departmentManegerPage")

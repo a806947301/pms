@@ -43,6 +43,8 @@ public class ProductController extends BaseController {
     /**
      * 添加产品
      *
+     * @param product
+     * @param participator  参与者Id数组
      * @return
      */
     @RequestMapping("/addProduct")
@@ -78,6 +80,7 @@ public class ProductController extends BaseController {
      * 分页查询产品
      *
      * @param currentPage
+     * @param pageSize
      * @return
      */
     @RequestMapping("/findProduct")
@@ -102,7 +105,7 @@ public class ProductController extends BaseController {
     /**
      * 获取产品信息
      *
-     * @param id
+     * @param id    产品id
      * @return
      */
     @RequestMapping("/getProduct")
@@ -116,8 +119,8 @@ public class ProductController extends BaseController {
     /**
      * 添加产品组成员
      *
-     * @param id
-     * @param newParticipator
+     * @param id    产品id
+     * @param newParticipator   要添加的成员Id数组
      * @return
      */
     @RequestMapping("/addProductParticipator")
