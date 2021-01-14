@@ -38,7 +38,7 @@
         <jcl-slf4j.version>1.7.8</jcl-slf4j.version>
         <junit.version>4.11</junit.version>
         <shiro.version>1.4.0</shiro.version>
-        <poi.version>3.13</poi.version>
+        <poi.version>4.1.2</poi.version>
 
         <finalName>webapp</finalName>
         <webapp.port>8080</webapp.port>
