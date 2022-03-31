@@ -24,7 +24,7 @@
         <maven-surefire-plugin_version>2.17</maven-surefire-plugin_version>
 
         <mysql.version>5.1.30</mysql.version>
-        <spring.version>4.0.9.RELEASE</spring.version>
+        <spring.version>5.3.18</spring.version>
         <mybatis.version>3.4.0</mybatis.version>
         <mybatis-spring.version>1.3.0</mybatis-spring.version>
         <fiidee-mq.version>1.0-SNAPSHOT</fiidee-mq.version>
